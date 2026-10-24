@@ -35,7 +35,7 @@ jobs:
         run: |
           git config user.name "tourism-monitor-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add data docs
           git diff --cached --quiet && exit 0
           git commit -m "data: approvals $(date -u +%FT%H:%M)"
           git push || (git pull --rebase && git push)

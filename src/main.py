@@ -41,6 +41,16 @@ def daily():
     step("approvals", news.process_approvals, float(os.getenv("APPROVAL_WAIT_MINUTES", "30")))
 
 
+def approvals():
+    """Handle button presses and bot commands; if an event was added, refresh effects and the page."""
+    from . import events
+    before = events.EVENTS.stat().st_mtime if events.EVENTS.exists() else 0
+    step("approvals", news.process_approvals)
+    if events.EVENTS.exists() and events.EVENTS.stat().st_mtime != before:
+        step("event tracker", posts.event_results)
+        step("history chart", history.build)
+
+
 def test_models():
     arts = news.fetch_candidates()[:5]
     if not arts:
@@ -72,7 +82,7 @@ def test_models():
 
 COMMANDS = {
     "daily": daily,
-    "approvals": lambda: step("approvals", news.process_approvals),
+    "approvals": lambda: approvals(),
     "weekly": lambda: step("weekly", posts.weekly),
     "test-models": test_models,
     "approval-test": lambda: news.approval_test(10),

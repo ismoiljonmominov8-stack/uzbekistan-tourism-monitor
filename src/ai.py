@@ -27,6 +27,9 @@ Pick at most {limit} relevant articles, most important first. For each return:
 - "reason": one sentence in {lang} explaining the expected mechanism
 - "type": one of "visa", "flight", "event", "sport", "politics", "price", "infrastructure",
   "marketing", "other" (what kind of news it is)
+- "event_date": if the article announces something that STARTS on a future date (a festival,
+  conference, sports event, first flight of a new route, a visa rule coming into force), that
+  start date as "YYYY-MM-DD"; otherwise null. Only use a date written in the article.
 
 Rules:
 - If several articles describe the same event, return only one of them.

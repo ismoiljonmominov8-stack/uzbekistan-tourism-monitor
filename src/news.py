@@ -10,7 +10,7 @@ import feedparser
 import pandas as pd
 
 from . import ai, config
-from .texts import t
+from .texts import market_name, t
 from .util import (admin_id, channel_id, esc, http_get, log, read_json, send_message, tg_call,
                    write_json)
 
@@ -18,7 +18,7 @@ SEEN = config.DATA / "news_seen.json"
 PENDING = config.DATA / "pending.json"
 OFFSET = config.DATA / "tg_offset.json"
 PREDICTIONS = config.DATA / "predictions.csv"
-PRED_COLS = ["date", "id", "status", "provider", "type", "impact", "markets", "horizon", "confidence",
+PRED_COLS = ["date", "id", "status", "provider", "type", "event_date", "impact", "markets", "horizon", "confidence",
              "headline", "reason", "source", "url"]
 
 
@@ -59,6 +59,14 @@ def fetch_candidates() -> list[dict]:
     return list(uniq.values())[: config.NEWS_MAX_CANDIDATES]
 
 
+def _valid_date(v) -> str:
+    try:
+        d = pd.Timestamp(str(v)).date()
+        return d.isoformat() if 2000 <= d.year <= 2100 else ""
+    except Exception:  # noqa: BLE001
+        return ""
+
+
 def format_item(item: dict, art: dict, provider: str | None) -> str:
     if not provider:
         return f"📰 <b>{esc(art['title'])}</b>\n{t('news_no_ai')}\n\n🔗 <a href=\"{esc(art['url'])}\">{esc(art['source'])}</a>"
@@ -81,7 +89,7 @@ def _log_prediction(item, art, provider, status):
         "provider": provider or "none", "impact": item.get("impact", ""),
         "markets": "|".join(item.get("markets") or []), "horizon": item.get("horizon", ""),
         "confidence": item.get("confidence", ""), "headline": item.get("headline") or art["title"],
-        "type": item.get("type", ""),
+        "type": item.get("type", ""), "event_date": _valid_date(item.get("event_date")),
         "reason": item.get("reason", ""), "source": art["source"], "url": art["url"],
     }
     df = pd.read_csv(PREDICTIONS) if PREDICTIONS.exists() else pd.DataFrame(columns=PRED_COLS)
@@ -141,8 +149,15 @@ def _register_event(nid):
         row = df[df["id"] == nid].iloc[0]
         if str(row.get("impact", "")) == "unclear" and str(row.get("type", "other")) in ("other", "nan", ""):
             return
-        eid = events.add_event(str(row["date"]), str(row.get("type", "other")),
+        # a future start date in the article makes this an UPCOMING event measured on that date
+        when = str(row.get("event_date", "") or "")
+        when = when if when and when != "nan" and when > str(row["date"]) else str(row["date"])
+        eid = events.add_event(when, str(row.get("type", "other")),
                                str(row.get("markets", "")).split("|"), str(row["headline"]), str(row["url"]), "news")
+        if eid and when > str(row["date"]):
+            u = next((x for x in events.upcoming() if x["id"] == eid), None)
+            if u:
+                send_message(admin_id(), format_upcoming(u, added=True) + f"\n\n<i>{t('up_note')}</i>")
         _alog(f"event registered: {eid} from news {nid}")
     except Exception as e:  # noqa: BLE001
         log.warning("could not register event for %s: %s", nid, e)
@@ -221,6 +236,59 @@ def _alog(msg: str):
     APPROVAL_LOG.write_text("\n".join(lines[-200:]) + "\n", encoding="utf-8")
 
 
+def format_upcoming(u: dict, added=False) -> str:
+    est = u["estimate"]
+    cw = t("conf_words")
+    names = t("all_markets") if u["markets"] == "all" else ", ".join(
+        market_name(l) for l in u["markets"].split("|") if l in config.MARKETS)
+    lines = [(t("up_added") if added else t("up_title")).format(title=esc(u["title"])),
+             t("up_meta").format(date=u["date"], days=u["days"], type=t("types").get(u["type"], u["type"]), markets=esc(names))]
+    i, a = est.get("info") or {}, est.get("arr") or {}
+    lines.append(t("up_info").format(p=i["p"], k=i["k"], n=i["n"], conf=cw[i["conf"]]) if i.get("p") is not None
+                 else t("up_nodata_info").format(n=i.get("n", 0)))
+    lines.append(t("up_arr").format(p=a["p"], k=a["k"], n=a["n"], conf=cw[a["conf"]]) if a.get("p") is not None
+                 else t("up_nodata_arr").format(n=a.get("n", 0)))
+    if u.get("source"):
+        lines.append(f'🔗 <a href="{esc(u["source"])}">manba</a>')
+    return "\n".join(lines)
+
+
+def _handle_command(msg):
+    """Commands from the admin in the bot chat: /event, /events, /help."""
+    from . import events
+    if str(msg.get("from", {}).get("id")) != str(admin_id()):
+        return
+    text = (msg.get("text") or "").strip()
+    cmd = text.split(maxsplit=1)[0].split("@")[0].lower() if text else ""
+    chat = msg["chat"]["id"]
+    if cmd in ("/start", "/help", "/yordam"):
+        send_message(chat, esc(t("cmd_help")))
+    elif cmd in ("/events", "/voqealar"):
+        ups = events.upcoming()
+        send_message(chat, "\n\n".join(format_upcoming(u) for u in ups) + f"\n\n<i>{t('up_note')}</i>"
+                     if ups else t("cmd_none"))
+    elif cmd in ("/event", "/voqea"):
+        parsed = events.parse_event_command(text)
+        if isinstance(parsed, str):
+            send_message(chat, esc(t("cmd_bad")))
+            return
+        words = t("country_words")
+        markets = [words.get(m.lower(), m) for m in parsed["markets"]]
+        if events.load_events()["source"].eq(parsed["source"]).any() and parsed["source"]:
+            send_message(chat, t("cmd_dup"))
+            return
+        eid = events.add_event(parsed["date"], parsed["type"], markets, parsed["title"], parsed["source"], "manual")
+        if not eid:
+            send_message(chat, esc(t("cmd_nomarket")))
+            return
+        _alog(f"command: event {eid} added")
+        u = next((x for x in events.upcoming() if x["id"] == eid), None)
+        if u is None:  # a past date: it will be measured, not estimated
+            send_message(chat, f"✅ {eid}: {esc(parsed['title'])} ({parsed['date']})")
+        else:
+            send_message(chat, format_upcoming(u, added=True) + f"\n\n<i>{t('up_note')}</i>")
+
+
 def process_approvals(wait_minutes: float = 0):
     """Handle button presses. With wait_minutes > 0 it keeps listening (long polling) so
     presses are handled within seconds, e.g. right after the morning drafts are sent."""
@@ -242,7 +310,7 @@ def process_approvals(wait_minutes: float = 0):
         poll = 0 if not wait_minutes else int(max(0, min(50, deadline - time.time())))
         try:
             updates = tg_call("getUpdates", {"offset": offset, "timeout": poll,
-                                             "allowed_updates": ["callback_query"]}) or []
+                                             "allowed_updates": ["callback_query", "message"]}) or []
             kinds = [k for u in updates for k in u if k != "update_id"]
             _alog(f"getUpdates offset={offset} pending={len(pending)} got={len(updates)} kinds={kinds}")
         except Exception as e:  # noqa: BLE001
@@ -253,6 +321,8 @@ def process_approvals(wait_minutes: float = 0):
             try:
                 if u.get("callback_query"):
                     _handle(u["callback_query"], pending)
+                elif u.get("message"):
+                    _handle_command(u["message"])
             except Exception:  # noqa: BLE001
                 log.exception("approval update %s failed", u.get("update_id"))
             # confirm each update right away, so it is never processed twice

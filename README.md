@@ -51,6 +51,21 @@ Does an announcement change (1) attention and (2) actual arrivals? Every event i
   results from 2020–2023 are marked *COVID period*. Neither is counted in the summary by type.
 - These are associations, not proof of cause.
 
+**World map:** the chart page opens with a world map. Colour = tourists per country and year
+(slider, SIAT data for every country), growth vs the previous year, Wikipedia interest (median daily
+views per million of that language's Wikipedia, last 30 days) or its change vs a year ago. Click a
+country for its numbers, yearly chart, Wikipedia chart, past events and upcoming events.
+
+**Upcoming events and possibilities:** send the bot
+`/event 2026-12-05 | festival | China, Korea | Title | https://link` (`/events` lists them, `/help`
+shows the format; Uzbek words such as `viza`, `reys`, `Xitoy`, `barcha` work too). The bot answers with
+two possibilities computed from past measured events of the same type: people looking up Uzbekistan
+more (Wikipedia x1.2+ within 7 days) and arrivals from that market rising more than overall (x1.2+).
+Each is a share of similar past cases pulled toward the overall rate when cases are few, always shown
+with the number of cases; with fewer than 3 cases it says "not enough data". Approved news that
+announce a future start date become upcoming events automatically. After the date the real effect
+is measured like any other event.
+
 **Adding events:** news you approve in the bot are added automatically. To add one by hand, edit
 `data/events.csv` on GitHub (Add a row: `id,date,effective_date,precision,type,markets,title,source,origin`;
 markets are language codes `zh|ko|ja|de|tr|it|fr` or `all`; precision `day` or `month`; origin `manual`).

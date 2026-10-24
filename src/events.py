@@ -153,7 +153,7 @@ def monthly_effect(ytd: pd.DataFrame, country: str, eff: pd.Timestamp) -> dict:
 
 
 def yearly_effect(yearly: pd.DataFrame, country: str, eff: pd.Timestamp) -> dict:
-    y = eff.year if eff.month <= 6 else eff.year + 1  # first (mostly) full year with the event
+    y = effect_year(eff)  # first (mostly) full year with the event
     get = lambda c, yr: yearly[(yearly["country"] == c) & (yearly["year"] == yr)]["arrivals"]  # noqa: E731
     c1, c0, t1, t0 = get(country, y), get(country, y - 1), get("TOTAL", y), get("TOTAL", y - 1)
     if c1.empty or t1.empty:
@@ -185,19 +185,26 @@ def verdicts(r: dict) -> dict:
     return r
 
 
+def effect_year(ts: pd.Timestamp) -> int:
+    return ts.year if ts.month <= 6 else ts.year + 1
+
+
 def overlaps(events: pd.DataFrame, ev, lang: str, method) -> str:
-    """Other events for the same market close enough in time that their effects on arrivals
-    cannot be separated from this one (within 3 months for monthly, 12 months for yearly)."""
+    """Other events for the same market whose effect falls in the same measurement window, so the
+    effects cannot be separated: within 95 days (monthly) or the same measured year (yearly)."""
     if not method:
         return ""
-    span = pd.Timedelta(days=95 if method == "monthly" else 365)
     eff = pd.Timestamp(ev.effective_date or ev.date)
     out = []
     for o in events.itertuples():
         if o.id == ev.id:
             continue
         o_langs = DISTANT if o.markets == "all" else o.markets.split("|")
-        if lang in o_langs and abs(pd.Timestamp(o.effective_date or o.date) - eff) <= span:
+        if lang not in o_langs:
+            continue
+        o_eff = pd.Timestamp(o.effective_date or o.date)
+        same = abs(o_eff - eff) <= pd.Timedelta(days=95) if method == "monthly" else effect_year(o_eff) == effect_year(eff)
+        if same:
             out.append(o.id)
     return " ".join(out)
 
@@ -262,3 +269,86 @@ def mark_reported(ids_langs):
         eff.loc[(eff["id"] == eid) & (eff["lang"] == lang), "reported"] = True
     eff.to_csv(EFFECTS, index=False)
 
+
+
+# ---------------------------------------------------------------- upcoming events: possibilities
+TYPE_ALIASES = {"viza": "visa", "reys": "flight", "parvoz": "flight", "tadbir": "event", "festival": "event",
+                "konferensiya": "event", "forum": "event", "ko'rgazma": "event", "sport": "sport",
+                "siyosat": "politics", "narx": "price", "infratuzilma": "infrastructure", "marketing": "marketing",
+                "reklama": "marketing", "boshqa": "other"}
+PRIOR_STRENGTH = 2.0
+MIN_CASES = 3   # fewer comparable past cases than this: say "not enough data" instead of a number
+
+
+def _rate_with_prior(k: int, n: int, prior: float) -> float:
+    """Share of past successes, pulled toward the overall rate when there are few cases."""
+    return (k + PRIOR_STRENGTH * prior) / (n + PRIOR_STRENGTH)
+
+
+def _confidence(n: int) -> str:
+    return "low" if n < 5 else "medium" if n < 15 else "high"
+
+
+def estimate(etype: str, langs: list[str], eff: pd.DataFrame | None = None) -> dict:
+    """Possibility that (1) people look up Uzbekistan more (Wikipedia x1.2+ within 7 days) and
+    (2) arrivals from the market rise more than overall (x1.2+), from PAST measured events.
+    Unit = event x market. Mixed / COVID / season-uncontrolled arrival results are not used."""
+    eff = (pd.read_csv(EFFECTS) if EFFECTS.exists() else pd.DataFrame()) if eff is None else eff
+    out = {"type": etype}
+    if eff.empty:
+        return out | {"info_p": None, "arr_p": None}
+    verdict = eff.get("arr_verdict", pd.Series(dtype=str)).astype(str)
+    clean_arr = eff[eff["excess"].notna() & ~verdict.str.contains(r"\(", regex=True)] if "excess" in eff else eff.iloc[0:0]
+    wiki = eff[eff["wiki_ratio"].notna()] if "wiki_ratio" in eff else eff.iloc[0:0]
+
+    def part(rows, success, size_col):
+        # overall rate across all types, itself pulled toward 50 % (Laplace), as the prior
+        prior = (int(success(rows).sum()) + 1) / (len(rows) + 2)
+        typed = rows[rows["type"] == etype]
+        mk = typed[typed["lang"].isin(langs)] if langs else typed.iloc[0:0]
+        k, n = int(success(typed).sum()), len(typed)
+        return {"p": round(_rate_with_prior(k, n, prior), 2) if n >= MIN_CASES else None,
+                "k": k, "n": n, "conf": _confidence(n),
+                "prior": round(prior, 2), "size": (round(float(typed[size_col].median()), 2) if n else None),
+                "market_k": int(success(mk).sum()), "market_n": len(mk)}
+
+    info = part(wiki, lambda d: d["wiki_ratio"] >= 1.2, "wiki_ratio")
+    arr = part(clean_arr, lambda d: d["excess"] >= 1.2, "excess")
+    return out | {"info_p": info["p"], "info": info, "arr_p": arr["p"], "arr": arr}
+
+
+def upcoming(today: pd.Timestamp | None = None) -> list[dict]:
+    today = (today or pd.Timestamp.now(tz="UTC").tz_localize(None)).normalize()
+    ev = load_events()
+    if ev.empty:
+        return []
+    eff = pd.read_csv(EFFECTS) if EFFECTS.exists() else pd.DataFrame()
+    out = []
+    for e in ev.itertuples():
+        d = pd.Timestamp(e.date)
+        if d < today:
+            continue
+        langs = DISTANT if e.markets == "all" else e.markets.split("|")
+        out.append({"id": e.id, "date": e.date, "days": int((d - today).days), "type": e.type,
+                    "markets": e.markets, "title": e.title, "source": e.source,
+                    "estimate": estimate(e.type, langs, eff)})
+    return sorted(out, key=lambda x: x["date"])
+
+
+def parse_event_command(text: str):
+    """'/event 2026-11-20 | festival | China, Korea | Title | https://link' -> dict or error string."""
+    body = text.split(maxsplit=1)[1] if len(text.split(maxsplit=1)) > 1 else ""
+    parts = [p.strip() for p in body.split("|")]
+    if len(parts) < 4:
+        return "format"
+    day, etype, markets, title = parts[:4]
+    source = parts[4] if len(parts) > 4 else ""
+    try:
+        day = pd.Timestamp(day).date().isoformat()
+    except Exception:  # noqa: BLE001
+        return "date"
+    etype = TYPE_ALIASES.get(etype.lower(), etype.lower())
+    if etype not in TYPES:
+        etype = "other"
+    return {"date": day, "type": etype, "markets": [m.strip() for m in markets.split(",") if m.strip()],
+            "title": title, "source": source}

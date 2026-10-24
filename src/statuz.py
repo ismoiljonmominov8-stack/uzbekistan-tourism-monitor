@@ -286,13 +286,17 @@ def parse_siat_yearly(text: str) -> pd.DataFrame:
     from io import StringIO
     raw = pd.read_csv(StringIO(text), dtype={"Code": str})
     years = [c for c in raw.columns if re.fullmatch(r"(19|20)\d\d", str(c))]
-    long = raw.melt(id_vars=["Klassifikator_en"], value_vars=years, var_name="year", value_name="arrivals")
+    raw["code"] = raw["Code"].astype(str).str.zfill(3).replace({"736": "729"})  # Sudan: old ISO code
+    long = raw.melt(id_vars=["Klassifikator_en", "Klassifikator", "code"], value_vars=years,
+                    var_name="year", value_name="arrivals")
     long["country"] = long["Klassifikator_en"].map(_norm_country)
+    long["name_uz"] = long["Klassifikator"]
     long["year"] = long["year"].astype(int)
     long = long.dropna(subset=["arrivals"])
     long["arrivals"] = long["arrivals"].astype(float).round().astype(int)
-    total = long.groupby("year", as_index=False)["arrivals"].sum().assign(country="TOTAL")
-    return pd.concat([long[["year", "country", "arrivals"]], total], ignore_index=True).sort_values(["year", "country"])
+    total = long.groupby("year", as_index=False)["arrivals"].sum().assign(country="TOTAL", code="", name_uz="Jami")
+    cols = ["year", "country", "arrivals", "code", "name_uz"]
+    return pd.concat([long[cols], total[cols]], ignore_index=True).sort_values(["year", "country"])
 
 
 def collect_yearly(max_age_days: int = 7) -> pd.DataFrame | None:
@@ -322,4 +326,6 @@ def collect_yearly(max_age_days: int = 7) -> pd.DataFrame | None:
 
 
 def load_yearly() -> pd.DataFrame:
-    return pd.read_csv(YEARLY_CSV) if YEARLY_CSV.exists() else pd.DataFrame(columns=["year", "country", "arrivals"])
+    if not YEARLY_CSV.exists():
+        return pd.DataFrame(columns=["year", "country", "arrivals", "code", "name_uz"])
+    return pd.read_csv(YEARLY_CSV, dtype={"code": str})
