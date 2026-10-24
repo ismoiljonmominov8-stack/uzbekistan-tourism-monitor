@@ -18,7 +18,7 @@ SEEN = config.DATA / "news_seen.json"
 PENDING = config.DATA / "pending.json"
 OFFSET = config.DATA / "tg_offset.json"
 PREDICTIONS = config.DATA / "predictions.csv"
-PRED_COLS = ["date", "id", "status", "provider", "impact", "markets", "horizon", "confidence",
+PRED_COLS = ["date", "id", "status", "provider", "type", "impact", "markets", "horizon", "confidence",
              "headline", "reason", "source", "url"]
 
 
@@ -81,6 +81,7 @@ def _log_prediction(item, art, provider, status):
         "provider": provider or "none", "impact": item.get("impact", ""),
         "markets": "|".join(item.get("markets") or []), "horizon": item.get("horizon", ""),
         "confidence": item.get("confidence", ""), "headline": item.get("headline") or art["title"],
+        "type": item.get("type", ""),
         "reason": item.get("reason", ""), "source": art["source"], "url": art["url"],
     }
     df = pd.read_csv(PREDICTIONS) if PREDICTIONS.exists() else pd.DataFrame(columns=PRED_COLS)
@@ -132,6 +133,21 @@ def run():
     return len(items)
 
 
+def _register_event(nid):
+    """An approved news item becomes an event whose effect the tracker will measure."""
+    try:
+        from . import events
+        df = pd.read_csv(PREDICTIONS)
+        row = df[df["id"] == nid].iloc[0]
+        if str(row.get("impact", "")) == "unclear" and str(row.get("type", "other")) in ("other", "nan", ""):
+            return
+        eid = events.add_event(str(row["date"]), str(row.get("type", "other")),
+                               str(row.get("markets", "")).split("|"), str(row["headline"]), str(row["url"]), "news")
+        _alog(f"event registered: {eid} from news {nid}")
+    except Exception as e:  # noqa: BLE001
+        log.warning("could not register event for %s: %s", nid, e)
+
+
 def _status(nid) -> str | None:
     if not PREDICTIONS.exists():
         return None
@@ -180,6 +196,7 @@ def _handle(cq, pending):
     if action == "ok":
         send_message(channel_id(), text)
         _set_status(nid, "posted")
+        _register_event(nid)
         label = t("approved")
     else:
         _set_status(nid, "rejected")

@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from . import config, pageviews, statuz
+from . import config, events, pageviews, statuz
 from .util import log
 
 DOCS = config.ROOT / "docs"
@@ -70,7 +70,24 @@ def build():
                     "y": [int(sub.at[m, "arrivals"]) if m in sub.index else None for m in months],
                     "exact": [bool(sub.at[m, "exact"]) if m in sub.index else True for m in months]}
 
+    ev_list, ev_rows, ev_summary = [], [], []
+    evs = events.load_events()
+    if not evs.empty:
+        ev_list = [{"id": e.id, "date": e.date, "type": e.type, "title": e.title, "source": e.source,
+                    "markets": e.markets} for e in evs.itertuples()]
+        eff = pd.read_csv(events.EFFECTS) if events.EFFECTS.exists() else pd.DataFrame()
+        for r in eff.to_dict("records"):
+            clean = {k: (None if (isinstance(v, float) and pd.isna(v)) else v) for k, v in r.items()}
+            clean["market"] = config.MARKETS.get(clean["lang"], {}).get("uz", clean["lang"])
+            ev_rows.append(clean)
+        if not eff.empty:
+            ev_summary = events.summary_by_type(eff).to_dict("records")
+            ev_summary = [{k: (None if (isinstance(v, float) and pd.isna(v)) else v) for k, v in r.items()}
+                          for r in ev_summary]
+        eff.to_csv(DOCS / "event_effects.csv", index=False)
+
     data = {"dates": dates, "series": series, "monthly": monthly,
+            "events": ev_list, "effects": ev_rows, "ev_summary": ev_summary,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "first": dates[0], "last": dates[-1]}
     html = TEMPLATE.replace("__DATA__", json.dumps(data, ensure_ascii=False, separators=(",", ":"))) \
@@ -126,6 +143,13 @@ button,.btn{font:500 15px "EB Garamond",serif;background:transparent;color:var(-
 button.on{background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .chart{width:100%;height:460px}
 .downloads{display:flex;flex-wrap:wrap;gap:8px}
+table{border-collapse:collapse;width:100%;font-size:15px;margin-top:10px}
+th,td{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--muted)}
+tr.mixed td{color:var(--muted);opacity:.7}
+#events-box a{color:var(--accent)}
+.pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:13px;border:1px solid var(--rule)}
+.up{background:#3d6b4522}.down{background:#a23b2a22}
 footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);padding-top:12px}
 @media (max-width:600px){.chart{height:620px}}
 </style>
@@ -161,6 +185,15 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
   <div id="arrivals" class="chart"></div>
 </section>
 
+<section id="events-box">
+  <h2>Voqealar ta'siri</h2>
+  <p class="note">Har bir voqea (viza, reys, tadbir, sport...) uchun: <b>Vikipediya</b> — keyingi 7 kunda qiziqish odatdagidan necha baravar;
+  <b>turistlar</b> — o'sha davlatdan kelganlar o'zgarishi, umumiy oqimga nisbatan ("farq": ×1,2 dan yuqori = ko'proq o'sdi).
+  Bu bog'liqlik, isbot emas. Oylik natijalar boshqa yilning xuddi shu oylari bilan solishtirib mavsumdan tozalanadi. Kulrang qatorlar — boshqa voqealar bilan aralash, COVID davri yoki mavsum tekshirib bo'lmagan; xulosaga qo'shilmaydi.</p>
+  <div id="ev-summary"></div>
+  <div style="overflow-x:auto"><table id="ev-table"></table></div>
+</section>
+
 <section>
   <h2>Ma'lumotlarni yuklab olish</h2>
   <div class="downloads">
@@ -168,6 +201,7 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
     <a class="btn" href="https://raw.githubusercontent.com/ismoiljonmominov8-stack/uzbekistan-tourism-monitor/main/data/pageviews_daily.csv">Kunlik ko'rishlar (sahifalar bo'yicha), CSV</a>
     <a class="btn" href="official_arrivals_monthly.csv" download>Rasmiy statistika (oylik), CSV</a>
     <a class="btn" href="official_arrivals_ytd.csv" download>Rasmiy statistika (yil boshidan), CSV</a>
+    <a class="btn" href="event_effects.csv" download>Voqealar ta'siri, CSV</a>
     <a class="btn" id="offline" href="#">Grafiklar — oflayn HTML fayl (internetsiz ochiladi)</a>
   </div>
 </section>
@@ -206,7 +240,12 @@ let mode = "avg7", scale = "log";
 function drawViews(){
   const tr = D.series.map(s => ({x:D.dates, y:s[mode], name:s.name, type:"scattergl", mode:"lines",
     line:{color:s.color, width: mode==="daily" ? 1 : 1.8, dash:s.dash}}));
-  Plotly.react("views", tr, layout("ko'rishlar / kun", scale==="log"), cfg);
+  const L = layout("ko'rishlar / kun", scale==="log");
+  L.shapes = (D.events||[]).map(e => ({type:"line", xref:"x", yref:"paper", x0:e.date, x1:e.date, y0:0, y1:1,
+    line:{color:css("--accent"), width:1, dash:"dot"}}));
+  L.annotations = (D.events||[]).map((e,i) => ({x:e.date, y:1, yref:"paper", text:e.id, showarrow:false,
+    font:{size:10, color:css("--accent")}, yshift: (i%2)*12 - 2, hovertext:e.title}));
+  Plotly.react("views", tr, L, cfg);
 }
 function drawShare(){
   const has = D.series.some(s => s.share && s.share.some(v => v !== null));
@@ -234,6 +273,34 @@ document.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => {
 document.querySelectorAll("[data-scale]").forEach(b => b.onclick = () => {
   scale = b.dataset.scale; document.querySelectorAll("[data-scale]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
 if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
+(function renderEvents(){
+  const box = document.getElementById("events-box");
+  if (!D.effects || !D.effects.length) { box.style.display = "none"; return; }
+  const tn = {visa:"viza", flight:"reys", event:"tadbir", sport:"sport", politics:"siyosat", price:"narx",
+              infrastructure:"infratuzilma", marketing:"marketing", other:"boshqa"};
+  const wv = {strong:"kuchli", some:"biroz", none:"yo'q"};
+  const av = v => (!v || v === "—") ? "kutilmoqda" : v.startsWith("rose") ? "ko'proq o'sdi" : v.startsWith("fell") ? "kamaydi" : "aniq o'zgarish yo'q";
+  const esc = x => String(x ?? "").replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const src = Object.fromEntries((D.events||[]).map(e => [e.id, e.source]));
+  let h = "<tr><th>Voqea</th><th>Sana</th><th>Turi</th><th>Bozor</th><th>Vikipediya, 7 kun</th><th>Turistlar (oldin → keyin)</th><th>Farq</th><th>Natija</th></tr>";
+  for (const r of D.effects) {
+    const mixed = (r.arr_verdict||"").includes("(");
+    const wiki = r.wiki_ratio == null ? "—" : `×${r.wiki_ratio} (${wv[r.wiki_verdict]||"—"})`;
+    const arr = r.arr_before == null ? "kutilmoqda" : `${Math.round(r.arr_before).toLocaleString()} → ${Math.round(r.arr_after).toLocaleString()}` +
+      (r.arr_method === "monthly" ? " /oy" : ` (${esc((r.arr_window||"").split(" (")[0])})`);
+    const ex = r.excess == null ? "—" : `<span class="pill ${r.excess>=1.2?"up":r.excess<=0.83?"down":""}">×${r.excess}</span>`;
+    const v = r.arr_verdict||"";
+    const note = v.includes("mixed") ? " — boshqa voqea bilan aralash" : v.includes("COVID") ? " — COVID davri"
+               : v.includes("season") ? " — mavsum hisobga olinmagan" : (r.season_year ? ` (mavsum: ${r.season_year})` : "");
+    h += `<tr class="${mixed?"mixed":""}"><td><a href="${esc(src[r.id])}" target="_blank" rel="noopener">${esc(r.title)}</a></td><td>${esc(r.date)}</td>` +
+         `<td>${tn[r.type]||esc(r.type)}</td><td>${esc(r.market)}</td><td>${wiki}</td><td>${arr}</td><td>${ex}</td><td>${av(r.arr_verdict)}${note}</td></tr>`;
+  }
+  document.getElementById("ev-table").innerHTML = h;
+  let s = "<table><tr><th>Turi</th><th>Voqealar</th><th>Vikipediya reaksiyasi</th><th>Turistlar ko'proq o'sgan</th><th>O'rtacha farq</th></tr>";
+  for (const r of (D.ev_summary||[])) s += `<tr><td>${tn[r.type]||esc(r.type)}</td><td>${r.events}</td>` +
+    `<td>${r.wiki_reacted} / ${r.measured_wiki}</td><td>${r.arrivals_rose} / ${r.measured_arrivals}</td><td>${r.median_excess==null?"—":"×"+r.median_excess}</td></tr>`;
+  document.getElementById("ev-summary").innerHTML = s + "</table>";
+})();
 const off = document.getElementById("offline");
 if (off) off.onclick = async e => {
   e.preventDefault(); off.textContent = "Tayyorlanmoqda…";

@@ -26,11 +26,13 @@ def step(name, fn, *a):
 def collect():
     step("pageviews", pageviews.collect)
     step("wikipedia totals", pageviews.collect_projects)
+    step("yearly arrivals by country", statuz.collect_yearly)
     return step("stat.uz", statuz.collect) or []
 
 
 def daily():
     releases = collect()
+    step("event tracker", posts.event_results)
     step("history chart", history.build)
     step("daily post", posts.daily)
     step("monthly post", posts.monthly, releases)
@@ -75,6 +77,7 @@ COMMANDS = {
     "test-models": test_models,
     "approval-test": lambda: news.approval_test(10),
     "history": lambda: step("history chart", history.build),
+    "events": lambda: (step("event tracker", posts.event_results), step("history chart", history.build)),
     "post-daily-now": lambda: (collect(), step("history chart", history.build),
                                step("daily post", posts.daily, True)),
     "collect": collect,

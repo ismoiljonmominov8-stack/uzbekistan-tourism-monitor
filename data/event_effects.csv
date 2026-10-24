@@ -1,0 +1,15 @@
+id,date,type,lang,title,wiki_status,arr_method,arr_before,arr_after,arr_ratio,total_ratio,excess,exact,arr_window,arr_status,overlap,reported,wiki_verdict,arr_verdict,wiki_ratio,wiki_peak,wiki_days,season_year,season_factor,excess_raw
+E2018-01,2018-02-01,visa,ja,Visa-free entry for 7 countries incl. Japan and Republic of Korea,date not exact,yearly,4039.0,17052.0,4.22,1.99,2.12,True,2017 vs 2018,ok,,True,—,rose more than overall,,,,,,
+E2018-01,2018-02-01,visa,ko,Visa-free entry for 7 countries incl. Japan and Republic of Korea,date not exact,yearly,31059.0,27269.0,0.88,1.99,0.44,True,2017 vs 2018,ok,,True,—,fell vs overall,,,,,,
+E2018-02,2018-10-01,visa,fr,30-day visa-free entry for France,date not exact,yearly,13579.0,20390.0,1.5,1.26,1.19,True,2018 vs 2019,ok,,True,—,no clear change,,,,,,
+E2019-01,2019-01-04,visa,de,30-day visa-free entry for Germany,ok,yearly,18094.0,27625.0,1.53,1.26,1.21,True,2018 vs 2019,ok,,True,strong,rose more than overall,1.56,1.95,7.0,,,
+E2019-02,2019-02-01,visa,it,30-day visa-free entry for 45 more countries incl. Italy,ok,yearly,13843.0,20356.0,1.47,1.26,1.17,True,2018 vs 2019,ok,,True,none,no clear change,1.07,1.41,7.0,,,
+E2024-01,2024-11-26,flight,zh,Centrum Air launches Tashkent–Guangzhou flights,ok,yearly,74304.0,278916.0,3.75,1.47,2.56,True,2024 vs 2025,ok,E2025-01,True,none,rose more than overall (mixed with other events),1.12,1.22,7.0,,,
+E2025-01,2025-05-13,visa,zh,"Uzbekistan–China 30-day visa-free travel (announced 13 May, in force 1 June 2025)",ok,monthly,12019.0,36871.0,3.07,1.29,2.14,False,"before 2025-03..2025-04, after 2025-08..2025-09; season-adjusted with 2026",ok,,True,strong,rose more than overall,1.5,2.15,7.0,2026.0,1.11,2.37
+E2026-01,2026-06-18,sport,zh,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,monthly,45549.0,47493.0,1.04,1.02,1.02,True,"before 2026-04..2026-05, after 2026-07..2026-08 (season not controlled)",ok,,True,strong,no clear change (season not controlled),4.25,12.69,7.0,,,1.02
+E2026-01,2026-06-18,sport,ko,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,,,,,,,,,waiting,,False,strong,—,1.64,4.43,7.0,,,
+E2026-01,2026-06-18,sport,ja,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,,,,,,,,,waiting,,False,strong,—,2.42,5.1,7.0,,,
+E2026-01,2026-06-18,sport,de,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,monthly,3658.0,4978.0,1.36,1.19,1.15,True,"before 2026-01..2026-05, after 2026-07..2026-08 (season not controlled)",ok,,True,strong,no clear change (season not controlled),9.5,52.42,7.0,,,1.15
+E2026-01,2026-06-18,sport,tr,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,monthly,19434.0,17344.0,0.89,1.02,0.87,True,"before 2026-04..2026-05, after 2026-07..2026-08 (season not controlled)",ok,,True,strong,no clear change (season not controlled),1.26,3.34,7.0,,,0.87
+E2026-01,2026-06-18,sport,it,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,,,,,,,,,waiting,,False,strong,—,2.77,8.0,7.0,,,
+E2026-01,2026-06-18,sport,fr,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",ok,,,,,,,,,waiting,,False,strong,—,8.06,41.25,7.0,,,

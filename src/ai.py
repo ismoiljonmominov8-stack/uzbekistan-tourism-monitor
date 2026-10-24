@@ -25,6 +25,8 @@ Pick at most {limit} relevant articles, most important first. For each return:
 - "confidence": "low" if only announced/planned or rumoured, "medium" if confirmed but not yet
   in effect, "high" if already in effect
 - "reason": one sentence in {lang} explaining the expected mechanism
+- "type": one of "visa", "flight", "event", "sport", "politics", "price", "infrastructure",
+  "marketing", "other" (what kind of news it is)
 
 Rules:
 - If several articles describe the same event, return only one of them.
@@ -112,4 +114,7 @@ def analyze_news(articles: list[dict], order=("gemini", "groq")):
             i["impact"] = "unclear"
         if i.get("confidence") not in ("low", "medium", "high"):
             i["confidence"] = "low"
+        if i.get("type") not in ("visa", "flight", "event", "sport", "politics", "price", "infrastructure",
+                                 "marketing", "other"):
+            i["type"] = "other"
     return items[: config.NEWS_PER_DAY], provider

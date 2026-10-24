@@ -1,0 +1,8 @@
+id,date,effective_date,precision,type,markets,title,source,origin
+E2018-01,2018-02-01,2018-02-01,month,visa,ja|ko,"Visa-free entry for 7 countries incl. Japan and Republic of Korea",https://gratanet.com/news/uzbekistan-introduces-a-visa-free-regime-for-citizens-of-another-45-countries-from-1-february,seed
+E2018-02,2018-10-01,2018-10-01,month,visa,fr,"30-day visa-free entry for France",https://www.thejakartapost.com/travel/2019/01/04/uzbekistan-extends-visa-free-travel-to-germans-in-tourism-bid,seed
+E2019-01,2019-01-04,2019-01-15,day,visa,de,"30-day visa-free entry for Germany",https://www.thejakartapost.com/travel/2019/01/04/uzbekistan-extends-visa-free-travel-to-germans-in-tourism-bid,seed
+E2019-02,2019-02-01,2019-02-01,day,visa,it,"30-day visa-free entry for 45 more countries incl. Italy",https://gratanet.com/news/uzbekistan-introduces-a-visa-free-regime-for-citizens-of-another-45-countries-from-1-february,seed
+E2024-01,2024-11-26,2024-11-26,day,flight,zh,"Centrum Air launches Tashkent–Guangzhou flights",https://m.kun.uz/en/news/2024/11/26/centrum-air-launches-tashkent-guangzhou-flights-boosting-bilateral-tourism,seed
+E2025-01,2025-05-13,2025-06-01,day,visa,zh,"Uzbekistan–China 30-day visa-free travel (announced 13 May, in force 1 June 2025)",https://www.kun.uz/en/news/2025/05/13/uzbekistan-and-china-to-launch-30-day-visa-free-travel-starting-june-2025,seed
+E2026-01,2026-06-18,2026-06-18,day,sport,all,"Uzbekistan plays at the FIFA World Cup (18, 23, 27 June 2026)",https://foot-africa.com/en/news/2026-world-cup-group-k-uzbekistan-preview-squad-and-schedule-1229686/,seed

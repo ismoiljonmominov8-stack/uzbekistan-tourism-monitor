@@ -34,6 +34,27 @@ Every news judgement (impact ▲/▼/◆/?, market, horizon, confidence) is save
 kinds of news actually moved tourism. The AI is told **not** to give probabilities: a percentage
 read from one article would be false precision.
 
+## Event tracker
+
+Does an announcement change (1) attention and (2) actual arrivals? Every event in
+`data/events.csv` is measured automatically, results in `data/event_effects.csv`, the chart page
+("Voqealar ta'siri") and a Telegram post when a result first becomes measurable.
+
+- **Wikipedia reaction:** mean views on days 0–6 after the announcement ÷ median of days −35…−8.
+  "strong" ≥ ×1.5 (or a peak day ≥ ×3), "some" ≥ ×1.2.
+- **Arrivals ("farq" / excess):** arrivals from the country after vs before, divided by the same
+  ratio for all foreign arrivals (removes general growth). Monthly results are also divided by the
+  same months of another year (removes the country's own seasons); without such a year the result
+  is marked *season not controlled* and is not counted. Old events use yearly data (SIAT dataset
+  1031): growth in the first full year ÷ growth of total arrivals. ≥ ×1.2 = rose more than overall.
+- Events for the same market within 3 months (monthly) or 12 months (yearly) are marked *mixed*;
+  results from 2020–2023 are marked *COVID period*. Neither is counted in the summary by type.
+- These are associations, not proof of cause.
+
+**Adding events:** news you approve in the bot are added automatically. To add one by hand, edit
+`data/events.csv` on GitHub (Add a row: `id,date,effective_date,precision,type,markets,title,source,origin`;
+markets are language codes `zh|ko|ja|de|tr|it|fr` or `all`; precision `day` or `month`; origin `manual`).
+
 ## Setup (about 15 minutes)
 
 ### 1. Telegram

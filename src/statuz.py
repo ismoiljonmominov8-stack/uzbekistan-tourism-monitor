@@ -274,3 +274,52 @@ def monthly(df: pd.DataFrame | None = None) -> pd.DataFrame:
     # a negative month means the source revised its numbers or changed definitions
     merged = merged[merged["arrivals"] >= 0]
     return merged[["year", "month", "country", "arrivals", "exact"]].sort_values(["year", "month", "country"])
+
+
+# ---------------------------------------------------------------- yearly, by country (SIAT)
+YEARLY_CSV = config.DATA / "arrivals_yearly_by_country.csv"
+SIAT_BY_COUNTRY = 1031   # "Distribution by country of foreign citizens arriving for tourist purposes"
+
+
+def parse_siat_yearly(text: str) -> pd.DataFrame:
+    """SIAT CSV (one row per country, one column per year) -> long table year,country,arrivals."""
+    from io import StringIO
+    raw = pd.read_csv(StringIO(text), dtype={"Code": str})
+    years = [c for c in raw.columns if re.fullmatch(r"(19|20)\d\d", str(c))]
+    long = raw.melt(id_vars=["Klassifikator_en"], value_vars=years, var_name="year", value_name="arrivals")
+    long["country"] = long["Klassifikator_en"].map(_norm_country)
+    long["year"] = long["year"].astype(int)
+    long = long.dropna(subset=["arrivals"])
+    long["arrivals"] = long["arrivals"].astype(float).round().astype(int)
+    total = long.groupby("year", as_index=False)["arrivals"].sum().assign(country="TOTAL")
+    return pd.concat([long[["year", "country", "arrivals"]], total], ignore_index=True).sort_values(["year", "country"])
+
+
+def collect_yearly(max_age_days: int = 7) -> pd.DataFrame | None:
+    """Refresh yearly arrivals by country from SIAT (open data, CC BY 4.0) about once a week."""
+    import json
+    import time as _time
+    if YEARLY_CSV.exists() and _time.time() - YEARLY_CSV.stat().st_mtime < max_age_days * 86400:
+        return pd.read_csv(YEARLY_CSV)
+    meta = http_get(f"https://api.siat.stat.uz/sdmx/{SIAT_BY_COUNTRY}/table/download/?download_format=csv", timeout=60)
+    try:
+        url = json.loads(meta)["file"]
+    except Exception:  # noqa: BLE001
+        log.warning("SIAT: unexpected answer for dataset %s", SIAT_BY_COUNTRY)
+        return None
+    text = http_get(url, timeout=60)
+    if not text:
+        return None
+    df = parse_siat_yearly(text)
+    # sanity: the national total must be in a plausible range for recent years
+    recent = df[(df["country"] == "TOTAL") & (df["year"] >= 2022)]
+    if recent.empty or not recent["arrivals"].between(1_000_000, 50_000_000).all():
+        log.warning("SIAT: yearly totals look wrong, not saved")
+        return None
+    df.to_csv(YEARLY_CSV, index=False)
+    log.info("SIAT: yearly arrivals by country saved (%d rows)", len(df))
+    return df
+
+
+def load_yearly() -> pd.DataFrame:
+    return pd.read_csv(YEARLY_CSV) if YEARLY_CSV.exists() else pd.DataFrame(columns=["year", "country", "arrivals"])

@@ -7,7 +7,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from . import config, pageviews, statuz  # noqa: E402
+from . import config, events, pageviews, statuz  # noqa: E402
 from .texts import market_name, month_name, t  # noqa: E402
 from .util import admin_id, channel_id, esc, log, read_json, send_message, send_photo, write_json  # noqa: E402
 
@@ -178,3 +178,44 @@ def monthly(releases: list[dict]):
             send_message(admin_id() or None, "\n".join(head + lines))
         else:
             send_message(channel_id(), "\n".join(lines))
+
+
+def _arr_verdict_text(v: str) -> str:
+    base = v.split(" (")[0]
+    out = t("arr_v").get(base, base)
+    if "mixed" in v:
+        out += t("arr_mixed")
+    if "COVID" in v:
+        out += t("arr_covid")
+    if "season not controlled" in v:
+        out += t("arr_season")
+    return out
+
+
+def event_results():
+    """Post each event whose arrivals effect has just become measurable (once).
+    Seeded historical events are marked as reported without posting."""
+    eff = events.measure()
+    new = events.new_results(eff)
+    if new.empty:
+        return
+    origin = events.load_events().set_index("id")["origin"].to_dict()
+    done = []
+    for r in new.itertuples():
+        done.append((r.id, r.lang))
+        if origin.get(r.id) == "seed":
+            continue
+        lines = [f"<b>{t('ev_title').format(title=esc(r.title))}</b>",
+                 t("ev_meta").format(date=r.date, type=t("types").get(r.type, r.type), market=esc(market_name(r.lang)))]
+        if not pd.isna(getattr(r, "wiki_ratio", float("nan"))):
+            lines.append(t("ev_wiki").format(ratio=r.wiki_ratio, peak=r.wiki_peak,
+                                             verdict=t("wiki_v").get(r.wiki_verdict, r.wiki_verdict)))
+        fmt = t("ev_arr") if r.arr_method == "monthly" else t("ev_arr_y")
+        lines.append(fmt.format(window=esc(r.arr_window), before=int(r.arr_before), after=int(r.arr_after),
+                                ratio=r.arr_ratio, total=r.total_ratio, excess=r.excess,
+                                verdict=_arr_verdict_text(str(r.arr_verdict))))
+        if not pd.isna(getattr(r, "season_year", float("nan"))):
+            lines.append(t("ev_season").format(year=int(r.season_year)))
+        lines += ["", f"<i>{t('ev_note')}</i>"]
+        send_message(channel_id(), "\n".join(lines))
+    events.mark_reported(done)
