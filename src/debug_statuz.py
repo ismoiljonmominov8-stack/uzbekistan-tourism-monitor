@@ -24,8 +24,8 @@ def main(urls):
         text = soup.get_text("\n")
         # keep only the part around the figures, not the whole site menu
         lines = [l.strip() for l in text.splitlines() if l.strip()]
-        start = next((i for i, l in enumerate(lines) if re.search(r"January|foreign|tourist", l, re.I)), 0)
-        body = "\n".join(lines[max(0, start - 3): start + 60])
+        start = next((i for i, l in enumerate(lines) if re.search(r"According to|In January|January", l)), 0)
+        body = "\n".join(lines[max(0, start - 3): start + 80])
         parsed = statuz.parse_release(text)
         Path(OUT / f"{nid}.txt").write_text(f"URL: {url}\nPARSED: {parsed}\n\n{body}\n", encoding="utf-8")
 
