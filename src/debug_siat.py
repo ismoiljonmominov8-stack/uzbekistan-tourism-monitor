@@ -27,5 +27,20 @@ def main(a, b):
     (OUT / f"siat_index_{a}_{b}.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+
+
+def download(ids):
+    """Save CSV and JSON of the given SIAT datasets to reports/siat/."""
+    out = OUT / "siat"
+    out.mkdir(parents=True, exist_ok=True)
+    for i in ids:
+        for fmt in ("csv", "json"):
+            text = http_get(f"https://api.siat.stat.uz/sdmx/{i}/table/download/?download_format={fmt}", timeout=60)
+            (out / f"{i}.{fmt}").write_text(text or "FETCH FAILED\n", encoding="utf-8")
+
+
 if __name__ == "__main__":
-    main(int(sys.argv[1]), int(sys.argv[2]))
+    if sys.argv[1] == "download":
+        download(sys.argv[2:])
+    else:
+        main(int(sys.argv[1]), int(sys.argv[2]))
