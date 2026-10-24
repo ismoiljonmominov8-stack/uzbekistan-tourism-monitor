@@ -83,7 +83,8 @@ def parse_release(text: str) -> dict | None:
     # Only read country lines inside the article body: from the sentence with the total up to
     # the site footer. Otherwise menu items like "Eliminating bureaucracy – 2030" or
     # "Online: 168" look like countries.
-    anchor = re.search(r"foreign (?:citizens|nationals|visitors|tourists)", text, re.I)
+    anchor = re.search(r"According to", text) or re.search(
+        rf"({_NUM})\s*{_UNIT}\s+foreign (?:citizens|nationals)", text, re.I)
     body = text[anchor.start():] if anchor else text
     footer = re.search(r"National Statistics Committee of the Republic of Uzbekistan\s*\n\s*100170|Mustakillik"
                        r"|Found an error|Online:", body)
@@ -97,6 +98,8 @@ def parse_release(text: str) -> dict | None:
     )
     for cm in line_pat.finditer(body):
         name = _norm_country(cm.group(1))
+        if re.fullmatch(r"(19|20)\d\d", cm.group(2)) and not cm.group(3):
+            continue  # a year such as "Eliminating bureaucracy – 2030", not a count
         val, exact = amount(cm.group(2), cm.group(3))
         # Known typos, e.g. "43,572,000 people" or "69,070 thousand people" meaning 43,572 and
         # 69,070. A single country can never exceed the total.
