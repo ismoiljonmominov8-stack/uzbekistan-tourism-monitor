@@ -53,7 +53,7 @@ def build():
             "dash": "dot" if info["flag"] == "🌐" else "solid",
             "daily": [None if pd.isna(v) else int(v) for v in vals],
             "avg7": [None if pd.isna(v) else round(float(v), 1) for v in vals.rolling(7, min_periods=4).mean()],
-            "share": None if share is None else [None if pd.isna(v) else float(v) for v in share.rolling(7, min_periods=4).mean()],
+            "share": None if share is None else [None if pd.isna(v) else round(float(v), 1) for v in share.rolling(7, min_periods=4).mean()],
         })
 
     monthly = {}
@@ -224,7 +224,8 @@ function drawArrivals(){
     line:{width: k==="TOTAL" ? 3 : 1.6, dash: k==="TOTAL" ? "dash" : "solid"}}));
   const L = layout("turistlar / oy (davlatlar)", false);
   L.xaxis = {gridcolor:css("--rule")+"55", type:"date", tickformat:"%Y-%m", dtick:"M2"};
-  L.yaxis2 = {title:"jami / oy", overlaying:"y", side:"right", showgrid:false};
+  L.yaxis.rangemode = "tozero";
+  L.yaxis2 = {title:"jami / oy", overlaying:"y", side:"right", showgrid:false, rangemode:"tozero"};
   L.margin.r = 60;
   Plotly.react("arrivals", tr, L, cfg);
 }
