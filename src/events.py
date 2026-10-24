@@ -26,7 +26,7 @@ COVID_YEARS = {2020, 2021, 2022, 2023}
 COUNTRY_LANG = {statuz._norm_country(n).lower(): lang
                 for lang, info in config.MARKETS.items() for n in info["stat_names"] if lang != "ru"}
 COUNTRY_LANG.update({"china": "zh", "korea": "ko", "south korea": "ko", "japan": "ja", "germany": "de",
-                     "turkey": "tr", "türkiye": "tr", "italy": "it", "france": "fr"})
+                     "turkey": "tr", "türkiye": "tr", "italy": "it", "france": "fr", "india": "hi"})
 DISTANT = [l for l, i in config.MARKETS.items() if i["stat_names"] and l != "ru"]
 
 
@@ -286,7 +286,7 @@ def _rate_with_prior(k: int, n: int, prior: float) -> float:
 
 
 def _confidence(n: int) -> str:
-    return "low" if n < 5 else "medium" if n < 15 else "high"
+    return "low" if n < 5 else "medium" if n < 30 else "high"
 
 
 def estimate(etype: str, langs: list[str], eff: pd.DataFrame | None = None) -> dict:
@@ -314,7 +314,43 @@ def estimate(etype: str, langs: list[str], eff: pd.DataFrame | None = None) -> d
 
     info = part(wiki, lambda d: d["wiki_ratio"] >= 1.2, "wiki_ratio")
     arr = part(clean_arr, lambda d: d["excess"] >= 1.2, "excess")
-    return out | {"info_p": info["p"], "info": info, "arr_p": arr["p"], "arr": arr}
+    return out | {"info_p": info["p"], "info": info, "arr_p": arr["p"], "arr": arr,
+                  "expected": expected_numbers(etype, langs, clean_arr, wiki)}
+
+
+def expected_numbers(etype: str, langs: list[str], clean_arr: pd.DataFrame, wiki: pd.DataFrame) -> dict:
+    """What similar past events did, turned into numbers for each market of an upcoming event:
+    the middle half (25th-75th percentile) and median of the 'excess' of past events of this type,
+    applied to the market's current monthly arrivals (latest full year / 12). Needs >= MIN_CASES."""
+    typed = clean_arr[clean_arr["type"] == etype]
+    wtyped = wiki[wiki["type"] == etype]
+    res = {"n": len(typed), "wiki_median": round(float(wtyped["wiki_ratio"].median()), 2) if len(wtyped) else None,
+           "markets": {}}
+    if len(typed) < MIN_CASES:
+        return res
+    q25, q50, q75 = (float(typed["excess"].quantile(q)) for q in (0.25, 0.5, 0.75))
+    res.update({"q25": round(q25, 2), "q50": round(q50, 2), "q75": round(q75, 2)})
+    yearly, mon = statuz.load_yearly(), statuz.monthly()
+    last = int(yearly["year"].max()) if not yearly.empty else None
+    for lang in langs:
+        country = lang_country(lang)
+        base, basis = None, ""
+        # prefer the latest 3 official months (current level); else last full year / 12
+        m = mon[(mon["country"] == country)].sort_values(["year", "month"]) if not mon.empty else mon
+        if len(m) >= 3:
+            recent = m.tail(3)
+            base = float(recent["arrivals"].mean())
+            basis = f"{int(recent.iloc[0].year)}-{int(recent.iloc[0].month):02d}..{int(recent.iloc[-1].year)}-{int(recent.iloc[-1].month):02d}"
+        elif last is not None:
+            row = yearly[(yearly["country"] == country) & (yearly["year"] == last)]
+            if not row.empty:
+                base, basis = int(row["arrivals"].iloc[0]) / 12, f"{last} / 12"
+        if not base:
+            continue
+        res["markets"][lang] = {"base_month": round(base), "basis": basis,
+                                "low": round(base * (q25 - 1)), "mid": round(base * (q50 - 1)),
+                                "high": round(base * (q75 - 1))}
+    return res
 
 
 def upcoming(today: pd.Timestamp | None = None) -> list[dict]:

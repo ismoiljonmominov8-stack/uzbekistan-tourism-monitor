@@ -25,6 +25,7 @@ MARKETS = {
     "tr": {"flag": "🇹🇷", "en": "Türkiye", "uz": "Turkiya", "stat_names": ["Turkey", "Türkiye", "Turkiye"]},
     "it": {"flag": "🇮🇹", "en": "Italy", "uz": "Italiya", "stat_names": ["Italy"]},
     "fr": {"flag": "🇫🇷", "en": "France", "uz": "Fransiya", "stat_names": ["France"]},
+    "hi": {"flag": "🇮🇳", "en": "India", "uz": "Hindiston", "stat_names": ["India"]},
     "en": {"flag": "🌐", "en": "English (global)", "uz": "Ingliz tili (global)", "stat_names": []},
     "ru": {"flag": "🌐", "en": "Russian (CIS)", "uz": "Rus tili (MDH)", "stat_names": ["Russia"]},
 }

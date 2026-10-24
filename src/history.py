@@ -16,9 +16,9 @@ VENDOR = config.ROOT / "vendor"
 VENDOR_JS = VENDOR / "plotly.min.js"
 PLOTLY = "plotly.min.js"
 LIBS = ["plotly.min.js", "d3.min.js", "topojson-client.min.js"]
-MARKET_ISO = {"zh": "156", "ko": "410", "ja": "392", "de": "276", "tr": "792", "it": "380", "fr": "250", "ru": "643"}
+MARKET_ISO = {"zh": "156", "ko": "410", "ja": "392", "de": "276", "tr": "792", "it": "380", "fr": "250", "hi": "356", "ru": "643"}
 COLORS = {"zh": "#a23b2a", "ko": "#2f5d7c", "ja": "#c47f2c", "de": "#3d6b45", "tr": "#7a3b6b",
-          "it": "#5b7f99", "fr": "#8a6d3b", "en": "#6e6e6e", "ru": "#9a9a9a"}
+          "it": "#5b7f99", "fr": "#8a6d3b", "hi": "#c06a2b", "en": "#6e6e6e", "ru": "#9a9a9a"}
 
 
 def _clean(v):
@@ -249,6 +249,10 @@ tr.mixed td{color:var(--muted);opacity:.7}
 .mini{height:170px}
 .evlist{font-size:14px;margin:6px 0 0;padding-left:18px}
 .evlist li{margin-bottom:5px}
+details summary{cursor:pointer;list-style:none}
+details summary::before{content:"▸ ";color:var(--accent);font-size:22px}
+details[open] summary::before{content:"▾ "}
+.exp{width:100%;font-size:14px;margin-top:6px}.exp td,.exp th{padding:3px 6px}
 .upcard{border:1px solid var(--rule);border-radius:3px;padding:10px 12px;margin:0 0 10px;background:var(--card)}
 .upcard .p{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;align-items:center;font-size:15px;margin-top:6px}
 .meter{height:9px;background:var(--paper2);border:1px solid var(--rule);border-radius:5px;overflow:hidden}
@@ -265,6 +269,12 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
   <h1>Uzbekistan Tourism Monitor<small>O'zbekistonga xalqaro qiziqish — har bir kun</small></h1>
   <div class="meta" id="meta"></div>
 </header>
+
+<section id="upcoming-box">
+  <h2>Kutilayotgan voqealar va ularning kutilgan ta'siri</h2>
+  <p class="note">Telegram botga <code>/event SANA | TURI | DAVLATLAR | NOMI | HAVOLA</code> yuboring yoki yangilikni ✅ bilan tasdiqlang. Ehtimollar — o'tgan o'lchangan o'xshash voqealarga asoslangan ulush, bashorat emas. Voqea o'tgach, haqiqiy ta'sir o'zi o'lchanadi.</p>
+  <div id="upcoming"></div>
+</section>
 
 <section id="map-box">
   <h2>Dunyo xaritasi — O'zbekistonga kim keladi va kim qiziqadi</h2>
@@ -283,11 +293,7 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
   </div>
 </section>
 
-<section id="upcoming-box">
-  <h2>Kutilayotgan voqealar</h2>
-  <p class="note">Telegram botga <code>/event SANA | TURI | DAVLATLAR | NOMI | HAVOLA</code> yuboring yoki yangilikni ✅ bilan tasdiqlang. Ehtimollar — o'tgan o'lchangan o'xshash voqealarga asoslangan ulush, bashorat emas. Voqea o'tgach, haqiqiy ta'sir o'zi o'lchanadi.</p>
-  <div id="upcoming"></div>
-</section>
+
 
 <h2 class="sect">Batafsil grafiklar</h2>
 <section>
@@ -315,12 +321,15 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 </section>
 
 <section id="events-box">
-  <h2>Voqealar ta'siri</h2>
+  <details>
+  <summary><h2 style="display:inline">Tarixiy asos: o'tgan voqealar ta'siri</h2></summary>
+  <p class="note"><b>Nega eski voqealar?</b> Kutilayotgan voqea qanday ta'sir qilishini faqat o'xshash o'tgan voqealar natijasidan bilish mumkin. Yuqoridagi ehtimollar va raqamlar shu jadvaldan hisoblanadi.</p>
   <p class="note">Har bir voqea (viza, reys, tadbir, sport...) uchun: <b>Vikipediya</b> — keyingi 7 kunda qiziqish odatdagidan necha baravar;
   <b>turistlar</b> — o'sha davlatdan kelganlar o'zgarishi, umumiy oqimga nisbatan ("farq": ×1,2 dan yuqori = ko'proq o'sdi).
   Bu bog'liqlik, isbot emas. Oylik natijalar boshqa yilning xuddi shu oylari bilan solishtirib mavsumdan tozalanadi. Kulrang qatorlar — boshqa voqealar bilan aralash, COVID davri yoki mavsum tekshirib bo'lmagan; xulosaga qo'shilmaydi.</p>
   <div id="ev-summary"></div>
   <div style="overflow-x:auto"><table id="ev-table"></table></div>
+  </details>
 </section>
 
 <section>
@@ -418,7 +427,8 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
   slider.min = years[0]; slider.max = years[years.length - 1]; slider.value = year;
   const fmt = d3.format(",d"), pct = d3.format("+.0%");
   const nm = id => (M.countries[id] && M.countries[id].n) || (feats.find(f => f.id === id) || {properties:{}}).properties.name || id;
-  const MK = {zh:"🇨🇳", ko:"🇰🇷", ja:"🇯🇵", de:"🇩🇪", tr:"🇹🇷", it:"🇮🇹", fr:"🇫🇷", ru:"🇷🇺"};
+  const MARKET_ISO_JS = {zh:"156", ko:"410", ja:"392", de:"276", tr:"792", it:"380", fr:"250", hi:"356", ru:"643"};
+  const MK = {zh:"🇨🇳", ko:"🇰🇷", ja:"🇯🇵", de:"🇩🇪", tr:"🇹🇷", it:"🇮🇹", fr:"🇫🇷", hi:"🇮🇳", ru:"🇷🇺"};
   const warm = d3.interpolateRgbBasis(["#f3e6c8", "#e2c38d", "#c98e52", "#a3542c", "#6e2814"]);
   const div = d3.interpolateRgbBasis(["#8c3b22", "#d9a77c", "#f3ead7", "#9bbf8f", "#2f6b3f"]);
   function value(id){
@@ -470,7 +480,7 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
       : metric === "share" ? [stops[0], stops[n-1]].map(v => v.toFixed(0)) : ["−75%", "0", "+300%"];
     const title = {arrivals:`Turistlar, ${year}`, growth:`O'sish, ${year}`, share:"Vikipediya: 1 mln ko'rishga (30 kunlik mediana)", change:"Qiziqish o'zgarishi"}[metric];
     el.innerHTML = `<div>${title}</div><div class="bar" style="background:linear-gradient(90deg,${grad})"></div><div class="ticks">${ticks.map(t=>`<span>${t}</span>`).join("")}</div>` +
-      (metric === "share" || metric === "change" ? "<div style='margin-top:3px'>Faqat kuzatilayotgan 8 bozor</div>" : "");
+      (metric === "share" || metric === "change" ? "<div style='margin-top:3px'>Faqat kuzatilayotgan 9 bozor</div>" : "");
   }
   function panel(){
     const id = selected, c = M.countries[id], m = M.markets[id], el = document.getElementById("panel");
@@ -495,7 +505,7 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
     const ups = (M.upcoming || []).filter(u => u.isos.includes(id));
     if (effs.length) h += `<b>O'tgan voqealar</b><ul class="evlist">` + effs.map(e => `<li>${e.date}: ${e.title} — Vikipediya ${e.wiki_ratio == null ? "—" : "×" + e.wiki_ratio}, turistlar ${e.excess == null ? "kutilmoqda" : "×" + e.excess}${(e.arr_verdict||"").includes("(") ? " <i>(ishonchsiz)</i>" : ""}</li>`).join("") + `</ul>`;
     if (ups.length) h += `<b>Kutilayotgan</b><ul class="evlist">` + ups.map(u => `<li>${u.date}: ${u.title} — ${pp(u.estimate.info)} qiziqish, ${pp(u.estimate.arr)} turistlar</li>`).join("") + `</ul>`;
-    if (!m) h += `<p class="note">Bu mamlakat uchun Vikipediya qiziqishi kuzatilmaydi (faqat 8 bozor).</p>`;
+    if (!m) h += `<p class="note">Bu mamlakat uchun Vikipediya qiziqishi kuzatilmaydi (faqat 9 bozor).</p>`;
     el.innerHTML = h;
     if (typeof Plotly === "undefined") return;
     // a fresh layout object per chart: Plotly writes axis ranges into the object it is given
@@ -518,6 +528,16 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
 
   // upcoming events list
   const box = document.getElementById("upcoming"), U = M.upcoming || [];
+  const sg = v => (v > 0 ? "+" : v < 0 ? "−" : "±") + fmt(Math.abs(v));
+  function expect(u){
+    const x = u.estimate.expected || {};
+    if (!x.markets || !Object.keys(x.markets).length) return `<p class="note">🔢 Turistlar soniga ta'sir: o'xshash voqealar yetarli emas (${x.n||0} ta).</p>`;
+    const rows = Object.entries(x.markets).sort((a,b) => b[1].base_month - a[1].base_month).map(([l,m]) =>
+      `<tr><td>${MK[l]||""} ${nm(MARKET_ISO_JS[l])}</td><td>${fmt(m.base_month)}</td><td><b>${sg(m.mid)}</b></td><td>${sg(m.low)} … ${sg(m.high)}</td><td class="note">${m.basis}</td></tr>`).join("");
+    const concl = x.q25 > 1.05 ? "Shu turdagi voqealar odatda turistlar oqimini oshirgan." : "Shu turdagi voqealar odatda turistlar sonini sezilarli o'zgartirmagan.";
+    return `<p style="margin:8px 0 0"><b>🔢 Turistlar soniga kutilgan ta'sir, oyiga</b> <span class="note">(${x.n} ta o'xshash voqea; o'rtacha natija va o'rtadagi yarmining oralig'i)</span></p>` +
+      `<table class="exp"><tr><th>Bozor</th><th>Hozir/oy</th><th>Kutilgan</th><th>Oraliq</th><th>Asos</th></tr>${rows}</table><p class="note" style="margin:4px 0 0">${concl}</p>`;
+  }
   const tn = {visa:"viza", flight:"reys", event:"tadbir", sport:"sport", politics:"siyosat", price:"narx", infrastructure:"infratuzilma", marketing:"marketing", other:"boshqa"};
   const conf = {low:"past", medium:"o'rta", high:"yuqori"};
   const row = (label, x) => x && x.p != null
@@ -525,7 +545,7 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
     : `<span>${label}</span><span>ma'lumot yetarli emas (${x ? x.n : 0} ta o'xshash voqea)</span>`;
   box.innerHTML = U.length ? U.map(u => `<div class="upcard"><b>${u.title}</b><div class="note">${u.date} · ${u.days} kundan keyin · ${tn[u.type]||u.type} · ` +
       `${u.markets === "all" ? "barcha uzoq bozorlar" : u.isos.map(nm).join(", ")}${u.source ? ` · <a href="${u.source}" target="_blank" rel="noopener">manba</a>` : ""}</div>` +
-      `<div class="p">${row("📖 Ma'lumot qidirish", u.estimate.info)}${row("🧳 Turistlar kelishi", u.estimate.arr)}</div></div>`).join("")
+      `<div class="p">${row("📖 Ma'lumot qidirish", u.estimate.info)}${row("🧳 Turistlar kelishi", u.estimate.arr)}</div>` + expect(u) + `</div>`).join("")
     : `<p class="note">Hozircha kutilayotgan voqea yo'q.</p>`;
 })();
 (function renderEvents(){

@@ -248,9 +248,21 @@ def format_upcoming(u: dict, added=False) -> str:
                  else t("up_nodata_info").format(n=i.get("n", 0)))
     lines.append(t("up_arr").format(p=a["p"], k=a["k"], n=a["n"], conf=cw[a["conf"]]) if a.get("p") is not None
                  else t("up_nodata_arr").format(n=a.get("n", 0)))
+    x = est.get("expected") or {}
+    if x.get("markets"):
+        sign = lambda v: "±0" if v == 0 else f"{v:+,}".replace(",", "\u00a0").replace("-", "−")  # noqa: E731
+        lines.append(t("up_expect_title").format(n=x["n"]))
+        top = sorted(x["markets"].items(), key=lambda kv: -kv[1]["base_month"])[:5]
+        for lang, m in top:
+            lines.append(t("up_expect_row").format(flag=config.MARKETS[lang]["flag"], name=esc(market_name(lang)),
+                                                   base=f"{m['base_month']:,}".replace(",", "\u00a0"),
+                                                   mid=sign(m["mid"]), low=sign(m["low"]), high=sign(m["high"])))
+        lines.append(t("up_expect_up") if x.get("q25", 0) > 1.05 else t("up_expect_flat") if x.get("q50", 1) < 1.1 else "")
+    else:
+        lines.append(t("up_expect_nodata").format(n=x.get("n", 0)))
     if u.get("source"):
         lines.append(f'🔗 <a href="{esc(u["source"])}">manba</a>')
-    return "\n".join(lines)
+    return "\n".join(l for l in lines if l)
 
 
 def _handle_command(msg):
