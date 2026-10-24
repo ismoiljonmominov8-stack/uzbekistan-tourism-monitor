@@ -3,6 +3,7 @@ log every judgement as a prediction (data/predictions.csv), and post or send for
 import hashlib
 import os
 import re
+import time
 from datetime import datetime, timedelta, timezone
 
 import feedparser
@@ -131,35 +132,77 @@ def run():
     return len(items)
 
 
-def process_approvals():
-    """Read button presses since the last run; post approved items to the channel."""
+def _status(nid) -> str | None:
+    if not PREDICTIONS.exists():
+        return None
+    df = pd.read_csv(PREDICTIONS)
+    hit = df[df["id"] == nid]
+    return None if hit.empty else str(hit["status"].iloc[0])
+
+
+def _safe(method, payload):
+    """Telegram calls that may fail harmlessly (e.g. answering a button press that is
+    'too old'). They must never stop the approval loop."""
+    try:
+        tg_call(method, payload)
+    except Exception as e:  # noqa: BLE001
+        log.info("telegram %s ignored: %s", method, e)
+
+
+def _handle(cq, pending):
+    if str(cq["from"]["id"]) != str(admin_id()):
+        return
+    action, _, nid = (cq.get("data") or "").partition(":")
+    if action not in ("ok", "no"):
+        _safe("answerCallbackQuery", {"callback_query_id": cq["id"]})
+        return
+    text = pending.pop(nid, None)
+    status = _status(nid)
+    if text is None or status in ("posted", "rejected"):
+        # already handled (e.g. pressed twice): never post the same item again
+        _safe("answerCallbackQuery", {"callback_query_id": cq["id"], "text": t("approved") if status == "posted" else "—"})
+        return
+    if action == "ok":
+        send_message(channel_id(), text)
+        _set_status(nid, "posted")
+        label = t("approved")
+    else:
+        _set_status(nid, "rejected")
+        label = t("rejected")
+    write_json(PENDING, pending)  # save at once, so a later error cannot cause a repost
+    _safe("answerCallbackQuery", {"callback_query_id": cq["id"], "text": label})
+    msg = cq.get("message")
+    if msg:
+        _safe("editMessageReplyMarkup", {"chat_id": msg["chat"]["id"], "message_id": msg["message_id"],
+                                         "reply_markup": {"inline_keyboard": [[{"text": label, "callback_data": "x:x"}]]}})
+    log.info("approval: %s %s", action, nid)
+
+
+def process_approvals(wait_minutes: float = 0):
+    """Handle button presses. With wait_minutes > 0 it keeps listening (long polling) so
+    presses are handled within seconds, e.g. right after the morning drafts are sent."""
     if not approval_on():
         return
-    offset = read_json(OFFSET, {"offset": 0})["offset"]
-    updates = tg_call("getUpdates", {"offset": offset, "timeout": 0, "allowed_updates": ["callback_query"]}) or []
-    pending = read_json(PENDING, {})
-    for u in updates:
-        offset = max(offset, u["update_id"] + 1)
-        cq = u.get("callback_query")
-        if not cq or str(cq["from"]["id"]) != str(admin_id()):
-            continue
-        action, _, nid = (cq.get("data") or "").partition(":")
-        text = pending.pop(nid, None)
-        msg = cq.get("message", {})
-        if text is None:
-            tg_call("answerCallbackQuery", {"callback_query_id": cq["id"], "text": "—"})
-            continue
-        if action == "ok":
-            send_message(channel_id(), text)
-            _set_status(nid, "posted")
-            label = t("approved")
-        else:
-            _set_status(nid, "rejected")
-            label = t("rejected")
-        tg_call("answerCallbackQuery", {"callback_query_id": cq["id"], "text": label})
-        if msg:
-            tg_call("editMessageReplyMarkup", {"chat_id": msg["chat"]["id"], "message_id": msg["message_id"],
-                                               "reply_markup": {"inline_keyboard": [[{"text": label, "callback_data": "x:x"}]]}})
-        log.info("approval: %s %s", action, nid)
-    write_json(OFFSET, {"offset": offset})
-    write_json(PENDING, pending)
+    deadline = time.time() + wait_minutes * 60
+    while True:
+        offset = read_json(OFFSET, {"offset": 0})["offset"]
+        pending = read_json(PENDING, {})
+        if wait_minutes and not pending:
+            break
+        poll = 0 if not wait_minutes else int(max(0, min(50, deadline - time.time())))
+        try:
+            updates = tg_call("getUpdates", {"offset": offset, "timeout": poll,
+                                             "allowed_updates": ["callback_query"]}) or []
+        except Exception as e:  # noqa: BLE001
+            log.warning("getUpdates failed: %s", e)
+            updates = []
+        for u in updates:
+            try:
+                if u.get("callback_query"):
+                    _handle(u["callback_query"], pending)
+            except Exception:  # noqa: BLE001
+                log.exception("approval update %s failed", u.get("update_id"))
+            # confirm each update right away, so it is never processed twice
+            write_json(OFFSET, {"offset": u["update_id"] + 1})
+        if time.time() >= deadline:
+            break

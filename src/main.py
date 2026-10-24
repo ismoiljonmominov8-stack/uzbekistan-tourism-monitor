@@ -7,6 +7,7 @@
   collect      collect data only, post nothing
 """
 import json
+import os
 import sys
 
 from . import ai, news, pageviews, posts, statuz
@@ -32,6 +33,8 @@ def daily():
     step("daily post", posts.daily)
     step("monthly post", posts.monthly, releases)
     step("news", news.run)
+    # stay online for a while so morning approvals are handled within seconds
+    step("approvals", news.process_approvals, float(os.getenv("APPROVAL_WAIT_MINUTES", "30")))
 
 
 def test_models():

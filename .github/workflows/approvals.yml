@@ -2,7 +2,7 @@ name: Post approved news
 
 on:
   schedule:
-    - cron: "17 3-18 * * *"  # every hour, 08:17-23:17 Tashkent time
+    - cron: "*/15 * * * *"   # every 15 minutes
   workflow_dispatch: {}
 
 permissions:
