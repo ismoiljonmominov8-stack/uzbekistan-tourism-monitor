@@ -100,10 +100,19 @@ def movers(wide: pd.DataFrame, day=None) -> list[dict]:
         return []
     out = []
     for lang in wide.columns:
-        today_v, avg = wide.at[day, lang], base[lang].mean()
-        if pd.isna(today_v) or pd.isna(avg) or avg < 20:  # too few views to say anything
+        # MEDIAN, not mean: one freak day (e.g. 18,041 Japanese views on 30 Sep 2026, ~14x normal)
+        # would otherwise inflate the baseline for a month and make normal days look like crashes.
+        series = base[lang].dropna()
+        today_v, med = wide.at[day, lang], series.median()
+        if pd.isna(today_v) or pd.isna(med) or med < 20:  # too few views to say anything
             continue
-        out.append({"lang": lang, "views": int(today_v), "avg": float(avg), "change": today_v / avg - 1})
+        # "unusual" = outside the normal day-to-day range: more than 3 robust standard deviations
+        # (1.4826 x median absolute deviation) from the median. Small markets are noisy, so a fixed
+        # ±30 % rule would flag them almost daily.
+        mad = (series - med).abs().median() * 1.4826
+        z = (today_v - med) / mad if mad > 0 else 0.0
+        out.append({"lang": lang, "views": int(today_v), "avg": float(med), "change": today_v / med - 1,
+                    "z": float(z), "unusual": abs(z) >= 3 and abs(today_v / med - 1) >= 0.15})
     return sorted(out, key=lambda m: abs(m["change"]), reverse=True)
 
 

@@ -68,7 +68,9 @@ def daily(force=False):
         up, n = pageviews.trend_7d(wide)
         if n:
             lines.append(t("trend").format(up=up, n=n))
-        spikes = [m for m in mv if abs(m["change"]) >= config.SPIKE_THRESHOLD]
+        spikes = [m for m in mv if m["unusual"]]
+        if not spikes:
+            lines += ["", t("all_normal")]
         if spikes:
             names = ", ".join(f"{market_name(m['lang'])} {m['change']:+.0%}" for m in spikes)
             lines += ["", t("spike").format(markets=esc(names))]

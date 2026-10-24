@@ -4,11 +4,12 @@ from . import config
 T = {
     "uz": {
         "daily_title": "📊 O'zbekistonga qiziqish indeksi — {date}",
-        "movers": "Eng katta o'zgarishlar (30 kunlik o'rtachaga nisbatan):",
+        "movers": "Eng katta o'zgarishlar (oxirgi 30 kunning odatiy kuniga — medianaga nisbatan):",
         "most_viewed": "Eng ko'p ko'rilgan sahifa: {article} (barcha tillarda)",
         "trend": "7 kunlik trend: {n} ta bozordan {up} tasida o'sish",
         "spike": "⚠️ Odatdan tashqari: {markets} — sababini tekshiring (bayram? yangi reys? yangilik?)",
         "quiet": "📊 {date}: sezilarli o'zgarish yo'q.",
+        "all_normal": "✔️ Barcha o'zgarishlar odatiy kunlik tebranish chegarasida — alohida e'tibor talab qilmaydi.",
         "no_data": "📊 {date}: Vikipediya ma'lumotlari hali chiqmagan.",
         "footnote": "Manba: Vikipediya sahifa ko'rishlari (O'zbekiston, Samarqand, Buxoro, Xiva, Toshkent).",
         "news_impact": "Ta'sir",
@@ -38,11 +39,12 @@ T = {
     },
     "en": {
         "daily_title": "📊 Uzbekistan interest index — {date}",
-        "movers": "Top movers (vs 30-day average):",
+        "movers": "Top movers (vs a typical day of the last 30 — the median):",
         "most_viewed": "Most viewed page: {article} (all languages)",
         "trend": "7-day trend: rising in {up} of {n} markets",
         "spike": "⚠️ Unusual: {markets} — check why (holiday? new flight? news?)",
         "quiet": "📊 {date}: no significant changes.",
+        "all_normal": "✔️ All changes are within normal day-to-day variation — nothing unusual.",
         "no_data": "📊 {date}: Wikipedia data not published yet.",
         "footnote": "Source: Wikipedia pageviews (Uzbekistan, Samarkand, Bukhara, Khiva, Tashkent).",
         "news_impact": "Impact",

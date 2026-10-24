@@ -31,7 +31,7 @@ MARKETS = {
 
 PAGEVIEWS_START = "2016-01-01"  # backfill start on first run
 BASELINE_DAYS = 30               # compare yesterday with the previous 30-day average
-SPIKE_THRESHOLD = 0.30           # flag changes larger than ±30 %
+SPIKE_THRESHOLD = 0.30           # (unused) spikes are now flagged statistically, see pageviews.movers
 TOP_MOVERS = 5                   # markets shown in the daily post
 
 # ---------------------------------------------------------------- stat.uz
