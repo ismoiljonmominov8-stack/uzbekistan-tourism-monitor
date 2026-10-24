@@ -1,0 +1,25 @@
+name: Test AI models (Gemini vs Groq)
+
+on:
+  workflow_dispatch: {}      # run manually from the Actions tab; posts nothing
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Compare models on today's news
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          POST_LANG: ${{ vars.POST_LANG || 'uz' }}
+        run: python -m src.main test-models
