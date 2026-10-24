@@ -26,6 +26,12 @@ Pick at most {limit} relevant articles, most important first. For each return:
   in effect, "high" if already in effect
 - "reason": one sentence in {lang} explaining the expected mechanism
 
+Rules:
+- If several articles describe the same event, return only one of them.
+- If "impact" is "unclear", "confidence" must be "low".
+- Diplomatic statements, local crime and domestic-only measures are usually NOT relevant unless
+  they clearly change travel conditions (visas, flights, safety warnings, prices for foreigners).
+- Use the standard Uzbek Latin alphabet (o', g', sh, ch), even if the source uses other letters.
 Do NOT give probabilities or percentages. Do not invent facts that are not in the article.
 Return only JSON: {{"items": [ ... ]}}. If nothing is relevant return {{"items": []}}.
 
