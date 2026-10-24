@@ -302,9 +302,12 @@ def parse_siat_yearly(text: str) -> pd.DataFrame:
 def collect_yearly(max_age_days: int = 7) -> pd.DataFrame | None:
     """Refresh yearly arrivals by country from SIAT (open data, CC BY 4.0) about once a week."""
     import json
-    import time as _time
-    if YEARLY_CSV.exists() and _time.time() - YEARLY_CSV.stat().st_mtime < max_age_days * 86400:
-        return pd.read_csv(YEARLY_CSV)
+    from datetime import date as _date
+    # file times are reset by every git checkout, so the last fetch date is stored in the repo
+    state = read_json(config.DATA / "siat_state.json", {})
+    last = state.get("yearly_fetched")
+    if YEARLY_CSV.exists() and last and (_date.today() - _date.fromisoformat(last)).days < max_age_days:
+        return load_yearly()
     meta = http_get(f"https://api.siat.stat.uz/sdmx/{SIAT_BY_COUNTRY}/table/download/?download_format=csv", timeout=60)
     try:
         url = json.loads(meta)["file"]
@@ -321,6 +324,7 @@ def collect_yearly(max_age_days: int = 7) -> pd.DataFrame | None:
         log.warning("SIAT: yearly totals look wrong, not saved")
         return None
     df.to_csv(YEARLY_CSV, index=False)
+    write_json(config.DATA / "siat_state.json", {"yearly_fetched": _date.today().isoformat()})
     log.info("SIAT: yearly arrivals by country saved (%d rows)", len(df))
     return df
 
