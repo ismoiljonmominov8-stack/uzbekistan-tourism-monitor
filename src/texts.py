@@ -33,6 +33,8 @@ T = {
         "approve": "✅ Kanalga", "reject": "❌ Rad etish",
         "approved": "✅ Kanalga joylandi", "rejected": "❌ Rad etildi",
         "review": "📝 Ko'rib chiqish uchun (kanalga hali chiqmagan):",
+        "check_failed": "⚠️ Tekshiruvdan o'tmadi — kanalga joylanmadi. Manbani qo'lda tekshiring:",
+        "bot_warning": "ℹ️ {market}: o'sishning deyarli hammasi bitta sahifada ({article}) — bot trafigi yoki bitta tarqalgan havola bo'lishi mumkin.",
     },
     "en": {
         "daily_title": "📊 Uzbekistan interest index — {date}",
@@ -65,6 +67,8 @@ T = {
         "approve": "✅ Post", "reject": "❌ Reject",
         "approved": "✅ Posted to channel", "rejected": "❌ Rejected",
         "review": "📝 For review (not posted yet):",
+        "check_failed": "⚠️ Failed checks — NOT posted to the channel. Please verify the source by hand:",
+        "bot_warning": "ℹ️ {market}: almost all of the jump is on one page ({article}) — may be automated traffic or one viral link.",
     },
 }
 

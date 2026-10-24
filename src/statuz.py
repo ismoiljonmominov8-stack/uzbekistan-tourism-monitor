@@ -93,6 +93,29 @@ def parse_release(text: str) -> dict | None:
     return {"year": year, "month": month, "total": total, "countries": countries, "notes": notes}
 
 
+def validate(rel: dict, df: pd.DataFrame) -> list[str]:
+    """Sanity checks. Any problem means the release is stored but NOT posted to the channel."""
+    problems = []
+    y, m, total = rel["year"], rel["month"], rel["total"]
+    per_month = total / m
+    if not 200_000 <= per_month <= 4_000_000:
+        problems.append(f"average {per_month:,.0f}/month is outside the plausible range")
+    if len(rel["countries"]) < 5:
+        problems.append(f"only {len(rel['countries'])} countries parsed")
+    if sum(rel["countries"].values()) > total:
+        problems.append("countries add up to more than the total")
+    totals = df[df["country"] == "TOTAL"]
+    prev = totals[(totals["year"] == y) & (totals["month"] == m - 1)]
+    if len(prev) and total < int(prev["ytd"].iloc[0]):
+        problems.append("year-to-date total is lower than last month's")
+    nxt = totals[(totals["year"] == y) & (totals["month"] == m + 1)]
+    if len(nxt) and total > int(nxt["ytd"].iloc[0]):
+        problems.append("year-to-date total is higher than next month's")
+    if any("typo" in n for n in rel.get("notes", [])):
+        problems.append("source contained a typo that was auto-corrected; please confirm")
+    return problems
+
+
 def _list_links(page_url: str) -> list[tuple[str, str]]:
     html = http_get(page_url)
     if not html:
@@ -147,7 +170,10 @@ def collect() -> list[dict]:
             continue
         if ((df["year"] == rel["year"]) & (df["month"] == rel["month"])).any():
             continue  # same period already stored (releases are often duplicated)
-        note = "; ".join(rel["notes"])
+        rel["problems"] = validate(rel, df)
+        if rel["problems"]:
+            log.warning("stat.uz: %s-%02d failed checks: %s", rel["year"], rel["month"], rel["problems"])
+        note = "; ".join(rel["notes"] + [f"CHECK FAILED: {p}" for p in rel["problems"]])
         rows = [(rel["year"], rel["month"], "TOTAL", rel["total"], url, note)]
         rows += [(rel["year"], rel["month"], c, n, url, "") for c, n in rel["countries"].items()]
         df = pd.concat([df, pd.DataFrame(rows, columns=COLUMNS)], ignore_index=True)

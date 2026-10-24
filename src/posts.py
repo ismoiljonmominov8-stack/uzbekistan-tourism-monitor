@@ -9,7 +9,7 @@ import pandas as pd  # noqa: E402
 
 from . import config, pageviews, statuz  # noqa: E402
 from .texts import market_name, month_name, t  # noqa: E402
-from .util import channel_id, esc, log, read_json, send_message, send_photo, write_json  # noqa: E402
+from .util import admin_id, channel_id, esc, log, read_json, send_message, send_photo, write_json  # noqa: E402
 
 STATE = config.DATA / "post_state.json"
 
@@ -17,6 +17,22 @@ STATE = config.DATA / "post_state.json"
 def _fmt_change(c: float) -> str:
     arrow = "▲" if c >= 0.05 else "▼" if c <= -0.05 else "•"
     return f"{c:+.0%} {arrow}"
+
+
+def single_article_spike(df: pd.DataFrame, lang: str, day) -> str | None:
+    """If one article explains >80 % of a market's jump, the spike may be automated traffic
+    or a single viral link rather than real travel interest. Returns that article or None."""
+    d = df[df["lang"] == lang].copy()
+    d["date"] = pd.to_datetime(d["date"])
+    today = d[d["date"] == day].set_index("article")["views"]
+    base = d[(d["date"] < day) & (d["date"] >= day - pd.Timedelta(days=config.BASELINE_DAYS))]
+    avg = base.groupby("article")["views"].mean()
+    diff = (today - avg).dropna()
+    total = diff.sum()
+    if total <= 0 or diff.empty:
+        return None
+    top = diff.idxmax()
+    return top if diff[top] / total > 0.8 else None
 
 
 def daily(force=False):
@@ -56,6 +72,10 @@ def daily(force=False):
         if spikes:
             names = ", ".join(f"{market_name(m['lang'])} {m['change']:+.0%}" for m in spikes)
             lines += ["", t("spike").format(markets=esc(names))]
+            for m in spikes:
+                art = single_article_spike(df, m["lang"], day)
+                if art:
+                    lines.append(t("bot_warning").format(market=esc(market_name(m["lang"])), article=esc(art)))
         lines += ["", f"<i>{t('footnote')}</i>"]
         send_message(channel_id(), "\n".join(lines))
     state["daily"] = str(day.date())
@@ -133,4 +153,9 @@ def monthly(releases: list[dict]):
             if "typo" in note:
                 lines.append(t("monthly_note").format(note=esc(note)))
         lines += ["", f"<i>{t('monthly_src')}</i> — <a href=\"{esc(rel['url'])}\">stat.uz</a>"]
-        send_message(channel_id(), "\n".join(lines))
+        if rel.get("problems"):
+            # failed a sanity check: show it to the admin only, never the channel
+            head = [t("check_failed")] + [f"• {esc(p)}" for p in rel["problems"]] + [""]
+            send_message(admin_id() or None, "\n".join(head + lines))
+        else:
+            send_message(channel_id(), "\n".join(lines))
