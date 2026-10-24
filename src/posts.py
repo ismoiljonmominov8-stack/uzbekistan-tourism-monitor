@@ -69,8 +69,6 @@ def daily(force=False):
         if n:
             lines.append(t("trend").format(up=up, n=n))
         spikes = [m for m in mv if m["unusual"]]
-        if not spikes:
-            lines += ["", t("all_normal")]
         if spikes:
             names = ", ".join(f"{market_name(m['lang'])} {m['change']:+.0%}" for m in spikes)
             lines += ["", t("spike").format(markets=esc(names))]
@@ -78,6 +76,24 @@ def daily(force=False):
                 art = single_article_spike(df, m["lang"], day)
                 if art:
                     lines.append(t("bot_warning").format(market=esc(market_name(m["lang"])), article=esc(art)))
+        why = pageviews.explain(wide, day, mv[: config.TOP_MOVERS])
+        reasons = [t("why_weekday").format(market=esc(market_name(w["lang"])), weekday=t("weekdays")[day.dayofweek],
+                                           pct=w["pct"], dir=t("dir_up") if w["up"] else t("dir_down"))
+                   for w in why["weekday"]]
+        reasons += [t("why_small").format(market=esc(market_name(x["lang"])), n=x["n"]) for x in why["small"]]
+        if why.get("yoy") is not None:
+            reasons.append(t("why_yoy").format(raw=why["yoy_raw"], wiki=why["wiki_trend"], pct=why["yoy"]))
+        y = why.get("yoy")
+        yoy_text = "" if y is None else t("yoy_up") if y >= 0.10 else t("yoy_down") if y <= -0.10 else t("yoy_flat")
+        if reasons:
+            lines += ["", t("why_title")] + reasons
+        if spikes:
+            lines += ["", "<b>" + t("concl_unusual").format(
+                markets=esc(", ".join(market_name(m["lang"]) for m in spikes))) + "</b>"]
+        else:
+            lines += ["", "<b>" + t("concl_normal").format(yoy_text=yoy_text).strip() + "</b>"]
+        if config.CHART_URL:
+            lines.append(t("chart_link").format(url=config.CHART_URL))
         lines += ["", f"<i>{t('footnote')}</i>"]
         send_message(channel_id(), "\n".join(lines))
     state["daily"] = str(day.date())

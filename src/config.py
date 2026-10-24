@@ -33,6 +33,7 @@ PAGEVIEWS_START = "2016-01-01"  # backfill start on first run
 BASELINE_DAYS = 30               # compare yesterday with the previous 30-day average
 SPIKE_THRESHOLD = 0.30           # (unused) spikes are now flagged statistically, see pageviews.movers
 TOP_MOVERS = 5                   # markets shown in the daily post
+CHART_URL = os.getenv("CHART_URL", "https://ismoiljonmominov8-stack.github.io/uzbekistan-tourism-monitor/")
 
 # ---------------------------------------------------------------- stat.uz
 STATUZ_LIST_URL = "https://stat.uz/en/press-center/news-of-committee"

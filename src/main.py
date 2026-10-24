@@ -10,7 +10,7 @@ import json
 import os
 import sys
 
-from . import ai, news, pageviews, posts, statuz
+from . import ai, history, news, pageviews, posts, statuz
 from .util import log
 
 
@@ -25,11 +25,13 @@ def step(name, fn, *a):
 
 def collect():
     step("pageviews", pageviews.collect)
+    step("wikipedia totals", pageviews.collect_projects)
     return step("stat.uz", statuz.collect) or []
 
 
 def daily():
     releases = collect()
+    step("history chart", history.build)
     step("daily post", posts.daily)
     step("monthly post", posts.monthly, releases)
     step("news", news.run)
@@ -72,6 +74,9 @@ COMMANDS = {
     "weekly": lambda: step("weekly", posts.weekly),
     "test-models": test_models,
     "approval-test": lambda: news.approval_test(10),
+    "history": lambda: step("history chart", history.build),
+    "post-daily-now": lambda: (collect(), step("history chart", history.build),
+                               step("daily post", posts.daily, True)),
     "collect": collect,
 }
 
