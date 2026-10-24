@@ -1,0 +1,20 @@
+INFO matplotlib.font_manager: Failed to extract font properties from /usr/share/fonts/truetype/noto/NotoColorEmoji.ttf: Non-scalable fonts are not supported
+INFO matplotlib.font_manager: generated new fontManager
+WARNING monitor: AI groq failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
+=== Articles ===
+- [Kun.uz] Buxorodagi xonadonlardan birida qalbaki pullar va giyohvandlik vositalari topildi.
+  https://kun.uz/news/2026/10/24/buxorodagi-xonadonlardan-birida-qalbaki-pullar-va-giyohvandlik-vositalari-topildi
+- [Kun.uz] Eron diplomatlarining Samarqand haqidagi bayonotlari – tahlilçilar nazarida.
+  https://kun.uz/news/2026/10/24/eron-diplomatlarining-samarqand-haqidagi-bayonotlari-tahlilcilar-nazarida
+- [Kun.uz] Özbekiston TIV Eron elçisini çaqirtirdi: Registonni «fors merosi» degan postlarni öçiriş talab qilindi.
+  https://kun.uz/news/2026/10/24/ozbekiston-tiv-eron-elcisini-caqirtirdi-registonni-fors-merosi-degan-postlarni-ociris-talab-qilindi
+- [Kun.uz] Keksalar uçun tarixiy obidalar va muzeylarga kirişga 50 foizlik çegirma joriy etiladi.
+  https://kun.uz/news/2026/10/24/keksalar-ucun-tarixiy-obidalar-va-muzeylarga-kirisga-50-foizlik-cegirma-joriy-etiladi
+- [Gazeta] Узбекистан вручил Ирану ноту протеста из-за публикаций его дипмиссий о наследии Самарканда
+  https://www.gazeta.uz/ru/2026/10/24/iran/
+
+=== gemini (ok) ===
+[]
+
+=== groq (FAILED / no key) ===
+[]
