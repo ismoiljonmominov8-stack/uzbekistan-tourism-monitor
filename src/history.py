@@ -9,7 +9,11 @@ from . import config, pageviews, statuz
 from .util import log
 
 DOCS = config.ROOT / "docs"
-PLOTLY = "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.2/plotly.min.js"
+import shutil  # noqa: E402
+
+# Charting library kept in the repo (vendor/), served next to the page: no outside CDN needed.
+VENDOR_JS = config.ROOT / "vendor" / "plotly.min.js"
+PLOTLY = "plotly.min.js"
 COLORS = {"zh": "#a23b2a", "ko": "#2f5d7c", "ja": "#c47f2c", "de": "#3d6b45", "tr": "#7a3b6b",
           "it": "#5b7f99", "fr": "#8a6d3b", "en": "#6e6e6e", "ru": "#9a9a9a"}
 
@@ -74,8 +78,21 @@ def build():
     path = DOCS / "index.html"
     path.write_text(html, encoding="utf-8")
     (DOCS / ".nojekyll").write_text("", encoding="utf-8")
+    target = DOCS / "plotly.min.js"
+    if not target.exists() or target.stat().st_size != VENDOR_JS.stat().st_size:
+        shutil.copyfile(VENDOR_JS, target)
     log.info("history: wrote %s (%d days)", path, len(dates))
     return path
+
+
+def standalone(out_path):
+    """One self-contained HTML file (library inlined) that opens anywhere, even offline."""
+    html = (DOCS / "index.html").read_text(encoding="utf-8")
+    js = VENDOR_JS.read_text(encoding="utf-8").replace("</script>", "<\\/script>")
+    html = html.replace(f'<script src="{PLOTLY}"></script>', f"<script>{js}</script>", 1)
+    html = html.replace('<a class="btn" id="offline"', '<a class="btn" style="display:none" id="offline"')
+    out_path.write_text(html, encoding="utf-8")
+    return out_path
 
 
 TEMPLATE = r"""<!doctype html>
@@ -110,7 +127,7 @@ button.on{background:var(--accent);color:var(--paper);border-color:var(--accent)
 .chart{width:100%;height:460px}
 .downloads{display:flex;flex-wrap:wrap;gap:8px}
 footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);padding-top:12px}
-@media (max-width:600px){.chart{height:380px}}
+@media (max-width:600px){.chart{height:620px}}
 </style>
 </head>
 <body>
@@ -151,6 +168,7 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
     <a class="btn" href="https://raw.githubusercontent.com/ismoiljonmominov8-stack/uzbekistan-tourism-monitor/main/data/pageviews_daily.csv">Kunlik ko'rishlar (sahifalar bo'yicha), CSV</a>
     <a class="btn" href="official_arrivals_monthly.csv" download>Rasmiy statistika (oylik), CSV</a>
     <a class="btn" href="official_arrivals_ytd.csv" download>Rasmiy statistika (yil boshidan), CSV</a>
+    <a class="btn" id="offline" href="#">Grafiklar — oflayn HTML fayl (internetsiz ochiladi)</a>
   </div>
 </section>
 
@@ -161,14 +179,20 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 </div>
 
 <script>
+if (typeof Plotly === "undefined") {
+  document.querySelectorAll(".chart").forEach(c => c.innerHTML =
+    '<p style="padding:20px">Grafik kutubxonasi yuklanmadi. Sahifani brauzerda (Chrome/Safari) oching yoki oflayn faylni yuklab oling.</p>');
+}
 const D = __DATA__;
 document.getElementById("meta").textContent =
   `${D.first} — ${D.last} · ${D.dates.length.toLocaleString()} kun · yangilangan ${D.updated}`;
+const NARROW = window.innerWidth < 600;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function layout(ytitle, ylog){
   return {paper_bgcolor:"rgba(0,0,0,0)", plot_bgcolor:"rgba(0,0,0,0)",
     font:{family:"EB Garamond, Georgia, serif", color:css("--ink"), size:14},
-    margin:{l:58,r:12,t:10,b:40}, hovermode:"x unified", legend:{orientation:"h", y:-0.18},
+    margin: NARROW ? {l:46,r:8,t:10,b:230} : {l:58,r:12,t:10,b:40}, hovermode:"x unified",
+    legend: NARROW ? {orientation:"h", x:0, y:-0.12, yanchor:"top", font:{size:12}} : {orientation:"h", y:-0.18},
     xaxis:{gridcolor:css("--rule")+"55", rangeslider:{visible:true, thickness:0.06},
       rangeselector:{bgcolor:css("--paper2"), activecolor:css("--accent"), font:{color:css("--ink")},
         buttons:[{count:1,label:"1 oy",step:"month",stepmode:"backward"},{count:6,label:"6 oy",step:"month",stepmode:"backward"},
@@ -208,7 +232,21 @@ document.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => {
   mode = b.dataset.mode; document.querySelectorAll("[data-mode]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
 document.querySelectorAll("[data-scale]").forEach(b => b.onclick = () => {
   scale = b.dataset.scale; document.querySelectorAll("[data-scale]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
-drawViews(); drawShare(); drawArrivals();
+if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
+const off = document.getElementById("offline");
+if (off) off.onclick = async e => {
+  e.preventDefault(); off.textContent = "Tayyorlanmoqda…";
+  try {
+    const [page, lib] = await Promise.all([fetch(location.href).then(r => r.text()), fetch("plotly.min.js").then(r => r.text())]);
+    const END = "</scr" + "ipt>";
+    const inline = "<scr" + "ipt>" + lib.split(END).join("<\\/scr" + "ipt>") + END;
+    const html = page.replace('<script src="plotly.min.js">' + END, () => inline);  // function: "$" in the library stays literal
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([html], {type: "text/html"}));
+    a.download = "uzbekistan_tourism_monitor_" + D.last + ".html"; a.click();
+    off.textContent = "Grafiklar — oflayn HTML fayl (internetsiz ochiladi)";
+  } catch (err) { off.textContent = "Xato: sahifani GitHub Pages orqali oching"; }
+};
 </script>
 </body>
 </html>
