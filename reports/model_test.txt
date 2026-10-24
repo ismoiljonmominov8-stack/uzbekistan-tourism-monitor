@@ -1,6 +1,3 @@
-INFO matplotlib.font_manager: Failed to extract font properties from /usr/share/fonts/truetype/noto/NotoColorEmoji.ttf: Non-scalable fonts are not supported
-INFO matplotlib.font_manager: generated new fontManager
-WARNING monitor: AI groq failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
 === Articles ===
 - [Kun.uz] Buxorodagi xonadonlardan birida qalbaki pullar va giyohvandlik vositalari topildi.
   https://kun.uz/news/2026/10/24/buxorodagi-xonadonlardan-birida-qalbaki-pullar-va-giyohvandlik-vositalari-topildi
@@ -13,8 +10,131 @@ WARNING monitor: AI groq failed: 404 Client Error: Not Found for url: https://ap
 - [Gazeta] Узбекистан вручил Ирану ноту протеста из-за публикаций его дипмиссий о наследии Самарканда
   https://www.gazeta.uz/ru/2026/10/24/iran/
 
-=== gemini (ok) ===
-[]
+=== gemini: comprehension (ok) ===
+{
+  "items": [
+    {
+      "id": "ce6d5b7f2faa",
+      "summary": "Buxorodagi xonadonlardan birida qalbaki pullar va giyohvand moddalar topildi.",
+      "affects_foreign_tourists": "no",
+      "why": "Bu mahalliy jinoyat ishi bo'lib, xalqaro sayyohlar oqimiga ta'sir qilmaydi."
+    },
+    {
+      "id": "f89743188c45",
+      "summary": "Eron diplomatlarining Samarqand merosiga oid bayonotlari tahlil qilindi.",
+      "affects_foreign_tourists": "no",
+      "why": "Bu siyosiy va madaniy muhokama bo'lib, sayyohlar qaroriga to'g'ridan-to'g'ri ta'sir ko'rsatmaydi."
+    },
+    {
+      "id": "cc94e296b3d6",
+      "summary": "O'zbekiston TIV Eron elchisini chaqirtirib, Samarqand merosiga oid postlarni o'chirishni talab qildi.",
+      "affects_foreign_tourists": "no",
+      "why": "Diplomatik norozilik turi bo'lib, mamlakatdagi turizm muhitini o'zgartirmaydi."
+    },
+    {
+      "id": "d7c72752e791",
+      "summary": "Keksalar uchun tarixiy obidalar va muzeylarga kirishda 50 foizlik chegirma joriy etiladi.",
+      "affects_foreign_tourists": "yes",
+      "why": "Narxlarning qulaylashishi mamlakat ichidagi va xorijdan keluvchi keksa sayyohlar sonini oshirishi mumkin."
+    },
+    {
+      "id": "46c1b1edd4aa",
+      "summary": "O'zbekiston Tashqi ishlar vazirligi Eron elchisiga Samarqand merosiga oid bayonotlar yuzasidan nota topshirdi.",
+      "affects_foreign_tourists": "no",
+      "why": "Bu ikki davlat o'rtasidagi rasmiy diplomatik voqea bo'lib, sayyohlarning kelishiga ta'sir qilmaydi."
+    }
+  ]
+}
 
-=== groq (FAILED / no key) ===
-[]
+=== groq: comprehension (ok) ===
+{
+  "items": [
+    {
+      "id": "ce6d5b7f2faa",
+      "summary": "Buxoro shahridagi bir uyda soxta pul va narkotiklar topildi.",
+      "affects_foreign_tourists": "no",
+      "why": "Yolg'iz jinoyat holati sayyohlar qaroriga katta ta'sir ko'rsatmaydi."
+    },
+    {
+      "id": "f89743188c45",
+      "summary": "Eron diplomatlari Samarqandni fors madaniy merosi deb ta'riflashgan bayonotlari tahlil qilindi.",
+      "affects_foreign_tourists": "no",
+      "why": "Diplomatik bayonotlar odatda sayyohlik oqimini bevosita o'zgartirmaydi."
+    },
+    {
+      "id": "cc94e296b3d6",
+      "summary": "O'zbekiston tashqi ishlar vazirligi Eron elchisini Registonni fors merosi deb e'lon qilgan postlarni olib tashlashga chaqirdi.",
+      "affects_foreign_tourists": "no",
+      "why": "Siyosiy bahslar sayyohlar uchun asosiy omil bo'lib qolmaydi."
+    },
+    {
+      "id": "d7c72752e791",
+      "summary": "Qariyalar uchun tarixiy obidalar va muzeylarga kirishda 50% chegirma beriladi.",
+      "affects_foreign_tourists": "yes",
+      "why": "Chegirma qariyalar sayyohlarni jalb qilish imkoniyatini oshiradi."
+    },
+    {
+      "id": "46c1b1edd4aa",
+      "summary": "O'zbekiston Ironga Samarqand merosini fors madaniyati deb e'lon qilgan postlar uchun norozilik notasi berdi.",
+      "affects_foreign_tourists": "no",
+      "why": "Diplomatik norozilik sayyohlik oqimiga sezilarli ta'sir ko'rsatmaydi."
+    }
+  ]
+}
+
+=== gemini: production prompt (ok) ===
+[
+  {
+    "id": "cc94e296b3d6",
+    "headline": "Eron elçisi Tashqi işlar vazirligiga çaqirtirildi",
+    "summary": "Özbekiston TIV Eron diplomatik vakolatxonalarining Samarqand va Registon tarixiy merosiga oid siyosiy talqinlari yuzidan norozilik bildirib, postlarni öçirişni talab qildi. Bu kabi diplomatik kelishmovchiliklar mintaqadagi axborot muhitiga ta'sir ko'rsatishi mumkin.",
+    "impact": "unclear",
+    "markets": [
+      "Iran",
+      "All"
+    ],
+    "horizon": "0-3 months",
+    "confidence": "high",
+    "reason": "Tarixiy meros talqini bo'yicha diplomatik bahslar mamlakat imijiga ta'sir qilishi mumkin."
+  }
+]
+
+=== groq: production prompt (ok) ===
+[
+  {
+    "id": "d7c72752e791",
+    "headline": "Keksalar uchun tarixiy obidalarga 50% chegirma",
+    "summary": "Turizm oyligi doirasida barcha yoshi kattalar tarixiy muzey va obidalarga kirishda yarmiga arzonlashadi.",
+    "impact": "positive",
+    "markets": [
+      "All"
+    ],
+    "horizon": "0-3 months",
+    "confidence": "high",
+    "reason": "Arzon kirish narxi keksa sayohatchilarni jalb qiladi."
+  },
+  {
+    "id": "cc94e296b3d6",
+    "headline": "Eron elchisi Registonda 'fors merosi' postlarini o‘chirishga chaqirildi",
+    "summary": "Tashqi ishlar vazirligi Eron elchisini Registon maydonidagi tarixiy merosga oid siyosiy postlarni olib tashlashga talab qildi.",
+    "impact": "negative",
+    "markets": [
+      "Iran"
+    ],
+    "horizon": "3-6 months",
+    "confidence": "medium",
+    "reason": "Diplomatik tortishuv Eron fuqarolarining safarini kamaytirishi mumkin."
+  },
+  {
+    "id": "f89743188c45",
+    "headline": "Eron diplomatlari Samarqandni fors madaniy merosi deb e'lon qildi",
+    "summary": "Eron elchixonalari Samarqandni fors madaniyati tarkibi sifatida ta'kidlashdi, bu esa mintaqaviy bahs-munozaralarga sabab bo‘ldi.",
+    "impact": "mixed",
+    "markets": [
+      "Iran"
+    ],
+    "horizon": "3-6 months",
+    "confidence": "medium",
+    "reason": "Pozitiv e'lon ba'zi sayyohlarni qiziqtirishi, lekin siyosiy bahslar xavotir tug‘dirishi mumkin."
+  }
+]
