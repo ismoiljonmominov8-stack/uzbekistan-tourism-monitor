@@ -1,0 +1,24 @@
+794	Distribution of citizens of the Republic of Uzbekistan (men) who went abroad for tourism purposes by country | stat.uz
+	http://api.siat.stat.uz/sdmx/794/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/794/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/794/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/794/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/794/table/download/?download_format=xml
+797	Number of citizens who traveled abroad for tourist purposes (men) | stat.uz
+	http://api.siat.stat.uz/sdmx/797/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/797/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/797/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/797/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/797/table/download/?download_format=xml
+798	Number of citizens who went abroad for tourism purposes (women) | stat.uz
+	http://api.siat.stat.uz/sdmx/798/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/798/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/798/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/798/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/798/table/download/?download_format=xml
+799	Number of objects of recreation organizations and tourist bases | stat.uz
+	http://api.siat.stat.uz/sdmx/799/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/799/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/799/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/799/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/799/table/download/?download_format=xml
