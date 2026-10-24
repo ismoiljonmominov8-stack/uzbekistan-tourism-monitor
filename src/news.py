@@ -151,6 +151,8 @@ def _safe(method, payload):
 
 def _handle(cq, pending):
     if str(cq["from"]["id"]) != str(admin_id()):
+        _alog(f"press ignored: from a different user id (ends ...{str(cq['from']['id'])[-3:]}), "
+              f"admin id ends ...{str(admin_id())[-3:]}")
         return
     action, _, nid = (cq.get("data") or "").partition(":")
     if action not in ("ok", "no"):
@@ -159,6 +161,7 @@ def _handle(cq, pending):
     text = pending.pop(nid, None)
     status = _status(nid)
     if text is None or status in ("posted", "rejected"):
+        _alog(f"press skipped: {action} {nid} (status={status}, in pending={text is not None})")
         # already handled (e.g. pressed twice): never post the same item again
         _safe("answerCallbackQuery", {"callback_query_id": cq["id"], "text": t("approved") if status == "posted" else "—"})
         return
@@ -176,6 +179,17 @@ def _handle(cq, pending):
         _safe("editMessageReplyMarkup", {"chat_id": msg["chat"]["id"], "message_id": msg["message_id"],
                                          "reply_markup": {"inline_keyboard": [[{"text": label, "callback_data": "x:x"}]]}})
     log.info("approval: %s %s", action, nid)
+    _alog(f"press handled: {action} {nid}")
+
+
+APPROVAL_LOG = config.DATA / "approvals_log.txt"
+
+
+def _alog(msg: str):
+    """Short diagnostic log kept in the repo (last 200 lines); never contains tokens."""
+    lines = APPROVAL_LOG.read_text(encoding="utf-8").splitlines() if APPROVAL_LOG.exists() else []
+    lines.append(f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M:%S} {msg}")
+    APPROVAL_LOG.write_text("\n".join(lines[-200:]) + "\n", encoding="utf-8")
 
 
 def process_approvals(wait_minutes: float = 0):
@@ -184,6 +198,13 @@ def process_approvals(wait_minutes: float = 0):
     if not approval_on():
         return
     deadline = time.time() + wait_minutes * 60
+    try:
+        info = tg_call("getWebhookInfo", {}) or {}
+        if info.get("url"):
+            _alog("webhook is set on this bot -> deleting it so button presses can be read")
+            tg_call("deleteWebhook", {"drop_pending_updates": False})
+    except Exception as e:  # noqa: BLE001
+        _alog(f"getWebhookInfo failed: {str(e)[:200]}")
     while True:
         offset = read_json(OFFSET, {"offset": 0})["offset"]
         pending = read_json(PENDING, {})
@@ -193,8 +214,11 @@ def process_approvals(wait_minutes: float = 0):
         try:
             updates = tg_call("getUpdates", {"offset": offset, "timeout": poll,
                                              "allowed_updates": ["callback_query"]}) or []
+            kinds = [k for u in updates for k in u if k != "update_id"]
+            _alog(f"getUpdates offset={offset} pending={len(pending)} got={len(updates)} kinds={kinds}")
         except Exception as e:  # noqa: BLE001
             log.warning("getUpdates failed: %s", e)
+            _alog(f"getUpdates FAILED: {str(e)[:200]}")
             updates = []
         for u in updates:
             try:
