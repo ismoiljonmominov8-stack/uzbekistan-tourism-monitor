@@ -43,9 +43,23 @@ def test_models():
     print("=== Articles ===")
     for a in arts:
         print(f"- [{a['source']}] {a['title']}\n  {a['url']}")
+    # 1) comprehension: every article must be summarised, so we can judge how well
+    #    each model understands Uzbek/Russian text even when nothing is relevant.
+    comp_prompt = (
+        "For EACH article below write, in Uzbek (Latin script), a one-sentence summary in your own "
+        "words and a verdict: could it change the number of foreign tourists coming to Uzbekistan "
+        "(yes/no) and why, in one short sentence. Return only JSON: "
+        '{"items": [{"id": "...", "summary": "...", "affects_foreign_tourists": "yes|no", "why": "..."}]}\n\n'
+        + json.dumps(payload, ensure_ascii=False, indent=1)
+    )
+    for provider in ("gemini", "groq"):
+        data, used = ai.ask(comp_prompt, order=(provider,))
+        print(f"\n=== {provider}: comprehension ({'ok' if used else 'FAILED / no key'}) ===")
+        print(json.dumps(data, ensure_ascii=False, indent=2))
+    # 2) the real production prompt
     for provider in ("gemini", "groq"):
         items, used = ai.analyze_news(payload, order=(provider,))
-        print(f"\n=== {provider} ({'ok' if used else 'FAILED / no key'}) ===")
+        print(f"\n=== {provider}: production prompt ({'ok' if used else 'FAILED / no key'}) ===")
         print(json.dumps(items, ensure_ascii=False, indent=2))
 
 

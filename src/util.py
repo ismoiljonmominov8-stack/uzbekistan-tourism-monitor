@@ -12,6 +12,7 @@ from . import config
 
 log = logging.getLogger("monitor")
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+logging.getLogger("matplotlib").setLevel(logging.WARNING)
 
 _session = requests.Session()
 _session.headers["User-Agent"] = config.USER_AGENT

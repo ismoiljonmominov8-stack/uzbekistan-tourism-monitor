@@ -58,13 +58,17 @@ def _groq(prompt: str) -> str | None:
     key = os.getenv("GROQ_API_KEY")
     if not key:
         return None
-    data = http_post_json(
-        "https://api.groq.com/openai/v1/chat/completions",
-        {"model": config.GROQ_MODEL, "temperature": 0.2,
-         "response_format": {"type": "json_object"},
-         "messages": [{"role": "user", "content": prompt}]},
-        headers={"Authorization": f"Bearer {key}"},
-    )
+    body = {"model": config.GROQ_MODEL, "temperature": 0.2,
+            "response_format": {"type": "json_object"},
+            "messages": [{"role": "user", "content": prompt}]}
+    headers = {"Authorization": f"Bearer {key}"}
+    try:
+        data = http_post_json("https://api.groq.com/openai/v1/chat/completions", body, headers=headers)
+    except Exception as e:  # noqa: BLE001 - some models reject JSON mode; retry without it
+        if "400" not in str(e):
+            raise
+        body.pop("response_format")
+        data = http_post_json("https://api.groq.com/openai/v1/chat/completions", body, headers=headers)
     return data["choices"][0]["message"]["content"]
 
 

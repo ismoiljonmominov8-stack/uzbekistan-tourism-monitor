@@ -65,7 +65,7 @@ NEWS_MAX_CANDIDATES = 12         # max articles sent to the AI per run
 
 # ---------------------------------------------------------------- AI
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-lite-latest")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")  # llama-3.3-70b was retired Aug 2026
 
 # ---------------------------------------------------------------- Telegram
 POST_LANG = os.getenv("POST_LANG", "uz")  # "uz" or "en"
