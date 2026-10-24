@@ -155,6 +155,18 @@ def _handle(cq, pending):
               f"admin id ends ...{str(admin_id())[-3:]}")
         return
     action, _, nid = (cq.get("data") or "").partition(":")
+    if nid.startswith("test"):
+        label = "✅ Test OK" if action == "ok" else "❌ Test OK"
+        _alog(f"TEST press received: {action}")
+        _safe("answerCallbackQuery", {"callback_query_id": cq["id"], "text": label})
+        msg = cq.get("message")
+        if msg:
+            _safe("editMessageReplyMarkup", {"chat_id": msg["chat"]["id"], "message_id": msg["message_id"],
+                                             "reply_markup": {"inline_keyboard": [[{"text": label, "callback_data": "x:x"}]]}})
+        send_message(admin_id(), f"Test OK: button press received ({action}). Approvals work.")
+        pending.pop(nid, None)
+        write_json(PENDING, pending)
+        return
     if action not in ("ok", "no"):
         _safe("answerCallbackQuery", {"callback_query_id": cq["id"]})
         return
@@ -230,3 +242,25 @@ def process_approvals(wait_minutes: float = 0):
             write_json(OFFSET, {"offset": u["update_id"] + 1})
         if time.time() >= deadline:
             break
+
+
+def approval_test(minutes: float = 10):
+    """Send a test message with buttons to the admin and listen for presses."""
+    try:
+        me = tg_call("getMe", {}) or {}
+        _alog(f"TEST start: bot @{me.get('username')} admin id ends ...{str(admin_id())[-3:]}")
+    except Exception as e:  # noqa: BLE001
+        _alog(f"TEST getMe failed: {str(e)[:200]}")
+    pending = read_json(PENDING, {})
+    pending["test1"] = "test"
+    write_json(PENDING, pending)
+    send_message(admin_id(), "🔧 Approval test: press ✅ or ❌ below within 10 minutes.",
+                 buttons=[[("✅ Test", "ok:test1"), ("❌ Test", "no:test1")]])
+    deadline = time.time() + minutes * 60
+    while time.time() < deadline and "test1" in read_json(PENDING, {}):
+        process_approvals(wait_minutes=min(1, (deadline - time.time()) / 60))
+    if "test1" in read_json(PENDING, {}):
+        _alog("TEST finished: NO press received in time")
+        p = read_json(PENDING, {})
+        p.pop("test1", None)
+        write_json(PENDING, p)

@@ -71,6 +71,7 @@ COMMANDS = {
     "approvals": lambda: step("approvals", news.process_approvals),
     "weekly": lambda: step("weekly", posts.weekly),
     "test-models": test_models,
+    "approval-test": lambda: news.approval_test(10),
     "collect": collect,
 }
 
