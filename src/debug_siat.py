@@ -36,6 +36,13 @@ def download(ids):
     for i in ids:
         for fmt in ("csv", "json"):
             text = http_get(f"https://api.siat.stat.uz/sdmx/{i}/table/download/?download_format={fmt}", timeout=60)
+            try:  # the API answers with a pointer {"file": "<url>"}; follow it
+                import json
+                meta = json.loads(text)
+                if isinstance(meta, dict) and meta.get("file"):
+                    text = http_get(meta["file"], timeout=60)
+            except Exception:  # noqa: BLE001
+                pass
             (out / f"{i}.{fmt}").write_text(text or "FETCH FAILED\n", encoding="utf-8")
 
 
