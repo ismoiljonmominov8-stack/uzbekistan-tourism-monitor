@@ -1,0 +1,108 @@
+835	Number of people served by tourist companies and organizations | stat.uz
+	http://api.siat.stat.uz/sdmx/835/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/835/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/835/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/835/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/835/table/download/?download_format=xml
+838	Distribution of foreign citizens (women) who entered the Republic of Uzbekistan for tourism purposes by country | stat.uz
+	http://api.siat.stat.uz/sdmx/838/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/838/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/838/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/838/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/838/table/download/?download_format=xml
+875	Number of visitors accommodated in a hotel and similar accommodation facilities | stat.uz
+	http://api.siat.stat.uz/sdmx/875/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/875/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/875/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/875/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/875/table/download/?download_format=xml
+906	Distribution of citizens of the Republic of Uzbekistan (women) who went abroad for tourism purposes by country | stat.uz
+	http://api.siat.stat.uz/sdmx/906/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/906/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/906/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/906/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/906/table/download/?download_format=xml
+957	Number of places in recreation organizations and tourist bases | stat.uz
+	http://api.siat.stat.uz/sdmx/957/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/957/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/957/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/957/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/957/table/download/?download_format=xml
+974	The number of outbound tourist trips by citizens of the Republic of Uzbekistan abroad (total) | stat.uz
+	http://api.siat.stat.uz/sdmx/974/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/974/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/974/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/974/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/974/table/download/?download_format=xml
+978	Distribution of the number of citizens of the Republic of Uzbekistan who left for tourist purposes by country | stat.uz
+	http://api.siat.stat.uz/sdmx/978/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/978/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/978/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/978/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/978/table/download/?download_format=xml
+1012	The number of inbound tourist trips by foreign citizens to the Republic of Uzbekistan for leisure and recreation purposes | stat.uz
+	http://api.siat.stat.uz/sdmx/1012/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1012/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1012/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1012/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1012/table/download/?download_format=xml
+1018	The number of inbound tourist trips by foreign citizens to the Republic of Uzbekistan for medical purposes | stat.uz
+	http://api.siat.stat.uz/sdmx/1018/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1018/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1018/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1018/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1018/table/download/?download_format=xml
+1024	The number of inbound tourist trips by foreign citizens to the Republic of Uzbekistan for visiting relatives | stat.uz
+	http://api.siat.stat.uz/sdmx/1024/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1024/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1024/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1024/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1024/table/download/?download_format=xml
+1031	Distribution by country of the number of foreign citizens arriving in Uzbekistan for tourist purposes | stat.uz
+	http://api.siat.stat.uz/sdmx/1031/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1031/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1031/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1031/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1031/table/download/?download_format=xml
+1038	The number of inbound tourist trips by foreign citizens to the Republic of Uzbekistan (total) | stat.uz
+	http://api.siat.stat.uz/sdmx/1038/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1038/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1038/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1038/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1038/table/download/?download_format=xml
+1044	The number of inbound trips by foreign citizens to the Republic of Uzbekistan for the purpose of studying | stat.uz
+	http://api.siat.stat.uz/sdmx/1044/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1044/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1044/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1044/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1044/table/download/?download_format=xml
+1053	The number of inbound tourist trips by foreign citizens to the Republic of Uzbekistan for commercial purposes | stat.uz
+	http://api.siat.stat.uz/sdmx/1053/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1053/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1053/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1053/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1053/table/download/?download_format=xml
+1059	Number of foreign citizens who arrived for tourism purposes (women) | stat.uz
+	http://api.siat.stat.uz/sdmx/1059/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1059/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1059/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1059/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1059/table/download/?download_format=xml
+1062	Number of foreign citizens who arrived for tourism purposes (men) | stat.uz
+	http://api.siat.stat.uz/sdmx/1062/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1062/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1062/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1062/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1062/table/download/?download_format=xml
+1066	The number of inbound tourist trips by foreign citizens to the Republic of Uzbekistan for business purposes | stat.uz
+	http://api.siat.stat.uz/sdmx/1066/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1066/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1066/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1066/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1066/table/download/?download_format=xml
+1094	Distribution of foreign citizens (women) who entered the Republic of Uzbekistan for tourism purposes by country | stat.uz
+	http://api.siat.stat.uz/sdmx/1094/table/download/?download_format=csv
+	http://api.siat.stat.uz/sdmx/1094/table/download/?download_format=json
+	http://api.siat.stat.uz/sdmx/1094/table/download/?download_format=pdf
+	http://api.siat.stat.uz/sdmx/1094/table/download/?download_format=xlsx
+	http://api.siat.stat.uz/sdmx/1094/table/download/?download_format=xml
