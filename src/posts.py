@@ -127,11 +127,12 @@ def monthly(releases: list[dict]):
         y, m = rel["year"], rel["month"]
         period = f"{month_name(1)}–{month_name(m)} {y}" if m > 1 else f"{month_name(1)} {y}"
         lines = [f"<b>{t('monthly_title').format(period=period)}</b>", "",
-                 t("monthly_total").format(total=rel["total"])]
+                 t("monthly_total").format(total=rel["total"]) + ("" if rel.get("total_exact", True) else " (≈)")]
         this = mon[(mon["year"] == y) & (mon["month"] == m)]
         tot = this[this["country"] == "TOTAL"]
         if len(tot):
-            lines.append(t("monthly_month").format(n=int(tot["arrivals"].iloc[0])))
+            lines.append(t("monthly_month").format(n=int(tot["arrivals"].iloc[0]))
+                         + ("" if bool(tot["exact"].iloc[0]) else " (≈)"))
         month_views = pd.Series(dtype=float)
         if not wide.empty:
             sel = wide[(wide.index.year == y) & (wide.index.month == m)]
@@ -142,7 +143,7 @@ def monthly(releases: list[dict]):
                 continue
             names = {statuz._norm_country(n) for n in info["stat_names"]}
             hit = this[this["country"].isin(names)]
-            arrivals = f"{int(hit['arrivals'].iloc[0]):,}" if len(hit) else "—"
+            arrivals = (("" if bool(hit["exact"].iloc[0]) else "≈") + f"{int(hit['arrivals'].iloc[0]):,}") if len(hit) else "—"
             v = month_views.get(lang, 0)
             views = f"{int(v):,}" if v and not pd.isna(v) else "—"
             rows.append(t("monthly_row").format(flag=info["flag"], name=esc(market_name(lang)),

@@ -16,11 +16,13 @@ from .util import http_get, log, read_json, write_json
 
 CSV = config.DATA / "arrivals_ytd.csv"
 SEEN = config.DATA / "statuz_seen.json"
-COLUMNS = ["year", "month", "country", "ytd", "url", "note"]
+COLUMNS = ["year", "month", "country", "ytd", "exact", "url", "note"]
 
 MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august",
           "september", "october", "november", "december"]
-_NUM = r"\d[\d,\s \.]*\d|\d"
+# 2,844,201 | 199 048 | 6,319.1 | 2.8 | 3   (no newlines inside a number)
+_NUM = r"\d{1,3}(?:[,  ]\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?"
+_UNIT = r"(million|mln|thousand|ming)?"
 
 # stat.uz spells countries in different ways; map them to one name.
 COUNTRY_ALIASES = {
@@ -29,32 +31,43 @@ COUNTRY_ALIASES = {
     "turkey": "Türkiye", "turkiye": "Türkiye", "türkiye": "Türkiye",
     "russian federation": "Russia", "russia": "Russia",
 }
+OTHER = "Other countries"
 
 
-def _to_int(s: str) -> int:
-    return int(re.sub(r"[^\d]", "", s))
+def amount(num: str, unit: str | None) -> tuple[int, bool]:
+    """'2,844,201' -> (2844201, exact); '2.8' + 'million' -> (2800000, rounded)."""
+    num = re.sub(r"[  ]", "", num)
+    unit = (unit or "").lower()
+    if unit in ("million", "mln"):
+        return round(float(num.replace(",", "")) * 1_000_000), False
+    if unit in ("thousand", "ming"):
+        # "6,319.1 thousand" (comma = thousands separator) and "851.9 thousand"
+        return round(float(num.replace(",", "")) * 1_000), False
+    return int(num.replace(",", "").split(".")[0]), True
 
 
 def _norm_country(name: str) -> str:
     name = re.sub(r"\s+", " ", name).strip(" .;:-–—")
+    if name.lower().startswith("other"):
+        return OTHER
     return COUNTRY_ALIASES.get(name.lower(), name)
 
 
 def is_inbound(title: str, text: str) -> bool:
     t = title.lower()
-    if "touris" not in t and "turist" not in t:
+    if "touris" not in t and "turist" not in t and "foreign" not in t:
         return False
-    if any(w in t for w in ("abroad", "went to", "travel to", "uzbeks", "outbound")):
+    if any(w in t for w in ("abroad", "went to", "travel to", "uzbeks ", "outbound")):
         return False
-    return bool(re.search(r"foreign (citizens|visitors|tourists)", text, re.I))
+    return bool(re.search(r"foreign (citizens|nationals|visitors|tourists)", text, re.I))
 
 
 def parse_release(text: str) -> dict | None:
-    """Return {year, month, total, countries:{name: n}, notes:[...]} or None if not parseable."""
+    """Return {year, month, total, total_exact, countries:{name: (n, exact)}, notes:[...]} or None."""
     flat = re.sub(r"[ \t ]+", " ", text)
 
-    # Period: "January-August 2026", "January–February 2026", "In January 2026"
-    m = re.search(r"January(?:\s*[-–—]\s*([A-Za-z]+))?,?\s+(20\d\d)", flat)
+    # Period: "January-August 2026", "January–July 2026", "in January 2026"
+    m = re.search(r"January(?:\s*[-–—]\s*([A-Za-z]+))?,?\s+(?:of\s+)?(20\d\d)", flat)
     if not m:
         return None
     end_month = (m.group(1) or "january").lower()
@@ -62,35 +75,51 @@ def parse_release(text: str) -> dict | None:
         return None
     year, month = int(m.group(2)), MONTHS.index(end_month) + 1
 
-    total = None
-    for pat in (rf"total of ({_NUM}) foreign", rf"welcomed ({_NUM}) foreign", rf"({_NUM}) foreign citizens"):
-        tm = re.search(pat, flat, re.I)
-        if tm:
-            total = _to_int(tm.group(1))
-            break
-    if not total:
+    tm = re.search(rf"({_NUM})\s*{_UNIT}\s+foreign (?:citizens|nationals|visitors|tourists)", flat, re.I)
+    if not tm:
         return None
+    total, total_exact = amount(tm.group(1), tm.group(2))
+
+    # Only read country lines inside the article body: from the sentence with the total up to
+    # the site footer. Otherwise menu items like "Eliminating bureaucracy – 2030" or
+    # "Online: 168" look like countries.
+    anchor = re.search(r"foreign (?:citizens|nationals|visitors|tourists)", text, re.I)
+    body = text[anchor.start():] if anchor else text
+    footer = re.search(r"National Statistics Committee of the Republic of Uzbekistan\s*\n\s*100170|Mustakillik"
+                       r"|Found an error|Online:", body)
+    body = body[: footer.start()] if footer else body
 
     notes, countries = [], {}
     line_pat = re.compile(
-        rf"^\s*[-•*\d\.\)]*\s*([A-Z][A-Za-zÀ-ÿ'’\.\s]+?)\s*[-–—:]\s*({_NUM})\s*(thousand\s+)?(?:people|persons|tourists)",
+        rf"^[ \t]*[-•*\d\.\)]*[ \t]*([A-Z][A-Za-zÀ-ÿ'’\. ]+?)[ \t]*[-–—:][ \t]*({_NUM})[ \t]*{_UNIT}"
+        rf"[ \t]*(?:people|persons|tourists)?[ \t]*[;\.,]?[ \t]*$",
         re.M,
     )
-    for cm in line_pat.finditer(text):
-        name, raw = _norm_country(cm.group(1)), cm.group(2)
-        val = _to_int(raw)
-        # Known typos in releases, e.g. "43,572,000 people" or "69,070 thousand people"
-        # meaning 43,572 and 69,070. A single country can never exceed the total.
+    for cm in line_pat.finditer(body):
+        name = _norm_country(cm.group(1))
+        val, exact = amount(cm.group(2), cm.group(3))
+        # Known typos, e.g. "43,572,000 people" or "69,070 thousand people" meaning 43,572 and
+        # 69,070. A single country can never exceed the total.
         if val > total:
             fixed = val
             while fixed > total:
                 fixed //= 1000
-            notes.append(f"{name}: '{raw.strip()}' read as {fixed} (source typo)")
-            val = fixed
-        countries[name] = val
+            notes.append(f"{name}: '{cm.group(0).strip()}' read as {fixed} (source typo)")
+            val, exact = fixed, True
+        countries[name] = (val, exact)
+
+    # When the release lists every country plus "Other countries", their sum is the exact total
+    # (better than a rounded "7.5 million" in the text).
+    if OTHER in countries and not total_exact and all(e for _, e in countries.values()):
+        exact_sum = sum(v for v, _ in countries.values())
+        if abs(exact_sum - total) / total < 0.05:
+            notes.append(f"total {total:,} (rounded in text) replaced by the sum of all countries")
+            total, total_exact = exact_sum, True
+    countries.pop(OTHER, None)
     if not countries:
         notes.append("no country lines found")
-    return {"year": year, "month": month, "total": total, "countries": countries, "notes": notes}
+    return {"year": year, "month": month, "total": total, "total_exact": total_exact,
+            "countries": countries, "notes": notes}
 
 
 def validate(rel: dict, df: pd.DataFrame) -> list[str]:
@@ -102,7 +131,7 @@ def validate(rel: dict, df: pd.DataFrame) -> list[str]:
         problems.append(f"average {per_month:,.0f}/month is outside the plausible range")
     if len(rel["countries"]) < 5:
         problems.append(f"only {len(rel['countries'])} countries parsed")
-    if sum(rel["countries"].values()) > total:
+    if sum(v for v, _ in rel["countries"].values()) > total * 1.01:
         problems.append("countries add up to more than the total")
     totals = df[df["country"] == "TOTAL"]
     prev = totals[(totals["year"] == y) & (totals["month"] == m - 1)]
@@ -154,7 +183,7 @@ def collect() -> list[dict]:
         if url in seen:
             continue
         low = title.lower()
-        if "touris" not in low and "turist" not in low:
+        if "touris" not in low and "turist" not in low and "foreign" not in low:
             seen.add(url)
             continue
         html = http_get(url)
@@ -168,14 +197,23 @@ def collect() -> list[dict]:
         if not rel:
             log.warning("stat.uz: could not parse %s", url)
             continue
-        if ((df["year"] == rel["year"]) & (df["month"] == rel["month"])).any():
-            continue  # same period already stored (releases are often duplicated)
+        same = (df["year"] == rel["year"]) & (df["month"] == rel["month"])
+        if same.any():
+            # Several releases cover the same period (e.g. a by-gender release without countries).
+            # Keep the one with the most country detail; flag if their totals disagree.
+            old_total = int(df.loc[same & (df["country"] == "TOTAL"), "ytd"].iloc[0])
+            if abs(old_total - rel["total"]) / max(old_total, 1) > 0.02:
+                log.warning("stat.uz: %s-%02d totals disagree: %s vs %s (%s)", rel["year"], rel["month"],
+                            old_total, rel["total"], url)
+            if len(rel["countries"]) <= int((same & (df["country"] != "TOTAL")).sum()):
+                continue
+            df = df[~same]
         rel["problems"] = validate(rel, df)
         if rel["problems"]:
             log.warning("stat.uz: %s-%02d failed checks: %s", rel["year"], rel["month"], rel["problems"])
         note = "; ".join(rel["notes"] + [f"CHECK FAILED: {p}" for p in rel["problems"]])
-        rows = [(rel["year"], rel["month"], "TOTAL", rel["total"], url, note)]
-        rows += [(rel["year"], rel["month"], c, n, url, "") for c, n in rel["countries"].items()]
+        rows = [(rel["year"], rel["month"], "TOTAL", rel["total"], rel["total_exact"], url, note)]
+        rows += [(rel["year"], rel["month"], c, n, e, url, "") for c, (n, e) in rel["countries"].items()]
         df = pd.concat([df, pd.DataFrame(rows, columns=COLUMNS)], ignore_index=True)
         rel["url"] = url
         new_releases.append(rel)
@@ -196,14 +234,18 @@ def monthly(df: pd.DataFrame | None = None) -> pd.DataFrame:
     """Derive single-month arrivals from year-to-date figures (month m minus month m-1)."""
     df = load() if df is None else df
     if df.empty:
-        return pd.DataFrame(columns=["year", "month", "country", "arrivals"])
-    df = df[["year", "month", "country", "ytd"]].copy()
+        return pd.DataFrame(columns=["year", "month", "country", "arrivals", "exact"])
+    df = df[["year", "month", "country", "ytd", "exact"]].copy()
+    df["exact"] = df["exact"].astype(str).str.lower().eq("true")
     prev = df.copy()
     prev["month"] = prev["month"] + 1
     merged = df.merge(prev, on=["year", "month", "country"], how="left", suffixes=("", "_prev"))
     merged.loc[merged["month"] == 1, "ytd_prev"] = 0
     merged = merged.dropna(subset=["ytd_prev"])
+    merged.loc[merged["month"] == 1, "exact_prev"] = True
     merged["arrivals"] = (merged["ytd"] - merged["ytd_prev"]).astype(int)
+    # exact only if both year-to-date figures were exact (not "2.8 million"-style rounding)
+    merged["exact"] = merged["exact"] & merged["exact_prev"].astype(bool)
     # a negative month means the source revised its numbers or changed definitions
     merged = merged[merged["arrivals"] >= 0]
-    return merged[["year", "month", "country", "arrivals"]].sort_values(["year", "month", "country"])
+    return merged[["year", "month", "country", "arrivals", "exact"]].sort_values(["year", "month", "country"])
