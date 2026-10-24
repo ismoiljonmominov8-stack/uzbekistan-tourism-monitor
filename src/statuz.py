@@ -145,6 +145,22 @@ def validate(rel: dict, df: pd.DataFrame) -> list[str]:
     return problems
 
 
+def revalidate(df: pd.DataFrame) -> pd.DataFrame:
+    """Recompute the CHECK FAILED notes of every period from the current table."""
+    df = df.copy()
+    df["note"] = df["note"].fillna("").astype(str)
+    for idx, row in df[df["country"] == "TOTAL"].iterrows():
+        y, m = int(row["year"]), int(row["month"])
+        rows = df[(df["year"] == y) & (df["month"] == m) & (df["country"] != "TOTAL")]
+        rel = {"year": y, "month": m, "total": int(row["ytd"]),
+               "countries": {r.country: (int(r.ytd), bool(r.exact)) for r in rows.itertuples()},
+               "notes": [n for n in row["note"].split("; ") if n and "CHECK FAILED" not in n]}
+        others = df[~((df["year"] == y) & (df["month"] == m))]
+        problems = validate(rel, others)
+        df.at[idx, "note"] = "; ".join(rel["notes"] + [f"CHECK FAILED: {p}" for p in problems])
+    return df
+
+
 def _list_links(page_url: str) -> list[tuple[str, str]]:
     html = http_get(page_url)
     if not html:
@@ -199,19 +215,18 @@ def collect() -> list[dict]:
             continue
         same = (df["year"] == rel["year"]) & (df["month"] == rel["month"])
         if same.any():
-            # Several releases cover the same period (e.g. a by-gender release without countries).
-            # Keep the one with the most country detail; flag if their totals disagree.
+            # Several releases cover the same period: the national top-10 release, a by-gender
+            # release (no countries), single-country releases (small totals)... The national
+            # release always has the LARGEST total; among equal totals prefer more countries.
             old_total = int(df.loc[same & (df["country"] == "TOTAL"), "ytd"].iloc[0])
-            if abs(old_total - rel["total"]) / max(old_total, 1) > 0.02:
-                log.warning("stat.uz: %s-%02d totals disagree: %s vs %s (%s)", rel["year"], rel["month"],
-                            old_total, rel["total"], url)
-            if len(rel["countries"]) <= int((same & (df["country"] != "TOTAL")).sum()):
+            old_n = int((same & (df["country"] != "TOTAL")).sum())
+            if rel["total"] < old_total * 0.98:
+                continue
+            if rel["total"] <= old_total * 1.02 and len(rel["countries"]) <= old_n:
                 continue
             df = df[~same]
-        rel["problems"] = validate(rel, df)
-        if rel["problems"]:
-            log.warning("stat.uz: %s-%02d failed checks: %s", rel["year"], rel["month"], rel["problems"])
-        note = "; ".join(rel["notes"] + [f"CHECK FAILED: {p}" for p in rel["problems"]])
+            new_releases = [r for r in new_releases if (r["year"], r["month"]) != (rel["year"], rel["month"])]
+        note = "; ".join(rel["notes"])
         rows = [(rel["year"], rel["month"], "TOTAL", rel["total"], rel["total_exact"], url, note)]
         rows += [(rel["year"], rel["month"], c, n, e, url, "") for c, (n, e) in rel["countries"].items()]
         df = pd.concat([df, pd.DataFrame(rows, columns=COLUMNS)], ignore_index=True)
@@ -220,6 +235,13 @@ def collect() -> list[dict]:
         log.info("stat.uz: stored %s-%02d total=%s (%d countries)", rel["year"], rel["month"], rel["total"],
                  len(rel["countries"]))
 
+    # Validate every stored period against its neighbours (a later release can change them).
+    if new_releases:
+        df = revalidate(df)
+        problems = {(int(r.year), int(r.month)): r.note for r in df[df["country"] == "TOTAL"].itertuples()}
+        for rel in new_releases:
+            note = str(problems.get((rel["year"], rel["month"]), "") or "")
+            rel["problems"] = [p.split("CHECK FAILED: ", 1)[1] for p in note.split("; ") if "CHECK FAILED" in p]
     if new_releases:
         df = df.sort_values(["year", "month", "country"])
         df.to_csv(CSV, index=False)
