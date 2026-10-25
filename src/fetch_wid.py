@@ -16,7 +16,7 @@ from .util import log
 
 URL = "https://wid.world/bulk_download/wid_all_data.zip"
 COUNTRIES = ["KZ", "KG", "TJ", "TM", "AF", "RU", "CN", "TR", "KR", "IN", "DE", "JP", "IT", "FR", "GB", "US", "UZ"]
-KEEP = ("tptinc992j", "aptinc992j")
+KEEP = ("tptincj992", "aptincj992")   # bulk files write concept + pop + age
 OUT = config.DATA / "wid.csv"
 
 

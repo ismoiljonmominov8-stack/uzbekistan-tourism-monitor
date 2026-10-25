@@ -25,7 +25,8 @@ from . import config
 
 N = NormalDist()
 DAYS = 5
-DAY_STANDARD, DAY_BUDGET = 80, 45
+DAY_STANDARD, DAY_BUDGET, DAY_LOCAL = 80, 45, 25   # local: neighbours staying with relatives / cheap guesthouse
+NEIGHBOURS = {"KAZ", "KGZ", "TJK", "TKM", "AFG"}
 SHARE = {"strict": 1 / 24, "central": 1 / 12, "loose": 1 / 6}
 
 # iso3: (name_uz, fare_avg, fare_cheap, visa, transport note, siat_name)
@@ -58,6 +59,46 @@ def share_above(threshold: float, mean: float, gini: float) -> float:
     return 1 - N.cdf((math.log(threshold) - mu) / sigma)
 
 
+WID_CODE = {"KAZ": "KZ", "KGZ": "KG", "TJK": "TJ", "TKM": "TM", "AFG": "AF", "RUS": "RU", "CHN": "CN", "TUR": "TR",
+            "KOR": "KR", "IND": "IN", "DEU": "DE", "JPN": "JP", "ITA": "IT", "FRA": "FR", "GBR": "GB", "USA": "US"}
+
+
+def wid_shape() -> dict[str, list[tuple[float, float]]]:
+    """{iso3: [(percentile, income threshold / mean income), ...]} from WID (pre-tax income, adults)."""
+    path = config.DATA / "wid.csv"
+    if not path.exists():
+        return {}
+    w = pd.read_csv(path)
+    out = {}
+    for iso, cc in WID_CODE.items():
+        g = w[w.country == cc]
+        mean = g[(g.variable == "aptincj992") & (g.percentile == "p0p100")]["value"]
+        thr = g[g.variable == "tptincj992"]
+        if mean.empty or thr.empty:
+            continue
+        pts = {}
+        for pc, v in zip(thr.percentile, thr.value):
+            lo = float(pc[1:].split("p")[0])
+            pts[lo] = v / float(mean.iloc[0])
+        out[iso] = sorted(pts.items())
+    return out
+
+
+def share_above_shape(threshold: float, level: float, shape: list[tuple[float, float]]) -> float:
+    """Share of adults whose income (shape x level) is at or above the threshold (linear interpolation)."""
+    rel = threshold / level
+    prev = None
+    for pc, r in shape:
+        if r >= rel:
+            if prev is None:
+                return 1.0
+            (p0, r0) = prev
+            frac = (rel - r0) / (r - r0) if r > r0 else 0
+            return max(0.0, 1 - (p0 + frac * (pc - p0)) / 100)
+        prev = (pc, r)
+    return 0.0
+
+
 def load_wb() -> pd.DataFrame:
     d = pd.read_csv(config.DATA / "worldbank.csv")
     latest = d.sort_values("year").groupby(["country", "indicator"]).tail(1)
@@ -67,15 +108,21 @@ def load_wb() -> pd.DataFrame:
     return p, yrs, dep19
 
 
+ISO_NUM = {"KAZ": 398, "KGZ": 417, "TJK": 762, "TKM": 795, "AFG": 4, "RUS": 643, "CHN": 156, "TUR": 792, "KOR": 410,
+           "IND": 356, "DEU": 276, "JPN": 392, "ITA": 380, "FRA": 250, "GBR": 826, "USA": 840}
+
+
 def arrivals_2025() -> dict[str, int]:
-    y = pd.read_csv(config.DATA / "arrivals_yearly_by_country.csv")
-    y = y[y.year == y.year.max()]
-    return dict(zip(y.country, y.arrivals)), int(y.year.max())
+    y = pd.read_csv(config.DATA / "arrivals_yearly_by_country.csv", dtype={"code": str})
+    y = y[(y.year == y.year.max()) & y.code.notna()]
+    by_num = {int(float(c)): int(a) for c, a in zip(y.code, y.arrivals)}
+    return {iso: by_num.get(n) for iso, n in ISO_NUM.items()}, int(y.year.max())
 
 
 def run() -> pd.DataFrame:
     p, yrs, dep19 = load_wb()
     arr, arr_year = arrivals_2025()
+    shapes = wid_shape()
     rows = []
     for iso, (name, fare_avg, fare_cheap, visa, note, siat) in MARKETS.items():
         pop = p.at[iso, "SP.POP.TOTL"]
@@ -93,11 +140,22 @@ def run() -> pd.DataFrame:
         r = {"iso": iso, "name": name, "transport": note, "adults": adults, "cons_pc": cons, "gini": gini,
              "cost_standard": cost_std, "cost_budget": cost_bud, "guessed": ", ".join(guessed),
              "cost_months_of_avg": cost_std / (cons / 12),
-             "arrivals": arr.get(siat), "arrivals_year": arr_year,
+             "arrivals": arr.get(iso), "arrivals_year": arr_year,
              "departures_2019": dep19.get(iso)}
+        if iso in shapes:   # WID income shape (keeps the rich tail), level = consumption per adult
+            level = cons * pop / adults
+            f = lambda t: share_above_shape(t, level, shapes[iso])  # noqa: E731
+            r["method"] = "WID"
+        else:               # fallback: lognormal from the Gini index
+            f = lambda t: share_above(t, cons, gini)  # noqa: E731
+            r["method"] = "lognormal"
         for k, s in SHARE.items():
-            r[f"afford_std_{k}"] = adults * share_above(cost_std / s, cons, gini)
-        r["afford_bud_central"] = adults * share_above(cost_bud / SHARE["central"], cons, gini)
+            r[f"afford_std_{k}"] = adults * f(cost_std / s)
+        r["afford_bud_central"] = adults * f(cost_bud / SHARE["central"])
+        r["lognormal_central"] = adults * share_above(cost_std / SHARE["central"], cons, gini)
+        if iso in NEIGHBOURS:
+            r["cost_local"] = fare_cheap + DAY_LOCAL * DAYS + visa
+            r["afford_local_central"] = adults * f(r["cost_local"] / SHARE["central"])
         r["share_std_central"] = r["afford_std_central"] / adults
         r["visits_per_1000_affordable"] = (r["arrivals"] / r["afford_std_central"] * 1000
                                            if r["arrivals"] and r["afford_std_central"] > 0 else None)
@@ -108,10 +166,10 @@ def run() -> pd.DataFrame:
 if __name__ == "__main__":
     df = run()
     pd.set_option("display.width", 250)
-    show = df[["name", "cons_pc", "gini", "cost_standard", "cost_months_of_avg", "share_std_central",
+    show = df[["name", "method", "cons_pc", "gini", "cost_standard", "cost_months_of_avg", "share_std_central", "lognormal_central",
                "afford_std_strict", "afford_std_central", "afford_std_loose", "afford_bud_central",
                "arrivals", "visits_per_1000_affordable", "departures_2019", "guessed"]].copy()
-    for c in ["afford_std_strict", "afford_std_central", "afford_std_loose", "afford_bud_central", "departures_2019"]:
+    for c in ["afford_std_strict", "afford_std_central", "afford_std_loose", "afford_bud_central", "departures_2019", "lognormal_central"]:
         show[c] = (show[c] / 1e6).round(2)
     print(show.round(3).to_string(index=False))
     out = config.DATA / "affordability.csv"
