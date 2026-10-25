@@ -114,6 +114,10 @@ def weekly():
     # complete weeks only (Mon-Sun)
     weeks = wide.resample("W-SUN").sum()
     last_full = weeks.index[-1] if wide.index.max().weekday() == 6 else weeks.index[-2]
+    state = read_json(STATE, {})
+    if state.get("weekly") == str(last_full.date()):
+        log.info("weekly: already posted for the week ending %s", last_full.date())
+        return
     weeks = weeks.loc[:last_full].iloc[-12:]
     weeks = weeks[[c for c in weeks.columns if config.MARKETS.get(c, {}).get("group") != "neighbour"]]
     index = weeks / weeks.iloc[0] * 100
@@ -140,6 +144,8 @@ def weekly():
         lines.append(t("weekly_line").format(flag=config.MARKETS[lang]["flag"], name=esc(market_name(lang)),
                                              change=change[lang]))
     send_photo(channel_id(), path, "\n".join(lines))
+    state["weekly"] = str(last_full.date())
+    write_json(STATE, state)
 
 
 def monthly(releases: list[dict]):

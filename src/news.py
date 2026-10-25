@@ -312,8 +312,10 @@ def process_approvals(wait_minutes: float = 0):
                 log.exception("approval update %s failed", u.get("update_id"))
             # confirm each update right away, so it is never processed twice
             write_json(OFFSET, {"offset": u["update_id"] + 1})
-        if time.time() >= deadline:
-            break
+        if time.time() >= deadline and not updates:
+            break  # the last call (with the new offset) also confirmed everything to Telegram
+        if time.time() >= deadline + 120:
+            break  # safety: never loop for long after the window
 
 
 def approval_test(minutes: float = 10):

@@ -116,6 +116,17 @@ Never paste these keys into code, issues or chats.
 2. **Actions** → *Daily collect & post* → **Run workflow**. The first run downloads all history
    since 2016 and may take a few minutes.
 
+## Cloudflare clock (exact timing, fast bot replies)
+
+GitHub's own schedule can be late or skipped. `cloudflare/worker.js` is a free Cloudflare Worker that
+starts the daily run at 09:47 Tashkent, the weekly chart on Mondays, and — checking every minute —
+starts the bot as soon as someone writes to it or presses a button (reply in about 1–2 minutes).
+It only *looks* at waiting Telegram messages; the bot on GitHub still receives and answers them.
+Setup: create a Worker, paste the file, add secrets `TELEGRAM_BOT_TOKEN` and `GITHUB_TOKEN`
+(fine-grained, Actions: Read and write on this repository) and three cron triggers:
+`47 4 * * *`, `23 5 * * 1`, `* * * * *`. Opening the Worker's address shows whether both tokens work.
+GitHub's schedules stay as a backup; the daily and weekly jobs run only once per day/week.
+
 ## Changing things
 - Markets, articles, feeds, keywords, thresholds: `src/config.py`
 - Post wording (Uzbek / English): `src/texts.py`
