@@ -1,0 +1,16 @@
+listing pages scanned: 2500; links: 37198; candidates: 1045
+oldest news id: 2
+
+year    1   2   3   4   5   6   7   8   9  10  11  12   (P = current parser reads it, t = only a total found, . = none)
+2015    .   .   .   .   .   .   .   .   .   .   .   .
+2016    .   .   .   .   .   .   .   .   .   .   .   .
+2017    .   .   .   .   .   .   .   .   .   .   .   .
+2018    .   .   .   .   .   .   .   .   .   .   .   .
+2019    .   .   .   .   .   .   .   .   .   .   .   .
+2020    .   .   .   .   .   .   .   .   .   t   .   .
+2021    .   t   .   .   .   .   .   .   .   .   .   .
+2022    .   .   .   .   t   .   .   P   P   P   .   P
+2023    P   P   t   P   P   .   P   P   P   P   P   P
+2024    P   P   P   P   P   P   P   P   P   .   .   .
+2025    P   P   .   P   .   P   P   P   P   P   P   P
+2026    P   P   P   P   P   P   P   P   P   .   P   P
