@@ -175,6 +175,7 @@ def build():
 
     try:
         overall = forecast.build()
+        overall["backtest"] = forecast.backtest()
     except Exception:  # noqa: BLE001  the page must still build if the forecast fails
         log.exception("overall forecast failed")
         overall = None
@@ -326,8 +327,8 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 <h2 class="sect">Batafsil grafiklar</h2>
 <section id="overall-box">
   <h2>Jami xorijiy turistlar: 2018 – 2026 (prognoz bilan)</h2>
-  <p class="note"><b>Muhim:</b> rasmiy statistika faqat <b>oylik</b> (2025-yildan) va <b>yillik</b> (2018–2024) chiqadi; kunlik yoki haftalik rasmiy raqam yo'q.
-  Shuning uchun "Kun" va "Hafta" — o'rtacha qiymat (oy ÷ kunlar soni, ×7). Kulrang uzuq chiziq — oylik ma'lumot yo'q yillar (yillik jami ÷ 12, mavsum ko'rinmaydi).
+  <p class="note"><b>Muhim:</b> rasmiy statistika faqat <b>oylik</b> (2022-yil avgustidan, ba'zi oylar yo'q) va <b>yillik</b> chiqadi; kunlik yoki haftalik rasmiy raqam yo'q.
+  Shuning uchun "Kun" va "Hafta" — o'rtacha qiymat (oy ÷ kunlar soni, ×7). Kulrang uzuq chiziq — oylik ma'lumot yo'q davr (yillik jami ÷ 12 yoki bir necha oy o'rtachasi, mavsum ko'rinmaydi).
   Ochiq nuqta — manbada yaxlitlangan yoki ikki oy birga e'lon qilingan (teng bo'lingan). Rangli soha — prognoz oralig'i.</p>
   <div class="controls">
     <button data-og="day">Kun</button><button data-og="week">Hafta</button>
@@ -499,12 +500,15 @@ function drawOverall(){
         hovertemplate:`jami ≈ ${nf(r.v)} (${nf(r.lo)} – ${nf(r.hi)})<extra>prognoz</extra>`}); });
     L.barmode = "stack"; L.xaxis.type = "category";
   } else {
-    const P = O.points, yr = P.filter(p => p.kind === "year"), mo = P.filter(p => p.kind !== "year");
+    const P = O.points, yr = P.filter(p => p.kind === "year"), mo = P.filter(p => p.kind === "month" || p.kind === "span"),
+          lg = P.filter(p => p.kind === "long");
     const x = p => p.m + "-01";
     const yrTr = {x:yr.map(x), y:yr.map(p => { const yd = (+p.m.slice(0,4) % 4 === 0) ? 366 : 365;  // flat: year / days, not month lengths
       return og === "day" ? p.v * 12 / yd : og === "week" ? p.v * 12 / yd * 7 : p.v; }), name:"Yillik jami ÷ 12 (oylik ma'lumot yo'q)", mode:"lines",
       line:{color:grey, width:2, dash:"dash", shape:"hv"}, hovertemplate:"%{y:,.0f}<extra>yillik o'rtacha</extra>"};
     tr.push(yrTr);
+    if (lg.length) tr.push({x:lg.map(x), y:lg.map(p => per(p.m, p.v)), name:"Bir necha oy o'rtachasi (oylik reliz yo'q)", mode:"lines",
+      line:{color:grey, width:2, dash:"dot", shape:"hv"}, hovertemplate:"%{y:,.0f}<extra>o'rtacha</extra>"});
     tr.push({x:mo.map(x), y:mo.map(p => per(p.m, p.v)), name:"Rasmiy (oylik)", mode:"lines+markers",
       line:{color:ink, width:2.5}, marker:{size:7, color:ink, symbol:mo.map(p => p.exact ? "circle" : "circle-open")},
       text:mo.map(p => p.kind === "span" ? "ikki oy birga e'lon qilingan, teng bo'lingan" : p.exact ? "aniq" : "yaxlitlangan (≈)"),
@@ -535,7 +539,10 @@ function drawOverall(){
      <b>Usul:</b> qolgan har bir oy = o'tgan yilning shu oyi × oxirgi 3 oy (${M.months.join(", ")}-oylar) o'sishi (×${M.central}).
      Oraliq — oxirgi 6 oydagi eng past va eng yuqori oylik o'sish (×${M.lo} – ×${M.hi}), o'tgan yil raqami yaxlitlangan bo'lsa ±5%.
      Bu "o'sish shunday davom etsa" degan taxmin; sabablar modeli emas. Oylik o'sish ${M.year}-yilda sekinlashmoqda:
-     ${Object.entries(M.ratios).map(([k,v]) => k.slice(5) + "-oy ×" + v).join(", ")}.` : "";
+     ${Object.entries(M.ratios).map(([k,v]) => k.slice(5) + "-oy ×" + v).join(", ")}.` +
+    ((O.backtest || []).length ? `<br><b>Usul tekshiruvi</b> (o'tgan yillarda xuddi shu usul bilan, ${M.through} oylik ma'lumotdan):
+     ${O.backtest.map(b => `${b.year}: prognoz ${nf(b.forecast)}, haqiqatda ${nf(b.actual)} (${b.error_pct > 0 ? "+" : ""}${b.error_pct}%${b.inside ? "" : ", oraliqdan tashqarida"})`).join("; ")}.
+     Faqat ikki yil — xulosa uchun kam, lekin bu usulning haqiqiy aniqligi.` : "") : "";
 }
 document.querySelectorAll("[data-og]").forEach(b => b.onclick = () => {
   og = b.dataset.og; document.querySelectorAll("[data-og]").forEach(x => x.classList.toggle("on", x===b)); drawOverall(); });

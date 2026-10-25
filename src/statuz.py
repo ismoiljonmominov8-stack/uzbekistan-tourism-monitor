@@ -30,6 +30,8 @@ COUNTRY_ALIASES = {
     "republic of korea": "Republic of Korea", "korea": "Republic of Korea", "south korea": "Republic of Korea",
     "turkey": "Türkiye", "turkiye": "Türkiye", "türkiye": "Türkiye",
     "russian federation": "Russia", "russia": "Russia",
+    "kyrgyz": "Kyrgyzstan", "kyrgyz r": "Kyrgyzstan", "belarus r": "Belarus",
+    "great britain": "United Kingdom", "usa": "United States",
 }
 OTHER = "Other countries"
 
@@ -64,10 +66,15 @@ def is_inbound(title: str, text: str) -> bool:
 
 def parse_release(text: str) -> dict | None:
     """Return {year, month, total, total_exact, countries:{name: (n, exact)}, notes:[...]} or None."""
-    flat = re.sub(r"[ \t ]+", " ", text)
+    # "2,837,4 thousand" is a typo for 2,837.4 thousand
+    text = re.sub(r"(\d{1,3},\d{3}),(\d{1,2})(?=\s*(?:thousand|ming)\b)", r"\1.\2", text)
+    flat =re.sub(r"[ \t ]+", " ", text)
 
-    # Period: "January-August 2026", "January–July 2026", "in January 2026"
-    m = re.search(r"January(?:\s*[-–—]\s*([A-Za-z]+))?,?\s+(?:of\s+)?(20\d\d)", flat)
+    # Period: "January-August 2026", "January–July 2026", "in January 2026". A range wins over a single
+    # "January 2023": a release published in January carries a date line such as "24 January 2023"
+    # before its "January-December 2022" period.
+    m = (re.search(r"January\s*[-–—]\s*([A-Za-z]+),?\s+(?:of\s+)?(20\d\d)", flat)
+         or re.search(r"January(),?\s+(?:of\s+)?(20\d\d)", flat))
     if not m:
         return None
     end_month = (m.group(1) or "january").lower()

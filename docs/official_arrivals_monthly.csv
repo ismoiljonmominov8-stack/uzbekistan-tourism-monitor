@@ -1,4 +1,105 @@
 year,month,country,arrivals,exact
+2022,9,Azerbaijan,1200,False
+2022,9,France,1900,False
+2022,9,Germany,3200,False
+2022,9,India,2600,False
+2022,9,Israel,1800,False
+2022,9,Italy,1200,False
+2022,9,Kazakhstan,153500,False
+2022,9,Kyrgyzstan,130200,False
+2022,9,Republic of Korea,2400,False
+2022,9,Russia,78200,False
+2022,9,Spain,1200,False
+2022,9,TOTAL,537400,False
+2022,9,Tajikistan,135800,False
+2022,9,Türkiye,7500,False
+2022,9,United Kingdom,1700,False
+2022,9,United States,2000,False
+2022,10,TOTAL,608800,False
+2023,1,Azerbaijan,700,False
+2023,1,Belarus,700,False
+2023,1,China,400,False
+2023,1,France,300,False
+2023,1,Germany,500,False
+2023,1,India,1100,False
+2023,1,Kazakhstan,116600,False
+2023,1,Kyrgyzstan,103200,False
+2023,1,Republic of Korea,2400,False
+2023,1,Russia,41900,False
+2023,1,TOTAL,423700,False
+2023,1,Tajikistan,139600,False
+2023,1,Turkmenistan,2300,False
+2023,1,Türkiye,6700,False
+2023,1,United Kingdom,400,False
+2023,1,United States,600,False
+2023,2,Azerbaijan,1000,False
+2023,2,China,1200,False
+2023,2,France,500,False
+2023,2,Germany,800,False
+2023,2,Republic of Korea,2000,False
+2023,2,TOTAL,447300,False
+2023,2,United Kingdom,500,False
+2023,2,United States,800,False
+2023,5,TOTAL,569800,False
+2023,8,TOTAL,639200,False
+2023,9,TOTAL,580400,False
+2023,10,TOTAL,645300,False
+2024,1,TOTAL,520169,True
+2024,2,TOTAL,454031,False
+2024,3,China,4500,False
+2024,3,India,4600,False
+2024,3,Kazakhstan,106700,False
+2024,3,Kyrgyzstan,150900,False
+2024,3,Republic of Korea,2200,False
+2024,3,Russia,56300,False
+2024,3,TOTAL,545100,False
+2024,3,Tajikistan,173100,False
+2024,3,Turkmenistan,10800,False
+2024,3,Türkiye,7200,False
+2024,6,China,5900,False
+2024,6,India,5000,False
+2024,6,Italy,2400,False
+2024,6,Kazakhstan,170200,False
+2024,6,Kyrgyzstan,200400,False
+2024,6,Republic of Korea,4500,False
+2024,6,Russia,74900,False
+2024,6,TOTAL,693400,False
+2024,6,Tajikistan,174700,False
+2024,6,Turkmenistan,13400,False
+2024,6,Türkiye,9800,False
+2024,7,China,6800,False
+2024,7,India,5100,False
+2024,7,Italy,1800,False
+2024,7,Kazakhstan,177400,False
+2024,7,Kyrgyzstan,187500,False
+2024,7,Republic of Korea,4300,False
+2024,7,Russia,77600,False
+2024,7,TOTAL,712100,False
+2024,7,Tajikistan,194700,False
+2024,7,Turkmenistan,16500,False
+2024,7,Türkiye,10100,False
+2024,8,China,6500,False
+2024,8,India,5800,False
+2024,8,Italy,5700,False
+2024,8,Kazakhstan,176200,False
+2024,8,Kyrgyzstan,205400,False
+2024,8,Republic of Korea,4300,False
+2024,8,Russia,93000,False
+2024,8,TOTAL,797600,False
+2024,8,Tajikistan,230600,False
+2024,8,Turkmenistan,19200,False
+2024,8,Türkiye,10900,False
+2024,9,China,8400,False
+2024,9,India,9500,False
+2024,9,Italy,5100,False
+2024,9,Kazakhstan,107300,False
+2024,9,Kyrgyzstan,197200,False
+2024,9,Republic of Korea,4400,False
+2024,9,Russia,74600,False
+2024,9,TOTAL,692200,False
+2024,9,Tajikistan,196100,False
+2024,9,Turkmenistan,17500,False
+2024,9,Türkiye,11400,False
 2025,1,Afghanistan,42733,True
 2025,1,China,4988,True
 2025,1,India,5049,True

@@ -36,8 +36,8 @@ def _monthly_total(ytd: pd.DataFrame, yearly: dict[int, int]) -> dict[str, dict]
     for year, g in t.groupby("year"):
         year = int(year)
         pts = {int(r.month): (int(r.ytd), bool(r.exact)) for r in g.itertuples()}
-        if 12 not in pts and year in yearly and pts and max(pts) == 11:
-            pts[12] = (yearly[year], False)  # SIAT yearly total closes the year
+        if 12 not in pts and year in yearly and pts and max(pts) >= 9:
+            pts[12] = (yearly[year], False)  # SIAT yearly total closes the year (Oct-Dec spread evenly if Nov is missing)
         prev_m, prev_v, prev_x = 0, 0, True
         for m in sorted(pts):
             v, x = pts[m]
@@ -47,19 +47,25 @@ def _monthly_total(ytd: pd.DataFrame, yearly: dict[int, int]) -> dict[str, dict]
                 continue
             each = (v - prev_v) / span
             for k in range(prev_m + 1, m + 1):
+                # a gap of more than 3 months is an average, not monthly data ("long": drawn grey, not used)
                 out[f"{year}-{k:02d}"] = {"v": round(each), "exact": x and prev_x and span == 1,
-                                          "kind": "month" if span == 1 else "span"}
+                                          "kind": "month" if span == 1 else "span" if span <= 3 else "long"}
             prev_m, prev_v, prev_x = m, v, x
     return out
 
 
-def build(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None) -> dict:
+def build(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None, cutoff: str | None = None) -> dict:
+    """cutoff='YYYY-MM' pretends the data ends at that month (used to test the method on past years)."""
     ytd = statuz.load() if ytd is None else ytd
     yearly_df = statuz.load_yearly() if yearly_df is None else yearly_df
     yearly = {}
     if yearly_df is not None and not yearly_df.empty:
         tt = yearly_df[yearly_df["country"] == "TOTAL"]
         yearly = {int(r.year): int(r.arrivals) for r in tt.itertuples()}
+    if cutoff:
+        cy, cm = int(cutoff[:4]), int(cutoff[5:])
+        ytd = ytd[(ytd["year"] < cy) | ((ytd["year"] == cy) & (ytd["month"] <= cm))]
+        yearly = {y: v for y, v in yearly.items() if y < cy}
     monthly = _monthly_total(ytd, yearly) if ytd is not None and not ytd.empty else {}
 
     years_with_months = {int(k[:4]) for k in monthly}
@@ -85,25 +91,30 @@ def build(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None
     if lm == 12:
         return result
 
-    # growth ratios this year vs last year, month by month (only months known in both years)
-    ratios = []
+    # growth this year vs last year. Central = the latest 3 calendar months (evenly spread gap months
+    # are allowed here: summed over 3 months they are close to the truth). Range = single-month growth
+    # rates of the latest 6 months, true single months only (spread months give fake single rates);
+    # with fewer than 2 of those, spread months are used too.
+    pairs = []
     for m in range(1, lm + 1):
         a, b = by_m.get(f"{ly}-{m:02d}"), by_m.get(f"{ly-1}-{m:02d}")
-        # evenly spread gap months would give fake single-month growth rates: skip them
-        if a and b and a["kind"] == "month" and b["kind"] == "month" and b["v"] > 0:
-            ratios.append((m, a["v"], b["v"]))
-    if len(ratios) < 3:
+        if a and b and a["kind"] in ("month", "span") and b["kind"] in ("month", "span") and b["v"] > 0:
+            pairs.append((m, a["v"], b["v"], a["kind"] == "month" and b["kind"] == "month"))
+    last3 = [r for r in pairs if r[0] > lm - 3]
+    if len(last3) < 3:
         return result
-    last3 = ratios[-3:]
     central = sum(r[1] for r in last3) / sum(r[2] for r in last3)
-    six = [r[1] / r[2] for r in ratios if r[0] > lm - 6]  # calendar window, not "last 6 found"
+    six = [r[1] / r[2] for r in pairs if r[0] > lm - 6 and r[3]]
+    if len(six) < 2:
+        six = [r[1] / r[2] for r in pairs if r[0] > lm - 6]
+    ratios = [(m, a, b) for m, a, b, true in pairs if true]
     lo_r, hi_r = min(six + [central]), max(six + [central])
 
     ytd_now = sum(p["v"] for p in points if p["m"].startswith(f"{ly}-") and int(p["m"][5:]) <= lm)
     f_sum = f_lo = f_hi = 0
     for m in range(lm + 1, 13):
         base = by_m.get(f"{ly-1}-{m:02d}")
-        if not base or base["kind"] == "year":
+        if not base or base["kind"] not in ("month", "span"):
             return result | {"forecast": []}
         pad = 0 if base["exact"] else ROUNDED_PAD
         v, lo, hi = base["v"] * central, base["v"] * (1 - pad) * lo_r, base["v"] * (1 + pad) * hi_r
@@ -112,9 +123,34 @@ def build(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None
     result["years"][ly] = {"v": round(ytd_now + f_sum), "lo": round(ytd_now + f_lo), "hi": round(ytd_now + f_hi),
                            "ytd": ytd_now, "kind": "forecast", "through": lm}
     result["method"] = {"year": ly, "through": lm, "central": round(central, 3), "lo": round(lo_r, 3),
-                        "hi": round(hi_r, 3), "months": [m for m, _, _ in last3],
+                        "hi": round(hi_r, 3), "months": [r[0] for r in last3],
                         "ratios": {f"{ly}-{m:02d}": round(a / b, 3) for m, a, b in ratios}}
     return result
+
+
+def backtest(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None, through: int = 9) -> list[dict]:
+    """Run the forecast as if it were the end of month `through` of each past year, compare with the
+    official yearly total (SIAT). Years without enough monthly data are skipped."""
+    ytd = statuz.load() if ytd is None else ytd
+    yearly_df = statuz.load_yearly() if yearly_df is None else yearly_df
+    tt = yearly_df[yearly_df["country"] == "TOTAL"]
+    yearly = {int(r.year): int(r.arrivals) for r in tt.itertuples()}
+    out = []
+    for y in sorted(set(ytd["year"].astype(int))):
+        if y not in yearly:
+            continue
+        if not ((ytd["year"] == y) & (ytd["month"] == through) & (ytd["country"] == "TOTAL")).any():
+            continue
+        r = build(ytd, yearly_df, cutoff=f"{y}-{through:02d}")
+        f = r["years"].get(y)
+        if not f or f.get("kind") != "forecast":
+            continue
+        actual = yearly[y]
+        out.append({"year": y, "through": through, "forecast": f["v"], "lo": f["lo"], "hi": f["hi"], "actual": actual,
+                    "error_pct": round((f["v"] - actual) / actual * 100, 1),
+                    "rest_error_pct": round((f["v"] - actual) / max(1, actual - f["ytd"]) * 100, 1),
+                    "inside": f["lo"] <= actual <= f["hi"]})
+    return out
 
 
 def days_in(ym: str) -> int:
@@ -125,4 +161,5 @@ if __name__ == "__main__":
     import json
     r = build()
     print(json.dumps({k: r[k] for k in ("forecast", "years", "method")}, indent=1))
+    print("backtest:", json.dumps(backtest(), indent=1))
     print(len(r["points"]), "points", r["points"][0], r["points"][-1])
