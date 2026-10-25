@@ -66,3 +66,6 @@
 2026-10-25 07:11:29 message received: "➕ Voqea qo'shish"
 2026-10-25 07:11:30 message received: '❓ Yordam'
 2026-10-25 07:11:30 getUpdates offset=182454944 pending=1 got=0 kinds=[]
+2026-10-25 07:21:14 getUpdates offset=182454944 pending=1 got=1 kinds=['message']
+2026-10-25 07:21:14 message received: '❓ Yordam'
+2026-10-25 07:21:14 getUpdates offset=182454945 pending=1 got=0 kinds=[]
