@@ -3,7 +3,8 @@
  *
  * Cron triggers to add in Cloudflare (Settings → Triggers → Cron Triggers):
  *   "47 4 * * *"   → 09:47 Tashkent: start the daily run (data, channel post, news)
- *   "23 5 * * 1"   → Monday 10:23 Tashkent: start the weekly chart
+ *   "23 5 * * MON" → Monday 10:23 Tashkent: start the weekly chart
+ *                    (write MON: in Cloudflare 1 means Sunday)
  *   "* * * * *"    → every minute: if someone wrote to the bot or pressed a button,
  *                    start the bot on GitHub right away (reply in ~1–2 minutes)
  *
@@ -53,8 +54,9 @@ async function botHasMail(env) {
 }
 
 export async function tick(cron, env) {
-  if (cron === "47 4 * * *") return (await startWorkflow(env, "daily.yml")) && "daily started";
-  if (cron === "23 5 * * 1") return (await startWorkflow(env, "weekly.yml")) && "weekly started";
+  // matched by time, so the weekday spelling (MON / 2 / 1) does not matter
+  if (cron.startsWith("47 4 ")) return (await startWorkflow(env, "daily.yml")) && "daily started";
+  if (cron.startsWith("23 5 ")) return (await startWorkflow(env, "weekly.yml")) && "weekly started";
   if (!(await botHasMail(env))) return "no messages";
   if (await isBusy(env, "approvals.yml")) return "bot already running";
   await startWorkflow(env, "approvals.yml");

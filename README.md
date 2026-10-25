@@ -124,7 +124,7 @@ starts the bot as soon as someone writes to it or presses a button (reply in abo
 It only *looks* at waiting Telegram messages; the bot on GitHub still receives and answers them.
 Setup: create a Worker, paste the file, add secrets `TELEGRAM_BOT_TOKEN` and `GITHUB_TOKEN`
 (fine-grained, Actions: Read and write on this repository) and three cron triggers:
-`47 4 * * *`, `23 5 * * 1`, `* * * * *`. Opening the Worker's address shows whether both tokens work.
+`47 4 * * *`, `23 5 * * MON` (in Cloudflare 1 = Sunday), `* * * * *`. Opening the Worker's address shows whether both tokens work.
 GitHub's schedules stay as a backup; the daily and weekly jobs run only once per day/week.
 
 ## Changing things
