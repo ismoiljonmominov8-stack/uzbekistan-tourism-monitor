@@ -59,3 +59,10 @@
 2026-10-25 06:46:56 getUpdates offset=182454939 pending=1 got=0 kinds=[]
 2026-10-25 06:46:57 getUpdates offset=182454939 pending=1 got=0 kinds=[]
 2026-10-25 06:47:00 getUpdates offset=182454939 pending=1 got=0 kinds=[]
+2026-10-25 07:11:26 getUpdates offset=182454939 pending=1 got=5 kinds=['message', 'message', 'message', 'message', 'message']
+2026-10-25 07:11:26 message received: '/start'
+2026-10-25 07:11:26 message received: '🗓 Kutilayotgan voqealar'
+2026-10-25 07:11:27 message received: '📊 Bugungi holat'
+2026-10-25 07:11:29 message received: "➕ Voqea qo'shish"
+2026-10-25 07:11:30 message received: '❓ Yordam'
+2026-10-25 07:11:30 getUpdates offset=182454944 pending=1 got=0 kinds=[]
