@@ -134,7 +134,9 @@ def run() -> pd.DataFrame:
             cons = p.at[iso, "NE.CON.PRVT.CD"] / p.at[iso, "SP.POP.TOTL"]
         gini = p.at[iso, "SI.POV.GINI"] if not pd.isna(p.at[iso, "SI.POV.GINI"]) else None
         if gini is None:
-            gini, guessed = FALLBACK_GINI[iso], guessed + ["Gini"]
+            gini = FALLBACK_GINI[iso]
+            if iso not in shapes:
+                guessed = guessed + ["Gini"]
         cost_std = fare_avg + DAY_STANDARD * DAYS + visa
         cost_bud = fare_cheap + DAY_BUDGET * DAYS + visa
         r = {"iso": iso, "name": name, "transport": note, "adults": adults, "cons_pc": cons, "gini": gini,
@@ -160,7 +162,14 @@ def run() -> pd.DataFrame:
         r["visits_per_1000_affordable"] = (r["arrivals"] / r["afford_std_central"] * 1000
                                            if r["arrivals"] and r["afford_std_central"] > 0 else None)
         rows.append(r)
-    return pd.DataFrame(rows).sort_values("afford_std_central", ascending=False)
+    df = pd.DataFrame(rows)
+    # how far each distant market is from a typical rate: visits per 1000 adults who can afford the trip
+    distant = df[~df.iso.isin(NEIGHBOURS) & ~df.iso.isin({"RUS", "TUR"})]   # RUS/TUR: diaspora and family ties
+    typical = float(distant["visits_per_1000_affordable"].median())
+    df["typical_rate"] = typical
+    df["arrivals_at_typical_rate"] = df.apply(
+        lambda r: None if r.iso in NEIGHBOURS else r.afford_std_central * typical / 1000, axis=1)
+    return df.sort_values("afford_std_central", ascending=False)
 
 
 if __name__ == "__main__":
