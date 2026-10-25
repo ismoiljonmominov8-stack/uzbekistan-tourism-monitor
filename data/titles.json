@@ -61,5 +61,46 @@
     "Bukhara": "Бухара",
     "Khiva": "Хива",
     "Tashkent": "Ташкент"
+  },
+  "hi": {
+    "Uzbekistan": "उज़्बेकिस्तान",
+    "Samarkand": "समरक़न्द",
+    "Bukhara": "बुख़ारा",
+    "Khiva": "ख़ीवा",
+    "Tashkent": "ताशकन्द"
+  },
+  "kk": {
+    "Uzbekistan": "Өзбекстан",
+    "Samarkand": "Самарқан",
+    "Bukhara": "Бұхара",
+    "Khiva": "Хиуа",
+    "Tashkent": "Ташкент"
+  },
+  "ky": {
+    "Uzbekistan": "Өзбекстан",
+    "Samarkand": "Самаркан",
+    "Bukhara": "Букар (шаар)",
+    "Khiva": "Кыйба (шаар)",
+    "Tashkent": "Ташкент"
+  },
+  "tg": {
+    "Uzbekistan": "Ӯзбекистон",
+    "Samarkand": "Самарқанд",
+    "Bukhara": "Бухоро",
+    "Khiva": "Хева",
+    "Tashkent": "Тошканд"
+  },
+  "tk": {
+    "Uzbekistan": "Özbegistan",
+    "Samarkand": "Samarkand",
+    "Bukhara": "Buhara",
+    "Khiva": "Hywa",
+    "Tashkent": "Daşkent"
+  },
+  "ps": {
+    "Uzbekistan": "ازبکستان",
+    "Samarkand": "سمرقند",
+    "Bukhara": "بخارا",
+    "Tashkent": "تاشکند"
   }
 }
