@@ -1,0 +1,8 @@
+# Used only if the Cloudflare Worker is connected to this GitHub repository
+# (Workers Builds, root directory "cloudflare"). Secrets are set in the Cloudflare dashboard.
+name = "tourism-bot-clock"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[triggers]
+crons = ["47 4 * * *", "23 5 * * MON", "* * * * *"]
