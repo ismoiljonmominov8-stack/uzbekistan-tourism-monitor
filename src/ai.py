@@ -25,8 +25,10 @@ Pick at most {limit} relevant articles, most important first. For each return:
 - "confidence": "low" if only announced/planned or rumoured, "medium" if confirmed but not yet
   in effect, "high" if already in effect
 - "reason": one sentence in {lang} explaining the expected mechanism
-- "type": one of "visa", "flight", "event", "sport", "politics", "price", "infrastructure",
-  "marketing", "other" (what kind of news it is)
+- "type": one of "visa", "border", "crossing", "flight", "event", "sport", "politics", "price",
+  "infrastructure", "marketing", "other" (what kind of news it is). "border" = a closed border or
+  visa regime with a neighbouring country is opened; "crossing" = an extra or reopened checkpoint
+  on a border that is already open
 - "event_date": if the article announces something that STARTS on a future date (a festival,
   conference, sports event, first flight of a new route, a visa rule coming into force), that
   start date as "YYYY-MM-DD"; otherwise null. Only use a date written in the article.
@@ -117,7 +119,7 @@ def analyze_news(articles: list[dict], order=("gemini", "groq")):
             i["impact"] = "unclear"
         if i.get("confidence") not in ("low", "medium", "high"):
             i["confidence"] = "low"
-        if i.get("type") not in ("visa", "flight", "event", "sport", "politics", "price", "infrastructure",
-                                 "marketing", "other"):
+        if i.get("type") not in ("visa", "border", "crossing", "flight", "event", "sport", "politics", "price",
+                                 "infrastructure", "marketing", "other"):
             i["type"] = "other"
     return items[: config.NEWS_PER_DAY], provider

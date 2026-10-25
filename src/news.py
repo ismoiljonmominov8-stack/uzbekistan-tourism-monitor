@@ -239,8 +239,8 @@ def _alog(msg: str):
 def format_upcoming(u: dict, added=False) -> str:
     est = u["estimate"]
     cw = t("conf_words")
-    names = t("all_markets") if u["markets"] == "all" else ", ".join(
-        market_name(l) for l in u["markets"].split("|") if l in config.MARKETS)
+    names = (t("all_markets") if u["markets"] == "all" else t("neighbours") if u["markets"] == "neighbours"
+             else ", ".join(market_name(l) for l in u["markets"].split("|") if l in config.MARKETS))
     lines = [(t("up_added") if added else t("up_title")).format(title=esc(u["title"])),
              t("up_meta").format(date=u["date"], days=u["days"], type=t("types").get(u["type"], u["type"]), markets=esc(names))]
     i, a = est.get("info") or {}, est.get("arr") or {}
@@ -269,14 +269,17 @@ def _handle_command(msg):
     """Commands from the admin in the bot chat: /event, /events, /help."""
     from . import events
     if str(msg.get("from", {}).get("id")) != str(admin_id()):
+        _alog("message ignored: not from the admin")
         return
     text = (msg.get("text") or "").strip()
     cmd = text.split(maxsplit=1)[0].split("@")[0].lower() if text else ""
     chat = msg["chat"]["id"]
+    _alog(f"command received: {cmd or '(no text)'} | {text[:120]}")
     if cmd in ("/start", "/help", "/yordam"):
         send_message(chat, esc(t("cmd_help")))
     elif cmd in ("/events", "/voqealar"):
-        ups = events.upcoming()
+        arg = text.split(maxsplit=1)[1].strip().lower() if len(text.split(maxsplit=1)) > 1 else ""
+        ups = events.upcoming(days=events.PERIODS.get(arg))
         send_message(chat, "\n\n".join(format_upcoming(u) for u in ups) + f"\n\n<i>{t('up_note')}</i>"
                      if ups else t("cmd_none"))
     elif cmd in ("/event", "/voqea"):
@@ -289,7 +292,8 @@ def _handle_command(msg):
         if events.load_events()["source"].eq(parsed["source"]).any() and parsed["source"]:
             send_message(chat, t("cmd_dup"))
             return
-        eid = events.add_event(parsed["date"], parsed["type"], markets, parsed["title"], parsed["source"], "manual")
+        eid = events.add_event(parsed["date"], parsed["type"], markets, parsed["title"], parsed["source"], "manual",
+                               precision=parsed.get("precision", "day"))
         if not eid:
             send_message(chat, esc(t("cmd_nomarket")))
             return

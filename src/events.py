@@ -11,6 +11,8 @@ Method (kept simple on purpose, so it can be explained in a dissertation):
   first full year of the event / growth of total arrivals that year (SIAT open data).
 Results are associations, not proof of cause: other things can change at the same time.
 """
+import re
+
 import pandas as pd
 
 from . import config, pageviews, statuz
@@ -19,15 +21,29 @@ from .util import log
 EVENTS = config.DATA / "events.csv"
 EFFECTS = config.DATA / "event_effects.csv"
 EVENT_COLS = ["id", "date", "effective_date", "precision", "type", "markets", "title", "source", "origin"]
-TYPES = ["visa", "flight", "event", "sport", "politics", "price", "infrastructure", "marketing", "other"]
+# border   = a closed border / visa regime with a neighbour is opened (regime change)
+# crossing = an extra or reopened checkpoint on a border that is already open (capacity)
+TYPES = ["visa", "border", "crossing", "flight", "event", "sport", "politics", "price", "infrastructure", "marketing", "other"]
 COVID_YEARS = {2020, 2021, 2022, 2023}
 
 # country name (as stat.uz / the AI writes it) -> Wikipedia language of that market
 COUNTRY_LANG = {statuz._norm_country(n).lower(): lang
                 for lang, info in config.MARKETS.items() for n in info["stat_names"] if lang != "ru"}
 COUNTRY_LANG.update({"china": "zh", "korea": "ko", "south korea": "ko", "japan": "ja", "germany": "de",
-                     "turkey": "tr", "türkiye": "tr", "italy": "it", "france": "fr", "india": "hi"})
-DISTANT = [l for l, i in config.MARKETS.items() if i["stat_names"] and l != "ru"]
+                     "turkey": "tr", "türkiye": "tr", "italy": "it", "france": "fr", "india": "hi",
+                     "kazakhstan": "kk", "kyrgyzstan": "ky", "kyrgyz republic": "ky", "tajikistan": "tg",
+                     "turkmenistan": "tk", "afghanistan": "ps"})
+
+
+def expand(markets: str) -> list[str]:
+    """'all' = distant markets, 'neighbours' = neighbouring countries, else 'zh|ko'."""
+    if markets == "all":
+        return DISTANT
+    if markets == "neighbours":
+        return NEIGHBOURS
+    return [m for m in markets.split("|") if m in config.MARKETS]
+DISTANT = config.DISTANT
+NEIGHBOURS = config.NEIGHBOURS
 
 
 def lang_country(lang):
@@ -42,7 +58,7 @@ def load_events() -> pd.DataFrame:
 
 
 def add_event(day: str, etype: str, markets: list[str], title: str, source: str, origin: str,
-              effective: str | None = None) -> str | None:
+              effective: str | None = None, precision: str = "day") -> str | None:
     """Register an event. markets: country names or 'All'. Returns the id, or None if a duplicate."""
     df = load_events()
     if source and (df["source"] == source).any():
@@ -53,6 +69,9 @@ def add_event(day: str, etype: str, markets: list[str], title: str, source: str,
         if m in ("all", "barcha", "*"):
             langs = {"all"}
             break
+        if m in ("neighbours", "neighbors", "qo'shnilar", "qoshnilar"):
+            langs = {"neighbours"}
+            break
         if m in COUNTRY_LANG:
             langs.add(COUNTRY_LANG[m])
     if not langs:
@@ -60,7 +79,7 @@ def add_event(day: str, etype: str, markets: list[str], title: str, source: str,
     year = day[:4]
     n = int((df["id"].str.startswith(f"E{year}-")).sum()) + 1
     eid = f"E{year}-{n:02d}"
-    row = {"id": eid, "date": day, "effective_date": effective or day, "precision": "day",
+    row = {"id": eid, "date": day, "effective_date": effective or day, "precision": precision,
            "type": etype if etype in TYPES else "other", "markets": "|".join(sorted(langs)),
            "title": title, "source": source, "origin": origin}
     pd.concat([df, pd.DataFrame([row])], ignore_index=True)[EVENT_COLS].to_csv(EVENTS, index=False)
@@ -199,7 +218,7 @@ def overlaps(events: pd.DataFrame, ev, lang: str, method) -> str:
     for o in events.itertuples():
         if o.id == ev.id:
             continue
-        o_langs = DISTANT if o.markets == "all" else o.markets.split("|")
+        o_langs = expand(o.markets)
         if lang not in o_langs:
             continue
         o_eff = pd.Timestamp(o.effective_date or o.date)
@@ -219,7 +238,7 @@ def measure() -> pd.DataFrame:
     reported = {(r.id, r.lang): bool(r.reported) for r in old.itertuples()} if "reported" in old else {}
     rows = []
     for ev in events.itertuples():
-        langs = DISTANT if ev.markets == "all" else [l for l in ev.markets.split("|") if l in config.MARKETS]
+        langs = expand(ev.markets)
         day = pd.Timestamp(ev.date)
         eff = pd.Timestamp(ev.effective_date or ev.date)
         for lang in langs:
@@ -272,7 +291,8 @@ def mark_reported(ids_langs):
 
 
 # ---------------------------------------------------------------- upcoming events: possibilities
-TYPE_ALIASES = {"viza": "visa", "reys": "flight", "parvoz": "flight", "tadbir": "event", "festival": "event",
+TYPE_ALIASES = {"chegara": "border", "border": "border", "punkt": "crossing", "o'tish": "crossing",
+                "crossing": "crossing", "checkpoint": "crossing", "viza": "visa", "reys": "flight", "parvoz": "flight", "tadbir": "event", "festival": "event",
                 "konferensiya": "event", "forum": "event", "ko'rgazma": "event", "sport": "sport",
                 "siyosat": "politics", "narx": "price", "infratuzilma": "infrastructure", "marketing": "marketing",
                 "reklama": "marketing", "boshqa": "other"}
@@ -353,7 +373,10 @@ def expected_numbers(etype: str, langs: list[str], clean_arr: pd.DataFrame, wiki
     return res
 
 
-def upcoming(today: pd.Timestamp | None = None) -> list[dict]:
+PERIODS = {"day": 1, "kun": 1, "bugun": 1, "week": 7, "hafta": 7, "month": 31, "oy": 31, "year": 366, "yil": 366}
+
+
+def upcoming(today: pd.Timestamp | None = None, days: int | None = None) -> list[dict]:
     today = (today or pd.Timestamp.now(tz="UTC").tz_localize(None)).normalize()
     ev = load_events()
     if ev.empty:
@@ -362,10 +385,10 @@ def upcoming(today: pd.Timestamp | None = None) -> list[dict]:
     out = []
     for e in ev.itertuples():
         d = pd.Timestamp(e.date)
-        if d < today:
+        if d < today or (days is not None and (d - today).days >= days):
             continue
-        langs = DISTANT if e.markets == "all" else e.markets.split("|")
-        out.append({"id": e.id, "date": e.date, "days": int((d - today).days), "type": e.type,
+        langs = expand(e.markets)
+        out.append({"id": e.id, "date": e.date, "days": int((d - today).days), "type": e.type, "precision": e.precision,
                     "markets": e.markets, "title": e.title, "source": e.source,
                     "estimate": estimate(e.type, langs, eff)})
     return sorted(out, key=lambda x: x["date"])
@@ -379,12 +402,19 @@ def parse_event_command(text: str):
         return "format"
     day, etype, markets, title = parts[:4]
     source = parts[4] if len(parts) > 4 else ""
-    try:
-        day = pd.Timestamp(day).date().isoformat()
-    except Exception:  # noqa: BLE001
-        return "date"
+    precision = "day"
+    q = re.fullmatch(r"(20\d\d)-?[qQ]([1-4])", day.strip())
+    if q:  # a quarter: use its last day, mark as approximate
+        day, precision = (pd.Period(f"{q.group(1)}Q{q.group(2)}", "Q").end_time.date().isoformat(), "quarter")
+    elif re.fullmatch(r"20\d\d-\d\d", day.strip()):
+        day, precision = (pd.Period(day.strip(), "M").end_time.date().isoformat(), "month")
+    else:
+        try:
+            day = pd.Timestamp(day).date().isoformat()
+        except Exception:  # noqa: BLE001
+            return "date"
     etype = TYPE_ALIASES.get(etype.lower(), etype.lower())
     if etype not in TYPES:
         etype = "other"
     return {"date": day, "type": etype, "markets": [m.strip() for m in markets.split(",") if m.strip()],
-            "title": title, "source": source}
+            "title": title, "source": source, "precision": precision}

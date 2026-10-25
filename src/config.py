@@ -26,9 +26,19 @@ MARKETS = {
     "it": {"flag": "🇮🇹", "en": "Italy", "uz": "Italiya", "stat_names": ["Italy"]},
     "fr": {"flag": "🇫🇷", "en": "France", "uz": "Fransiya", "stat_names": ["France"]},
     "hi": {"flag": "🇮🇳", "en": "India", "uz": "Hindiston", "stat_names": ["India"]},
+    # neighbours: ~80 % of arrivals. Their own-language Wikipedias are small (many read Russian),
+    # so Wikipedia is a weak signal here; they matter mainly for arrivals and border/visa events.
+    "kk": {"flag": "🇰🇿", "en": "Kazakhstan", "uz": "Qozog'iston", "stat_names": ["Kazakhstan"], "group": "neighbour"},
+    "ky": {"flag": "🇰🇬", "en": "Kyrgyzstan", "uz": "Qirg'iziston", "stat_names": ["Kyrgyzstan"], "group": "neighbour"},
+    "tg": {"flag": "🇹🇯", "en": "Tajikistan", "uz": "Tojikiston", "stat_names": ["Tajikistan"], "group": "neighbour"},
+    "tk": {"flag": "🇹🇲", "en": "Turkmenistan", "uz": "Turkmaniston", "stat_names": ["Turkmenistan"], "group": "neighbour"},
+    "ps": {"flag": "🇦🇫", "en": "Afghanistan", "uz": "Afg'oniston", "stat_names": ["Afghanistan"], "group": "neighbour"},
     "en": {"flag": "🌐", "en": "English (global)", "uz": "Ingliz tili (global)", "stat_names": []},
     "ru": {"flag": "🌐", "en": "Russian (CIS)", "uz": "Rus tili (MDH)", "stat_names": ["Russia"]},
 }
+
+DISTANT = [l for l, i in MARKETS.items() if i["stat_names"] and l != "ru" and i.get("group") != "neighbour"]
+NEIGHBOURS = [l for l, i in MARKETS.items() if i.get("group") == "neighbour"]
 
 PAGEVIEWS_START = "2016-01-01"  # backfill start on first run
 BASELINE_DAYS = 30               # compare yesterday with the previous 30-day average

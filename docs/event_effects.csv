@@ -71,3 +71,10 @@ E2027-01,2027-03-21,event,tr,Navruz celebrations across Uzbekistan (21 March 202
 E2027-01,2027-03-21,event,it,Navruz celebrations across Uzbekistan (21 March 2027),waiting,,,,,,,,,waiting,,False,—,—,,,,,,
 E2027-01,2027-03-21,event,fr,Navruz celebrations across Uzbekistan (21 March 2027),waiting,,,,,,,,,waiting,,False,—,—,,,,,,
 E2027-01,2027-03-21,event,hi,Navruz celebrations across Uzbekistan (21 March 2027),,,,,,,,,,waiting,,False,—,—,,,,,,
+E2017-01,2017-09-06,border,ky,Dostuk checkpoint on the Kyrgyz–Uzbek border reopened,,yearly,366053.0,1055688.0,2.88,1.99,1.45,True,2017 vs 2018,ok,,True,—,rose more than overall,,,,,,
+E2018-04,2018-03-09,border,tg,"Uzbekistan–Tajikistan 30-day visa-free travel and border reopening (signed 9 Mar, in force 19 Mar 2018)",,yearly,206667.0,1095505.0,5.3,1.99,2.67,True,2017 vs 2018,ok,,True,—,rose more than overall,,,,,,
+E2024-03,2024-05-16,border,ps,Termez International Trade Centre: 15-day visa-free stay for foreigners incl. Afghans,,yearly,3609.0,73250.0,20.3,1.2,16.9,True,2023 vs 2024,ok,,True,—,rose more than overall,,,,,,
+E2024-04,2024-11-21,politics,tk,Turkmenistan reportedly tightens exit rules for trips to Uzbekistan,date not exact,yearly,197772.0,370019.0,1.87,1.47,1.27,True,2024 vs 2025,ok,,True,—,rose more than overall,,,,,,
+E2025-02,2025-12-02,border,ps,Termez–Hairaton border reopened for citizens (visa still required),date not exact,,,,,,,,,waiting,,False,—,—,,,,,,
+E2026-05,2026-03-30,flight,ko,Asiana Airlines resumes Seoul–Tashkent flights (3–4 a week),ok,monthly,2699.0,4675.0,1.73,1.37,1.26,True,"before 2026-01..2026-02, after 2026-04..2026-07 (season not controlled)",ok,E2026-01,True,none,rose more than overall (mixed with other events) (season not controlled),1.02,1.21,7.0,,,1.26
+E2026-06,2026-12-31,crossing,kk,"Gishtkuprik / Zhibek Zholy border crossing with Kazakhstan reopens (planned Q4 2026, date not yet set)",date not exact,,,,,,,,,waiting,,False,—,—,,,,,,

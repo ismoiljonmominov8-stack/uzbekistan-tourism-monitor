@@ -41,6 +41,11 @@ def daily():
     step("approvals", news.process_approvals, float(os.getenv("APPROVAL_WAIT_MINUTES", "30")))
 
 
+def events_measure():
+    from . import events
+    return events.measure()
+
+
 def approvals():
     """Handle button presses and bot commands; if an event was added, refresh effects and the page."""
     from . import events
@@ -91,6 +96,10 @@ COMMANDS = {
     "post-daily-now": lambda: (collect(), step("history chart", history.build),
                                step("daily post", posts.daily, True)),
     "collect": collect,
+    # stat.uz is skipped on purpose: a release found here would be marked seen but never posted
+    "refresh": lambda: (step("pageviews", pageviews.collect), step("wikipedia totals", pageviews.collect_projects),
+                        step("yearly arrivals by country", statuz.collect_yearly),
+                        step("event effects", events_measure), step("history chart", history.build)),
 }
 
 if __name__ == "__main__":

@@ -16,9 +16,11 @@ VENDOR = config.ROOT / "vendor"
 VENDOR_JS = VENDOR / "plotly.min.js"
 PLOTLY = "plotly.min.js"
 LIBS = ["plotly.min.js", "d3.min.js", "topojson-client.min.js"]
-MARKET_ISO = {"zh": "156", "ko": "410", "ja": "392", "de": "276", "tr": "792", "it": "380", "fr": "250", "hi": "356", "ru": "643"}
+MARKET_ISO = {"zh": "156", "ko": "410", "ja": "392", "de": "276", "tr": "792", "it": "380", "fr": "250", "hi": "356",
+              "kk": "398", "ky": "417", "tg": "762", "tk": "795", "ps": "004", "ru": "643"}
 COLORS = {"zh": "#a23b2a", "ko": "#2f5d7c", "ja": "#c47f2c", "de": "#3d6b45", "tr": "#7a3b6b",
-          "it": "#5b7f99", "fr": "#8a6d3b", "hi": "#c06a2b", "en": "#6e6e6e", "ru": "#9a9a9a"}
+          "it": "#5b7f99", "fr": "#8a6d3b", "hi": "#c06a2b",
+          "kk": "#4b8f8c", "ky": "#b5651d", "tg": "#6a8f3a", "tk": "#7d6aa8", "ps": "#9b4f3c", "en": "#6e6e6e", "ru": "#9a9a9a"}
 
 
 def _clean(v):
@@ -80,13 +82,26 @@ def map_data(wide, proj, mon) -> dict:
             iso = MARKET_ISO.get(r["lang"])
             if iso:
                 by_iso_effects.setdefault(iso, []).append({k: _clean(v) for k, v in r.items()})
+    recent = []
+    if events.EFFECTS.exists():
+        effs = pd.read_csv(events.EFFECTS)
+        evs = events.load_events().set_index("id")
+        today = pd.Timestamp.now(tz="UTC").tz_localize(None).normalize()
+        for eid, g in effs.groupby("id"):
+            d = pd.Timestamp(evs.at[eid, "date"])
+            if not (today - pd.Timedelta(days=366) <= d < today):
+                continue
+            rows = [{k: _clean(v) for k, v in r.items()} for r in g.to_dict("records")]
+            recent.append({"id": eid, "date": evs.at[eid, "date"], "type": evs.at[eid, "type"],
+                           "title": evs.at[eid, "title"], "source": evs.at[eid, "source"],
+                           "days_ago": int((today - d).days), "rows": rows})
     ups = []
     for u in events.upcoming():
-        langs = events.DISTANT if u["markets"] == "all" else u["markets"].split("|")
+        langs = events.expand(u["markets"])
         ups.append(u | {"isos": [MARKET_ISO[l] for l in langs if l in MARKET_ISO],
                         "estimate": json.loads(json.dumps(u["estimate"], default=str))})
     return {"topo": topo, "countries": countries, "totals": totals, "markets": markets,
-            "monthly": monthly, "effects": by_iso_effects, "upcoming": ups,
+            "monthly": monthly, "effects": by_iso_effects, "upcoming": ups, "recent": sorted(recent, key=lambda r: r["date"], reverse=True),
             "years": sorted(totals) if totals else []}
 
 
@@ -122,7 +137,7 @@ def build():
             share = (vals / p * 1e6).round(2)  # views per million of that Wikipedia's views
         series.append({
             "lang": lang, "name": f"{info['flag']} {info['uz']}", "color": COLORS.get(lang, "#555"),
-            "dash": "dot" if info["flag"] == "🌐" else "solid",
+            "dash": "dot" if info["flag"] == "🌐" else "solid", "group": info.get("group", ""),
             "daily": [None if pd.isna(v) else int(v) for v in vals],
             "avg7": [None if pd.isna(v) else round(float(v), 1) for v in vals.rolling(7, min_periods=4).mean()],
             "share": None if share is None else [None if pd.isna(v) else round(float(v), 1) for v in share.rolling(7, min_periods=4).mean()],
@@ -218,6 +233,7 @@ button,.btn{font:500 15px "EB Garamond",serif;background:transparent;color:var(-
   border-radius:3px;padding:5px 11px;cursor:pointer;text-decoration:none}
 button.on{background:var(--accent);color:var(--paper);border-color:var(--accent)}
 .chart{width:100%;height:460px}
+#views{height:540px}
 .downloads{display:flex;flex-wrap:wrap;gap:8px}
 table{border-collapse:collapse;width:100%;font-size:15px;margin-top:10px}
 th,td{border-bottom:1px solid var(--rule);padding:6px 8px;text-align:left;vertical-align:top}
@@ -271,8 +287,15 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 </header>
 
 <section id="upcoming-box">
+  <div class="controls" id="period-btns" style="float:right;margin:0">
+    <button data-dir="next" class="on">Kelgusi</button><button data-dir="past">O'tgan</button>
+  </div>
   <h2>Kutilayotgan voqealar va ularning kutilgan ta'siri</h2>
   <p class="note">Telegram botga <code>/event SANA | TURI | DAVLATLAR | NOMI | HAVOLA</code> yuboring yoki yangilikni ✅ bilan tasdiqlang. Ehtimollar — o'tgan o'lchangan o'xshash voqealarga asoslangan ulush, bashorat emas. Voqea o'tgach, haqiqiy ta'sir o'zi o'lchanadi.</p>
+  <div class="controls" id="win-btns">
+    <button data-win="1">Kun</button><button data-win="7">Hafta</button><button data-win="31">Oy</button>
+    <button data-win="366" class="on">Yil</button><button data-win="99999">Hammasi</button>
+  </div>
   <div id="upcoming"></div>
 </section>
 
@@ -297,11 +320,11 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 
 <h2 class="sect">Batafsil grafiklar</h2>
 <section>
-  <h2>Vikipediya ko'rishlari — har kuni</h2>
-  <p class="note">O'zbekiston, Samarqand, Buxoro, Xiva, Toshkent sahifalari, har bir til = bir bozor. Yuqoridagi kamera belgisi grafikni PNG qilib yuklaydi.</p>
+  <h2>Vikipediya ko'rishlari — kun, hafta, oy, yil</h2>
+  <p class="note">O'zbekiston, Samarqand, Buxoro, Xiva, Toshkent sahifalari, har bir til = bir bozor. Hafta/oy/yil — shu davrdagi ko'rishlar yig'indisi (tugallanmagan oxirgi davr ko'rsatilmaydi). Qo'shni davlatlar yashirin — legendani bosib yoqing. ▼ — voqealar. Kamera belgisi grafikni PNG qilib yuklaydi.</p>
   <div class="controls">
-    <button data-mode="avg7" class="on">7 kunlik o'rtacha</button>
-    <button data-mode="daily">Kunlik (har bir kun)</button>
+    <button data-gran="day">Kun</button><button data-gran="week" class="on">Hafta</button>
+    <button data-gran="month">Oy</button><button data-gran="year">Yil</button>
     <button data-scale="log" class="on">Log shkala</button>
     <button data-scale="linear">Oddiy shkala</button>
   </div>
@@ -374,15 +397,37 @@ function layout(ytitle, ylog){
 }
 const cfg = {responsive:true, displaylogo:false,
   toImageButtonOptions:{format:"png", filename:"uzbekistan_tourism_monitor", width:1600, height:800, scale:2}};
-let mode = "avg7", scale = "log";
+let gran = "week", scale = "log";
+// sum daily values into weeks (Monday start), months or years; incomplete last period is dropped
+function aggregate(dates, vals, g){
+  if (g === "day") return {x:dates, y:vals};
+  const key = d => g === "year" ? d.slice(0,4) : g === "month" ? d.slice(0,7) + "-01" : (() => {
+    const t = new Date(d + "T00:00:00Z"); const wd = (t.getUTCDay() + 6) % 7; t.setUTCDate(t.getUTCDate() - wd);
+    return t.toISOString().slice(0,10); })();
+  const m = new Map(), n = new Map();
+  dates.forEach((d,i) => { const k = key(d); if (vals[i] != null) { m.set(k, (m.get(k)||0) + vals[i]); } n.set(k, (n.get(k)||0) + 1); });
+  const full = g === "week" ? 7 : g === "month" ? 28 : 365;
+  const keys = [...m.keys()].filter((k,i,a) => i < a.length - 1 || n.get(k) >= full);
+  return {x: g === "year" ? keys.map(k => k + "-07-01") : keys, y: keys.map(k => m.get(k))};
+}
 function drawViews(){
-  const tr = D.series.map(s => ({x:D.dates, y:s[mode], name:s.name, type:"scattergl", mode:"lines",
-    line:{color:s.color, width: mode==="daily" ? 1 : 1.8, dash:s.dash}}));
-  const L = layout("ko'rishlar / kun", scale==="log");
+  const tr = D.series.map(s => { const a = aggregate(D.dates, s.daily, gran);
+    return {x:a.x, y:a.y, name:s.name, type: gran === "day" ? "scattergl" : "scatter", mode: gran === "year" ? "lines+markers" : "lines",
+      visible: s.group === "neighbour" ? "legendonly" : true,
+      line:{color:s.color, width: gran==="day" ? 1 : 1.8, dash:s.dash}}; });
+  const unit = {day:"kun", week:"hafta", month:"oy", year:"yil"}[gran];
+  const L = layout("ko'rishlar / " + unit, scale==="log");
   L.shapes = (D.events||[]).map(e => ({type:"line", xref:"x", yref:"paper", x0:e.date, x1:e.date, y0:0, y1:1,
     line:{color:css("--accent"), width:1, dash:"dot"}}));
-  L.annotations = (D.events||[]).map((e,i) => ({x:e.date, y:1, yref:"paper", text:e.id, showarrow:false,
-    font:{size:10, color:css("--accent")}, yshift: (i%2)*12 - 2, hovertext:e.title}));
+  // event markers: dotted lines + one hoverable point per event at the top (no crowded labels)
+  const ev = D.events || [];
+  tr.push({x: ev.map(e => e.date), y: ev.map(() => 1), yaxis: "y2", type: "scatter", mode: "markers", name: "Voqealar",
+    marker: {symbol: "triangle-down", size: 9, color: css("--accent")}, hovertext: ev.map(e => e.date + ": " + e.title),
+    hoverinfo: "text", showlegend: true});
+  L.yaxis2 = {overlaying: "y", range: [0, 1.02], visible: false, fixedrange: true};
+  L.xaxis.rangeslider = {visible: false};
+  L.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}};
+  L.margin.b = NARROW ? 260 : 120;
   Plotly.react("views", tr, L, cfg);
 }
 function drawShare(){
@@ -406,8 +451,8 @@ function drawArrivals(){
   L.margin.r = 60;
   Plotly.react("arrivals", tr, L, cfg);
 }
-document.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => {
-  mode = b.dataset.mode; document.querySelectorAll("[data-mode]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
+document.querySelectorAll("[data-gran]").forEach(b => b.onclick = () => {
+  gran = b.dataset.gran; document.querySelectorAll("[data-gran]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
 document.querySelectorAll("[data-scale]").forEach(b => b.onclick = () => {
   scale = b.dataset.scale; document.querySelectorAll("[data-scale]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
 if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
@@ -427,8 +472,8 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
   slider.min = years[0]; slider.max = years[years.length - 1]; slider.value = year;
   const fmt = d3.format(",d"), pct = d3.format("+.0%");
   const nm = id => (M.countries[id] && M.countries[id].n) || (feats.find(f => f.id === id) || {properties:{}}).properties.name || id;
-  const MARKET_ISO_JS = {zh:"156", ko:"410", ja:"392", de:"276", tr:"792", it:"380", fr:"250", hi:"356", ru:"643"};
-  const MK = {zh:"🇨🇳", ko:"🇰🇷", ja:"🇯🇵", de:"🇩🇪", tr:"🇹🇷", it:"🇮🇹", fr:"🇫🇷", hi:"🇮🇳", ru:"🇷🇺"};
+  const MARKET_ISO_JS = {zh:"156", ko:"410", ja:"392", de:"276", tr:"792", it:"380", fr:"250", hi:"356", kk:"398", ky:"417", tg:"762", tk:"795", ps:"004", ru:"643"};
+  const MK = {zh:"🇨🇳", ko:"🇰🇷", ja:"🇯🇵", de:"🇩🇪", tr:"🇹🇷", it:"🇮🇹", fr:"🇫🇷", hi:"🇮🇳", kk:"🇰🇿", ky:"🇰🇬", tg:"🇹🇯", tk:"🇹🇲", ps:"🇦🇫", ru:"🇷🇺"};
   const warm = d3.interpolateRgbBasis(["#f3e6c8", "#e2c38d", "#c98e52", "#a3542c", "#6e2814"]);
   const div = d3.interpolateRgbBasis(["#8c3b22", "#d9a77c", "#f3ead7", "#9bbf8f", "#2f6b3f"]);
   function value(id){
@@ -480,7 +525,7 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
       : metric === "share" ? [stops[0], stops[n-1]].map(v => v.toFixed(0)) : ["−75%", "0", "+300%"];
     const title = {arrivals:`Turistlar, ${year}`, growth:`O'sish, ${year}`, share:"Vikipediya: 1 mln ko'rishga (30 kunlik mediana)", change:"Qiziqish o'zgarishi"}[metric];
     el.innerHTML = `<div>${title}</div><div class="bar" style="background:linear-gradient(90deg,${grad})"></div><div class="ticks">${ticks.map(t=>`<span>${t}</span>`).join("")}</div>` +
-      (metric === "share" || metric === "change" ? "<div style='margin-top:3px'>Faqat kuzatilayotgan 9 bozor</div>" : "");
+      (metric === "share" || metric === "change" ? "<div style='margin-top:3px'>Faqat Vikipediyasi kuzatilayotgan bozorlar</div>" : "");
   }
   function panel(){
     const id = selected, c = M.countries[id], m = M.markets[id], el = document.getElementById("panel");
@@ -505,7 +550,7 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
     const ups = (M.upcoming || []).filter(u => u.isos.includes(id));
     if (effs.length) h += `<b>O'tgan voqealar</b><ul class="evlist">` + effs.map(e => `<li>${e.date}: ${e.title} — Vikipediya ${e.wiki_ratio == null ? "—" : "×" + e.wiki_ratio}, turistlar ${e.excess == null ? "kutilmoqda" : "×" + e.excess}${(e.arr_verdict||"").includes("(") ? " <i>(ishonchsiz)</i>" : ""}</li>`).join("") + `</ul>`;
     if (ups.length) h += `<b>Kutilayotgan</b><ul class="evlist">` + ups.map(u => `<li>${u.date}: ${u.title} — ${pp(u.estimate.info)} qiziqish, ${pp(u.estimate.arr)} turistlar</li>`).join("") + `</ul>`;
-    if (!m) h += `<p class="note">Bu mamlakat uchun Vikipediya qiziqishi kuzatilmaydi (faqat 9 bozor).</p>`;
+    if (!m) h += `<p class="note">Bu mamlakat uchun Vikipediya qiziqishi kuzatilmaydi (faqat kuzatilayotgan bozorlar).</p>`;
     el.innerHTML = h;
     if (typeof Plotly === "undefined") return;
     // a fresh layout object per chart: Plotly writes axis ranges into the object it is given
@@ -538,20 +583,43 @@ if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
     return `<p style="margin:8px 0 0"><b>🔢 Turistlar soniga kutilgan ta'sir, oyiga</b> <span class="note">(${x.n} ta o'xshash voqea; o'rtacha natija va o'rtadagi yarmining oralig'i)</span></p>` +
       `<table class="exp"><tr><th>Bozor</th><th>Hozir/oy</th><th>Kutilgan</th><th>Oraliq</th><th>Asos</th></tr>${rows}</table><p class="note" style="margin:4px 0 0">${concl}</p>`;
   }
-  const tn = {visa:"viza", flight:"reys", event:"tadbir", sport:"sport", politics:"siyosat", price:"narx", infrastructure:"infratuzilma", marketing:"marketing", other:"boshqa"};
+  const tn = {visa:"viza", border:"chegara ochilishi", crossing:"o'tish punkti", flight:"reys", event:"tadbir", sport:"sport", politics:"siyosat", price:"narx", infrastructure:"infratuzilma", marketing:"marketing", other:"boshqa"};
   const conf = {low:"past", medium:"o'rta", high:"yuqori"};
   const row = (label, x) => x && x.p != null
     ? `<span>${label}</span><span><div class="meter"><i style="width:${Math.round(x.p*100)}%"></i></div> <b>~${Math.round(x.p*100)}%</b> — ${x.k}/${x.n} o'xshash holatda (ishonch: ${conf[x.conf]})</span>`
     : `<span>${label}</span><span>ma'lumot yetarli emas (${x ? x.n : 0} ta o'xshash voqea)</span>`;
-  box.innerHTML = U.length ? U.map(u => `<div class="upcard"><b>${u.title}</b><div class="note">${u.date} · ${u.days} kundan keyin · ${tn[u.type]||u.type} · ` +
-      `${u.markets === "all" ? "barcha uzoq bozorlar" : u.isos.map(nm).join(", ")}${u.source ? ` · <a href="${u.source}" target="_blank" rel="noopener">manba</a>` : ""}</div>` +
-      `<div class="p">${row("📖 Ma'lumot qidirish", u.estimate.info)}${row("🧳 Turistlar kelishi", u.estimate.arr)}</div>` + expect(u) + `</div>`).join("")
-    : `<p class="note">Hozircha kutilayotgan voqea yo'q.</p>`;
+  const R = M.recent || [];
+  let dir = "next", win = 366;
+  const wv = {strong:"kuchli", some:"biroz", none:"yo'q"};
+  const card = u => `<div class="upcard"><b>${u.title}</b><div class="note">${u.date}${u.precision && u.precision !== "day" ? " (taxminiy: " + ({month:"oy", quarter:"chorak"}[u.precision]||u.precision) + ")" : ""} · ${u.days} kundan keyin · ${tn[u.type]||u.type} · ` +
+      `${u.markets === "all" ? "barcha uzoq bozorlar" : u.markets === "neighbours" ? "qo'shni davlatlar" : u.isos.map(nm).join(", ")}${u.source ? ` · <a href="${u.source}" target="_blank" rel="noopener">manba</a>` : ""}</div>` +
+      `<div class="p">${row("📖 Ma'lumot qidirish", u.estimate.info)}${row("🧳 Turistlar kelishi", u.estimate.arr)}</div>` + expect(u) + `</div>`;
+  const pastCard = r => {
+    const rows = r.rows.map(x => `<tr><td>${MK[x.lang]||""} ${nm(MARKET_ISO_JS[x.lang])}</td><td>${x.wiki_ratio == null ? "—" : "×" + x.wiki_ratio + " (" + (wv[x.wiki_verdict]||"—") + ")"}</td>` +
+      `<td>${x.arr_before == null ? "kutilmoqda" : fmt(Math.round(x.arr_before)) + " → " + fmt(Math.round(x.arr_after))}</td><td>${x.excess == null ? "—" : "×" + x.excess}</td></tr>`).join("");
+    return `<div class="upcard"><b>${r.title}</b><div class="note">${r.date} · ${r.days_ago} kun oldin · ${tn[r.type]||r.type}${r.source ? ` · <a href="${r.source}" target="_blank" rel="noopener">manba</a>` : ""}</div>` +
+      `<table class="exp"><tr><th>Bozor</th><th>Vikipediya, 7 kun</th><th>Turistlar/oy, oldin → keyin</th><th>Farq</th></tr>${rows}</table></div>`;
+  };
+  const winName = {1:"bugun", 7:"shu hafta", 31:"shu oy", 366:"shu yil", 99999:"hammasi"};
+  function renderList(){
+    if (dir === "next") {
+      const L = U.filter(u => u.days < win);
+      box.innerHTML = L.length ? L.map(card).join("") : `<p class="note">Kelgusi davrda (${winName[win]}) tasdiqlangan voqea yo'q. Eng yaqini: ${U.length ? U[0].date + " — " + U[0].title : "—"}.</p>`;
+    } else {
+      const L = R.filter(r => r.days_ago < win);
+      box.innerHTML = L.length ? L.map(pastCard).join("") : `<p class="note">O'tgan davrda (${winName[win]}) voqea yo'q.</p>`;
+    }
+  }
+  document.querySelectorAll("[data-dir]").forEach(b => b.onclick = () => { dir = b.dataset.dir;
+    document.querySelectorAll("[data-dir]").forEach(x => x.classList.toggle("on", x === b)); renderList(); });
+  document.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { win = +b.dataset.win;
+    document.querySelectorAll("[data-win]").forEach(x => x.classList.toggle("on", x === b)); renderList(); });
+  renderList();
 })();
 (function renderEvents(){
   const box = document.getElementById("events-box");
   if (!D.effects || !D.effects.length) { box.style.display = "none"; return; }
-  const tn = {visa:"viza", flight:"reys", event:"tadbir", sport:"sport", politics:"siyosat", price:"narx",
+  const tn = {visa:"viza", border:"chegara ochilishi", crossing:"o'tish punkti", flight:"reys", event:"tadbir", sport:"sport", politics:"siyosat", price:"narx",
               infrastructure:"infratuzilma", marketing:"marketing", other:"boshqa"};
   const wv = {strong:"kuchli", some:"biroz", none:"yo'q"};
   const av = v => (!v || v === "—") ? "kutilmoqda" : v.startsWith("rose") ? "ko'proq o'sdi" : v.startsWith("fell") ? "kamaydi" : "aniq o'zgarish yo'q";

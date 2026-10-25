@@ -109,6 +109,7 @@ def weekly():
     weeks = wide.resample("W-SUN").sum()
     last_full = weeks.index[-1] if wide.index.max().weekday() == 6 else weeks.index[-2]
     weeks = weeks.loc[:last_full].iloc[-12:]
+    weeks = weeks[[c for c in weeks.columns if config.MARKETS.get(c, {}).get("group") != "neighbour"]]
     index = weeks / weeks.iloc[0] * 100
 
     config.CHARTS.mkdir(exist_ok=True)

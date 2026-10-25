@@ -141,6 +141,8 @@ def movers(wide: pd.DataFrame, day=None) -> list[dict]:
         return []
     out = []
     for lang in wide.columns:
+        if config.MARKETS.get(lang, {}).get("group") == "neighbour":
+            continue  # own-language Wikipedias of neighbours are too small / mostly read in Russian
         # MEDIAN, not mean: one freak day (e.g. 18,041 Japanese views on 30 Sep 2026, ~14x normal)
         # would otherwise inflate the baseline for a month and make normal days look like crashes.
         series = base[lang].dropna()
@@ -190,7 +192,7 @@ def explain(wide: pd.DataFrame, day, shown: list[dict]) -> dict:
             out["weekday"].append({"lang": m["lang"], "pct": abs(factor), "up": factor > 0})
         if m["avg"] < 300:
             out["small"].append({"lang": m["lang"], "n": int(round(m["avg"], -1))})
-    distant = [l for l, i in config.MARKETS.items() if i["stat_names"] and l != "ru" and l in wide.columns]
+    distant = [l for l in config.DISTANT if l in wide.columns]
     ly = day - pd.DateOffset(years=1)
     win_now = slice(day - pd.Timedelta(days=6), day)
     win_then = slice(ly - pd.Timedelta(days=6), ly)
