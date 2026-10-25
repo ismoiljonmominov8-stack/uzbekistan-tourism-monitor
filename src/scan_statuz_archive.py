@@ -99,9 +99,11 @@ def inspect(item: tuple[str, str]) -> dict:
     body = flat[start: start + 4000]
     y, m = period(title + " " + body)
     row["year"], row["month"] = y or "", m or ""
-    t = TOTAL.search(body)
-    if t:
-        row["total_guess"] = to_number(t.group(1), t.group(2)) or ""
+    for t in TOTAL.finditer(body):
+        n = to_number(t.group(1), t.group(2))
+        if n and not (not t.group(2) and 2000 <= n <= 2030):  # a year, not a count
+            row["total_guess"] = n
+            break
     try:
         rel = statuz.parse_release(text)
         if rel:
