@@ -296,7 +296,7 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
     <button data-dir="next" class="on">Kelgusi</button><button data-dir="past">O'tgan</button>
   </div>
   <h2>Kutilayotgan voqealar va ularning kutilgan ta'siri</h2>
-  <p class="note">Telegram botga <code>/event SANA | TURI | DAVLATLAR | NOMI | HAVOLA</code> yuboring yoki yangilikni ✅ bilan tasdiqlang. Ehtimollar — o'tgan o'lchangan o'xshash voqealarga asoslangan ulush, bashorat emas. Voqea o'tgach, haqiqiy ta'sir o'zi o'lchanadi.</p>
+  <p class="note">Voqea qo'shish: Telegram botga oddiy so'zlar bilan yozing (masalan, «5-dekabr kuni Samarqandda festival, Xitoy va Koreyadan mehmonlar kutilmoqda») yoki yangilikni ✅ bilan tasdiqlang. Ehtimollar — o'tgan o'lchangan o'xshash voqealarga asoslangan ulush, bashorat emas. Voqea o'tgach, haqiqiy ta'sir o'zi o'lchanadi.</p>
   <div class="controls" id="win-btns">
     <button data-win="1">Kun</button><button data-win="7">Hafta</button><button data-win="31">Oy</button>
     <button data-win="366" class="on">Yil</button><button data-win="99999">Hammasi</button>
