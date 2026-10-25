@@ -1,26 +1,26 @@
 zip bytes: 886945845
 files: 848
 sample: WID_countries.csv, WID_data_AD.csv, WID_data_AE.csv, WID_data_AF.csv, WID_data_AG.csv, WID_data_AI.csv, WID_data_AL.csv, WID_data_AM.csv, WID_data_AN.csv, WID_data_AO.csv, WID_data_AR.csv, WID_data_AS.csv, WID_data_AT.csv, WID_data_AU.csv, WID_data_AW.csv
-KZ: 0 matching rows
-KG: 0 matching rows
-TJ: 0 matching rows
-TM: 0 matching rows
-AF: 0 matching rows
-RU: 0 matching rows
-CN: 0 matching rows
-TR: 0 matching rows
-KR: 0 matching rows
+KZ: 34830 matching rows
+KG: 34830 matching rows
+TJ: 34830 matching rows
+TM: 34830 matching rows
+AF: 34830 matching rows
+RU: 51858 matching rows
+CN: 44892 matching rows
+TR: 43344 matching rows
+KR: 76626 matching rows
 IN head:
 country;variable;percentile;year;value;age;pop;data_quality
 IN;ehfcari999;p0p100;1990;312.117210157097;999;i;
 IN;ehfcari999;p0p100;1991;328.894016002168;999;i;
 IN;ehfcari999;p0p100;1992;355.461498859108;999;i;
 IN;ehfcari999;p0p100;1993;358.065984849116;999;i;
-IN: 0 matching rows
-DE: 0 matching rows
-JP: 0 matching rows
-IT: 0 matching rows
-FR: 0 matching rows
-GB: 0 matching rows
-US: 0 matching rows
-UZ: 0 matching rows
+IN: 82890 matching rows
+DE: 95202 matching rows
+JP: 109134 matching rows
+IT: 47988 matching rows
+FR: 89010 matching rows
+GB: 92880 matching rows
+US: 90558 matching rows
+UZ: 34830 matching rows
