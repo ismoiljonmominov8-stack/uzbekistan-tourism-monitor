@@ -57,8 +57,9 @@ export async function tick(cron, env) {
   // matched by time, so the weekday spelling (MON / 2 / 1) does not matter
   if (cron.startsWith("47 4 ")) return (await startWorkflow(env, "daily.yml")) && "daily started";
   if (cron.startsWith("23 5 ")) return (await startWorkflow(env, "weekly.yml")) && "weekly started";
-  if (!(await botHasMail(env))) return "no messages";
+  // the bot already running is reading Telegram itself; peeking now would collide with it
   if (await isBusy(env, "approvals.yml")) return "bot already running";
+  if (!(await botHasMail(env))) return "no messages";
   await startWorkflow(env, "approvals.yml");
   return "bot started";
 }
@@ -71,7 +72,11 @@ export default {
   async fetch(request, env) {
     const checks = [];
     try { await botHasMail(env); checks.push("✅ Telegram token works"); }
-    catch (e) { checks.push("❌ Telegram: " + e.message); }
+    catch (e) {
+      // "Conflict" = the bot on GitHub is reading messages at this moment: the token works
+      checks.push(/Conflict/.test(e.message) ? "✅ Telegram token works (the bot is answering right now)"
+                                             : "❌ Telegram: " + e.message);
+    }
     try { await isBusy(env, "approvals.yml"); checks.push("✅ GitHub token works"); }
     catch (e) { checks.push("❌ GitHub: " + e.message); }
     return new Response("Uzbekistan Tourism Monitor worker\n\n" + checks.join("\n") + "\n",
