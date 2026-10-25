@@ -70,3 +70,6 @@
 2026-10-25 07:21:14 message received: '❓ Yordam'
 2026-10-25 07:21:14 getUpdates offset=182454945 pending=1 got=0 kinds=[]
 2026-10-25 07:33:16 getUpdates offset=182454945 pending=1 got=0 kinds=[]
+2026-10-25 09:13:18 getUpdates offset=182454945 pending=1 got=1 kinds=['message']
+2026-10-25 09:13:18 message received: '🗓 Kutilayotgan voqealar'
+2026-10-25 09:13:19 getUpdates offset=182454946 pending=1 got=0 kinds=[]
