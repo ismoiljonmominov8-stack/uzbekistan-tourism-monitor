@@ -1,0 +1,28 @@
+name: Download WID income distributions
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m src.fetch_wid
+      - name: Commit
+        run: |
+          git config user.name "tourism-monitor-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/wid.csv
+          git diff --cached --quiet && exit 0
+          git commit -m "data: WID income distributions"
+          git push || (git pull --rebase && git push)
