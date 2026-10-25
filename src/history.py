@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from . import config, events, pageviews, statuz
+from . import config, events, forecast, pageviews, statuz
 from .util import log
 
 DOCS = config.ROOT / "docs"
@@ -173,7 +173,12 @@ def build():
                           for r in ev_summary]
         eff.to_csv(DOCS / "event_effects.csv", index=False)
 
-    data = {"dates": dates, "series": series, "monthly": monthly, "map": map_data(wide, proj, mon),
+    try:
+        overall = forecast.build()
+    except Exception:  # noqa: BLE001  the page must still build if the forecast fails
+        log.exception("overall forecast failed")
+        overall = None
+    data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "map": map_data(wide, proj, mon),
             "events": ev_list, "effects": ev_rows, "ev_summary": ev_summary,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "first": dates[0], "last": dates[-1]}
@@ -319,6 +324,18 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 
 
 <h2 class="sect">Batafsil grafiklar</h2>
+<section id="overall-box">
+  <h2>Jami xorijiy turistlar: 2018 – 2026 (prognoz bilan)</h2>
+  <p class="note"><b>Muhim:</b> rasmiy statistika faqat <b>oylik</b> (2025-yildan) va <b>yillik</b> (2018–2024) chiqadi; kunlik yoki haftalik rasmiy raqam yo'q.
+  Shuning uchun "Kun" va "Hafta" — o'rtacha qiymat (oy ÷ kunlar soni, ×7). Kulrang uzuq chiziq — oylik ma'lumot yo'q yillar (yillik jami ÷ 12, mavsum ko'rinmaydi).
+  Ochiq nuqta — manbada yaxlitlangan yoki ikki oy birga e'lon qilingan (teng bo'lingan). Rangli soha — prognoz oralig'i.</p>
+  <div class="controls">
+    <button data-og="day">Kun</button><button data-og="week">Hafta</button>
+    <button data-og="month" class="on">Oy</button><button data-og="year">Yil</button>
+  </div>
+  <div id="overall" class="chart"></div>
+  <p class="note" id="overall-method"></p>
+</section>
 <section>
   <h2>Vikipediya ko'rishlari — kun, hafta, oy, yil</h2>
   <p class="note">O'zbekiston, Samarqand, Buxoro, Xiva, Toshkent sahifalari, har bir til = bir bozor. Hafta/oy/yil — shu davrdagi ko'rishlar yig'indisi (tugallanmagan oxirgi davr ko'rsatilmaydi). Qo'shni davlatlar yashirin — legendani bosib yoqing. ▼ — voqealar. Kamera belgisi grafikni PNG qilib yuklaydi.</p>
@@ -455,7 +472,74 @@ document.querySelectorAll("[data-gran]").forEach(b => b.onclick = () => {
   gran = b.dataset.gran; document.querySelectorAll("[data-gran]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
 document.querySelectorAll("[data-scale]").forEach(b => b.onclick = () => {
   scale = b.dataset.scale; document.querySelectorAll("[data-scale]").forEach(x => x.classList.toggle("on", x===b)); drawViews(); });
-if (typeof Plotly !== "undefined") { drawViews(); drawShare(); drawArrivals(); }
+
+let og = "month";
+function drawOverall(){
+  const O = D.overall, box = document.getElementById("overall-box");
+  if (!O || !O.points || !O.points.length) { box.style.display = "none"; return; }
+  const dim = m => new Date(Date.UTC(+m.slice(0,4), +m.slice(5,7), 0)).getUTCDate();
+  const per = (m, v) => og === "day" ? v / dim(m) : og === "week" ? v / dim(m) * 7 : v;
+  const unit = {day:"turist / kun (o'rtacha)", week:"turist / hafta (o'rtacha)", month:"turist / oy", year:"turist / yil"}[og];
+  const nf = v => Math.round(v).toLocaleString("ru-RU");
+  const accent = css("--accent"), ink = css("--ink"), grey = css("--rule") || "#999";
+  let tr = [];
+  const L = layout(unit, false);
+  L.xaxis.rangeslider = {visible:false}; L.xaxis.rangeselector = undefined; L.xaxis.type = "date";
+  L.yaxis.rangemode = "tozero"; L.hovermode = "x unified";
+  if (og === "year") {
+    const ys = Object.keys(O.years).sort();
+    const act = ys.filter(y => O.years[y].kind === "actual"), fc = ys.filter(y => O.years[y].kind === "forecast");
+    tr.push({x:act, y:act.map(y => O.years[y].v), type:"bar", name:"Rasmiy (yillik)",
+      marker:{color:ink}, hovertemplate:"%{y:,.0f}<extra>rasmiy</extra>"});
+    fc.forEach(y => { const r = O.years[y];
+      tr.push({x:[y], y:[r.ytd], type:"bar", name:`${y}: ${r.through} oylik haqiqiy`, marker:{color:ink, opacity:0.55},
+        hovertemplate:"%{y:,.0f}<extra>haqiqiy</extra>"});
+      tr.push({x:[y], y:[r.v - r.ytd], type:"bar", name:`${y}: prognoz (qolgan oylar)`, marker:{color:accent},
+        error_y:{type:"data", symmetric:false, array:[r.hi - r.v], arrayminus:[r.v - r.lo], color:accent},
+        hovertemplate:`jami ≈ ${nf(r.v)} (${nf(r.lo)} – ${nf(r.hi)})<extra>prognoz</extra>`}); });
+    L.barmode = "stack"; L.xaxis.type = "category";
+  } else {
+    const P = O.points, yr = P.filter(p => p.kind === "year"), mo = P.filter(p => p.kind !== "year");
+    const x = p => p.m + "-01";
+    const yrTr = {x:yr.map(x), y:yr.map(p => { const yd = (+p.m.slice(0,4) % 4 === 0) ? 366 : 365;  // flat: year / days, not month lengths
+      return og === "day" ? p.v * 12 / yd : og === "week" ? p.v * 12 / yd * 7 : p.v; }), name:"Yillik jami ÷ 12 (oylik ma'lumot yo'q)", mode:"lines",
+      line:{color:grey, width:2, dash:"dash", shape:"hv"}, hovertemplate:"%{y:,.0f}<extra>yillik o'rtacha</extra>"};
+    tr.push(yrTr);
+    tr.push({x:mo.map(x), y:mo.map(p => per(p.m, p.v)), name:"Rasmiy (oylik)", mode:"lines+markers",
+      line:{color:ink, width:2.5}, marker:{size:7, color:ink, symbol:mo.map(p => p.exact ? "circle" : "circle-open")},
+      text:mo.map(p => p.kind === "span" ? "ikki oy birga e'lon qilingan, teng bo'lingan" : p.exact ? "aniq" : "yaxlitlangan (≈)"),
+      hovertemplate:"%{y:,.0f} — %{text}<extra></extra>"});
+    if (O.forecast && O.forecast.length) {
+      const lastP = mo[mo.length - 1], F = O.forecast;
+      const fx = [x(lastP)].concat(F.map(x)), fy = [lastP.v].concat(F.map(f => f.v));
+      const lo = [lastP.v].concat(F.map(f => f.lo)), hi = [lastP.v].concat(F.map(f => f.hi));
+      const ms = [lastP.m].concat(F.map(f => f.m));
+      tr.push({x:fx, y:hi.map((v,i) => per(ms[i], v)), mode:"lines", line:{width:0}, showlegend:false, hoverinfo:"skip"});
+      tr.push({x:fx, y:lo.map((v,i) => per(ms[i], v)), mode:"lines", line:{width:0}, fill:"tonexty",
+        fillcolor:accent + "33", name:"Prognoz oralig'i", hoverinfo:"skip"});
+      tr.push({x:fx.slice(1), y:F.map(f => per(f.m, f.v)), mode:"lines+markers", name:"Prognoz",
+        line:{color:accent, width:2.5, dash:"dot"}, marker:{size:7, color:accent},
+        customdata:F.map(f => [per(f.m, f.lo), per(f.m, f.hi)]),
+        hovertemplate:"≈ %{y:,.0f} (%{customdata[0]:,.0f} – %{customdata[1]:,.0f})<extra>prognoz</extra>"});
+      tr.push({x:[x(lastP), fx[1]], y:[per(lastP.m, lastP.v), per(F[0].m, F[0].v)], mode:"lines", showlegend:false,
+        hoverinfo:"skip", line:{color:accent, width:2.5, dash:"dot"}});
+    }
+    L.xaxis.tickformat = "%Y"; L.xaxis.dtick = "M12";
+  }
+  L.legend = {orientation:"h", y:-0.12, yanchor:"top", font:{size:12}};
+  L.margin.b = NARROW ? 170 : 90;
+  Plotly.react("overall", tr, L, cfg);
+  const M = O.method, Y = M && O.years[M.year];
+  document.getElementById("overall-method").innerHTML = M ? 
+    `<b>${M.year}-yil prognozi: ≈ ${nf(Y.v)} turist</b> (oraliq ${nf(Y.lo)} – ${nf(Y.hi)}); shundan ${M.through} oyda haqiqatda ${nf(Y.ytd)} kelgan.
+     <b>Usul:</b> qolgan har bir oy = o'tgan yilning shu oyi × oxirgi 3 oy (${M.months.join(", ")}-oylar) o'sishi (×${M.central}).
+     Oraliq — oxirgi 6 oydagi eng past va eng yuqori oylik o'sish (×${M.lo} – ×${M.hi}), o'tgan yil raqami yaxlitlangan bo'lsa ±5%.
+     Bu "o'sish shunday davom etsa" degan taxmin; sabablar modeli emas. Oylik o'sish ${M.year}-yilda sekinlashmoqda:
+     ${Object.entries(M.ratios).map(([k,v]) => k.slice(5) + "-oy ×" + v).join(", ")}.` : "";
+}
+document.querySelectorAll("[data-og]").forEach(b => b.onclick = () => {
+  og = b.dataset.og; document.querySelectorAll("[data-og]").forEach(x => x.classList.toggle("on", x===b)); drawOverall(); });
+if (typeof Plotly !== "undefined") { drawOverall(); drawViews(); drawShare(); drawArrivals(); }
 (function worldMap(){
   if (typeof d3 === "undefined" || typeof topojson === "undefined" || !D.map) { document.getElementById("map-box").style.display = "none"; return; }
   const M = D.map, svg = d3.select("#map"), W = 960, H = 500;
