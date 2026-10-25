@@ -3,6 +3,8 @@ name: Daily collect & post
 on:
   schedule:
     - cron: "47 4 * * *"   # 09:47 Tashkent time, every day
+    - cron: "23 5 * * *"   # backups: GitHub sometimes skips a scheduled run;
+    - cron: "11 6 * * *"   # the job runs only once per day (run_date guard)
   workflow_dispatch: {}      # "Run workflow" button for manual runs
 
 permissions:

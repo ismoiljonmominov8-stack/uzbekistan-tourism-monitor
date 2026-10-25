@@ -157,7 +157,8 @@ def _register_event(nid):
         if eid and when > str(row["date"]):
             u = next((x for x in events.upcoming() if x["id"] == eid), None)
             if u:
-                send_message(admin_id(), format_upcoming(u, added=True) + f"\n\n<i>{t('up_note')}</i>")
+                from . import botui
+                send_message(admin_id(), botui.explain_upcoming(u, header="🗓 <b>Yangilikdan kutilayotgan voqea qo'shildi:</b>"))
         _alog(f"event registered: {eid} from news {nid}")
     except Exception as e:  # noqa: BLE001
         log.warning("could not register event for %s: %s", nid, e)
@@ -186,6 +187,10 @@ def _handle(cq, pending):
               f"admin id ends ...{str(admin_id())[-3:]}")
         return
     action, _, nid = (cq.get("data") or "").partition(":")
+    if action in ("ev", "evx"):
+        from . import botui
+        botui.handle_callback(cq, action, nid, _alog, _safe)
+        return
     if nid.startswith("test"):
         label = "✅ Test OK" if action == "ok" else "❌ Test OK"
         _alog(f"TEST press received: {action}")
@@ -266,43 +271,9 @@ def format_upcoming(u: dict, added=False) -> str:
 
 
 def _handle_command(msg):
-    """Commands from the admin in the bot chat: /event, /events, /help."""
-    from . import events
-    if str(msg.get("from", {}).get("id")) != str(admin_id()):
-        _alog("message ignored: not from the admin")
-        return
-    text = (msg.get("text") or "").strip()
-    cmd = text.split(maxsplit=1)[0].split("@")[0].lower() if text else ""
-    chat = msg["chat"]["id"]
-    _alog(f"command received: {cmd or '(no text)'} | {text[:120]}")
-    if cmd in ("/start", "/help", "/yordam"):
-        send_message(chat, esc(t("cmd_help")))
-    elif cmd in ("/events", "/voqealar"):
-        arg = text.split(maxsplit=1)[1].strip().lower() if len(text.split(maxsplit=1)) > 1 else ""
-        ups = events.upcoming(days=events.PERIODS.get(arg))
-        send_message(chat, "\n\n".join(format_upcoming(u) for u in ups) + f"\n\n<i>{t('up_note')}</i>"
-                     if ups else t("cmd_none"))
-    elif cmd in ("/event", "/voqea"):
-        parsed = events.parse_event_command(text)
-        if isinstance(parsed, str):
-            send_message(chat, esc(t("cmd_bad")))
-            return
-        words = t("country_words")
-        markets = [words.get(m.lower(), m) for m in parsed["markets"]]
-        if events.load_events()["source"].eq(parsed["source"]).any() and parsed["source"]:
-            send_message(chat, t("cmd_dup"))
-            return
-        eid = events.add_event(parsed["date"], parsed["type"], markets, parsed["title"], parsed["source"], "manual",
-                               precision=parsed.get("precision", "day"))
-        if not eid:
-            send_message(chat, esc(t("cmd_nomarket")))
-            return
-        _alog(f"command: event {eid} added")
-        u = next((x for x in events.upcoming() if x["id"] == eid), None)
-        if u is None:  # a past date: it will be measured, not estimated
-            send_message(chat, f"✅ {eid}: {esc(parsed['title'])} ({parsed['date']})")
-        else:
-            send_message(chat, format_upcoming(u, added=True) + f"\n\n<i>{t('up_note')}</i>")
+    """Messages from the admin in the bot chat (plain language, menu buttons, old commands)."""
+    from . import botui
+    botui.handle_message(msg, _alog)
 
 
 def process_approvals(wait_minutes: float = 0):
@@ -321,8 +292,6 @@ def process_approvals(wait_minutes: float = 0):
     while True:
         offset = read_json(OFFSET, {"offset": 0})["offset"]
         pending = read_json(PENDING, {})
-        if wait_minutes and not pending:
-            break
         poll = 0 if not wait_minutes else int(max(0, min(50, deadline - time.time())))
         try:
             updates = tg_call("getUpdates", {"offset": offset, "timeout": poll,

@@ -30,7 +30,22 @@ def collect():
     return step("stat.uz", statuz.collect) or []
 
 
+def tashkent_now():
+    from datetime import datetime, timedelta, timezone
+    return datetime.now(timezone.utc) + timedelta(hours=5)
+
+
 def daily():
+    """Runs at most once per Tashkent day (several schedules + catch-up may call it)."""
+    from .util import read_json, write_json
+    state = read_json(posts.STATE, {})
+    today = tashkent_now().date().isoformat()
+    if state.get("run_date") == today:
+        log.info("daily: already ran today (%s); only handling approvals", today)
+        step("approvals", news.process_approvals, 2)
+        return
+    state["run_date"] = today
+    write_json(posts.STATE, state)
     releases = collect()
     step("event tracker", posts.event_results)
     step("history chart", history.build)
@@ -47,8 +62,16 @@ def events_measure():
 
 
 def approvals():
-    """Handle button presses and bot commands; if an event was added, refresh effects and the page."""
+    """Handle button presses and messages; if an event was added, refresh effects and the page.
+    Also a safety net: if the morning run was skipped by GitHub, do it now."""
     from . import events
+    from .util import read_json
+    now = tashkent_now()
+    if now.hour * 60 + now.minute >= 9 * 60 + 40 and read_json(posts.STATE, {}).get("run_date") != now.date().isoformat():
+        log.info("approvals: morning run missing today -> running it now")
+        os.environ["APPROVAL_WAIT_MINUTES"] = "3"
+        daily()
+        return
     before = events.EVENTS.stat().st_mtime if events.EVENTS.exists() else 0
     step("approvals", news.process_approvals)
     if events.EVENTS.exists() and events.EVENTS.stat().st_mtime != before:

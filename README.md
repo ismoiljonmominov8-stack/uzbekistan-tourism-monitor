@@ -56,7 +56,13 @@ Does an announcement change (1) attention and (2) actual arrivals? Every event i
 views per million of that language's Wikipedia, last 30 days) or its change vs a year ago. Click a
 country for its numbers, yearly chart, Wikipedia chart, past events and upcoming events.
 
-**Upcoming events and possibilities:** send the bot
+**Talking to the bot (plain language):** the bot chat has four menu buttons — 📊 Bugungi holat
+(today's Wikipedia index, news waiting for approval, latest official figures), 🗓 Kutilayotgan voqealar,
+➕ Voqea qo'shish, ❓ Yordam. To add an event just write it in normal words, e.g. «5-dekabr kuni
+Samarqandda festival, Xitoy va Koreyadan mehmonlar kutilmoqda». The AI (with a rule-based fallback)
+reads the date, type and countries, the bot shows what it understood, and saves only after ✅.
+
+**Upcoming events and possibilities (old command, still works):** send the bot
 `/event 2026-12-05 | festival | China, Korea | Title | https://link` (`/events` lists them, `/help`
 shows the format; Uzbek words such as `viza`, `reys`, `Xitoy`, `barcha` work too). The bot answers with
 two possibilities computed from past measured events of the same type: people looking up Uzbekistan

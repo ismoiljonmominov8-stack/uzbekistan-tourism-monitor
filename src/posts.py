@@ -35,6 +35,54 @@ def single_article_spike(df: pd.DataFrame, lang: str, day) -> str | None:
     return top if diff[top] / total > 0.8 else None
 
 
+def daily_text(df: pd.DataFrame, wide: pd.DataFrame, day) -> str | None:
+    """The daily index message for `day` (None if there is not enough history)."""
+    ds = day.strftime("%d.%m.%Y")
+    mv = pageviews.movers(wide, day)
+    if not mv:
+        return None
+    if max(abs(m["change"]) for m in mv) < 0.10:
+        return t("quiet").format(date=ds)
+    lines = [f"<b>{t('daily_title').format(date=ds)}</b>", "", t("movers")]
+    for m in mv[: config.TOP_MOVERS]:
+        flag = config.MARKETS[m["lang"]]["flag"]
+        lines.append(f"{flag} {esc(market_name(m['lang']))}  <b>{_fmt_change(m['change'])}</b>  ({m['views']:,})")
+    top = pageviews.most_viewed_article(df, day)
+    if top:
+        lines += ["", t("most_viewed").format(article=top)]
+    up, n = pageviews.trend_7d(wide)
+    if n:
+        lines.append(t("trend").format(up=up, n=n))
+    spikes = [m for m in mv if m["unusual"]]
+    if spikes:
+        names = ", ".join(f"{market_name(m['lang'])} {m['change']:+.0%}" for m in spikes)
+        lines += ["", t("spike").format(markets=esc(names))]
+        for m in spikes:
+            art = single_article_spike(df, m["lang"], day)
+            if art:
+                lines.append(t("bot_warning").format(market=esc(market_name(m["lang"])), article=esc(art)))
+    why = pageviews.explain(wide, day, mv[: config.TOP_MOVERS])
+    reasons = [t("why_weekday").format(market=esc(market_name(w["lang"])), weekday=t("weekdays")[day.dayofweek],
+                                       pct=w["pct"], dir=t("dir_up") if w["up"] else t("dir_down"))
+               for w in why["weekday"]]
+    reasons += [t("why_small").format(market=esc(market_name(x["lang"])), n=x["n"]) for x in why["small"]]
+    if why.get("yoy") is not None:
+        reasons.append(t("why_yoy").format(raw=why["yoy_raw"], wiki=why["wiki_trend"], pct=why["yoy"]))
+    y = why.get("yoy")
+    yoy_text = "" if y is None else t("yoy_up") if y >= 0.10 else t("yoy_down") if y <= -0.10 else t("yoy_flat")
+    if reasons:
+        lines += ["", t("why_title")] + reasons
+    if spikes:
+        lines += ["", "<b>" + t("concl_unusual").format(
+            markets=esc(", ".join(market_name(m["lang"]) for m in spikes))) + "</b>"]
+    else:
+        lines += ["", "<b>" + t("concl_normal").format(yoy_text=yoy_text).strip() + "</b>"]
+    if config.CHART_URL:
+        lines.append(t("chart_link").format(url=config.CHART_URL))
+    lines += ["", f"<i>{t('footnote')}</i>"]
+    return "\n".join(lines)
+
+
 def daily(force=False):
     state = read_json(STATE, {})
     df = pageviews.load()
@@ -49,53 +97,11 @@ def daily(force=False):
     if state.get("daily") == str(day.date()) and not force:
         log.info("daily: already posted for %s", day.date())
         return
-
-    ds = day.strftime("%d.%m.%Y")
-    mv = pageviews.movers(wide, day)
-    if not mv:
+    text = daily_text(df, wide, day)
+    if text is None:
         log.info("daily: not enough history for a baseline yet")
         return
-    if max(abs(m["change"]) for m in mv) < 0.10:
-        send_message(channel_id(), t("quiet").format(date=ds))
-    else:
-        lines = [f"<b>{t('daily_title').format(date=ds)}</b>", "", t("movers")]
-        for m in mv[: config.TOP_MOVERS]:
-            flag = config.MARKETS[m["lang"]]["flag"]
-            lines.append(f"{flag} {esc(market_name(m['lang']))}  <b>{_fmt_change(m['change'])}</b>  ({m['views']:,})")
-        top = pageviews.most_viewed_article(df, day)
-        if top:
-            lines += ["", t("most_viewed").format(article=top)]
-        up, n = pageviews.trend_7d(wide)
-        if n:
-            lines.append(t("trend").format(up=up, n=n))
-        spikes = [m for m in mv if m["unusual"]]
-        if spikes:
-            names = ", ".join(f"{market_name(m['lang'])} {m['change']:+.0%}" for m in spikes)
-            lines += ["", t("spike").format(markets=esc(names))]
-            for m in spikes:
-                art = single_article_spike(df, m["lang"], day)
-                if art:
-                    lines.append(t("bot_warning").format(market=esc(market_name(m["lang"])), article=esc(art)))
-        why = pageviews.explain(wide, day, mv[: config.TOP_MOVERS])
-        reasons = [t("why_weekday").format(market=esc(market_name(w["lang"])), weekday=t("weekdays")[day.dayofweek],
-                                           pct=w["pct"], dir=t("dir_up") if w["up"] else t("dir_down"))
-                   for w in why["weekday"]]
-        reasons += [t("why_small").format(market=esc(market_name(x["lang"])), n=x["n"]) for x in why["small"]]
-        if why.get("yoy") is not None:
-            reasons.append(t("why_yoy").format(raw=why["yoy_raw"], wiki=why["wiki_trend"], pct=why["yoy"]))
-        y = why.get("yoy")
-        yoy_text = "" if y is None else t("yoy_up") if y >= 0.10 else t("yoy_down") if y <= -0.10 else t("yoy_flat")
-        if reasons:
-            lines += ["", t("why_title")] + reasons
-        if spikes:
-            lines += ["", "<b>" + t("concl_unusual").format(
-                markets=esc(", ".join(market_name(m["lang"]) for m in spikes))) + "</b>"]
-        else:
-            lines += ["", "<b>" + t("concl_normal").format(yoy_text=yoy_text).strip() + "</b>"]
-        if config.CHART_URL:
-            lines.append(t("chart_link").format(url=config.CHART_URL))
-        lines += ["", f"<i>{t('footnote')}</i>"]
-        send_message(channel_id(), "\n".join(lines))
+    send_message(channel_id(), text)
     state["daily"] = str(day.date())
     write_json(STATE, state)
 

@@ -76,18 +76,24 @@ def _tg(method, payload=None, files=None):
     return data["result"]
 
 
-def send_message(chat_id, text, *, buttons=None):
-    """Send an HTML message. buttons = [[(label, callback_data), ...], ...]"""
+def send_message(chat_id, text, *, buttons=None, keyboard=None):
+    """Send an HTML message. buttons = [[(label, callback_data), ...], ...] (inline, under the message);
+    keyboard = [[label, ...], ...] (menu buttons that stay above the typing field)."""
     if dry_run() or not chat_id:
         print(f"\n----- [DRY RUN] message to {chat_id or '(no chat)'} -----\n{text}\n")
         if buttons:
             print("buttons:", buttons)
+        if keyboard:
+            print("keyboard:", keyboard)
         return None
     payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}
     if buttons:
         payload["reply_markup"] = {
             "inline_keyboard": [[{"text": t, "callback_data": d} for t, d in row] for row in buttons]
         }
+    elif keyboard:
+        payload["reply_markup"] = {"keyboard": [[{"text": t} for t in row] for row in keyboard],
+                                   "resize_keyboard": True, "is_persistent": True}
     return _tg("sendMessage", payload)
 
 

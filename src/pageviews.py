@@ -170,6 +170,7 @@ def trend_7d(wide: pd.DataFrame) -> tuple[int, int]:
     """(markets rising, markets total): last 7 days average vs the 7 days before."""
     if len(wide) < 14:
         return 0, 0
+    wide = wide[[c for c in wide.columns if config.MARKETS.get(c, {}).get("group") != "neighbour"]]
     last, prev = wide.iloc[-7:].mean(), wide.iloc[-14:-7].mean()
     valid = [l for l in wide.columns if prev.get(l, 0) >= 20]
     return sum(1 for l in valid if last[l] > prev[l]), len(valid)
