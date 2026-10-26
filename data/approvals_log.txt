@@ -133,3 +133,10 @@
 2026-10-26 11:16:35 getUpdates offset=182454946 pending=3 got=0 kinds=[]
 2026-10-26 11:16:35 getUpdates offset=182454946 pending=3 got=0 kinds=[]
 2026-10-26 11:16:38 getUpdates offset=182454946 pending=3 got=0 kinds=[]
+2026-10-26 11:56:14 getUpdates offset=182454946 pending=3 got=3 kinds=['callback_query', 'callback_query', 'message']
+2026-10-26 11:56:14 event registered: None from news f96a6de6d15a
+2026-10-26 11:56:14 press handled: ok f96a6de6d15a
+2026-10-26 11:56:14 event registered: E2026-08 from news d10c2ca1115e
+2026-10-26 11:56:15 press handled: ok d10c2ca1115e
+2026-10-26 11:56:15 message received: '🗓 Kutilayotgan voqealar'
+2026-10-26 11:56:15 getUpdates offset=182454949 pending=1 got=0 kinds=[]
