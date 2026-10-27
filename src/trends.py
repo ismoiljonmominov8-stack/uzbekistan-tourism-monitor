@@ -127,5 +127,49 @@ def collect() -> None:
     log.info("trends: interest %s, visa rows %d", "ok" if ib is not None else "failed", len(rows))
 
 
+def test2() -> None:
+    """Second test: topic ids, competitor share by country, visa share with monthly data over 5 years."""
+    lines = []
+    py = client()
+    ids = {}
+    for name in ("Uzbekistan", "Kazakhstan", "Kyrgyzstan", "Georgia", "Tajikistan", "Turkmenistan", "Samarkand"):
+        sug = _retry(lambda: py.suggestions(name)) or []
+        lines.append(f"suggest {name}: " + "; ".join(f"{x.get('mid')}={x.get('title')}/{x.get('type')}" for x in sug[:4]))
+        hit = next((x for x in sug if x.get("title") == name and "ountry" in str(x.get("type"))), None) or (sug[0] if sug else None)
+        if hit:
+            ids[name] = hit["mid"]
+        time.sleep(3)
+    comp = [ids[k] for k in ("Uzbekistan", "Kazakhstan", "Kyrgyzstan", "Georgia", "Tajikistan") if k in ids]
+    names = {v: k for k, v in ids.items()}
+
+    def go():
+        py.build_payload(comp, timeframe=TIMEFRAME, geo="")
+        return py.interest_by_region(resolution="COUNTRY", inc_low_vol=True, inc_geo_code=True)
+    time.sleep(PAUSE)
+    df = _retry(go)
+    if df is not None:
+        df = df.rename(columns=names)
+        keep = df[df["geoCode"].isin(["US", "GB", "IN", "DE", "FR", "IT", "JP", "KR", "TR", "RU", "KZ", "CN", "ES", "PL", "NL"])]
+        lines.append("competitor split by country (row = %):\n" + keep.to_string())
+    else:
+        lines.append("competitor split: FAILED")
+    for geo in ("DE", "KR", "IN", "JP", "TR"):
+        name, term, visa_term, _ = TERMS[geo]
+
+        def go2():
+            py.build_payload([term, visa_term], timeframe="2021-10-01 2026-10-26", geo=geo)
+            return py.interest_over_time()
+        time.sleep(PAUSE)
+        d = _retry(go2)
+        if d is None or d.empty:
+            lines.append(f"visa5y {geo}: FAILED")
+            continue
+        lines.append(f"visa5y {geo}: rows={len(d)} base_mean={d[term].mean():.2f} visa_mean={d[visa_term].mean():.2f} "
+                     f"visa_nonzero_rows={(d[visa_term] > 0).sum()} share={d[visa_term].mean() / max(d[term].mean(), 1e-9):.3f}")
+    Path("reports").mkdir(exist_ok=True)
+    Path("reports/trends_test2.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("\n".join(lines))
+
+
 if __name__ == "__main__":
-    {"test": test, "collect": collect}[sys.argv[1] if len(sys.argv) > 1 else "test"]()
+    {"test": test, "test2": test2, "collect": collect}[sys.argv[1] if len(sys.argv) > 1 else "test"]()
