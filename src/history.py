@@ -105,6 +105,33 @@ def map_data(wide, proj, mon) -> dict:
             "years": sorted(totals) if totals else []}
 
 
+TRENDS_GEO = {"US": "🇺🇸 AQSh", "GB": "🇬🇧 Buyuk Britaniya", "DE": "🇩🇪 Germaniya", "FR": "🇫🇷 Fransiya",
+              "IT": "🇮🇹 Italiya", "JP": "🇯🇵 Yaponiya", "KR": "🇰🇷 Koreya", "IN": "🇮🇳 Hindiston",
+              "CN": "🇨🇳 Xitoy", "TR": "🇹🇷 Turkiya", "RU": "🇷🇺 Rossiya", "KZ": "🇰🇿 Qozog'iston"}
+
+
+def trends_data() -> dict | None:
+    """Uzbekistan's share of searches among 5 destinations, by market: yearly history + latest 90 days."""
+    from . import trends
+    df = trends.load()
+    if df.empty:
+        return None
+    df = df[df["geo"].isin(TRENDS_GEO)]
+    df["period"] = df["period"].astype(str)
+    years = sorted(p for p in df["period"].unique() if p.isdigit())
+    snaps = sorted(p for p in df["period"].unique() if p.startswith("90d-"))
+    out = {"years": years, "snapshot": snaps[-1][4:] if snaps else None, "markets": [],
+           "destinations": [trends.NAMES_UZ[d] for d in trends.TOPICS]}
+    for geo, name in TRENDS_GEO.items():
+        g = df[df["geo"] == geo]
+        uz = g[g["destination"] == "Uzbekistan"].set_index("period")["share"]
+        latest = g[g["period"] == (snaps[-1] if snaps else years[-1])].set_index("destination")["share"]
+        out["markets"].append({"geo": geo, "name": name,
+                               "years": [None if y not in uz.index else int(uz[y]) for y in years],
+                               "latest": [int(latest.get(d, 0)) for d in trends.TOPICS]})
+    return out
+
+
 def build():
     df = pageviews.load()
     wide = pageviews.market_daily(df)
@@ -179,7 +206,7 @@ def build():
     except Exception:  # noqa: BLE001  the page must still build if the forecast fails
         log.exception("overall forecast failed")
         overall = None
-    data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "map": map_data(wide, proj, mon),
+    data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "trends": trends_data(), "map": map_data(wide, proj, mon),
             "events": ev_list, "effects": ev_rows, "ev_summary": ev_summary,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "first": dates[0], "last": dates[-1]}
@@ -283,6 +310,9 @@ code{font-size:14px;background:var(--paper2);padding:1px 4px;border-radius:3px}
 @media (max-width:800px){.mapgrid{grid-template-columns:1fr}.legend{position:static;border:0;border-top:1px solid #8d7a5b;border-radius:0}}
 footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);padding-top:12px}
 @media (max-width:600px){.chart{height:620px}}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
+h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
+#trends-latest,#trends-years{min-height:420px}
 </style>
 </head>
 <body>
@@ -353,6 +383,16 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
   <h2>Qiziqish ulushi (Vikipediya trafigiga nisbatan)</h2>
   <p class="note">Har 1 million Vikipediya ko'rishidan nechtasi O'zbekiston sahifalariga to'g'ri keladi (7 kunlik o'rtacha). Vikipediyaning umumiy trafigi kamayib borayotgani sababli uzoq muddatli taqqoslash uchun shu grafik to'g'riroq.</p>
   <div id="share" class="chart"></div>
+</section>
+
+<section id="trends-box">
+  <h2>Google qidiruvlari: O'zbekiston raqobatchilar orasida</h2>
+  <p class="note">Har bir davlatda 5 ta yo'nalish (O'zbekiston, Qozog'iston, Qirg'iziston, Gruziya, Tojikiston) haqidagi Google qidiruvlari 100% deb olinsa, O'zbekistonga qanchasi to'g'ri keladi. Manba: Google Trends (mavzular, tildan qat'i nazar), har hafta yangilanadi.
+  <b>Ehtiyot bo'ling:</b> bu barcha qidiruvlar — yangiliklar, sport, biznes, faqat sayohat emas. 2026 yilgi o'sish asosan FIFA Jahon chempionati bilan bog'liq bo'lishi mumkin. Xitoyda Google bloklangan — u yerdagi raqamlar kam sonli foydalanuvchiga asoslangan.</p>
+  <div class="grid2">
+    <div><h3 class="sub" id="trends-latest-title">So'nggi 90 kun</h3><div id="trends-latest" class="chart"></div></div>
+    <div><h3 class="sub">O'zbekiston ulushi yillar bo'yicha, %</h3><div id="trends-years" class="chart"></div></div>
+  </div>
 </section>
 
 <section>
@@ -447,6 +487,32 @@ function drawViews(){
   L.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}};
   L.margin.b = NARROW ? 260 : 120;
   Plotly.react("views", tr, L, cfg);
+}
+function drawTrends(){
+  const T = D.trends, box = document.getElementById("trends-box");
+  if (!T || !T.markets || !T.markets.length) { box.style.display = "none"; return; }
+  const ms = T.markets.slice().sort((a, b) => a.latest[0] - b.latest[0]);
+  const pal = [css("--accent"), "#7a8b99", "#a89c7d", "#8aa38b", "#b9a2a2"];
+  const bars = T.destinations.map((d, i) => ({type: "bar", orientation: "h", name: d, y: ms.map(m => m.name),
+    x: ms.map(m => m.latest[i]), marker: {color: pal[i]}, hovertemplate: "%{y}: %{x}%<extra>" + d + "</extra>",
+    text: i === 0 ? ms.map(m => m.latest[0] + "%") : null, textposition: "inside", insidetextanchor: "start"}));
+  const L1 = layout("%", false);
+  L1.barmode = "stack"; L1.xaxis = {range: [0, 100], gridcolor: css("--rule") + "55", ticksuffix: "%"};
+  L1.yaxis = {automargin: true}; L1.hovermode = "closest";
+  L1.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}}; L1.margin = {l: 10, r: 10, t: 10, b: 70};
+  if (T.snapshot) document.getElementById("trends-latest-title").textContent = "So'nggi 90 kun (" + T.snapshot + " gacha)";
+  Plotly.react("trends-latest", bars, L1, cfg);
+  const lines = T.markets.filter(m => m.geo !== "KZ").map(m => ({type: "scatter", mode: "lines+markers", name: m.name,
+    x: T.years, y: m.years, visible: ["DE", "KR", "IN", "US", "JP"].includes(m.geo) ? true : "legendonly",
+    hovertemplate: "%{x}: %{y}%<extra>" + m.name + "</extra>"}));
+  const L2 = layout("%", false);
+  L2.xaxis = {type: "category", gridcolor: css("--rule") + "55"}; L2.yaxis.rangemode = "tozero"; L2.yaxis.ticksuffix = "%";
+  L2.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}}; L2.margin = {l: 40, r: 10, t: 28, b: 110};
+  // category axis: number-like strings ("2026") are read as numbers in shapes, so use the index
+  const wc = T.years.indexOf("2026");
+  L2.shapes = wc < 0 ? [] : [{type: "line", xref: "x", yref: "paper", x0: wc, x1: wc, y0: 0, y1: 1, line: {color: css("--accent"), width: 1, dash: "dot"}}];
+  L2.annotations = wc < 0 ? [] : [{x: wc, y: 1, yref: "paper", text: "Jahon chempionati", showarrow: false, font: {size: 11, color: css("--accent")}, xanchor: "right", yanchor: "bottom"}];
+  Plotly.react("trends-years", lines, L2, cfg);
 }
 function drawShare(){
   const has = D.series.some(s => s.share && s.share.some(v => v !== null));
@@ -546,7 +612,7 @@ function drawOverall(){
 }
 document.querySelectorAll("[data-og]").forEach(b => b.onclick = () => {
   og = b.dataset.og; document.querySelectorAll("[data-og]").forEach(x => x.classList.toggle("on", x===b)); drawOverall(); });
-if (typeof Plotly !== "undefined") { drawOverall(); drawViews(); drawShare(); drawArrivals(); }
+if (typeof Plotly !== "undefined") { drawOverall(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
 (function worldMap(){
   if (typeof d3 === "undefined" || typeof topojson === "undefined" || !D.map) { document.getElementById("map-box").style.display = "none"; return; }
   const M = D.map, svg = d3.select("#map"), W = 960, H = 500;
