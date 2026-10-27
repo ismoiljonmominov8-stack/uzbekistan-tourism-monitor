@@ -15,7 +15,7 @@ concurrency:
 jobs:
   weekly:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,6 +29,9 @@ jobs:
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           POST_LANG: ${{ vars.POST_LANG || 'uz' }}
         run: python -m src.main weekly
+      - name: Google Trends (destination share)
+        continue-on-error: true      # Google may rate-limit; the weekly post must not fail because of it
+        run: pip install pytrends==4.9.2 && python -m src.trends collect
       - name: Save state
         run: |
           git config user.name "tourism-monitor-bot"

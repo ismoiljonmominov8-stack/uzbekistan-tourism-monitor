@@ -1,43 +1,38 @@
-"""Google Trends: how much each country searches for Uzbekistan, and what share of that is about visas.
+"""Google Trends: Uzbekistan's share of search attention among similar destinations, by country.
 
-Two measures, both relative (Google gives 0-100 indices, never counts):
-  interest  — worldwide "interest by country" for the Uzbekistan TOPIC (language independent): searches
-              for Uzbekistan as a share of all searches in that country, scaled so the top country = 100.
-  visa share — inside one country, searches for "<Uzbekistan> visa" in the local language relative to
-              searches for "<Uzbekistan>" (same request, so the two are on one scale). A high share where
-              no visa is needed suggests people don't know they can travel visa-free (a proxy, not proof).
-China has no Google data (Google is blocked there).
+Measure — "competitor share": in each country, Google splits searches for five destination TOPICS
+(language independent: Uzbekistan, Kazakhstan, Kyrgyzstan, Georgia, Tajikistan) into percentages that
+add up to 100. Uzbekistan's percentage says how much of the attention to this group of destinations it
+gets in that country. Unlike Google's worldwide "interest by country" (where Uzbekistan itself scores 100
+and distant markets round to 0-1), this keeps full resolution in every market.
+
+Kept as a yearly history from 2016 (one request per year) plus a rolling last-90-days snapshot taken
+weekly. Topics count ALL searches about a country (news, sport, business), not only travel.
+
+Tried and dropped (tests in reports/trends_test*.txt, October 2026): searches for "<Uzbekistan> visa" in
+local languages are below Google's reporting threshold in Germany, Korea and Japan even over 5 years,
+so a "visa awareness" indicator cannot be built from Trends. China has no Google data (Google is blocked).
 """
 from __future__ import annotations
 
 import sys
 import time
-from pathlib import Path
+from datetime import date
 
 import pandas as pd
 
 from . import config
 from .util import log
 
-TOPIC_UZ = "/m/07t_x"          # Google Knowledge Graph id of Uzbekistan
-TIMEFRAME = "today 12-m"
-# geo: (name_uz, "Uzbekistan" in the main local language, "... visa", visa needed for a tourist trip?)
-TERMS = {
-    "US": ("AQSh", "Uzbekistan", "Uzbekistan visa", False),
-    "GB": ("Buyuk Britaniya", "Uzbekistan", "Uzbekistan visa", False),
-    "IN": ("Hindiston", "Uzbekistan", "Uzbekistan visa", False),     # visa-free from 1 Sep 2026
-    "DE": ("Germaniya", "Usbekistan", "Usbekistan Visum", False),
-    "FR": ("Fransiya", "Ouzbékistan", "Ouzbékistan visa", False),
-    "IT": ("Italiya", "Uzbekistan", "Uzbekistan visto", False),
-    "JP": ("Yaponiya", "ウズベキスタン", "ウズベキスタン ビザ", False),
-    "KR": ("Janubiy Koreya", "우즈베키스탄", "우즈베키스탄 비자", False),
-    "TR": ("Turkiya", "Özbekistan", "Özbekistan vize", False),
-    "RU": ("Rossiya", "Узбекистан", "Узбекистан виза", False),
-    "KZ": ("Qozog'iston", "Узбекистан", "Узбекистан виза", False),
+TOPICS = {   # Google Knowledge Graph ids (checked with suggestions(), October 2026)
+    "Uzbekistan": "/m/07t_x", "Kazakhstan": "/m/047lj", "Kyrgyzstan": "/m/0jt3tjf",
+    "Georgia": "/m/0d0kn", "Tajikistan": "/m/07dvs",
 }
-OUT_INTEREST = config.DATA / "trends_interest.csv"
-OUT_VISA = config.DATA / "trends_visa.csv"
-PAUSE = 12   # seconds between requests: Google rate-limits fast clients
+NAMES_UZ = {"Uzbekistan": "O'zbekiston", "Kazakhstan": "Qozog'iston", "Kyrgyzstan": "Qirg'iziston",
+            "Georgia": "Gruziya", "Tajikistan": "Tojikiston"}
+FIRST_YEAR = 2016
+OUT = config.DATA / "trends_share.csv"      # period, geo, country, destination, share
+PAUSE = 12
 
 
 def client():
@@ -56,120 +51,56 @@ def _retry(fn, tries=4):
     return None
 
 
-def interest_by_country(py) -> pd.DataFrame | None:
+def split_by_country(py, timeframe: str) -> pd.DataFrame | None:
+    ids = list(TOPICS.values())
+    back = {v: k for k, v in TOPICS.items()}
+
     def go():
-        py.build_payload([TOPIC_UZ], timeframe=TIMEFRAME, geo="")
+        py.build_payload(ids, timeframe=timeframe, geo="")
         return py.interest_by_region(resolution="COUNTRY", inc_low_vol=True, inc_geo_code=True)
     df = _retry(go)
     if df is None or df.empty:
         return None
-    df = df.reset_index().rename(columns={TOPIC_UZ: "interest", "geoName": "country", "geoCode": "geo"})
-    return df[df["interest"] > 0].sort_values("interest", ascending=False)
+    df = df.reset_index().rename(columns={"geoName": "country", "geoCode": "geo", **back})
+    df = df[df[list(TOPICS)].sum(axis=1) > 0]
+    long = df.melt(id_vars=["country", "geo"], value_vars=list(TOPICS), var_name="destination", value_name="share")
+    return long
 
 
-def visa_share(py, geo: str) -> dict | None:
-    name, term, visa_term, _ = TERMS[geo]
-
-    def go():
-        py.build_payload([term, visa_term], timeframe=TIMEFRAME, geo=geo)
-        return py.interest_over_time()
-    df = _retry(go)
-    if df is None or df.empty:
-        return None
-    base, visa = float(df[term].mean()), float(df[visa_term].mean())
-    return {"geo": geo, "country": name, "term": term, "visa_term": visa_term,
-            "mean_base": round(base, 2), "mean_visa": round(visa, 2),
-            "visa_share": round(visa / base, 3) if base > 0 else None, "weeks": len(df)}
-
-
-def test() -> None:
-    """Feasibility test: one worldwide request and three country requests; writes a report."""
-    lines = []
-    py = client()
-    t0 = time.time()
-    ib = interest_by_country(py)
-    lines.append(f"interest_by_country: {'FAILED' if ib is None else f'{len(ib)} countries'} ({time.time() - t0:.0f}s)")
-    if ib is not None:
-        lines.append(ib.head(25).to_string(index=False))
-    for geo in ("DE", "KR", "IN"):
-        time.sleep(PAUSE)
-        t0 = time.time()
-        r = visa_share(py, geo)
-        lines.append(f"visa_share {geo}: {r} ({time.time() - t0:.0f}s)")
-    Path("reports").mkdir(exist_ok=True)
-    Path("reports/trends_test.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("\n".join(lines))
+def load() -> pd.DataFrame:
+    return pd.read_csv(OUT) if OUT.exists() else pd.DataFrame(columns=["period", "geo", "country", "destination", "share"])
 
 
 def collect() -> None:
-    """Weekly: worldwide interest by country + visa share for each market. Keeps a dated history."""
+    """Fill missing past years (full calendar years only), refresh the current year to date and add a
+    last-90-days snapshot. Safe to run weekly."""
     py = client()
-    today = pd.Timestamp.utcnow().strftime("%Y-%m-%d")
-    ib = interest_by_country(py)
-    if ib is not None:
-        ib.insert(0, "date", today)
-        old = pd.read_csv(OUT_INTEREST) if OUT_INTEREST.exists() else pd.DataFrame()
-        old = old[old["date"] != today] if not old.empty else old
-        pd.concat([old, ib], ignore_index=True).to_csv(OUT_INTEREST, index=False)
-    rows = []
-    for geo in TERMS:
-        time.sleep(PAUSE)
-        r = visa_share(py, geo)
-        if r:
-            r["date"] = today
-            r["visa_needed"] = TERMS[geo][3]
-            rows.append(r)
-    if rows:
-        new = pd.DataFrame(rows)
-        old = pd.read_csv(OUT_VISA) if OUT_VISA.exists() else pd.DataFrame()
-        old = old[old["date"] != today] if not old.empty else old
-        pd.concat([old, new], ignore_index=True).to_csv(OUT_VISA, index=False)
-    log.info("trends: interest %s, visa rows %d", "ok" if ib is not None else "failed", len(rows))
-
-
-def test2() -> None:
-    """Second test: topic ids, competitor share by country, visa share with monthly data over 5 years."""
-    lines = []
-    py = client()
-    ids = {}
-    for name in ("Uzbekistan", "Kazakhstan", "Kyrgyzstan", "Georgia", "Tajikistan", "Turkmenistan", "Samarkand"):
-        sug = _retry(lambda: py.suggestions(name)) or []
-        lines.append(f"suggest {name}: " + "; ".join(f"{x.get('mid')}={x.get('title')}/{x.get('type')}" for x in sug[:4]))
-        hit = next((x for x in sug if x.get("title") == name and "ountry" in str(x.get("type"))), None) or (sug[0] if sug else None)
-        if hit:
-            ids[name] = hit["mid"]
-        time.sleep(3)
-    comp = [ids[k] for k in ("Uzbekistan", "Kazakhstan", "Kyrgyzstan", "Georgia", "Tajikistan") if k in ids]
-    names = {v: k for k, v in ids.items()}
-
-    def go():
-        py.build_payload(comp, timeframe=TIMEFRAME, geo="")
-        return py.interest_by_region(resolution="COUNTRY", inc_low_vol=True, inc_geo_code=True)
-    time.sleep(PAUSE)
-    df = _retry(go)
-    if df is not None:
-        df = df.rename(columns=names)
-        keep = df[df["geoCode"].isin(["US", "GB", "IN", "DE", "FR", "IT", "JP", "KR", "TR", "RU", "KZ", "CN", "ES", "PL", "NL"])]
-        lines.append("competitor split by country (row = %):\n" + keep.to_string())
-    else:
-        lines.append("competitor split: FAILED")
-    for geo in ("DE", "KR", "IN", "JP", "TR"):
-        name, term, visa_term, _ = TERMS[geo]
-
-        def go2():
-            py.build_payload([term, visa_term], timeframe="2021-10-01 2026-10-26", geo=geo)
-            return py.interest_over_time()
-        time.sleep(PAUSE)
-        d = _retry(go2)
-        if d is None or d.empty:
-            lines.append(f"visa5y {geo}: FAILED")
+    df = load()
+    have = set(df["period"].astype(str))
+    this = date.today().year
+    todo = [str(y) for y in range(FIRST_YEAR, this) if str(y) not in have] + [str(this)]
+    frames = [df[~df["period"].astype(str).isin(todo)]]
+    for i, period in enumerate(todo):
+        if i:
+            time.sleep(PAUSE)
+        end = f"{period}-12-31" if int(period) < this else date.today().isoformat()
+        part = split_by_country(py, f"{period}-01-01 {end}")
+        if part is None:
+            log.warning("trends: %s failed", period)
+            if period in have:  # keep the old values rather than lose them
+                frames.append(df[df["period"].astype(str) == period])
             continue
-        lines.append(f"visa5y {geo}: rows={len(d)} base_mean={d[term].mean():.2f} visa_mean={d[visa_term].mean():.2f} "
-                     f"visa_nonzero_rows={(d[visa_term] > 0).sum()} share={d[visa_term].mean() / max(d[term].mean(), 1e-9):.3f}")
-    Path("reports").mkdir(exist_ok=True)
-    Path("reports/trends_test2.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print("\n".join(lines))
+        frames.append(part.assign(period=period))
+    time.sleep(PAUSE)
+    snap = split_by_country(py, "today 3-m")
+    label = "90d-" + date.today().isoformat()
+    if snap is not None:
+        frames = [f[f["period"].astype(str) != label] for f in frames]
+        frames.append(snap.assign(period=label))
+    out = pd.concat(frames, ignore_index=True)[["period", "geo", "country", "destination", "share"]]
+    out.to_csv(OUT, index=False)
+    log.info("trends: %d rows, periods %s", len(out), sorted(out["period"].astype(str).unique())[-4:])
 
 
 if __name__ == "__main__":
-    {"test": test, "test2": test2, "collect": collect}[sys.argv[1] if len(sys.argv) > 1 else "test"]()
+    {"collect": collect}[sys.argv[1] if len(sys.argv) > 1 else "collect"]()
