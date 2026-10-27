@@ -1,0 +1,30 @@
+interest_by_country: 44 countries (1s)
+            country geo  interest
+         Uzbekistan  UZ       100
+         Tajikistan  TJ        19
+       Turkmenistan  TM        15
+         Kyrgyzstan  KG        11
+         Kazakhstan  KZ         5
+        Afghanistan  AF         4
+             Russia  RU         2
+   Congo - Kinshasa  CD         2
+         Azerbaijan  AZ         2
+            Armenia  AM         1
+            Andorra  AD         1
+     American Samoa  AS         1
+           Colombia  CO         1
+              China  CN         1
+            Burundi  BI         1
+           Bulgaria  BG         1
+              Benin  BJ         1
+            Belarus  BY         1
+            Bahrain  BH         1
+Congo - Brazzaville  CG         1
+             Israel  IL         1
+            Georgia  GE         1
+             Kosovo  XK         1
+             Latvia  LV         1
+            Estonia  EE         1
+visa_share DE: {'geo': 'DE', 'country': 'Germaniya', 'term': 'Usbekistan', 'visa_term': 'Usbekistan Visum', 'mean_base': 9.23, 'mean_visa': 0.0, 'visa_share': 0.0, 'weeks': 53} (0s)
+visa_share KR: {'geo': 'KR', 'country': 'Janubiy Koreya', 'term': '우즈베키스탄', 'visa_term': '우즈베키스탄 비자', 'mean_base': 4.42, 'mean_visa': 0.0, 'visa_share': 0.0, 'weeks': 53} (1s)
+visa_share IN: {'geo': 'IN', 'country': 'Hindiston', 'term': 'Uzbekistan', 'visa_term': 'Uzbekistan visa', 'mean_base': 7.0, 'mean_visa': 0.08, 'visa_share': 0.011, 'weeks': 53} (1s)
