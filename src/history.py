@@ -418,6 +418,7 @@ h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
   <div class="downloads">
     <a class="btn" href="daily_views_by_market.csv" download>Kunlik ko'rishlar (bozorlar bo'yicha), CSV</a>
     <a class="btn" href="https://raw.githubusercontent.com/ismoiljonmominov8-stack/uzbekistan-tourism-monitor/main/data/pageviews_daily.csv">Kunlik ko'rishlar (sahifalar bo'yicha), CSV</a>
+    <a class="btn" href="reports/latest.docx" download>Haftalik hisobot (Word, .docx)</a>
     <a class="btn" href="official_arrivals_monthly.csv" download>Rasmiy statistika (oylik), CSV</a>
     <a class="btn" href="official_arrivals_ytd.csv" download>Rasmiy statistika (yil boshidan), CSV</a>
     <a class="btn" href="event_effects.csv" download>Voqealar ta'siri, CSV</a>

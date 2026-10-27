@@ -32,11 +32,23 @@ jobs:
       - name: Google Trends (destination share)
         continue-on-error: true      # Google may rate-limit; the weekly post must not fail because of it
         run: pip install pytrends==4.9.2 && python -m src.trends collect
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Weekly Word report (sent to the admin in Telegram)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+        run: |
+          npm install --no-save docx@9.8.1
+          python -m src.main history
+          python -m src.report
       - name: Save state
         run: |
           git config user.name "tourism-monitor-bot"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add data docs
           git diff --cached --quiet && exit 0
           git commit -m "data: weekly post $(date -u +%F)"
           git push || (git pull --rebase && git push)
