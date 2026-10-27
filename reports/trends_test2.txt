@@ -1,0 +1,30 @@
+suggest Uzbekistan: /m/07t_x=Uzbekistan/Country in Central Asia; /m/03__77=Uzbekistan national football team/Soccer team; /g/11wq8y9sq6=Cousins Maine Lobster at FIFA World Cup (ticket required for entry)/Event; /m/0jfsq=Uzbek/Spoken language
+suggest Kazakhstan: /m/047lj=Kazakhstan/Country in Central Asia; /m/0jfs6=Kazakh/Spoken language; /m/0_gx4r3=Qazaqstan/TV channel; /m/03z2rz=Kazakhstan national football team/Soccer team
+suggest Kyrgyzstan: /m/0jt3tjf=Kyrgyzstan/Country in Central Asia; /m/0hnczy5=Kyrgyzstan Time Zone/Time zone; /m/045bpx=Kyrgyzstan national football team/Soccer team; /g/11gkb73qw1=Sovietistan/Book by Erika Fatland
+suggest Georgia: /m/07kbp5=Georgia Bulldogs football/Football team; /g/11kr9b1n36=Theo of Golden/Novel by Allen Levi; /m/0d0kn=Georgia/Country; /g/11clt6qb46=Georgia Time Zone/Country
+suggest Tajikistan: /m/07dvs=Tajikistan/Country in Central Asia; /g/11c52hqrg4=Rumi Poetry/Book by Rumi; /m/045bmm=Tajikistan national football team/Soccer team; /g/11gkb73qw1=Sovietistan/Book by Erika Fatland
+suggest Turkmenistan: /m/01c4pv=Turkmenistan/Country in Central Asia; /g/11gkb73qw1=Sovietistan/Book by Erika Fatland; /g/121l0yhh=Turkmenistan/TV channel; /m/041d06=Turkmenistan national football team/Soccer team
+suggest Samarkand: /m/0dl3g=Samarkand/City in Uzbekistan; /g/11qpnrzb21=The Golden Journey to Samarkand/Book by James Elroy Flecker; /g/11r_mhk7yd=Samarkand/Restaurant in Or Yehuda, Israel; /g/1v1m97hj=Samarkand/Uzbeki restaurant in Tel Aviv, Israel
+competitor split by country (row = %):
+               geoCode  Uzbekistan  Kazakhstan  Kyrgyzstan  Georgia  Tajikistan
+geoName                                                                        
+China               CN          21          43          17       12           7
+France              FR          29          29           9       29           4
+Germany             DE          26          35           9       25           5
+India               IN          21          41          10       22           6
+Italy               IT          30          26          10       31           3
+Japan               JP          26          43          12       16           3
+Kazakhstan          KZ           3          95           1        1           0
+Netherlands         NL          34          29           9       23           5
+Poland              PL          18          27           8       43           4
+Russia              RU          22          41          12       16           9
+South Korea         KR          22          55          10       10           3
+Spain               ES          29          29           8       30           4
+Türkiye             TR          30          22          10       35           3
+United Kingdom      GB          29          34           9       23           5
+United States       US          25          40          10       20           5
+visa5y DE: rows=266 base_mean=5.33 visa_mean=0.00 visa_nonzero_rows=0 share=0.000
+visa5y KR: rows=266 base_mean=2.35 visa_mean=0.00 visa_nonzero_rows=0 share=0.000
+visa5y IN: rows=266 base_mean=3.45 visa_mean=0.02 visa_nonzero_rows=4 share=0.004
+visa5y JP: rows=266 base_mean=7.09 visa_mean=0.00 visa_nonzero_rows=0 share=0.000
+visa5y TR: rows=266 base_mean=18.87 visa_mean=0.47 visa_nonzero_rows=125 share=0.025
