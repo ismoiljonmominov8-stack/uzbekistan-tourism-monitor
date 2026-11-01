@@ -69,7 +69,6 @@ year,country,arrivals,code,name_uz
 2014,Georgia,135,268,Gruziya
 2014,Germany,7777,276,Germaniya
 2014,Ghana,0,288,Gana
-2014,Great Britain,1920,826,Buyuk Britaniya
 2014,Greece,39,300,Gretsiya
 2014,Grenada,0,308,Grenada
 2014,Guatemala,0,320,Gvatemala
@@ -190,10 +189,11 @@ year,country,arrivals,code,name_uz
 2014,Tuvalu,0,798,Tuvalu
 2014,Türkiye,37927,792,Turkiya
 2014,UAE,4353,784,BAA
-2014,USA,1365,840,AQSH
 2014,Uganda,0,800,Uganda
 2014,Ukraine,4478,804,Ukraina
+2014,United Kingdom,1920,826,Buyuk Britaniya
 2014,United Republic of Tanzania,0,834,Tanzaniya Birlashgan Respublikasi
+2014,United States,1365,840,AQSH
 2014,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2014,Uruguay,0,858,Urugvay
 2014,Vanuatu,0,548,Vanuatu
@@ -275,7 +275,6 @@ year,country,arrivals,code,name_uz
 2015,Georgia,225,268,Gruziya
 2015,Germany,5529,276,Germaniya
 2015,Ghana,0,288,Gana
-2015,Great Britain,1810,826,Buyuk Britaniya
 2015,Greece,23,300,Gretsiya
 2015,Grenada,0,308,Grenada
 2015,Guatemala,0,320,Gvatemala
@@ -396,10 +395,11 @@ year,country,arrivals,code,name_uz
 2015,Tuvalu,0,798,Tuvalu
 2015,Türkiye,36256,792,Turkiya
 2015,UAE,4802,784,BAA
-2015,USA,1206,840,AQSH
 2015,Uganda,0,800,Uganda
 2015,Ukraine,2269,804,Ukraina
+2015,United Kingdom,1810,826,Buyuk Britaniya
 2015,United Republic of Tanzania,0,834,Tanzaniya Birlashgan Respublikasi
+2015,United States,1206,840,AQSH
 2015,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2015,Uruguay,0,858,Urugvay
 2015,Vanuatu,0,548,Vanuatu
@@ -481,7 +481,6 @@ year,country,arrivals,code,name_uz
 2016,Georgia,177,268,Gruziya
 2016,Germany,5914,276,Germaniya
 2016,Ghana,0,288,Gana
-2016,Great Britain,1985,826,Buyuk Britaniya
 2016,Greece,3,300,Gretsiya
 2016,Grenada,0,308,Grenada
 2016,Guatemala,0,320,Gvatemala
@@ -602,10 +601,11 @@ year,country,arrivals,code,name_uz
 2016,Tuvalu,0,798,Tuvalu
 2016,Türkiye,39727,792,Turkiya
 2016,UAE,5059,784,BAA
-2016,USA,1095,840,AQSH
 2016,Uganda,0,800,Uganda
 2016,Ukraine,662,804,Ukraina
+2016,United Kingdom,1985,826,Buyuk Britaniya
 2016,United Republic of Tanzania,0,834,Tanzaniya Birlashgan Respublikasi
+2016,United States,1095,840,AQSH
 2016,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2016,Uruguay,0,858,Urugvay
 2016,Vanuatu,0,548,Vanuatu
@@ -687,7 +687,6 @@ year,country,arrivals,code,name_uz
 2017,Georgia,128,268,Gruziya
 2017,Germany,7207,276,Germaniya
 2017,Ghana,0,288,Gana
-2017,Great Britain,3014,826,Buyuk Britaniya
 2017,Greece,1,300,Gretsiya
 2017,Grenada,0,308,Grenada
 2017,Guatemala,0,320,Gvatemala
@@ -808,10 +807,11 @@ year,country,arrivals,code,name_uz
 2017,Tuvalu,0,798,Tuvalu
 2017,Türkiye,48371,792,Turkiya
 2017,UAE,5013,784,BAA
-2017,USA,1324,840,AQSH
 2017,Uganda,0,800,Uganda
 2017,Ukraine,727,804,Ukraina
+2017,United Kingdom,3014,826,Buyuk Britaniya
 2017,United Republic of Tanzania,0,834,Tanzaniya Birlashgan Respublikasi
+2017,United States,1324,840,AQSH
 2017,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2017,Uruguay,0,858,Urugvay
 2017,Vanuatu,0,548,Vanuatu
@@ -893,7 +893,6 @@ year,country,arrivals,code,name_uz
 2018,Georgia,2617,268,Gruziya
 2018,Germany,18094,276,Germaniya
 2018,Ghana,15,288,Gana
-2018,Great Britain,7994,826,Buyuk Britaniya
 2018,Greece,731,300,Gretsiya
 2018,Grenada,1,308,Grenada
 2018,Guatemala,5,320,Gvatemala
@@ -1014,10 +1013,11 @@ year,country,arrivals,code,name_uz
 2018,Tuvalu,0,798,Tuvalu
 2018,Türkiye,41299,792,Turkiya
 2018,UAE,1580,784,BAA
-2018,USA,11133,840,AQSH
 2018,Uganda,10,800,Uganda
 2018,Ukraine,11718,804,Ukraina
+2018,United Kingdom,7994,826,Buyuk Britaniya
 2018,United Republic of Tanzania,10,834,Tanzaniya Birlashgan Respublikasi
+2018,United States,11133,840,AQSH
 2018,United States Virgin Islands,1,850,AQShning Virgin Orollari
 2018,Uruguay,10,858,Urugvay
 2018,Vanuatu,1,548,Vanuatu
@@ -1099,7 +1099,6 @@ year,country,arrivals,code,name_uz
 2019,Georgia,2916,268,Gruziya
 2019,Germany,27625,276,Germaniya
 2019,Ghana,49,288,Gana
-2019,Great Britain,15962,826,Buyuk Britaniya
 2019,Greece,1211,300,Gretsiya
 2019,Grenada,2,308,Grenada
 2019,Guatemala,5,320,Gvatemala
@@ -1220,10 +1219,11 @@ year,country,arrivals,code,name_uz
 2019,Tuvalu,0,798,Tuvalu
 2019,Türkiye,63539,792,Turkiya
 2019,UAE,2423,784,BAA
-2019,USA,17106,840,AQSH
 2019,Uganda,17,800,Uganda
 2019,Ukraine,14041,804,Ukraina
+2019,United Kingdom,15962,826,Buyuk Britaniya
 2019,United Republic of Tanzania,13,834,Tanzaniya Birlashgan Respublikasi
+2019,United States,17106,840,AQSH
 2019,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2019,Uruguay,26,858,Urugvay
 2019,Vanuatu,3,548,Vanuatu
@@ -1305,7 +1305,6 @@ year,country,arrivals,code,name_uz
 2020,Georgia,608,268,Gruziya
 2020,Germany,2067,276,Germaniya
 2020,Ghana,27,288,Gana
-2020,Great Britain,1396,826,Buyuk Britaniya
 2020,Greece,194,300,Gretsiya
 2020,Grenada,1,308,Grenada
 2020,Guatemala,1,320,Gvatemala
@@ -1426,10 +1425,11 @@ year,country,arrivals,code,name_uz
 2020,Tuvalu,0,798,Tuvalu
 2020,Türkiye,20958,792,Turkiya
 2020,UAE,680,784,BAA
-2020,USA,1797,840,AQSH
 2020,Uganda,6,800,Uganda
 2020,Ukraine,3174,804,Ukraina
+2020,United Kingdom,1396,826,Buyuk Britaniya
 2020,United Republic of Tanzania,8,834,Tanzaniya Birlashgan Respublikasi
+2020,United States,1797,840,AQSH
 2020,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2020,Uruguay,0,858,Urugvay
 2020,Vanuatu,20,548,Vanuatu
@@ -1511,7 +1511,6 @@ year,country,arrivals,code,name_uz
 2021,Georgia,1208,268,Gruziya
 2021,Germany,6908,276,Germaniya
 2021,Ghana,52,288,Gana
-2021,Great Britain,3996,826,Buyuk Britaniya
 2021,Greece,558,300,Gretsiya
 2021,Grenada,21,308,Grenada
 2021,Guatemala,9,320,Gvatemala
@@ -1632,10 +1631,11 @@ year,country,arrivals,code,name_uz
 2021,Tuvalu,0,798,Tuvalu
 2021,Türkiye,44168,792,Turkiya
 2021,UAE,1782,784,BAA
-2021,USA,5423,840,AQSH
 2021,Uganda,13,800,Uganda
 2021,Ukraine,8715,804,Ukraina
+2021,United Kingdom,3996,826,Buyuk Britaniya
 2021,United Republic of Tanzania,24,834,Tanzaniya Birlashgan Respublikasi
+2021,United States,5423,840,AQSH
 2021,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2021,Uruguay,3,858,Urugvay
 2021,Vanuatu,30,548,Vanuatu
@@ -1717,7 +1717,6 @@ year,country,arrivals,code,name_uz
 2022,Georgia,2972,268,Gruziya
 2022,Germany,17746,276,Germaniya
 2022,Ghana,23,288,Gana
-2022,Great Britain,10544,826,Buyuk Britaniya
 2022,Greece,1139,300,Gretsiya
 2022,Grenada,5,308,Grenada
 2022,Guatemala,23,320,Gvatemala
@@ -1838,10 +1837,11 @@ year,country,arrivals,code,name_uz
 2022,Tuvalu,0,798,Tuvalu
 2022,Türkiye,75559,792,Turkiya
 2022,UAE,2073,784,BAA
-2022,USA,13136,840,AQSH
 2022,Uganda,68,800,Uganda
 2022,Ukraine,11006,804,Ukraina
+2022,United Kingdom,10544,826,Buyuk Britaniya
 2022,United Republic of Tanzania,26,834,Tanzaniya Birlashgan Respublikasi
+2022,United States,13136,840,AQSH
 2022,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2022,Uruguay,7,858,Urugvay
 2022,Vanuatu,21,548,Vanuatu
@@ -1923,7 +1923,6 @@ year,country,arrivals,code,name_uz
 2023,Georgia,4383,268,Gruziya
 2023,Germany,29608,276,Germaniya
 2023,Ghana,51,288,Gana
-2023,Great Britain,16165,826,Buyuk Britaniya
 2023,Greece,2057,300,Gretsiya
 2023,Grenada,18,308,Grenada
 2023,Guatemala,63,320,Gvatemala
@@ -2044,10 +2043,11 @@ year,country,arrivals,code,name_uz
 2023,Tuvalu,0,798,Tuvalu
 2023,Türkiye,106516,792,Turkiya
 2023,UAE,3591,784,BAA
-2023,USA,22952,840,AQSH
 2023,Uganda,35,800,Uganda
 2023,Ukraine,13792,804,Ukraina
+2023,United Kingdom,16165,826,Buyuk Britaniya
 2023,United Republic of Tanzania,59,834,Tanzaniya Birlashgan Respublikasi
+2023,United States,22952,840,AQSH
 2023,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2023,Uruguay,36,858,Urugvay
 2023,Vanuatu,23,548,Vanuatu
@@ -2129,7 +2129,6 @@ year,country,arrivals,code,name_uz
 2024,Georgia,4625,268,Gruziya
 2024,Germany,37526,276,Germaniya
 2024,Ghana,38,288,Gana
-2024,Great Britain,21128,826,Buyuk Britaniya
 2024,Greece,2638,300,Gretsiya
 2024,Grenada,47,308,Grenada
 2024,Guatemala,101,320,Gvatemala
@@ -2250,10 +2249,11 @@ year,country,arrivals,code,name_uz
 2024,Tuvalu,0,798,Tuvalu
 2024,Türkiye,118838,792,Turkiya
 2024,UAE,5271,784,BAA
-2024,USA,30293,840,AQSH
 2024,Uganda,34,800,Uganda
 2024,Ukraine,14295,804,Ukraina
+2024,United Kingdom,21128,826,Buyuk Britaniya
 2024,United Republic of Tanzania,28,834,Tanzaniya Birlashgan Respublikasi
+2024,United States,30293,840,AQSH
 2024,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2024,Uruguay,36,858,Urugvay
 2024,Vanuatu,6,548,Vanuatu
@@ -2335,7 +2335,6 @@ year,country,arrivals,code,name_uz
 2025,Georgia,6792,268,Gruziya
 2025,Germany,43007,276,Germaniya
 2025,Ghana,76,288,Gana
-2025,Great Britain,26087,826,Buyuk Britaniya
 2025,Greece,2840,300,Gretsiya
 2025,Grenada,51,308,Grenada
 2025,Guatemala,40,320,Gvatemala
@@ -2456,10 +2455,11 @@ year,country,arrivals,code,name_uz
 2025,Tuvalu,3,798,Tuvalu
 2025,Türkiye,174858,792,Turkiya
 2025,UAE,7906,784,BAA
-2025,USA,36861,840,AQSH
 2025,Uganda,115,800,Uganda
 2025,Ukraine,15680,804,Ukraina
+2025,United Kingdom,26087,826,Buyuk Britaniya
 2025,United Republic of Tanzania,104,834,Tanzaniya Birlashgan Respublikasi
+2025,United States,36861,840,AQSH
 2025,United States Virgin Islands,0,850,AQShning Virgin Orollari
 2025,Uruguay,93,858,Urugvay
 2025,Vanuatu,21,548,Vanuatu
