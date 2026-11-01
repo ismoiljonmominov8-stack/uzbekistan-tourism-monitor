@@ -226,7 +226,8 @@ def explain_upcoming(u: dict, header: str = "") -> str:
     lines = [header] if header else []
     lines += [f"📝 <b>{esc(u['title'])}</b>",
               f"🗓 {nice_date(u['date'], u.get('precision') or 'day')} — {u['days']} kundan keyin · "
-              f"{TYPE_UZ.get(u['type'], u['type'])}",
+              f"{TYPE_UZ.get(u['type'], u['type'])}"
+              + (f" · e'lon qilingan: {nice_date(u['announced'], 'day')}" if u.get("announced") else ""),
               f"🌍 {markets_text(events.expand(u['markets']) if u['markets'] not in ('all', 'neighbours') else [u['markets']])}",
               ""]
     n = max(i.get("n", 0), a.get("n", 0))

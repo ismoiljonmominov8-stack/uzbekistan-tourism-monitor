@@ -407,11 +407,16 @@ def upcoming(today: pd.Timestamp | None = None, days: int | None = None) -> list
     eff = pd.read_csv(EFFECTS) if EFFECTS.exists() else pd.DataFrame()
     out = []
     for e in ev.itertuples():
-        d = pd.Timestamp(e.date)
+        # an event announced earlier but starting later (flights from 14 Dec announced 28 Oct) is still
+        # upcoming: list it by the date it takes effect
+        ann = pd.Timestamp(e.date)
+        start = pd.Timestamp(e.effective_date) if isinstance(e.effective_date, str) and e.effective_date else ann
+        d = max(ann, start) if ann < today else ann
         if d < today or (days is not None and (d - today).days >= days):
             continue
         langs = expand(e.markets)
-        out.append({"id": e.id, "date": e.date, "days": int((d - today).days), "type": e.type, "precision": e.precision,
+        out.append({"id": e.id, "date": d.strftime("%Y-%m-%d"), "announced": e.date if ann < d else None,
+                    "days": int((d - today).days), "type": e.type, "precision": e.precision,
                     "markets": e.markets, "title": e.title, "source": e.source,
                     "estimate": estimate(e.type, langs, eff)})
     return sorted(out, key=lambda x: x["date"])
