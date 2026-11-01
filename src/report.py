@@ -196,6 +196,51 @@ def official_section(r: Report):
     return {"y": y, "m": m}
 
 
+def score_section(r: Report):
+    from . import scorecard
+    if not scorecard.SCORES.exists():
+        return
+    df = pd.read_csv(scorecard.SCORES)
+    summ = scorecard.summary(df)
+    r.h("Prognoz aniqligi va davlatlar bo'yicha prognoz", 2)
+    r.p(f"Usul: kelasi oy = o'tgan yilning shu oyi × oxirgi 3 oy o'sishining {int(forecast.DAMP * 100)}%. "
+        "Aniqlik — orqaga sinov (2023–2026, har oydan 1–3 oy oldinga) va kuni saqlangan «jonli» prognozlar.")
+    rows = []
+    for level in ["TOTAL"] + scorecard.COUNTRIES:
+        b = summ[(summ["kind"] == "backtest") & (summ["level"] == level)].set_index("h")
+        if 1 not in b.index:
+            continue
+        mae = [f"{b.at[h, 'mae']:.1%}" if h in b.index else "—" for h in (1, 2, 3)]
+        rows.append([scorecard.NAME_UZ.get(level, level) + (" *" if b.at[1, "n"] < 8 else ""), *mae,
+                     f"{b.at[1, 'bias']:+.1%}".replace("-", "−"), str(int(b.at[1, "n"]))])
+    r.table(["Bozor", "1 oy oldin", "2 oy", "3 oy", "Siljish", "Holatlar"], rows, [2600, 1300, 1300, 1300, 1300, 1200], align="right")
+    live = df[df["kind"] == "live"]
+    scored = live[live["actual"].notna()]
+    if len(scored):
+        r.p(f"Jonli prognozlar: {len(scored)} tasi baholandi, o'rtacha xato {scored['error'].abs().mean():.1%}, "
+            f"oraliq ichida: {scored['inside'].astype(bool).mean():.0%}.")
+    else:
+        r.p(f"Jonli prognozlar: {len(live)} ta saqlangan, hali birortasi baholanmagan (rasmiy oylik raqam kutilmoqda).", "note")
+        r.steps.append("Prognoz aniqligi: birinchi jonli prognozlar oktabr statistikasi chiqqach (≈ noyabr o'rtasi) avtomatik baholanadi.")
+    cur = scorecard.current()
+    tot = cur.get("TOTAL", {}).get("rows", [])
+    if tot:
+        months = [x["target"] for x in tot]
+        frow = []
+        for level in ["TOTAL"] + scorecard.COUNTRIES:
+            c = cur.get(level, {})
+            byt = {x["target"]: x for x in c.get("rows", [])}
+            frow.append([scorecard.NAME_UZ.get(level, level)] +
+                        [f"{n(byt[m]['forecast'])} ({n(byt[m]['lo'])}–{n(byt[m]['hi'])})" if m in byt else "ma'lumot yetarli emas"
+                         for m in months])
+        r.table(["Bozor"] + [f"{OY[int(m[5:]) - 1]} {m[:4]}" for m in months], frow, [2000, 2400, 2400, 2400], align="right")
+        r.p("Qavsda — taxminan 10 tadan 8 holatda haqiqiy raqam tushadigan oraliq (usulning o'tgan xatolaridan).", "note")
+    tb = summ[(summ["kind"] == "backtest") & (summ["level"] == "TOTAL") & (summ["h"] == 1)]
+    if not tb.empty:
+        r.findings.append(f"Prognoz aniqligi: jami turistlar bo'yicha 1 oy oldingi prognoz o'rtacha {tb.mae.iloc[0]:.1%} xato qiladi "
+                          f"(orqaga sinov, {int(tb.n.iloc[0])} holat); davlatlar bo'yicha xato 10–36%.")
+
+
 def trends_section(r: Report):
     df = trends.load()
     if df.empty:
@@ -326,6 +371,7 @@ def build(send=True) -> Path | None:
     days = wiki_section(r, df, wide)
     r.image(wiki_chart(wide), 600, 280, "So'nggi 12 hafta Vikipediya qiziqishi grafigi")
     official_section(r)
+    score_section(r)
     trends_section(r)
     events_section(r)
     news_section(r, days)

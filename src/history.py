@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from . import config, events, forecast, pageviews, statuz
+from . import config, events, forecast, pageviews, scorecard, statuz
 from .util import log
 
 DOCS = config.ROOT / "docs"
@@ -110,6 +110,31 @@ TRENDS_GEO = {"US": "🇺🇸 AQSh", "GB": "🇬🇧 Buyuk Britaniya", "DE": "�
               "CN": "🇨🇳 Xitoy", "TR": "🇹🇷 Turkiya", "RU": "🇷🇺 Rossiya", "KZ": "🇰🇿 Qozog'iston"}
 
 
+def score_data() -> dict | None:
+    """Forecast accuracy (rolling back-test + live) and the current 3-month forecasts by country."""
+    if not scorecard.SCORES.exists():
+        return None
+    df = pd.read_csv(scorecard.SCORES)
+    summ = scorecard.summary(df)
+    acc = []
+    for level in ["TOTAL"] + scorecard.COUNTRIES:
+        row = {"level": level, "name": scorecard.NAME_UZ.get(level, level)}
+        for kind in ("backtest", "live"):
+            sub = summ[(summ["kind"] == kind) & (summ["level"] == level)]
+            row[kind] = {int(r.h): {"n": int(r.n), "mae": float(r.mae), "bias": float(r.bias)} for r in sub.itertuples()}
+        acc.append(row)
+    cur = scorecard.current()
+    fc = []
+    for level in ["TOTAL"] + scorecard.COUNTRIES:
+        c = cur.get(level)
+        fc.append({"level": level, "name": scorecard.NAME_UZ.get(level, level),
+                   "last": c["last"] if c else None, "last_value": c["last_value"] if c else None,
+                   "rows": c["rows"] if c else []})
+    live_n = int(((df["kind"] == "live") & df["actual"].notna()).sum())
+    return {"accuracy": acc, "forecasts": fc, "live_scored": live_n,
+            "live_logged": int((df["kind"] == "live").sum()), "damp": forecast.DAMP}
+
+
 def trends_data() -> dict | None:
     """Uzbekistan's share of searches among 5 destinations, by market: yearly history + latest 90 days."""
     from . import trends
@@ -203,10 +228,17 @@ def build():
     try:
         overall = forecast.build()
         overall["backtest"] = forecast.backtest()
+        # monthly ranges calibrated on the method's own past errors (scorecard), when available
+        cal = scorecard.current().get("TOTAL", {}).get("rows", [])
+        cal_by = {r["target"]: r for r in cal if r.get("range") == "calibrated"}
+        for f in overall.get("forecast", []):
+            if f["m"] in cal_by:
+                f["lo"], f["hi"] = cal_by[f["m"]]["lo"], cal_by[f["m"]]["hi"]
     except Exception:  # noqa: BLE001  the page must still build if the forecast fails
         log.exception("overall forecast failed")
         overall = None
-    data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "trends": trends_data(), "map": map_data(wide, proj, mon),
+    data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "trends": trends_data(),
+            "score": score_data(), "map": map_data(wide, proj, mon),
             "events": ev_list, "effects": ev_rows, "ev_summary": ev_summary,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "first": dates[0], "last": dates[-1]}
@@ -313,6 +345,9 @@ footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);paddin
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
 h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
 #trends-latest,#trends-years{min-height:420px}
+.tbl{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}.tbl th,.tbl td{border-bottom:1px solid var(--rule);padding:5px 8px;text-align:right;white-space:nowrap}.tbl th:first-child,.tbl td:first-child{text-align:left}.tbl th{color:var(--muted);font-weight:600}
+.tablewrap{overflow-x:auto}
+.stack2{display:flex;flex-direction:column;gap:18px}.tbl .rng{font-size:12px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -366,6 +401,18 @@ h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
   </div>
   <div id="overall" class="chart"></div>
   <p class="note" id="overall-method"></p>
+</section>
+
+<section id="score-box">
+  <h2>Prognoz aniqligi va davlatlar bo'yicha prognoz</h2>
+  <p class="note">Usul: kelasi oy = o'tgan yilning shu oyi × oxirgi 3 oy o'sishining 75 foizi (o'sish to'liq davom etmaydi deb olinadi — sinovda xatoni kamaytirdi).
+  <b>Aniqlik</b> — usul o'tmishdagi har bir oydan 1–3 oy oldinga ishlatilib, haqiqat bilan solishtirildi (orqaga sinov, 2023–2026); «jonli» — kuni saqlangan prognozlar, rasmiy raqam chiqqach baholanadi (2026 noyabrdan to'planmoqda).
+  Oraliq — usulning o'tgan xatolaridan: haqiqiy raqam taxminan 10 tadan 8 holatda shu oraliqda bo'lishi kerak.</p>
+  <div class="stack2">
+    <div><h3 class="sub">O'rtacha xato (orqaga sinov)</h3><div class="tablewrap"><table class="tbl" id="acc-table"></table></div>
+      <p class="note" id="live-note"></p></div>
+    <div><h3 class="sub" id="fc-title">Keyingi 3 oy prognozi</h3><div class="tablewrap"><table class="tbl" id="fc-table"></table></div></div>
+  </div>
 </section>
 <section>
   <h2>Vikipediya ko'rishlari — kun, hafta, oy, yil</h2>
@@ -488,6 +535,50 @@ function drawViews(){
   L.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}};
   L.margin.b = NARROW ? 260 : 120;
   Plotly.react("views", tr, L, cfg);
+}
+function drawScore(){
+  const S = D.score, box = document.getElementById("score-box");
+  if (!S) { box.style.display = "none"; return; }
+  const pctf = v => (v * 100).toFixed(1).replace(".", ",") + "%";
+  const nfm = v => v == null ? "—" : Math.round(v).toLocaleString("ru-RU");
+  const at = document.getElementById("acc-table");
+  at.innerHTML = "<thead><tr><th>Bozor</th><th>1 oy oldin</th><th>2 oy</th><th>3 oy</th><th>Siljish</th></tr></thead>";
+  const tb = document.createElement("tbody");
+  S.accuracy.forEach(r => {
+    const b = r.backtest || {};
+    if (!b[1]) return;
+    const tr = document.createElement("tr");
+    const cells = [r.name + (b[1].n < 8 ? " *" : ""), b[1] ? pctf(b[1].mae) + " (" + b[1].n + ")" : "—", b[2] ? pctf(b[2].mae) : "—", b[3] ? pctf(b[3].mae) : "—",
+                   b[1] ? (b[1].bias > 0 ? "+" : "") + pctf(b[1].bias) : "—"];
+    cells.forEach((c, i) => { const td = document.createElement("td"); td.textContent = c; if (i === 0 && r.level === "TOTAL") td.style.fontWeight = "600"; tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  at.appendChild(tb);
+  document.getElementById("live-note").textContent = "Qavsda — baholangan prognozlar soni (* — 8 tadan kam, ishonchsiz). Siljish: musbat = usul oshirib yuboradi. Jonli: "
+    + S.live_logged + " ta prognoz saqlangan, " + S.live_scored + " tasi baholangan.";
+  const ft = document.getElementById("fc-table");
+  const months = ["yanv", "fev", "mar", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noy", "dek"];
+  const lab = m => months[+m.slice(5) - 1] + " " + m.slice(0, 4);
+  const first = S.forecasts.find(f => f.rows.length);
+  const targets = first ? first.rows.map(r => r.target) : [];
+  ft.innerHTML = "<thead><tr><th>Bozor</th><th>Oxirgi rasmiy oy</th>" + targets.map(t => "<th>" + lab(t) + "</th>").join("") + "</tr></thead>";
+  const fb = document.createElement("tbody");
+  S.forecasts.forEach(f => {
+    const tr = document.createElement("tr");
+    const td0 = document.createElement("td"); td0.textContent = f.name; if (f.level === "TOTAL") td0.style.fontWeight = "600"; tr.appendChild(td0);
+    const td1 = document.createElement("td"); td1.textContent = f.last ? lab(f.last) + ": " + nfm(f.last_value) : "—"; tr.appendChild(td1);
+    targets.forEach(t => {
+      const r = f.rows.find(x => x.target === t); const td = document.createElement("td");
+      if (r) {
+        const v = document.createElement("div"); v.textContent = nfm(r.forecast);
+        const rg = document.createElement("div"); rg.className = "rng"; rg.textContent = nfm(r.lo) + "–" + nfm(r.hi);
+        td.append(v, rg);
+      } else { td.textContent = "ma'lumot yetarli emas"; td.style.color = css("--muted"); }
+      tr.appendChild(td);
+    });
+    fb.appendChild(tr);
+  });
+  ft.appendChild(fb);
 }
 function drawTrends(){
   const T = D.trends, box = document.getElementById("trends-box");
@@ -613,7 +704,7 @@ function drawOverall(){
 }
 document.querySelectorAll("[data-og]").forEach(b => b.onclick = () => {
   og = b.dataset.og; document.querySelectorAll("[data-og]").forEach(x => x.classList.toggle("on", x===b)); drawOverall(); });
-if (typeof Plotly !== "undefined") { drawOverall(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
+if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
 (function worldMap(){
   if (typeof d3 === "undefined" || typeof topojson === "undefined" || !D.map) { document.getElementById("map-box").style.display = "none"; return; }
   const M = D.map, svg = d3.select("#map"), W = 960, H = 500;

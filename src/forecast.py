@@ -26,6 +26,10 @@ from . import statuz
 
 FIRST_YEAR = 2018
 ROUNDED_PAD = 0.05
+# Only part of recent growth is assumed to continue. 0.75 cut the rolling back-test error from 7.9% to 6.2%
+# (total, 1-3 months ahead) and removed most of the over-forecasting (bias +5.1% -> -0.9%); chosen on the
+# same history, so the live scorecard has to confirm it.
+DAMP = 0.75
 
 
 def _monthly_total(ytd: pd.DataFrame, yearly: dict[int, int]) -> dict[str, dict]:
@@ -103,10 +107,11 @@ def build(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None
     last3 = [r for r in pairs if r[0] > lm - 3]
     if len(last3) < 3:
         return result
-    central = sum(r[1] for r in last3) / sum(r[2] for r in last3)
-    six = [r[1] / r[2] for r in pairs if r[0] > lm - 6 and r[3]]
+    raw_central = sum(r[1] for r in last3) / sum(r[2] for r in last3)
+    central = 1 + (raw_central - 1) * DAMP
+    six = [1 + (r[1] / r[2] - 1) * DAMP for r in pairs if r[0] > lm - 6 and r[3]]
     if len(six) < 2:
-        six = [r[1] / r[2] for r in pairs if r[0] > lm - 6]
+        six = [1 + (r[1] / r[2] - 1) * DAMP for r in pairs if r[0] > lm - 6]
     ratios = [(m, a, b) for m, a, b, true in pairs if true]
     lo_r, hi_r = min(six + [central]), max(six + [central])
 
@@ -122,7 +127,7 @@ def build(ytd: pd.DataFrame | None = None, yearly_df: pd.DataFrame | None = None
         f_sum, f_lo, f_hi = f_sum + v, f_lo + lo, f_hi + hi
     result["years"][ly] = {"v": round(ytd_now + f_sum), "lo": round(ytd_now + f_lo), "hi": round(ytd_now + f_hi),
                            "ytd": ytd_now, "kind": "forecast", "through": lm}
-    result["method"] = {"year": ly, "through": lm, "central": round(central, 3), "lo": round(lo_r, 3),
+    result["method"] = {"year": ly, "through": lm, "central": round(central, 3), "raw_central": round(raw_central, 3), "damp": DAMP, "lo": round(lo_r, 3),
                         "hi": round(hi_r, 3), "months": [r[0] for r in last3],
                         "ratios": {f"{ly}-{m:02d}": round(a / b, 3) for m, a, b in ratios}}
     return result

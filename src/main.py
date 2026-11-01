@@ -10,7 +10,7 @@ import json
 import os
 import sys
 
-from . import ai, history, news, pageviews, posts, statuz
+from . import ai, history, news, pageviews, posts, scorecard, statuz
 from .util import log
 
 
@@ -48,6 +48,7 @@ def daily():
     write_json(posts.STATE, state)
     releases = collect()
     step("event tracker", posts.event_results)
+    step("forecast scorecard", scorecard.run)   # logs this month's forecasts, scores past ones
     step("history chart", history.build)
     step("daily post", posts.daily)
     step("monthly post", posts.monthly, releases)
@@ -115,6 +116,7 @@ COMMANDS = {
     "test-models": test_models,
     "approval-test": lambda: news.approval_test(10),
     "history": lambda: step("history chart", history.build),
+    "scorecard": lambda: step("forecast scorecard", scorecard.run),
     "events": lambda: (step("event tracker", posts.event_results), step("history chart", history.build)),
     "post-daily-now": lambda: (collect(), step("history chart", history.build),
                                step("daily post", posts.daily, True)),
