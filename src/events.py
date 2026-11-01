@@ -77,8 +77,8 @@ def add_event(day: str, etype: str, markets: list[str], title: str, source: str,
     if not langs:
         return None  # no market we can measure
     year = day[:4]
-    n = int((df["id"].str.startswith(f"E{year}-")).sum()) + 1
-    eid = f"E{year}-{n:02d}"
+    nums = df["id"][df["id"].str.startswith(f"E{year}-")].str.split("-").str[1].astype(int)
+    eid = f"E{year}-{(int(nums.max()) if len(nums) else 0) + 1:02d}"   # max + 1: safe after deletions
     row = {"id": eid, "date": day, "effective_date": effective or day, "precision": precision,
            "type": etype if etype in TYPES else "other", "markets": "|".join(sorted(langs)),
            "title": title, "source": source, "origin": origin}
@@ -228,6 +228,22 @@ def overlaps(events: pd.DataFrame, ev, lang: str, method) -> str:
     return " ".join(out)
 
 
+def wiki_overlaps(events: pd.DataFrame, ev, lang: str) -> str:
+    """Other events for the same market announced within 6 days: their 7-day Wikipedia windows share the
+    same days, so one spike cannot be credited to either (e.g. Pegasus flights and the Turkic summit,
+    28-29 Oct 2026)."""
+    if ev.precision != "day":
+        return ""
+    day = pd.Timestamp(ev.date)
+    out = []
+    for o in events.itertuples():
+        if o.id == ev.id or o.precision != "day" or lang not in expand(o.markets):
+            continue
+        if abs(pd.Timestamp(o.date) - day) <= pd.Timedelta(days=6):
+            out.append(o.id)
+    return " ".join(out)
+
+
 def measure() -> pd.DataFrame:
     events = load_events()
     if events.empty:
@@ -250,6 +266,7 @@ def measure() -> pd.DataFrame:
                 arr = yearly_effect(yearly, country, eff)
             r.update(arr)
             r["overlap"] = overlaps(events, ev, lang, r.get("arr_method"))
+            r["wiki_overlap"] = wiki_overlaps(events, ev, lang)
             r["reported"] = reported.get((ev.id, lang), False)
             rows.append(verdicts(r))
     out = pd.DataFrame(rows)
@@ -264,6 +281,10 @@ def summary_by_type(eff: pd.DataFrame) -> pd.DataFrame:
     d = eff.copy()
     clean = ~d["arr_verdict"].astype(str).str.contains(r"\(", regex=True)
     d.loc[~clean, "excess"] = None   # mixed or COVID results are shown but not counted
+    if "wiki_overlap" in d:          # two events in the same 7-day window: the spike is not counted
+        mixed_w = d["wiki_overlap"].fillna("").astype(str).str.len() > 0
+        d.loc[mixed_w, ["wiki_ratio"]] = None
+        d.loc[mixed_w, "wiki_verdict"] = "mixed"
     g = d.groupby("type")
     return pd.DataFrame({
         "events": g["id"].nunique(),
@@ -320,6 +341,8 @@ def estimate(etype: str, langs: list[str], eff: pd.DataFrame | None = None) -> d
     verdict = eff.get("arr_verdict", pd.Series(dtype=str)).astype(str)
     clean_arr = eff[eff["excess"].notna() & ~verdict.str.contains(r"\(", regex=True)] if "excess" in eff else eff.iloc[0:0]
     wiki = eff[eff["wiki_ratio"].notna()] if "wiki_ratio" in eff else eff.iloc[0:0]
+    if "wiki_overlap" in wiki:
+        wiki = wiki[wiki["wiki_overlap"].fillna("").astype(str).str.len() == 0]
 
     def part(rows, success, size_col):
         # overall rate across all types, itself pulled toward 50 % (Laplace), as the prior

@@ -222,7 +222,8 @@ def event_results():
                  t("ev_meta").format(date=r.date, type=t("types").get(r.type, r.type), market=esc(market_name(r.lang)))]
         if not pd.isna(getattr(r, "wiki_ratio", float("nan"))):
             lines.append(t("ev_wiki").format(ratio=r.wiki_ratio, peak=r.wiki_peak,
-                                             verdict=t("wiki_v").get(r.wiki_verdict, r.wiki_verdict)))
+                                             verdict=("aralash" if str(getattr(r, "wiki_overlap", "") or "").strip() not in ("", "nan")
+                                                      else t("wiki_v").get(r.wiki_verdict, r.wiki_verdict))))
         fmt = t("ev_arr") if r.arr_method == "monthly" else t("ev_arr_y")
         lines.append(fmt.format(window=esc(r.arr_window), before=int(r.arr_before), after=int(r.arr_after),
                                 ratio=r.arr_ratio, total=r.total_ratio, excess=r.excess,

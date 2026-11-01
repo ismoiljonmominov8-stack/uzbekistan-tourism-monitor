@@ -753,7 +753,7 @@ if (typeof Plotly !== "undefined") { drawOverall(); drawViews(); drawShare(); dr
       `${u.markets === "all" ? "barcha uzoq bozorlar" : u.markets === "neighbours" ? "qo'shni davlatlar" : u.isos.map(nm).join(", ")}${u.source ? ` · <a href="${u.source}" target="_blank" rel="noopener">manba</a>` : ""}</div>` +
       `<div class="p">${row("📖 Ma'lumot qidirish", u.estimate.info)}${row("🧳 Turistlar kelishi", u.estimate.arr)}</div>` + expect(u) + `</div>`;
   const pastCard = r => {
-    const rows = r.rows.map(x => `<tr><td>${MK[x.lang]||""} ${nm(MARKET_ISO_JS[x.lang])}</td><td>${x.wiki_ratio == null ? "—" : "×" + x.wiki_ratio + " (" + (wv[x.wiki_verdict]||"—") + ")"}</td>` +
+    const rows = r.rows.map(x => `<tr><td>${MK[x.lang]||""} ${nm(MARKET_ISO_JS[x.lang])}</td><td>${x.wiki_ratio == null ? "—" : "×" + x.wiki_ratio + " (" + (x.wiki_overlap ? "aralash" : (wv[x.wiki_verdict]||"—")) + ")"}</td>` +
       `<td>${x.arr_before == null ? "kutilmoqda" : fmt(Math.round(x.arr_before)) + " → " + fmt(Math.round(x.arr_after))}</td><td>${x.excess == null ? "—" : "×" + x.excess}</td></tr>`).join("");
     return `<div class="upcard"><b>${r.title}</b><div class="note">${r.date} · ${r.days_ago} kun oldin · ${tn[r.type]||r.type}${r.source ? ` · <a href="${r.source}" target="_blank" rel="noopener">manba</a>` : ""}</div>` +
       `<table class="exp"><tr><th>Bozor</th><th>Vikipediya, 7 kun</th><th>Turistlar/oy, oldin → keyin</th><th>Farq</th></tr>${rows}</table></div>`;
@@ -786,7 +786,7 @@ if (typeof Plotly !== "undefined") { drawOverall(); drawViews(); drawShare(); dr
   let h = "<tr><th>Voqea</th><th>Sana</th><th>Turi</th><th>Bozor</th><th>Vikipediya, 7 kun</th><th>Turistlar (oldin → keyin)</th><th>Farq</th><th>Natija</th></tr>";
   for (const r of D.effects) {
     const mixed = (r.arr_verdict||"").includes("(");
-    const wiki = r.wiki_ratio == null ? "—" : `×${r.wiki_ratio} (${wv[r.wiki_verdict]||"—"})`;
+    const wiki = r.wiki_ratio == null ? "—" : `×${r.wiki_ratio} (${r.wiki_overlap ? "aralash" : (wv[r.wiki_verdict]||"—")})`;
     const arr = r.arr_before == null ? "kutilmoqda" : `${Math.round(r.arr_before).toLocaleString()} → ${Math.round(r.arr_after).toLocaleString()}` +
       (r.arr_method === "monthly" ? " /oy" : ` (${esc((r.arr_window||"").split(" (")[0])})`);
     const ex = r.excess == null ? "—" : `<span class="pill ${r.excess>=1.2?"up":r.excess<=0.83?"down":""}">×${r.excess}</span>`;

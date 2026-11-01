@@ -72,7 +72,13 @@ with the number of cases; with fewer than 3 cases it says "not enough data". App
 announce a future start date become upcoming events automatically. After the date the real effect
 is measured like any other event.
 
-**Adding events:** news you approve in the bot are added automatically. To add one by hand, edit
+**Which approved news become events:** only visa, border/crossing, flight, and event/sport/politics
+items that name a tracked country (not just "All"); headlines with "mumkin / taklif / rejalashtir…"
+(may / proposed / planned) wait until confirmed. Other approved news is posted but not measured, so it
+cannot distort the event weights. Two events for the same market announced within 6 days share one
+Wikipedia window: their reaction is shown as "aralash" (mixed) and not counted.
+
+**Adding events:** news you approve in the bot are added automatically (by the rule above). To add one by hand, edit
 `data/events.csv` on GitHub (Add a row: `id,date,effective_date,precision,type,markets,title,source,origin`;
 markets are language codes `zh|ko|ja|de|tr|it|fr` or `all`; precision `day` or `month`; origin `manual`).
 

@@ -141,19 +141,40 @@ def run():
     return len(items)
 
 
+EVENT_TYPES = {"visa", "border", "crossing", "flight", "event", "sport", "politics"}
+SPECULATIVE = r"mumkin|taklif|rejalashtir|ko'rib chiq|muhokama|niyat"   # may / proposed / planned / considered
+
+
 def _register_event(nid):
     """An approved news item becomes an event whose effect the tracker will measure."""
     try:
         from . import events
         df = pd.read_csv(PREDICTIONS)
         row = df[df["id"] == nid].iloc[0]
-        if str(row.get("impact", "")) == "unclear" and str(row.get("type", "other")) in ("other", "nan", ""):
+        etype = str(row.get("type", "other"))
+        headline = str(row["headline"])
+        # Only news that can change who is ABLE to come becomes a measured event: visa, border/crossing,
+        # flight, and major events/sport/politics — and only when it names a country we track.
+        # Local infrastructure, payments, marketing etc. are posted but not measured (they would distort
+        # the event weights). Proposals and "may/planned" items wait until they are confirmed.
+        if etype not in EVENT_TYPES:
+            _alog(f"not an event (type {etype}): {nid}")
+            return
+        if re.search(SPECULATIVE, headline, re.I):
+            _alog(f"not an event (not confirmed yet): {nid}")
+            return
+        countries = [m for m in str(row.get("markets", "")).split("|")
+                     if m.strip() and m.strip().lower() not in ("all", "barcha", "*", "uzbekistan")]
+        if not countries:
+            _alog(f"not an event (no country named): {nid}")
             return
         # a future start date in the article makes this an UPCOMING event measured on that date
         when = str(row.get("event_date", "") or "")
         when = when if when and when != "nan" and when > str(row["date"]) else str(row["date"])
-        eid = events.add_event(when, str(row.get("type", "other")),
-                               str(row.get("markets", "")).split("|"), str(row["headline"]), str(row["url"]), "news")
+        eid = events.add_event(when, etype, countries, headline, str(row["url"]), "news")
+        if not eid:
+            _alog(f"not an event (country not tracked or duplicate): {nid}")
+            return
         if eid and when > str(row["date"]):
             u = next((x for x in events.upcoming() if x["id"] == eid), None)
             if u:
