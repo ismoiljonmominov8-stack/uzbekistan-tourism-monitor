@@ -119,7 +119,7 @@ period,geo,country,destination,share
 2016,MA,Morocco,Uzbekistan,23
 2016,MZ,Mozambique,Uzbekistan,0
 2016,MM,Myanmar (Burma),Uzbekistan,21
-2016,NA,Namibia,Uzbekistan,0
+2016,,Namibia,Uzbekistan,0
 2016,NR,Nauru,Uzbekistan,100
 2016,NP,Nepal,Uzbekistan,18
 2016,NL,Netherlands,Uzbekistan,16
@@ -311,7 +311,7 @@ period,geo,country,destination,share
 2016,MA,Morocco,Kazakhstan,32
 2016,MZ,Mozambique,Kazakhstan,52
 2016,MM,Myanmar (Burma),Kazakhstan,36
-2016,NA,Namibia,Kazakhstan,57
+2016,,Namibia,Kazakhstan,57
 2016,NR,Nauru,Kazakhstan,0
 2016,NP,Nepal,Kazakhstan,21
 2016,NL,Netherlands,Kazakhstan,35
@@ -503,7 +503,7 @@ period,geo,country,destination,share
 2016,MA,Morocco,Kyrgyzstan,6
 2016,MZ,Mozambique,Kyrgyzstan,0
 2016,MM,Myanmar (Burma),Kyrgyzstan,18
-2016,NA,Namibia,Kyrgyzstan,0
+2016,,Namibia,Kyrgyzstan,0
 2016,NR,Nauru,Kyrgyzstan,0
 2016,NP,Nepal,Kyrgyzstan,16
 2016,NL,Netherlands,Kyrgyzstan,11
@@ -695,7 +695,7 @@ period,geo,country,destination,share
 2016,MA,Morocco,Georgia,32
 2016,MZ,Mozambique,Georgia,48
 2016,MM,Myanmar (Burma),Georgia,15
-2016,NA,Namibia,Georgia,43
+2016,,Namibia,Georgia,43
 2016,NR,Nauru,Georgia,0
 2016,NP,Nepal,Georgia,36
 2016,NL,Netherlands,Georgia,18
@@ -887,7 +887,7 @@ period,geo,country,destination,share
 2016,MA,Morocco,Tajikistan,7
 2016,MZ,Mozambique,Tajikistan,0
 2016,MM,Myanmar (Burma),Tajikistan,10
-2016,NA,Namibia,Tajikistan,0
+2016,,Namibia,Tajikistan,0
 2016,NR,Nauru,Tajikistan,0
 2016,NP,Nepal,Tajikistan,9
 2016,NL,Netherlands,Tajikistan,20
@@ -1080,7 +1080,7 @@ period,geo,country,destination,share
 2017,MA,Morocco,Uzbekistan,15
 2017,MZ,Mozambique,Uzbekistan,17
 2017,MM,Myanmar (Burma),Uzbekistan,20
-2017,NA,Namibia,Uzbekistan,0
+2017,,Namibia,Uzbekistan,0
 2017,NP,Nepal,Uzbekistan,14
 2017,NL,Netherlands,Uzbekistan,13
 2017,NC,New Caledonia,Uzbekistan,0
@@ -1271,7 +1271,7 @@ period,geo,country,destination,share
 2017,MA,Morocco,Kazakhstan,30
 2017,MZ,Mozambique,Kazakhstan,35
 2017,MM,Myanmar (Burma),Kazakhstan,30
-2017,NA,Namibia,Kazakhstan,46
+2017,,Namibia,Kazakhstan,46
 2017,NP,Nepal,Kazakhstan,21
 2017,NL,Netherlands,Kazakhstan,30
 2017,NC,New Caledonia,Kazakhstan,54
@@ -1462,7 +1462,7 @@ period,geo,country,destination,share
 2017,MA,Morocco,Kyrgyzstan,6
 2017,MZ,Mozambique,Kyrgyzstan,11
 2017,MM,Myanmar (Burma),Kyrgyzstan,19
-2017,NA,Namibia,Kyrgyzstan,0
+2017,,Namibia,Kyrgyzstan,0
 2017,NP,Nepal,Kyrgyzstan,16
 2017,NL,Netherlands,Kyrgyzstan,11
 2017,NC,New Caledonia,Kyrgyzstan,0
@@ -1653,7 +1653,7 @@ period,geo,country,destination,share
 2017,MA,Morocco,Georgia,44
 2017,MZ,Mozambique,Georgia,37
 2017,MM,Myanmar (Burma),Georgia,21
-2017,NA,Namibia,Georgia,54
+2017,,Namibia,Georgia,54
 2017,NP,Nepal,Georgia,36
 2017,NL,Netherlands,Georgia,34
 2017,NC,New Caledonia,Georgia,46
@@ -1844,7 +1844,7 @@ period,geo,country,destination,share
 2017,MA,Morocco,Tajikistan,5
 2017,MZ,Mozambique,Tajikistan,0
 2017,MM,Myanmar (Burma),Tajikistan,10
-2017,NA,Namibia,Tajikistan,0
+2017,,Namibia,Tajikistan,0
 2017,NP,Nepal,Tajikistan,13
 2017,NL,Netherlands,Tajikistan,12
 2017,NC,New Caledonia,Tajikistan,0
@@ -2039,7 +2039,7 @@ period,geo,country,destination,share
 2018,MA,Morocco,Uzbekistan,36
 2018,MZ,Mozambique,Uzbekistan,18
 2018,MM,Myanmar (Burma),Uzbekistan,20
-2018,NA,Namibia,Uzbekistan,0
+2018,,Namibia,Uzbekistan,0
 2018,NP,Nepal,Uzbekistan,16
 2018,NL,Netherlands,Uzbekistan,13
 2018,NC,New Caledonia,Uzbekistan,0
@@ -2236,7 +2236,7 @@ period,geo,country,destination,share
 2018,MA,Morocco,Kazakhstan,23
 2018,MZ,Mozambique,Kazakhstan,34
 2018,MM,Myanmar (Burma),Kazakhstan,32
-2018,NA,Namibia,Kazakhstan,48
+2018,,Namibia,Kazakhstan,48
 2018,NP,Nepal,Kazakhstan,24
 2018,NL,Netherlands,Kazakhstan,21
 2018,NC,New Caledonia,Kazakhstan,0
@@ -2433,7 +2433,7 @@ period,geo,country,destination,share
 2018,MA,Morocco,Kyrgyzstan,4
 2018,MZ,Mozambique,Kyrgyzstan,0
 2018,MM,Myanmar (Burma),Kyrgyzstan,16
-2018,NA,Namibia,Kyrgyzstan,0
+2018,,Namibia,Kyrgyzstan,0
 2018,NP,Nepal,Kyrgyzstan,14
 2018,NL,Netherlands,Kyrgyzstan,7
 2018,NC,New Caledonia,Kyrgyzstan,0
@@ -2630,7 +2630,7 @@ period,geo,country,destination,share
 2018,MA,Morocco,Georgia,33
 2018,MZ,Mozambique,Georgia,48
 2018,MM,Myanmar (Burma),Georgia,24
-2018,NA,Namibia,Georgia,52
+2018,,Namibia,Georgia,52
 2018,NP,Nepal,Georgia,32
 2018,NL,Netherlands,Georgia,46
 2018,NC,New Caledonia,Georgia,100
@@ -2827,7 +2827,7 @@ period,geo,country,destination,share
 2018,MA,Morocco,Tajikistan,4
 2018,MZ,Mozambique,Tajikistan,0
 2018,MM,Myanmar (Burma),Tajikistan,8
-2018,NA,Namibia,Tajikistan,0
+2018,,Namibia,Tajikistan,0
 2018,NP,Nepal,Tajikistan,14
 2018,NL,Netherlands,Tajikistan,13
 2018,NC,New Caledonia,Tajikistan,0
@@ -3026,7 +3026,7 @@ period,geo,country,destination,share
 2019,MA,Morocco,Uzbekistan,21
 2019,MZ,Mozambique,Uzbekistan,18
 2019,MM,Myanmar (Burma),Uzbekistan,15
-2019,NA,Namibia,Uzbekistan,0
+2019,,Namibia,Uzbekistan,0
 2019,NP,Nepal,Uzbekistan,23
 2019,NL,Netherlands,Uzbekistan,16
 2019,NC,New Caledonia,Uzbekistan,0
@@ -3228,7 +3228,7 @@ period,geo,country,destination,share
 2019,MA,Morocco,Kazakhstan,30
 2019,MZ,Mozambique,Kazakhstan,39
 2019,MM,Myanmar (Burma),Kazakhstan,35
-2019,NA,Namibia,Kazakhstan,56
+2019,,Namibia,Kazakhstan,56
 2019,NP,Nepal,Kazakhstan,28
 2019,NL,Netherlands,Kazakhstan,26
 2019,NC,New Caledonia,Kazakhstan,35
@@ -3430,7 +3430,7 @@ period,geo,country,destination,share
 2019,MA,Morocco,Kyrgyzstan,7
 2019,MZ,Mozambique,Kyrgyzstan,10
 2019,MM,Myanmar (Burma),Kyrgyzstan,14
-2019,NA,Namibia,Kyrgyzstan,0
+2019,,Namibia,Kyrgyzstan,0
 2019,NP,Nepal,Kyrgyzstan,14
 2019,NL,Netherlands,Kyrgyzstan,10
 2019,NC,New Caledonia,Kyrgyzstan,17
@@ -3632,7 +3632,7 @@ period,geo,country,destination,share
 2019,MA,Morocco,Georgia,36
 2019,MZ,Mozambique,Georgia,26
 2019,MM,Myanmar (Burma),Georgia,24
-2019,NA,Namibia,Georgia,44
+2019,,Namibia,Georgia,44
 2019,NP,Nepal,Georgia,25
 2019,NL,Netherlands,Georgia,42
 2019,NC,New Caledonia,Georgia,48
@@ -3834,7 +3834,7 @@ period,geo,country,destination,share
 2019,MA,Morocco,Tajikistan,6
 2019,MZ,Mozambique,Tajikistan,7
 2019,MM,Myanmar (Burma),Tajikistan,12
-2019,NA,Namibia,Tajikistan,0
+2019,,Namibia,Tajikistan,0
 2019,NP,Nepal,Tajikistan,10
 2019,NL,Netherlands,Tajikistan,6
 2019,NC,New Caledonia,Tajikistan,0
@@ -4036,7 +4036,7 @@ period,geo,country,destination,share
 2020,MA,Morocco,Uzbekistan,17
 2020,MZ,Mozambique,Uzbekistan,11
 2020,MM,Myanmar (Burma),Uzbekistan,20
-2020,NA,Namibia,Uzbekistan,16
+2020,,Namibia,Uzbekistan,16
 2020,NP,Nepal,Uzbekistan,17
 2020,NL,Netherlands,Uzbekistan,14
 2020,NC,New Caledonia,Uzbekistan,0
@@ -4238,7 +4238,7 @@ period,geo,country,destination,share
 2020,MA,Morocco,Kazakhstan,31
 2020,MZ,Mozambique,Kazakhstan,38
 2020,MM,Myanmar (Burma),Kazakhstan,32
-2020,NA,Namibia,Kazakhstan,45
+2020,,Namibia,Kazakhstan,45
 2020,NP,Nepal,Kazakhstan,32
 2020,NL,Netherlands,Kazakhstan,29
 2020,NC,New Caledonia,Kazakhstan,33
@@ -4440,7 +4440,7 @@ period,geo,country,destination,share
 2020,MA,Morocco,Kyrgyzstan,8
 2020,MZ,Mozambique,Kyrgyzstan,7
 2020,MM,Myanmar (Burma),Kyrgyzstan,10
-2020,NA,Namibia,Kyrgyzstan,0
+2020,,Namibia,Kyrgyzstan,0
 2020,NP,Nepal,Kyrgyzstan,12
 2020,NL,Netherlands,Kyrgyzstan,11
 2020,NC,New Caledonia,Kyrgyzstan,0
@@ -4642,7 +4642,7 @@ period,geo,country,destination,share
 2020,MA,Morocco,Georgia,37
 2020,MZ,Mozambique,Georgia,32
 2020,MM,Myanmar (Burma),Georgia,28
-2020,NA,Namibia,Georgia,39
+2020,,Namibia,Georgia,39
 2020,NP,Nepal,Georgia,28
 2020,NL,Netherlands,Georgia,39
 2020,NC,New Caledonia,Georgia,67
@@ -4844,7 +4844,7 @@ period,geo,country,destination,share
 2020,MA,Morocco,Tajikistan,7
 2020,MZ,Mozambique,Tajikistan,12
 2020,MM,Myanmar (Burma),Tajikistan,10
-2020,NA,Namibia,Tajikistan,0
+2020,,Namibia,Tajikistan,0
 2020,NP,Nepal,Tajikistan,11
 2020,NL,Netherlands,Tajikistan,7
 2020,NC,New Caledonia,Tajikistan,0
@@ -5045,7 +5045,7 @@ period,geo,country,destination,share
 2021,MA,Morocco,Uzbekistan,17
 2021,MZ,Mozambique,Uzbekistan,20
 2021,MM,Myanmar (Burma),Uzbekistan,20
-2021,NA,Namibia,Uzbekistan,15
+2021,,Namibia,Uzbekistan,15
 2021,NP,Nepal,Uzbekistan,16
 2021,NL,Netherlands,Uzbekistan,16
 2021,NC,New Caledonia,Uzbekistan,0
@@ -5246,7 +5246,7 @@ period,geo,country,destination,share
 2021,MA,Morocco,Kazakhstan,33
 2021,MZ,Mozambique,Kazakhstan,41
 2021,MM,Myanmar (Burma),Kazakhstan,36
-2021,NA,Namibia,Kazakhstan,43
+2021,,Namibia,Kazakhstan,43
 2021,NP,Nepal,Kazakhstan,23
 2021,NL,Netherlands,Kazakhstan,27
 2021,NC,New Caledonia,Kazakhstan,65
@@ -5447,7 +5447,7 @@ period,geo,country,destination,share
 2021,MA,Morocco,Kyrgyzstan,9
 2021,MZ,Mozambique,Kyrgyzstan,7
 2021,MM,Myanmar (Burma),Kyrgyzstan,10
-2021,NA,Namibia,Kyrgyzstan,7
+2021,,Namibia,Kyrgyzstan,7
 2021,NP,Nepal,Kyrgyzstan,28
 2021,NL,Netherlands,Kyrgyzstan,8
 2021,NC,New Caledonia,Kyrgyzstan,0
@@ -5648,7 +5648,7 @@ period,geo,country,destination,share
 2021,MA,Morocco,Georgia,33
 2021,MZ,Mozambique,Georgia,27
 2021,MM,Myanmar (Burma),Georgia,25
-2021,NA,Namibia,Georgia,27
+2021,,Namibia,Georgia,27
 2021,NP,Nepal,Georgia,18
 2021,NL,Netherlands,Georgia,41
 2021,NC,New Caledonia,Georgia,35
@@ -5849,7 +5849,7 @@ period,geo,country,destination,share
 2021,MA,Morocco,Tajikistan,8
 2021,MZ,Mozambique,Tajikistan,5
 2021,MM,Myanmar (Burma),Tajikistan,9
-2021,NA,Namibia,Tajikistan,8
+2021,,Namibia,Tajikistan,8
 2021,NP,Nepal,Tajikistan,15
 2021,NL,Netherlands,Tajikistan,8
 2021,NC,New Caledonia,Tajikistan,0
@@ -6056,7 +6056,7 @@ period,geo,country,destination,share
 2022,MA,Morocco,Uzbekistan,11
 2022,MZ,Mozambique,Uzbekistan,15
 2022,MM,Myanmar (Burma),Uzbekistan,20
-2022,NA,Namibia,Uzbekistan,20
+2022,,Namibia,Uzbekistan,20
 2022,NP,Nepal,Uzbekistan,13
 2022,NL,Netherlands,Uzbekistan,13
 2022,NC,New Caledonia,Uzbekistan,21
@@ -6267,7 +6267,7 @@ period,geo,country,destination,share
 2022,MA,Morocco,Kazakhstan,19
 2022,MZ,Mozambique,Kazakhstan,40
 2022,MM,Myanmar (Burma),Kazakhstan,32
-2022,NA,Namibia,Kazakhstan,36
+2022,,Namibia,Kazakhstan,36
 2022,NP,Nepal,Kazakhstan,25
 2022,NL,Netherlands,Kazakhstan,35
 2022,NC,New Caledonia,Kazakhstan,35
@@ -6478,7 +6478,7 @@ period,geo,country,destination,share
 2022,MA,Morocco,Kyrgyzstan,4
 2022,MZ,Mozambique,Kyrgyzstan,6
 2022,MM,Myanmar (Burma),Kyrgyzstan,8
-2022,NA,Namibia,Kyrgyzstan,6
+2022,,Namibia,Kyrgyzstan,6
 2022,NP,Nepal,Kyrgyzstan,14
 2022,NL,Netherlands,Kyrgyzstan,11
 2022,NC,New Caledonia,Kyrgyzstan,12
@@ -6689,7 +6689,7 @@ period,geo,country,destination,share
 2022,MA,Morocco,Georgia,62
 2022,MZ,Mozambique,Georgia,31
 2022,MM,Myanmar (Burma),Georgia,34
-2022,NA,Namibia,Georgia,32
+2022,,Namibia,Georgia,32
 2022,NP,Nepal,Georgia,38
 2022,NL,Netherlands,Georgia,35
 2022,NC,New Caledonia,Georgia,32
@@ -6900,7 +6900,7 @@ period,geo,country,destination,share
 2022,MA,Morocco,Tajikistan,4
 2022,MZ,Mozambique,Tajikistan,8
 2022,MM,Myanmar (Burma),Tajikistan,6
-2022,NA,Namibia,Tajikistan,6
+2022,,Namibia,Tajikistan,6
 2022,NP,Nepal,Tajikistan,10
 2022,NL,Netherlands,Tajikistan,6
 2022,NC,New Caledonia,Tajikistan,0
@@ -7110,7 +7110,7 @@ period,geo,country,destination,share
 2023,MA,Morocco,Uzbekistan,23
 2023,MZ,Mozambique,Uzbekistan,18
 2023,MM,Myanmar (Burma),Uzbekistan,21
-2023,NA,Namibia,Uzbekistan,20
+2023,,Namibia,Uzbekistan,20
 2023,NP,Nepal,Uzbekistan,24
 2023,NL,Netherlands,Uzbekistan,16
 2023,NC,New Caledonia,Uzbekistan,24
@@ -7318,7 +7318,7 @@ period,geo,country,destination,share
 2023,MA,Morocco,Kazakhstan,27
 2023,MZ,Mozambique,Kazakhstan,37
 2023,MM,Myanmar (Burma),Kazakhstan,34
-2023,NA,Namibia,Kazakhstan,28
+2023,,Namibia,Kazakhstan,28
 2023,NP,Nepal,Kazakhstan,25
 2023,NL,Netherlands,Kazakhstan,30
 2023,NC,New Caledonia,Kazakhstan,32
@@ -7526,7 +7526,7 @@ period,geo,country,destination,share
 2023,MA,Morocco,Kyrgyzstan,9
 2023,MZ,Mozambique,Kyrgyzstan,8
 2023,MM,Myanmar (Burma),Kyrgyzstan,11
-2023,NA,Namibia,Kyrgyzstan,7
+2023,,Namibia,Kyrgyzstan,7
 2023,NP,Nepal,Kyrgyzstan,14
 2023,NL,Netherlands,Kyrgyzstan,12
 2023,NC,New Caledonia,Kyrgyzstan,0
@@ -7734,7 +7734,7 @@ period,geo,country,destination,share
 2023,MA,Morocco,Georgia,34
 2023,MZ,Mozambique,Georgia,32
 2023,MM,Myanmar (Burma),Georgia,28
-2023,NA,Namibia,Georgia,45
+2023,,Namibia,Georgia,45
 2023,NP,Nepal,Georgia,31
 2023,NL,Netherlands,Georgia,37
 2023,NC,New Caledonia,Georgia,44
@@ -7942,7 +7942,7 @@ period,geo,country,destination,share
 2023,MA,Morocco,Tajikistan,7
 2023,MZ,Mozambique,Tajikistan,5
 2023,MM,Myanmar (Burma),Tajikistan,6
-2023,NA,Namibia,Tajikistan,0
+2023,,Namibia,Tajikistan,0
 2023,NP,Nepal,Tajikistan,6
 2023,NL,Netherlands,Tajikistan,5
 2023,NC,New Caledonia,Tajikistan,0
@@ -8153,7 +8153,7 @@ period,geo,country,destination,share
 2024,MA,Morocco,Uzbekistan,21
 2024,MZ,Mozambique,Uzbekistan,15
 2024,MM,Myanmar (Burma),Uzbekistan,23
-2024,NA,Namibia,Uzbekistan,18
+2024,,Namibia,Uzbekistan,18
 2024,NP,Nepal,Uzbekistan,21
 2024,NL,Netherlands,Uzbekistan,12
 2024,NC,New Caledonia,Uzbekistan,27
@@ -8364,7 +8364,7 @@ period,geo,country,destination,share
 2024,MA,Morocco,Kazakhstan,20
 2024,MZ,Mozambique,Kazakhstan,26
 2024,MM,Myanmar (Burma),Kazakhstan,28
-2024,NA,Namibia,Kazakhstan,27
+2024,,Namibia,Kazakhstan,27
 2024,NP,Nepal,Kazakhstan,19
 2024,NL,Netherlands,Kazakhstan,21
 2024,NC,New Caledonia,Kazakhstan,0
@@ -8575,7 +8575,7 @@ period,geo,country,destination,share
 2024,MA,Morocco,Kyrgyzstan,7
 2024,MZ,Mozambique,Kyrgyzstan,7
 2024,MM,Myanmar (Burma),Kyrgyzstan,11
-2024,NA,Namibia,Kyrgyzstan,11
+2024,,Namibia,Kyrgyzstan,11
 2024,NP,Nepal,Kyrgyzstan,13
 2024,NL,Netherlands,Kyrgyzstan,10
 2024,NC,New Caledonia,Kyrgyzstan,0
@@ -8786,7 +8786,7 @@ period,geo,country,destination,share
 2024,MA,Morocco,Georgia,37
 2024,MZ,Mozambique,Georgia,44
 2024,MM,Myanmar (Burma),Georgia,31
-2024,NA,Namibia,Georgia,39
+2024,,Namibia,Georgia,39
 2024,NP,Nepal,Georgia,39
 2024,NL,Netherlands,Georgia,52
 2024,NC,New Caledonia,Georgia,73
@@ -8997,7 +8997,7 @@ period,geo,country,destination,share
 2024,MA,Morocco,Tajikistan,15
 2024,MZ,Mozambique,Tajikistan,8
 2024,MM,Myanmar (Burma),Tajikistan,7
-2024,NA,Namibia,Tajikistan,5
+2024,,Namibia,Tajikistan,5
 2024,NP,Nepal,Tajikistan,8
 2024,NL,Netherlands,Tajikistan,5
 2024,NC,New Caledonia,Tajikistan,0
@@ -9206,7 +9206,7 @@ period,geo,country,destination,share
 2025,MA,Morocco,Uzbekistan,20
 2025,MZ,Mozambique,Uzbekistan,19
 2025,MM,Myanmar (Burma),Uzbekistan,21
-2025,NA,Namibia,Uzbekistan,20
+2025,,Namibia,Uzbekistan,20
 2025,NP,Nepal,Uzbekistan,42
 2025,NL,Netherlands,Uzbekistan,17
 2025,NC,New Caledonia,Uzbekistan,48
@@ -9416,7 +9416,7 @@ period,geo,country,destination,share
 2025,MA,Morocco,Kazakhstan,39
 2025,MZ,Mozambique,Kazakhstan,35
 2025,MM,Myanmar (Burma),Kazakhstan,31
-2025,NA,Namibia,Kazakhstan,39
+2025,,Namibia,Kazakhstan,39
 2025,NP,Nepal,Kazakhstan,19
 2025,NL,Netherlands,Kazakhstan,32
 2025,NC,New Caledonia,Kazakhstan,52
@@ -9626,7 +9626,7 @@ period,geo,country,destination,share
 2025,MA,Morocco,Kyrgyzstan,8
 2025,MZ,Mozambique,Kyrgyzstan,8
 2025,MM,Myanmar (Burma),Kyrgyzstan,15
-2025,NA,Namibia,Kyrgyzstan,8
+2025,,Namibia,Kyrgyzstan,8
 2025,NP,Nepal,Kyrgyzstan,12
 2025,NL,Netherlands,Kyrgyzstan,14
 2025,NC,New Caledonia,Kyrgyzstan,0
@@ -9836,7 +9836,7 @@ period,geo,country,destination,share
 2025,MA,Morocco,Georgia,28
 2025,MZ,Mozambique,Georgia,34
 2025,MM,Myanmar (Burma),Georgia,23
-2025,NA,Namibia,Georgia,28
+2025,,Namibia,Georgia,28
 2025,NP,Nepal,Georgia,23
 2025,NL,Netherlands,Georgia,32
 2025,NC,New Caledonia,Georgia,0
@@ -10046,7 +10046,7 @@ period,geo,country,destination,share
 2025,MA,Morocco,Tajikistan,5
 2025,MZ,Mozambique,Tajikistan,4
 2025,MM,Myanmar (Burma),Tajikistan,10
-2025,NA,Namibia,Tajikistan,5
+2025,,Namibia,Tajikistan,5
 2025,NP,Nepal,Tajikistan,4
 2025,NL,Netherlands,Tajikistan,5
 2025,NC,New Caledonia,Tajikistan,0
@@ -10124,1076 +10124,6 @@ period,geo,country,destination,share
 2025,ZM,Zambia,Tajikistan,6
 2025,ZW,Zimbabwe,Tajikistan,5
 2025,AX,Åland Islands,Tajikistan,0
-2026,AF,Afghanistan,Uzbekistan,30
-2026,AL,Albania,Uzbekistan,24
-2026,DZ,Algeria,Uzbekistan,40
-2026,AS,American Samoa,Uzbekistan,14
-2026,AD,Andorra,Uzbekistan,28
-2026,AO,Angola,Uzbekistan,44
-2026,AI,Anguilla,Uzbekistan,0
-2026,AG,Antigua & Barbuda,Uzbekistan,34
-2026,AR,Argentina,Uzbekistan,52
-2026,AM,Armenia,Uzbekistan,10
-2026,AW,Aruba,Uzbekistan,56
-2026,AU,Australia,Uzbekistan,19
-2026,AT,Austria,Uzbekistan,25
-2026,AZ,Azerbaijan,Uzbekistan,25
-2026,BS,Bahamas,Uzbekistan,21
-2026,BH,Bahrain,Uzbekistan,22
-2026,BD,Bangladesh,Uzbekistan,27
-2026,BB,Barbados,Uzbekistan,34
-2026,BY,Belarus,Uzbekistan,14
-2026,BE,Belgium,Uzbekistan,27
-2026,BZ,Belize,Uzbekistan,38
-2026,BJ,Benin,Uzbekistan,34
-2026,BM,Bermuda,Uzbekistan,26
-2026,BT,Bhutan,Uzbekistan,30
-2026,BO,Bolivia,Uzbekistan,58
-2026,BA,Bosnia & Herzegovina,Uzbekistan,28
-2026,BW,Botswana,Uzbekistan,35
-2026,BR,Brazil,Uzbekistan,43
-2026,VG,British Virgin Islands,Uzbekistan,0
-2026,BN,Brunei,Uzbekistan,26
-2026,BG,Bulgaria,Uzbekistan,27
-2026,BF,Burkina Faso,Uzbekistan,45
-2026,BI,Burundi,Uzbekistan,65
-2026,KH,Cambodia,Uzbekistan,19
-2026,CM,Cameroon,Uzbekistan,46
-2026,CA,Canada,Uzbekistan,26
-2026,CV,Cape Verde,Uzbekistan,37
-2026,BQ,Caribbean Netherlands,Uzbekistan,52
-2026,KY,Cayman Islands,Uzbekistan,25
-2026,CF,Central African Republic,Uzbekistan,40
-2026,TD,Chad,Uzbekistan,39
-2026,CL,Chile,Uzbekistan,47
-2026,CN,China,Uzbekistan,23
-2026,CO,Colombia,Uzbekistan,77
-2026,KM,Comoros,Uzbekistan,57
-2026,CG,Congo - Brazzaville,Uzbekistan,61
-2026,CD,Congo - Kinshasa,Uzbekistan,88
-2026,CR,Costa Rica,Uzbekistan,49
-2026,HR,Croatia,Uzbekistan,24
-2026,CU,Cuba,Uzbekistan,15
-2026,CW,Curaçao,Uzbekistan,55
-2026,CY,Cyprus,Uzbekistan,19
-2026,CZ,Czechia,Uzbekistan,19
-2026,CI,Côte d’Ivoire,Uzbekistan,49
-2026,DK,Denmark,Uzbekistan,21
-2026,DJ,Djibouti,Uzbekistan,39
-2026,DO,Dominican Republic,Uzbekistan,26
-2026,EC,Ecuador,Uzbekistan,49
-2026,EG,Egypt,Uzbekistan,30
-2026,SV,El Salvador,Uzbekistan,58
-2026,GQ,Equatorial Guinea,Uzbekistan,37
-2026,EE,Estonia,Uzbekistan,20
-2026,SZ,Eswatini,Uzbekistan,28
-2026,ET,Ethiopia,Uzbekistan,28
-2026,FO,Faroe Islands,Uzbekistan,0
-2026,FJ,Fiji,Uzbekistan,24
-2026,FI,Finland,Uzbekistan,22
-2026,FR,France,Uzbekistan,31
-2026,GF,French Guiana,Uzbekistan,100
-2026,PF,French Polynesia,Uzbekistan,2
-2026,GA,Gabon,Uzbekistan,55
-2026,GM,Gambia,Uzbekistan,29
-2026,GE,Georgia,Uzbekistan,1
-2026,DE,Germany,Uzbekistan,26
-2026,GH,Ghana,Uzbekistan,21
-2026,GI,Gibraltar,Uzbekistan,28
-2026,GR,Greece,Uzbekistan,20
-2026,GL,Greenland,Uzbekistan,0
-2026,GD,Grenada,Uzbekistan,33
-2026,GP,Guadeloupe,Uzbekistan,53
-2026,GU,Guam,Uzbekistan,26
-2026,GT,Guatemala,Uzbekistan,65
-2026,GG,Guernsey,Uzbekistan,25
-2026,GN,Guinea,Uzbekistan,45
-2026,GW,Guinea-Bissau,Uzbekistan,0
-2026,GY,Guyana,Uzbekistan,27
-2026,HT,Haiti,Uzbekistan,44
-2026,HN,Honduras,Uzbekistan,56
-2026,HK,Hong Kong,Uzbekistan,25
-2026,HU,Hungary,Uzbekistan,18
-2026,IS,Iceland,Uzbekistan,24
-2026,IN,India,Uzbekistan,23
-2026,ID,Indonesia,Uzbekistan,26
-2026,IR,Iran,Uzbekistan,26
-2026,IQ,Iraq,Uzbekistan,24
-2026,IE,Ireland,Uzbekistan,21
-2026,IM,Isle of Man,Uzbekistan,25
-2026,IL,Israel,Uzbekistan,20
-2026,IT,Italy,Uzbekistan,29
-2026,JM,Jamaica,Uzbekistan,29
-2026,JP,Japan,Uzbekistan,27
-2026,JE,Jersey,Uzbekistan,25
-2026,JO,Jordan,Uzbekistan,23
-2026,KZ,Kazakhstan,Uzbekistan,3
-2026,KE,Kenya,Uzbekistan,27
-2026,XK,Kosovo,Uzbekistan,26
-2026,KW,Kuwait,Uzbekistan,21
-2026,KG,Kyrgyzstan,Uzbekistan,9
-2026,LA,Laos,Uzbekistan,27
-2026,LV,Latvia,Uzbekistan,22
-2026,LB,Lebanon,Uzbekistan,19
-2026,LS,Lesotho,Uzbekistan,37
-2026,LR,Liberia,Uzbekistan,35
-2026,LY,Libya,Uzbekistan,31
-2026,LI,Liechtenstein,Uzbekistan,28
-2026,LT,Lithuania,Uzbekistan,20
-2026,LU,Luxembourg,Uzbekistan,30
-2026,MO,Macao,Uzbekistan,32
-2026,MG,Madagascar,Uzbekistan,39
-2026,MW,Malawi,Uzbekistan,30
-2026,MY,Malaysia,Uzbekistan,25
-2026,MV,Maldives,Uzbekistan,25
-2026,ML,Mali,Uzbekistan,56
-2026,MT,Malta,Uzbekistan,24
-2026,MQ,Martinique,Uzbekistan,43
-2026,MR,Mauritania,Uzbekistan,37
-2026,MU,Mauritius,Uzbekistan,36
-2026,MX,Mexico,Uzbekistan,49
-2026,MD,Moldova,Uzbekistan,21
-2026,MN,Mongolia,Uzbekistan,15
-2026,ME,Montenegro,Uzbekistan,19
-2026,MA,Morocco,Uzbekistan,31
-2026,MZ,Mozambique,Uzbekistan,48
-2026,MM,Myanmar (Burma),Uzbekistan,24
-2026,NA,Namibia,Uzbekistan,31
-2026,NP,Nepal,Uzbekistan,27
-2026,NL,Netherlands,Uzbekistan,37
-2026,NC,New Caledonia,Uzbekistan,51
-2026,NZ,New Zealand,Uzbekistan,21
-2026,NI,Nicaragua,Uzbekistan,57
-2026,NE,Niger,Uzbekistan,62
-2026,NG,Nigeria,Uzbekistan,26
-2026,MK,North Macedonia,Uzbekistan,24
-2026,MP,Northern Mariana Islands,Uzbekistan,0
-2026,NO,Norway,Uzbekistan,24
-2026,OM,Oman,Uzbekistan,24
-2026,PK,Pakistan,Uzbekistan,30
-2026,PS,Palestine,Uzbekistan,22
-2026,PA,Panama,Uzbekistan,51
-2026,PG,Papua New Guinea,Uzbekistan,19
-2026,PY,Paraguay,Uzbekistan,50
-2026,PE,Peru,Uzbekistan,55
-2026,PH,Philippines,Uzbekistan,17
-2026,PL,Poland,Uzbekistan,19
-2026,PT,Portugal,Uzbekistan,41
-2026,PR,Puerto Rico,Uzbekistan,29
-2026,QA,Qatar,Uzbekistan,23
-2026,RO,Romania,Uzbekistan,24
-2026,RU,Russia,Uzbekistan,21
-2026,RW,Rwanda,Uzbekistan,33
-2026,RE,Réunion,Uzbekistan,37
-2026,SM,San Marino,Uzbekistan,42
-2026,SA,Saudi Arabia,Uzbekistan,26
-2026,SN,Senegal,Uzbekistan,56
-2026,RS,Serbia,Uzbekistan,24
-2026,SC,Seychelles,Uzbekistan,34
-2026,SL,Sierra Leone,Uzbekistan,28
-2026,SG,Singapore,Uzbekistan,19
-2026,SK,Slovakia,Uzbekistan,18
-2026,SI,Slovenia,Uzbekistan,24
-2026,SB,Solomon Islands,Uzbekistan,0
-2026,SO,Somalia,Uzbekistan,30
-2026,ZA,South Africa,Uzbekistan,26
-2026,KR,South Korea,Uzbekistan,22
-2026,SS,South Sudan,Uzbekistan,29
-2026,ES,Spain,Uzbekistan,30
-2026,LK,Sri Lanka,Uzbekistan,20
-2026,BL,St. Barthélemy,Uzbekistan,34
-2026,SH,St. Helena,Uzbekistan,25
-2026,KN,St. Kitts & Nevis,Uzbekistan,0
-2026,LC,St. Lucia,Uzbekistan,19
-2026,VC,St. Vincent & Grenadines,Uzbekistan,0
-2026,SD,Sudan,Uzbekistan,25
-2026,SR,Suriname,Uzbekistan,48
-2026,SE,Sweden,Uzbekistan,25
-2026,CH,Switzerland,Uzbekistan,27
-2026,SY,Syria,Uzbekistan,32
-2026,TW,Taiwan,Uzbekistan,23
-2026,TJ,Tajikistan,Uzbekistan,15
-2026,TZ,Tanzania,Uzbekistan,31
-2026,TH,Thailand,Uzbekistan,14
-2026,TL,Timor-Leste,Uzbekistan,54
-2026,TG,Togo,Uzbekistan,41
-2026,TT,Trinidad & Tobago,Uzbekistan,32
-2026,TN,Tunisia,Uzbekistan,31
-2026,TM,Turkmenistan,Uzbekistan,67
-2026,TC,Turks & Caicos Islands,Uzbekistan,24
-2026,TR,Türkiye,Uzbekistan,30
-2026,VI,U.S. Virgin Islands,Uzbekistan,31
-2026,UG,Uganda,Uzbekistan,31
-2026,UA,Ukraine,Uzbekistan,17
-2026,AE,United Arab Emirates,Uzbekistan,24
-2026,GB,United Kingdom,Uzbekistan,30
-2026,US,United States,Uzbekistan,28
-2026,UY,Uruguay,Uzbekistan,44
-2026,UZ,Uzbekistan,Uzbekistan,90
-2026,VU,Vanuatu,Uzbekistan,0
-2026,VE,Venezuela,Uzbekistan,60
-2026,VN,Vietnam,Uzbekistan,34
-2026,EH,Western Sahara,Uzbekistan,23
-2026,YE,Yemen,Uzbekistan,36
-2026,ZM,Zambia,Uzbekistan,32
-2026,ZW,Zimbabwe,Uzbekistan,36
-2026,AX,Åland Islands,Uzbekistan,0
-2026,AF,Afghanistan,Kazakhstan,10
-2026,AL,Albania,Kazakhstan,36
-2026,DZ,Algeria,Kazakhstan,27
-2026,AS,American Samoa,Kazakhstan,64
-2026,AD,Andorra,Kazakhstan,31
-2026,AO,Angola,Kazakhstan,28
-2026,AI,Anguilla,Kazakhstan,0
-2026,AG,Antigua & Barbuda,Kazakhstan,38
-2026,AR,Argentina,Kazakhstan,23
-2026,AM,Armenia,Kazakhstan,20
-2026,AW,Aruba,Kazakhstan,20
-2026,AU,Australia,Kazakhstan,45
-2026,AT,Austria,Kazakhstan,30
-2026,AZ,Azerbaijan,Kazakhstan,25
-2026,BS,Bahamas,Kazakhstan,42
-2026,BH,Bahrain,Kazakhstan,27
-2026,BD,Bangladesh,Kazakhstan,45
-2026,BB,Barbados,Kazakhstan,37
-2026,BY,Belarus,Kazakhstan,32
-2026,BE,Belgium,Kazakhstan,26
-2026,BZ,Belize,Kazakhstan,40
-2026,BJ,Benin,Kazakhstan,24
-2026,BM,Bermuda,Kazakhstan,47
-2026,BT,Bhutan,Kazakhstan,41
-2026,BO,Bolivia,Kazakhstan,21
-2026,BA,Bosnia & Herzegovina,Kazakhstan,32
-2026,BW,Botswana,Kazakhstan,33
-2026,BR,Brazil,Kazakhstan,25
-2026,VG,British Virgin Islands,Kazakhstan,0
-2026,BN,Brunei,Kazakhstan,49
-2026,BG,Bulgaria,Kazakhstan,31
-2026,BF,Burkina Faso,Kazakhstan,31
-2026,BI,Burundi,Kazakhstan,9
-2026,KH,Cambodia,Kazakhstan,40
-2026,CM,Cameroon,Kazakhstan,22
-2026,CA,Canada,Kazakhstan,35
-2026,CV,Cape Verde,Kazakhstan,32
-2026,BQ,Caribbean Netherlands,Kazakhstan,48
-2026,KY,Cayman Islands,Kazakhstan,49
-2026,CF,Central African Republic,Kazakhstan,29
-2026,TD,Chad,Kazakhstan,26
-2026,CL,Chile,Kazakhstan,29
-2026,CN,China,Kazakhstan,42
-2026,CO,Colombia,Kazakhstan,11
-2026,KM,Comoros,Kazakhstan,43
-2026,CG,Congo - Brazzaville,Kazakhstan,17
-2026,CD,Congo - Kinshasa,Kazakhstan,6
-2026,CR,Costa Rica,Kazakhstan,23
-2026,HR,Croatia,Kazakhstan,32
-2026,CU,Cuba,Kazakhstan,9
-2026,CW,Curaçao,Kazakhstan,26
-2026,CY,Cyprus,Kazakhstan,28
-2026,CZ,Czechia,Kazakhstan,34
-2026,CI,Côte d’Ivoire,Kazakhstan,18
-2026,DK,Denmark,Kazakhstan,30
-2026,DJ,Djibouti,Kazakhstan,25
-2026,DO,Dominican Republic,Kazakhstan,29
-2026,EC,Ecuador,Kazakhstan,25
-2026,EG,Egypt,Kazakhstan,27
-2026,SV,El Salvador,Kazakhstan,17
-2026,GQ,Equatorial Guinea,Kazakhstan,21
-2026,EE,Estonia,Kazakhstan,33
-2026,SZ,Eswatini,Kazakhstan,33
-2026,ET,Ethiopia,Kazakhstan,36
-2026,FO,Faroe Islands,Kazakhstan,63
-2026,FJ,Fiji,Kazakhstan,42
-2026,FI,Finland,Kazakhstan,35
-2026,FR,France,Kazakhstan,25
-2026,GF,French Guiana,Kazakhstan,0
-2026,PF,French Polynesia,Kazakhstan,51
-2026,GA,Gabon,Kazakhstan,13
-2026,GM,Gambia,Kazakhstan,39
-2026,GE,Georgia,Kazakhstan,2
-2026,DE,Germany,Kazakhstan,34
-2026,GH,Ghana,Kazakhstan,36
-2026,GI,Gibraltar,Kazakhstan,29
-2026,GR,Greece,Kazakhstan,24
-2026,GL,Greenland,Kazakhstan,0
-2026,GD,Grenada,Kazakhstan,29
-2026,GP,Guadeloupe,Kazakhstan,23
-2026,GU,Guam,Kazakhstan,42
-2026,GT,Guatemala,Kazakhstan,15
-2026,GG,Guernsey,Kazakhstan,35
-2026,GN,Guinea,Kazakhstan,24
-2026,GW,Guinea-Bissau,Kazakhstan,100
-2026,GY,Guyana,Kazakhstan,36
-2026,HT,Haiti,Kazakhstan,14
-2026,HN,Honduras,Kazakhstan,20
-2026,HK,Hong Kong,Kazakhstan,45
-2026,HU,Hungary,Kazakhstan,36
-2026,IS,Iceland,Kazakhstan,30
-2026,IN,India,Kazakhstan,40
-2026,ID,Indonesia,Kazakhstan,47
-2026,IR,Iran,Kazakhstan,10
-2026,IQ,Iraq,Kazakhstan,26
-2026,IE,Ireland,Kazakhstan,33
-2026,IM,Isle of Man,Kazakhstan,33
-2026,IL,Israel,Kazakhstan,17
-2026,IT,Italy,Kazakhstan,27
-2026,JM,Jamaica,Kazakhstan,30
-2026,JP,Japan,Kazakhstan,43
-2026,JE,Jersey,Kazakhstan,24
-2026,JO,Jordan,Kazakhstan,20
-2026,KZ,Kazakhstan,Kazakhstan,95
-2026,KE,Kenya,Kazakhstan,40
-2026,XK,Kosovo,Kazakhstan,40
-2026,KW,Kuwait,Kazakhstan,25
-2026,KG,Kyrgyzstan,Kazakhstan,9
-2026,LA,Laos,Kazakhstan,41
-2026,LV,Latvia,Kazakhstan,33
-2026,LB,Lebanon,Kazakhstan,23
-2026,LS,Lesotho,Kazakhstan,43
-2026,LR,Liberia,Kazakhstan,35
-2026,LY,Libya,Kazakhstan,26
-2026,LI,Liechtenstein,Kazakhstan,27
-2026,LT,Lithuania,Kazakhstan,30
-2026,LU,Luxembourg,Kazakhstan,32
-2026,MO,Macao,Kazakhstan,35
-2026,MG,Madagascar,Kazakhstan,28
-2026,MW,Malawi,Kazakhstan,46
-2026,MY,Malaysia,Kazakhstan,48
-2026,MV,Maldives,Kazakhstan,47
-2026,ML,Mali,Kazakhstan,22
-2026,MT,Malta,Kazakhstan,26
-2026,MQ,Martinique,Kazakhstan,30
-2026,MR,Mauritania,Kazakhstan,29
-2026,MU,Mauritius,Kazakhstan,31
-2026,MX,Mexico,Kazakhstan,25
-2026,MD,Moldova,Kazakhstan,35
-2026,MN,Mongolia,Kazakhstan,61
-2026,ME,Montenegro,Kazakhstan,37
-2026,MA,Morocco,Kazakhstan,35
-2026,MZ,Mozambique,Kazakhstan,26
-2026,MM,Myanmar (Burma),Kazakhstan,41
-2026,NA,Namibia,Kazakhstan,39
-2026,NP,Nepal,Kazakhstan,39
-2026,NL,Netherlands,Kazakhstan,26
-2026,NC,New Caledonia,Kazakhstan,3
-2026,NZ,New Zealand,Kazakhstan,42
-2026,NI,Nicaragua,Kazakhstan,16
-2026,NE,Niger,Kazakhstan,25
-2026,NG,Nigeria,Kazakhstan,33
-2026,MK,North Macedonia,Kazakhstan,33
-2026,MP,Northern Mariana Islands,Kazakhstan,94
-2026,NO,Norway,Kazakhstan,29
-2026,OM,Oman,Kazakhstan,34
-2026,PK,Pakistan,Kazakhstan,30
-2026,PS,Palestine,Kazakhstan,25
-2026,PA,Panama,Kazakhstan,21
-2026,PG,Papua New Guinea,Kazakhstan,51
-2026,PY,Paraguay,Kazakhstan,24
-2026,PE,Peru,Kazakhstan,20
-2026,PH,Philippines,Kazakhstan,53
-2026,PL,Poland,Kazakhstan,27
-2026,PT,Portugal,Kazakhstan,26
-2026,PR,Puerto Rico,Kazakhstan,27
-2026,QA,Qatar,Kazakhstan,29
-2026,RO,Romania,Kazakhstan,27
-2026,RU,Russia,Kazakhstan,42
-2026,RW,Rwanda,Kazakhstan,34
-2026,RE,Réunion,Kazakhstan,18
-2026,SM,San Marino,Kazakhstan,0
-2026,SA,Saudi Arabia,Kazakhstan,23
-2026,SN,Senegal,Kazakhstan,21
-2026,RS,Serbia,Kazakhstan,32
-2026,SC,Seychelles,Kazakhstan,35
-2026,SL,Sierra Leone,Kazakhstan,42
-2026,SG,Singapore,Kazakhstan,56
-2026,SK,Slovakia,Kazakhstan,32
-2026,SI,Slovenia,Kazakhstan,29
-2026,SB,Solomon Islands,Kazakhstan,100
-2026,SO,Somalia,Kazakhstan,39
-2026,ZA,South Africa,Kazakhstan,40
-2026,KR,South Korea,Kazakhstan,55
-2026,SS,South Sudan,Kazakhstan,34
-2026,ES,Spain,Kazakhstan,28
-2026,LK,Sri Lanka,Kazakhstan,42
-2026,BL,St. Barthélemy,Kazakhstan,30
-2026,SH,St. Helena,Kazakhstan,43
-2026,KN,St. Kitts & Nevis,Kazakhstan,100
-2026,LC,St. Lucia,Kazakhstan,33
-2026,VC,St. Vincent & Grenadines,Kazakhstan,52
-2026,SD,Sudan,Kazakhstan,24
-2026,SR,Suriname,Kazakhstan,33
-2026,SE,Sweden,Kazakhstan,29
-2026,CH,Switzerland,Kazakhstan,29
-2026,SY,Syria,Kazakhstan,18
-2026,TW,Taiwan,Kazakhstan,52
-2026,TJ,Tajikistan,Kazakhstan,3
-2026,TZ,Tanzania,Kazakhstan,35
-2026,TH,Thailand,Kazakhstan,47
-2026,TL,Timor-Leste,Kazakhstan,27
-2026,TG,Togo,Kazakhstan,27
-2026,TT,Trinidad & Tobago,Kazakhstan,35
-2026,TN,Tunisia,Kazakhstan,31
-2026,TM,Turkmenistan,Kazakhstan,20
-2026,TC,Turks & Caicos Islands,Kazakhstan,32
-2026,TR,Türkiye,Kazakhstan,22
-2026,VI,U.S. Virgin Islands,Kazakhstan,39
-2026,UG,Uganda,Kazakhstan,36
-2026,UA,Ukraine,Kazakhstan,36
-2026,AE,United Arab Emirates,Kazakhstan,31
-2026,GB,United Kingdom,Kazakhstan,32
-2026,US,United States,Kazakhstan,38
-2026,UY,Uruguay,Kazakhstan,26
-2026,UZ,Uzbekistan,Kazakhstan,6
-2026,VU,Vanuatu,Kazakhstan,100
-2026,VE,Venezuela,Kazakhstan,19
-2026,VN,Vietnam,Kazakhstan,41
-2026,EH,Western Sahara,Kazakhstan,35
-2026,YE,Yemen,Kazakhstan,26
-2026,ZM,Zambia,Kazakhstan,39
-2026,ZW,Zimbabwe,Kazakhstan,31
-2026,AX,Åland Islands,Kazakhstan,40
-2026,AF,Afghanistan,Kyrgyzstan,2
-2026,AL,Albania,Kyrgyzstan,10
-2026,DZ,Algeria,Kyrgyzstan,6
-2026,AS,American Samoa,Kyrgyzstan,12
-2026,AD,Andorra,Kyrgyzstan,9
-2026,AO,Angola,Kyrgyzstan,5
-2026,AI,Anguilla,Kyrgyzstan,100
-2026,AG,Antigua & Barbuda,Kyrgyzstan,0
-2026,AR,Argentina,Kyrgyzstan,5
-2026,AM,Armenia,Kyrgyzstan,4
-2026,AW,Aruba,Kyrgyzstan,0
-2026,AU,Australia,Kyrgyzstan,16
-2026,AT,Austria,Kyrgyzstan,11
-2026,AZ,Azerbaijan,Kyrgyzstan,5
-2026,BS,Bahamas,Kyrgyzstan,7
-2026,BH,Bahrain,Kyrgyzstan,10
-2026,BD,Bangladesh,Kyrgyzstan,9
-2026,BB,Barbados,Kyrgyzstan,0
-2026,BY,Belarus,Kyrgyzstan,9
-2026,BE,Belgium,Kyrgyzstan,14
-2026,BZ,Belize,Kyrgyzstan,0
-2026,BJ,Benin,Kyrgyzstan,8
-2026,BM,Bermuda,Kyrgyzstan,0
-2026,BT,Bhutan,Kyrgyzstan,13
-2026,BO,Bolivia,Kyrgyzstan,4
-2026,BA,Bosnia & Herzegovina,Kyrgyzstan,8
-2026,BW,Botswana,Kyrgyzstan,5
-2026,BR,Brazil,Kyrgyzstan,6
-2026,VG,British Virgin Islands,Kyrgyzstan,0
-2026,BN,Brunei,Kyrgyzstan,10
-2026,BG,Bulgaria,Kyrgyzstan,9
-2026,BF,Burkina Faso,Kyrgyzstan,6
-2026,BI,Burundi,Kyrgyzstan,0
-2026,KH,Cambodia,Kyrgyzstan,10
-2026,CM,Cameroon,Kyrgyzstan,4
-2026,CA,Canada,Kyrgyzstan,10
-2026,CV,Cape Verde,Kyrgyzstan,0
-2026,BQ,Caribbean Netherlands,Kyrgyzstan,0
-2026,KY,Cayman Islands,Kyrgyzstan,0
-2026,CF,Central African Republic,Kyrgyzstan,0
-2026,TD,Chad,Kyrgyzstan,9
-2026,CL,Chile,Kyrgyzstan,5
-2026,CN,China,Kyrgyzstan,17
-2026,CO,Colombia,Kyrgyzstan,2
-2026,KM,Comoros,Kyrgyzstan,0
-2026,CG,Congo - Brazzaville,Kyrgyzstan,4
-2026,CD,Congo - Kinshasa,Kyrgyzstan,1
-2026,CR,Costa Rica,Kyrgyzstan,6
-2026,HR,Croatia,Kyrgyzstan,8
-2026,CU,Cuba,Kyrgyzstan,5
-2026,CW,Curaçao,Kyrgyzstan,0
-2026,CY,Cyprus,Kyrgyzstan,8
-2026,CZ,Czechia,Kyrgyzstan,9
-2026,CI,Côte d’Ivoire,Kyrgyzstan,4
-2026,DK,Denmark,Kyrgyzstan,14
-2026,DJ,Djibouti,Kyrgyzstan,0
-2026,DO,Dominican Republic,Kyrgyzstan,5
-2026,EC,Ecuador,Kyrgyzstan,5
-2026,EG,Egypt,Kyrgyzstan,8
-2026,SV,El Salvador,Kyrgyzstan,3
-2026,GQ,Equatorial Guinea,Kyrgyzstan,11
-2026,EE,Estonia,Kyrgyzstan,7
-2026,SZ,Eswatini,Kyrgyzstan,11
-2026,ET,Ethiopia,Kyrgyzstan,9
-2026,FO,Faroe Islands,Kyrgyzstan,12
-2026,FJ,Fiji,Kyrgyzstan,11
-2026,FI,Finland,Kyrgyzstan,10
-2026,FR,France,Kyrgyzstan,9
-2026,GF,French Guiana,Kyrgyzstan,0
-2026,PF,French Polynesia,Kyrgyzstan,0
-2026,GA,Gabon,Kyrgyzstan,6
-2026,GM,Gambia,Kyrgyzstan,8
-2026,GE,Georgia,Kyrgyzstan,0
-2026,DE,Germany,Kyrgyzstan,9
-2026,GH,Ghana,Kyrgyzstan,8
-2026,GI,Gibraltar,Kyrgyzstan,19
-2026,GR,Greece,Kyrgyzstan,8
-2026,GL,Greenland,Kyrgyzstan,100
-2026,GD,Grenada,Kyrgyzstan,0
-2026,GP,Guadeloupe,Kyrgyzstan,0
-2026,GU,Guam,Kyrgyzstan,0
-2026,GT,Guatemala,Kyrgyzstan,4
-2026,GG,Guernsey,Kyrgyzstan,11
-2026,GN,Guinea,Kyrgyzstan,6
-2026,GW,Guinea-Bissau,Kyrgyzstan,0
-2026,GY,Guyana,Kyrgyzstan,8
-2026,HT,Haiti,Kyrgyzstan,3
-2026,HN,Honduras,Kyrgyzstan,4
-2026,HK,Hong Kong,Kyrgyzstan,12
-2026,HU,Hungary,Kyrgyzstan,8
-2026,IS,Iceland,Kyrgyzstan,11
-2026,IN,India,Kyrgyzstan,10
-2026,ID,Indonesia,Kyrgyzstan,10
-2026,IR,Iran,Kyrgyzstan,3
-2026,IQ,Iraq,Kyrgyzstan,8
-2026,IE,Ireland,Kyrgyzstan,9
-2026,IM,Isle of Man,Kyrgyzstan,11
-2026,IL,Israel,Kyrgyzstan,5
-2026,IT,Italy,Kyrgyzstan,9
-2026,JM,Jamaica,Kyrgyzstan,8
-2026,JP,Japan,Kyrgyzstan,13
-2026,JE,Jersey,Kyrgyzstan,13
-2026,JO,Jordan,Kyrgyzstan,12
-2026,KZ,Kazakhstan,Kyrgyzstan,1
-2026,KE,Kenya,Kyrgyzstan,7
-2026,XK,Kosovo,Kyrgyzstan,9
-2026,KW,Kuwait,Kyrgyzstan,11
-2026,KG,Kyrgyzstan,Kyrgyzstan,81
-2026,LA,Laos,Kyrgyzstan,10
-2026,LV,Latvia,Kyrgyzstan,7
-2026,LB,Lebanon,Kyrgyzstan,8
-2026,LS,Lesotho,Kyrgyzstan,0
-2026,LR,Liberia,Kyrgyzstan,8
-2026,LY,Libya,Kyrgyzstan,9
-2026,LI,Liechtenstein,Kyrgyzstan,17
-2026,LT,Lithuania,Kyrgyzstan,8
-2026,LU,Luxembourg,Kyrgyzstan,10
-2026,MO,Macao,Kyrgyzstan,11
-2026,MG,Madagascar,Kyrgyzstan,10
-2026,MW,Malawi,Kyrgyzstan,6
-2026,MY,Malaysia,Kyrgyzstan,11
-2026,MV,Maldives,Kyrgyzstan,12
-2026,ML,Mali,Kyrgyzstan,6
-2026,MT,Malta,Kyrgyzstan,13
-2026,MQ,Martinique,Kyrgyzstan,0
-2026,MR,Mauritania,Kyrgyzstan,7
-2026,MU,Mauritius,Kyrgyzstan,8
-2026,MX,Mexico,Kyrgyzstan,5
-2026,MD,Moldova,Kyrgyzstan,8
-2026,MN,Mongolia,Kyrgyzstan,13
-2026,ME,Montenegro,Kyrgyzstan,9
-2026,MA,Morocco,Kyrgyzstan,9
-2026,MZ,Mozambique,Kyrgyzstan,4
-2026,MM,Myanmar (Burma),Kyrgyzstan,11
-2026,NA,Namibia,Kyrgyzstan,7
-2026,NP,Nepal,Kyrgyzstan,9
-2026,NL,Netherlands,Kyrgyzstan,9
-2026,NC,New Caledonia,Kyrgyzstan,0
-2026,NZ,New Zealand,Kyrgyzstan,14
-2026,NI,Nicaragua,Kyrgyzstan,5
-2026,NE,Niger,Kyrgyzstan,0
-2026,NG,Nigeria,Kyrgyzstan,6
-2026,MK,North Macedonia,Kyrgyzstan,9
-2026,MP,Northern Mariana Islands,Kyrgyzstan,6
-2026,NO,Norway,Kyrgyzstan,11
-2026,OM,Oman,Kyrgyzstan,11
-2026,PK,Pakistan,Kyrgyzstan,17
-2026,PS,Palestine,Kyrgyzstan,8
-2026,PA,Panama,Kyrgyzstan,6
-2026,PG,Papua New Guinea,Kyrgyzstan,11
-2026,PY,Paraguay,Kyrgyzstan,6
-2026,PE,Peru,Kyrgyzstan,5
-2026,PH,Philippines,Kyrgyzstan,10
-2026,PL,Poland,Kyrgyzstan,8
-2026,PT,Portugal,Kyrgyzstan,7
-2026,PR,Puerto Rico,Kyrgyzstan,8
-2026,QA,Qatar,Kyrgyzstan,10
-2026,RO,Romania,Kyrgyzstan,6
-2026,RU,Russia,Kyrgyzstan,11
-2026,RW,Rwanda,Kyrgyzstan,8
-2026,RE,Réunion,Kyrgyzstan,9
-2026,SM,San Marino,Kyrgyzstan,0
-2026,SA,Saudi Arabia,Kyrgyzstan,10
-2026,SN,Senegal,Kyrgyzstan,5
-2026,RS,Serbia,Kyrgyzstan,9
-2026,SC,Seychelles,Kyrgyzstan,30
-2026,SL,Sierra Leone,Kyrgyzstan,9
-2026,SG,Singapore,Kyrgyzstan,13
-2026,SK,Slovakia,Kyrgyzstan,9
-2026,SI,Slovenia,Kyrgyzstan,13
-2026,SB,Solomon Islands,Kyrgyzstan,0
-2026,SO,Somalia,Kyrgyzstan,7
-2026,ZA,South Africa,Kyrgyzstan,7
-2026,KR,South Korea,Kyrgyzstan,11
-2026,SS,South Sudan,Kyrgyzstan,8
-2026,ES,Spain,Kyrgyzstan,8
-2026,LK,Sri Lanka,Kyrgyzstan,11
-2026,BL,St. Barthélemy,Kyrgyzstan,0
-2026,SH,St. Helena,Kyrgyzstan,8
-2026,KN,St. Kitts & Nevis,Kyrgyzstan,0
-2026,LC,St. Lucia,Kyrgyzstan,22
-2026,VC,St. Vincent & Grenadines,Kyrgyzstan,0
-2026,SD,Sudan,Kyrgyzstan,6
-2026,SR,Suriname,Kyrgyzstan,0
-2026,SE,Sweden,Kyrgyzstan,11
-2026,CH,Switzerland,Kyrgyzstan,12
-2026,SY,Syria,Kyrgyzstan,7
-2026,TW,Taiwan,Kyrgyzstan,12
-2026,TJ,Tajikistan,Kyrgyzstan,2
-2026,TZ,Tanzania,Kyrgyzstan,9
-2026,TH,Thailand,Kyrgyzstan,8
-2026,TL,Timor-Leste,Kyrgyzstan,10
-2026,TG,Togo,Kyrgyzstan,13
-2026,TT,Trinidad & Tobago,Kyrgyzstan,7
-2026,TN,Tunisia,Kyrgyzstan,8
-2026,TM,Turkmenistan,Kyrgyzstan,5
-2026,TC,Turks & Caicos Islands,Kyrgyzstan,0
-2026,TR,Türkiye,Kyrgyzstan,11
-2026,VI,U.S. Virgin Islands,Kyrgyzstan,0
-2026,UG,Uganda,Kyrgyzstan,6
-2026,UA,Ukraine,Kyrgyzstan,6
-2026,AE,United Arab Emirates,Kyrgyzstan,11
-2026,GB,United Kingdom,Kyrgyzstan,9
-2026,US,United States,Kyrgyzstan,10
-2026,UY,Uruguay,Kyrgyzstan,6
-2026,UZ,Uzbekistan,Kyrgyzstan,3
-2026,VU,Vanuatu,Kyrgyzstan,0
-2026,VE,Venezuela,Kyrgyzstan,4
-2026,VN,Vietnam,Kyrgyzstan,11
-2026,EH,Western Sahara,Kyrgyzstan,10
-2026,YE,Yemen,Kyrgyzstan,7
-2026,ZM,Zambia,Kyrgyzstan,7
-2026,ZW,Zimbabwe,Kyrgyzstan,4
-2026,AX,Åland Islands,Kyrgyzstan,0
-2026,AF,Afghanistan,Georgia,1
-2026,AL,Albania,Georgia,26
-2026,DZ,Algeria,Georgia,22
-2026,AS,American Samoa,Georgia,10
-2026,AD,Andorra,Georgia,32
-2026,AO,Angola,Georgia,18
-2026,AI,Anguilla,Georgia,0
-2026,AG,Antigua & Barbuda,Georgia,28
-2026,AR,Argentina,Georgia,17
-2026,AM,Armenia,Georgia,63
-2026,AW,Aruba,Georgia,24
-2026,AU,Australia,Georgia,16
-2026,AT,Austria,Georgia,29
-2026,AZ,Azerbaijan,Georgia,41
-2026,BS,Bahamas,Georgia,25
-2026,BH,Bahrain,Georgia,37
-2026,BD,Bangladesh,Georgia,13
-2026,BB,Barbados,Georgia,29
-2026,BY,Belarus,Georgia,42
-2026,BE,Belgium,Georgia,29
-2026,BZ,Belize,Georgia,22
-2026,BJ,Benin,Georgia,20
-2026,BM,Bermuda,Georgia,27
-2026,BT,Bhutan,Georgia,9
-2026,BO,Bolivia,Georgia,14
-2026,BA,Bosnia & Herzegovina,Georgia,27
-2026,BW,Botswana,Georgia,17
-2026,BR,Brazil,Georgia,23
-2026,VG,British Virgin Islands,Georgia,100
-2026,BN,Brunei,Georgia,12
-2026,BG,Bulgaria,Georgia,29
-2026,BF,Burkina Faso,Georgia,14
-2026,BI,Burundi,Georgia,26
-2026,KH,Cambodia,Georgia,26
-2026,CM,Cameroon,Georgia,23
-2026,CA,Canada,Georgia,23
-2026,CV,Cape Verde,Georgia,31
-2026,BQ,Caribbean Netherlands,Georgia,0
-2026,KY,Cayman Islands,Georgia,26
-2026,CF,Central African Republic,Georgia,31
-2026,TD,Chad,Georgia,26
-2026,CL,Chile,Georgia,16
-2026,CN,China,Georgia,12
-2026,CO,Colombia,Georgia,9
-2026,KM,Comoros,Georgia,0
-2026,CG,Congo - Brazzaville,Georgia,15
-2026,CD,Congo - Kinshasa,Georgia,4
-2026,CR,Costa Rica,Georgia,20
-2026,HR,Croatia,Georgia,33
-2026,CU,Cuba,Georgia,69
-2026,CW,Curaçao,Georgia,19
-2026,CY,Cyprus,Georgia,42
-2026,CZ,Czechia,Georgia,34
-2026,CI,Côte d’Ivoire,Georgia,26
-2026,DK,Denmark,Georgia,31
-2026,DJ,Djibouti,Georgia,36
-2026,DO,Dominican Republic,Georgia,37
-2026,EC,Ecuador,Georgia,18
-2026,EG,Egypt,Georgia,30
-2026,SV,El Salvador,Georgia,20
-2026,GQ,Equatorial Guinea,Georgia,31
-2026,EE,Estonia,Georgia,36
-2026,SZ,Eswatini,Georgia,23
-2026,ET,Ethiopia,Georgia,22
-2026,FO,Faroe Islands,Georgia,25
-2026,FJ,Fiji,Georgia,14
-2026,FI,Finland,Georgia,28
-2026,FR,France,Georgia,31
-2026,GF,French Guiana,Georgia,0
-2026,PF,French Polynesia,Georgia,47
-2026,GA,Gabon,Georgia,18
-2026,GM,Gambia,Georgia,24
-2026,GE,Georgia,Georgia,97
-2026,DE,Germany,Georgia,26
-2026,GH,Ghana,Georgia,31
-2026,GI,Gibraltar,Georgia,24
-2026,GR,Greece,Georgia,45
-2026,GL,Greenland,Georgia,0
-2026,GD,Grenada,Georgia,38
-2026,GP,Guadeloupe,Georgia,24
-2026,GU,Guam,Georgia,32
-2026,GT,Guatemala,Georgia,14
-2026,GG,Guernsey,Georgia,29
-2026,GN,Guinea,Georgia,21
-2026,GW,Guinea-Bissau,Georgia,0
-2026,GY,Guyana,Georgia,29
-2026,HT,Haiti,Georgia,37
-2026,HN,Honduras,Georgia,18
-2026,HK,Hong Kong,Georgia,14
-2026,HU,Hungary,Georgia,35
-2026,IS,Iceland,Georgia,31
-2026,IN,India,Georgia,21
-2026,ID,Indonesia,Georgia,13
-2026,IR,Iran,Georgia,25
-2026,IQ,Iraq,Georgia,34
-2026,IE,Ireland,Georgia,33
-2026,IM,Isle of Man,Georgia,31
-2026,IL,Israel,Georgia,56
-2026,IT,Italy,Georgia,32
-2026,JM,Jamaica,Georgia,29
-2026,JP,Japan,Georgia,15
-2026,JE,Jersey,Georgia,30
-2026,JO,Jordan,Georgia,40
-2026,KZ,Kazakhstan,Georgia,1
-2026,KE,Kenya,Georgia,20
-2026,XK,Kosovo,Georgia,20
-2026,KW,Kuwait,Georgia,38
-2026,KG,Kyrgyzstan,Georgia,0
-2026,LA,Laos,Georgia,17
-2026,LV,Latvia,Georgia,34
-2026,LB,Lebanon,Georgia,46
-2026,LS,Lesotho,Georgia,20
-2026,LR,Liberia,Georgia,16
-2026,LY,Libya,Georgia,29
-2026,LI,Liechtenstein,Georgia,28
-2026,LT,Lithuania,Georgia,37
-2026,LU,Luxembourg,Georgia,24
-2026,MO,Macao,Georgia,18
-2026,MG,Madagascar,Georgia,18
-2026,MW,Malawi,Georgia,18
-2026,MY,Malaysia,Georgia,12
-2026,MV,Maldives,Georgia,11
-2026,ML,Mali,Georgia,13
-2026,MT,Malta,Georgia,33
-2026,MQ,Martinique,Georgia,27
-2026,MR,Mauritania,Georgia,20
-2026,MU,Mauritius,Georgia,21
-2026,MX,Mexico,Georgia,18
-2026,MD,Moldova,Georgia,30
-2026,MN,Mongolia,Georgia,7
-2026,ME,Montenegro,Georgia,32
-2026,MA,Morocco,Georgia,21
-2026,MZ,Mozambique,Georgia,19
-2026,MM,Myanmar (Burma),Georgia,18
-2026,NA,Namibia,Georgia,23
-2026,NP,Nepal,Georgia,20
-2026,NL,Netherlands,Georgia,24
-2026,NC,New Caledonia,Georgia,46
-2026,NZ,New Zealand,Georgia,18
-2026,NI,Nicaragua,Georgia,20
-2026,NE,Niger,Georgia,13
-2026,NG,Nigeria,Georgia,29
-2026,MK,North Macedonia,Georgia,28
-2026,MP,Northern Mariana Islands,Georgia,0
-2026,NO,Norway,Georgia,31
-2026,OM,Oman,Georgia,25
-2026,PK,Pakistan,Georgia,13
-2026,PS,Palestine,Georgia,40
-2026,PA,Panama,Georgia,19
-2026,PG,Papua New Guinea,Georgia,12
-2026,PY,Paraguay,Georgia,18
-2026,PE,Peru,Georgia,17
-2026,PH,Philippines,Georgia,16
-2026,PL,Poland,Georgia,42
-2026,PT,Portugal,Georgia,23
-2026,PR,Puerto Rico,Georgia,32
-2026,QA,Qatar,Georgia,33
-2026,RO,Romania,Georgia,40
-2026,RU,Russia,Georgia,17
-2026,RW,Rwanda,Georgia,23
-2026,RE,Réunion,Georgia,36
-2026,SM,San Marino,Georgia,58
-2026,SA,Saudi Arabia,Georgia,36
-2026,SN,Senegal,Georgia,15
-2026,RS,Serbia,Georgia,31
-2026,SC,Seychelles,Georgia,1
-2026,SL,Sierra Leone,Georgia,21
-2026,SG,Singapore,Georgia,9
-2026,SK,Slovakia,Georgia,38
-2026,SI,Slovenia,Georgia,31
-2026,SB,Solomon Islands,Georgia,0
-2026,SO,Somalia,Georgia,18
-2026,ZA,South Africa,Georgia,24
-2026,KR,South Korea,Georgia,10
-2026,SS,South Sudan,Georgia,18
-2026,ES,Spain,Georgia,30
-2026,LK,Sri Lanka,Georgia,23
-2026,BL,St. Barthélemy,Georgia,36
-2026,SH,St. Helena,Georgia,19
-2026,KN,St. Kitts & Nevis,Georgia,0
-2026,LC,St. Lucia,Georgia,26
-2026,VC,St. Vincent & Grenadines,Georgia,48
-2026,SD,Sudan,Georgia,37
-2026,SR,Suriname,Georgia,19
-2026,SE,Sweden,Georgia,30
-2026,CH,Switzerland,Georgia,27
-2026,SY,Syria,Georgia,33
-2026,TW,Taiwan,Georgia,10
-2026,TJ,Tajikistan,Georgia,0
-2026,TZ,Tanzania,Georgia,19
-2026,TH,Thailand,Georgia,29
-2026,TL,Timor-Leste,Georgia,9
-2026,TG,Togo,Georgia,16
-2026,TT,Trinidad & Tobago,Georgia,22
-2026,TN,Tunisia,Georgia,25
-2026,TM,Turkmenistan,Georgia,4
-2026,TC,Turks & Caicos Islands,Georgia,44
-2026,TR,Türkiye,Georgia,34
-2026,VI,U.S. Virgin Islands,Georgia,30
-2026,UG,Uganda,Georgia,21
-2026,UA,Ukraine,Georgia,37
-2026,AE,United Arab Emirates,Georgia,30
-2026,GB,United Kingdom,Georgia,24
-2026,US,United States,Georgia,19
-2026,UY,Uruguay,Georgia,20
-2026,UZ,Uzbekistan,Georgia,0
-2026,VU,Vanuatu,Georgia,0
-2026,VE,Venezuela,Georgia,15
-2026,VN,Vietnam,Georgia,12
-2026,EH,Western Sahara,Georgia,22
-2026,YE,Yemen,Georgia,24
-2026,ZM,Zambia,Georgia,17
-2026,ZW,Zimbabwe,Georgia,25
-2026,AX,Åland Islands,Georgia,60
-2026,AF,Afghanistan,Tajikistan,57
-2026,AL,Albania,Tajikistan,4
-2026,DZ,Algeria,Tajikistan,5
-2026,AS,American Samoa,Tajikistan,0
-2026,AD,Andorra,Tajikistan,0
-2026,AO,Angola,Tajikistan,5
-2026,AI,Anguilla,Tajikistan,0
-2026,AG,Antigua & Barbuda,Tajikistan,0
-2026,AR,Argentina,Tajikistan,3
-2026,AM,Armenia,Tajikistan,3
-2026,AW,Aruba,Tajikistan,0
-2026,AU,Australia,Tajikistan,4
-2026,AT,Austria,Tajikistan,5
-2026,AZ,Azerbaijan,Tajikistan,4
-2026,BS,Bahamas,Tajikistan,5
-2026,BH,Bahrain,Tajikistan,4
-2026,BD,Bangladesh,Tajikistan,6
-2026,BB,Barbados,Tajikistan,0
-2026,BY,Belarus,Tajikistan,3
-2026,BE,Belgium,Tajikistan,4
-2026,BZ,Belize,Tajikistan,0
-2026,BJ,Benin,Tajikistan,14
-2026,BM,Bermuda,Tajikistan,0
-2026,BT,Bhutan,Tajikistan,7
-2026,BO,Bolivia,Tajikistan,3
-2026,BA,Bosnia & Herzegovina,Tajikistan,5
-2026,BW,Botswana,Tajikistan,10
-2026,BR,Brazil,Tajikistan,3
-2026,VG,British Virgin Islands,Tajikistan,0
-2026,BN,Brunei,Tajikistan,3
-2026,BG,Bulgaria,Tajikistan,4
-2026,BF,Burkina Faso,Tajikistan,4
-2026,BI,Burundi,Tajikistan,0
-2026,KH,Cambodia,Tajikistan,5
-2026,CM,Cameroon,Tajikistan,5
-2026,CA,Canada,Tajikistan,6
-2026,CV,Cape Verde,Tajikistan,0
-2026,BQ,Caribbean Netherlands,Tajikistan,0
-2026,KY,Cayman Islands,Tajikistan,0
-2026,CF,Central African Republic,Tajikistan,0
-2026,TD,Chad,Tajikistan,0
-2026,CL,Chile,Tajikistan,3
-2026,CN,China,Tajikistan,6
-2026,CO,Colombia,Tajikistan,1
-2026,KM,Comoros,Tajikistan,0
-2026,CG,Congo - Brazzaville,Tajikistan,3
-2026,CD,Congo - Kinshasa,Tajikistan,1
-2026,CR,Costa Rica,Tajikistan,2
-2026,HR,Croatia,Tajikistan,3
-2026,CU,Cuba,Tajikistan,2
-2026,CW,Curaçao,Tajikistan,0
-2026,CY,Cyprus,Tajikistan,3
-2026,CZ,Czechia,Tajikistan,4
-2026,CI,Côte d’Ivoire,Tajikistan,3
-2026,DK,Denmark,Tajikistan,4
-2026,DJ,Djibouti,Tajikistan,0
-2026,DO,Dominican Republic,Tajikistan,3
-2026,EC,Ecuador,Tajikistan,3
-2026,EG,Egypt,Tajikistan,5
-2026,SV,El Salvador,Tajikistan,2
-2026,GQ,Equatorial Guinea,Tajikistan,0
-2026,EE,Estonia,Tajikistan,4
-2026,SZ,Eswatini,Tajikistan,5
-2026,ET,Ethiopia,Tajikistan,5
-2026,FO,Faroe Islands,Tajikistan,0
-2026,FJ,Fiji,Tajikistan,9
-2026,FI,Finland,Tajikistan,5
-2026,FR,France,Tajikistan,4
-2026,GF,French Guiana,Tajikistan,0
-2026,PF,French Polynesia,Tajikistan,0
-2026,GA,Gabon,Tajikistan,8
-2026,GM,Gambia,Tajikistan,0
-2026,GE,Georgia,Tajikistan,0
-2026,DE,Germany,Tajikistan,5
-2026,GH,Ghana,Tajikistan,4
-2026,GI,Gibraltar,Tajikistan,0
-2026,GR,Greece,Tajikistan,3
-2026,GL,Greenland,Tajikistan,0
-2026,GD,Grenada,Tajikistan,0
-2026,GP,Guadeloupe,Tajikistan,0
-2026,GU,Guam,Tajikistan,0
-2026,GT,Guatemala,Tajikistan,2
-2026,GG,Guernsey,Tajikistan,0
-2026,GN,Guinea,Tajikistan,4
-2026,GW,Guinea-Bissau,Tajikistan,0
-2026,GY,Guyana,Tajikistan,0
-2026,HT,Haiti,Tajikistan,2
-2026,HN,Honduras,Tajikistan,2
-2026,HK,Hong Kong,Tajikistan,4
-2026,HU,Hungary,Tajikistan,3
-2026,IS,Iceland,Tajikistan,4
-2026,IN,India,Tajikistan,6
-2026,ID,Indonesia,Tajikistan,4
-2026,IR,Iran,Tajikistan,36
-2026,IQ,Iraq,Tajikistan,8
-2026,IE,Ireland,Tajikistan,4
-2026,IM,Isle of Man,Tajikistan,0
-2026,IL,Israel,Tajikistan,2
-2026,IT,Italy,Tajikistan,3
-2026,JM,Jamaica,Tajikistan,4
-2026,JP,Japan,Tajikistan,2
-2026,JE,Jersey,Tajikistan,8
-2026,JO,Jordan,Tajikistan,5
-2026,KZ,Kazakhstan,Tajikistan,0
-2026,KE,Kenya,Tajikistan,6
-2026,XK,Kosovo,Tajikistan,5
-2026,KW,Kuwait,Tajikistan,5
-2026,KG,Kyrgyzstan,Tajikistan,1
-2026,LA,Laos,Tajikistan,5
-2026,LV,Latvia,Tajikistan,4
-2026,LB,Lebanon,Tajikistan,4
-2026,LS,Lesotho,Tajikistan,0
-2026,LR,Liberia,Tajikistan,6
-2026,LY,Libya,Tajikistan,5
-2026,LI,Liechtenstein,Tajikistan,0
-2026,LT,Lithuania,Tajikistan,5
-2026,LU,Luxembourg,Tajikistan,4
-2026,MO,Macao,Tajikistan,4
-2026,MG,Madagascar,Tajikistan,5
-2026,MW,Malawi,Tajikistan,0
-2026,MY,Malaysia,Tajikistan,4
-2026,MV,Maldives,Tajikistan,5
-2026,ML,Mali,Tajikistan,3
-2026,MT,Malta,Tajikistan,4
-2026,MQ,Martinique,Tajikistan,0
-2026,MR,Mauritania,Tajikistan,7
-2026,MU,Mauritius,Tajikistan,4
-2026,MX,Mexico,Tajikistan,3
-2026,MD,Moldova,Tajikistan,6
-2026,MN,Mongolia,Tajikistan,4
-2026,ME,Montenegro,Tajikistan,3
-2026,MA,Morocco,Tajikistan,4
-2026,MZ,Mozambique,Tajikistan,3
-2026,MM,Myanmar (Burma),Tajikistan,6
-2026,NA,Namibia,Tajikistan,0
-2026,NP,Nepal,Tajikistan,5
-2026,NL,Netherlands,Tajikistan,4
-2026,NC,New Caledonia,Tajikistan,0
-2026,NZ,New Zealand,Tajikistan,5
-2026,NI,Nicaragua,Tajikistan,2
-2026,NE,Niger,Tajikistan,0
-2026,NG,Nigeria,Tajikistan,6
-2026,MK,North Macedonia,Tajikistan,6
-2026,MP,Northern Mariana Islands,Tajikistan,0
-2026,NO,Norway,Tajikistan,5
-2026,OM,Oman,Tajikistan,6
-2026,PK,Pakistan,Tajikistan,10
-2026,PS,Palestine,Tajikistan,5
-2026,PA,Panama,Tajikistan,3
-2026,PG,Papua New Guinea,Tajikistan,7
-2026,PY,Paraguay,Tajikistan,2
-2026,PE,Peru,Tajikistan,3
-2026,PH,Philippines,Tajikistan,4
-2026,PL,Poland,Tajikistan,4
-2026,PT,Portugal,Tajikistan,3
-2026,PR,Puerto Rico,Tajikistan,4
-2026,QA,Qatar,Tajikistan,5
-2026,RO,Romania,Tajikistan,3
-2026,RU,Russia,Tajikistan,9
-2026,RW,Rwanda,Tajikistan,2
-2026,RE,Réunion,Tajikistan,0
-2026,SM,San Marino,Tajikistan,0
-2026,SA,Saudi Arabia,Tajikistan,5
-2026,SN,Senegal,Tajikistan,3
-2026,RS,Serbia,Tajikistan,4
-2026,SC,Seychelles,Tajikistan,0
-2026,SL,Sierra Leone,Tajikistan,0
-2026,SG,Singapore,Tajikistan,3
-2026,SK,Slovakia,Tajikistan,3
-2026,SI,Slovenia,Tajikistan,3
-2026,SB,Solomon Islands,Tajikistan,0
-2026,SO,Somalia,Tajikistan,6
-2026,ZA,South Africa,Tajikistan,3
-2026,KR,South Korea,Tajikistan,2
-2026,SS,South Sudan,Tajikistan,11
-2026,ES,Spain,Tajikistan,4
-2026,LK,Sri Lanka,Tajikistan,4
-2026,BL,St. Barthélemy,Tajikistan,0
-2026,SH,St. Helena,Tajikistan,5
-2026,KN,St. Kitts & Nevis,Tajikistan,0
-2026,LC,St. Lucia,Tajikistan,0
-2026,VC,St. Vincent & Grenadines,Tajikistan,0
-2026,SD,Sudan,Tajikistan,8
-2026,SR,Suriname,Tajikistan,0
-2026,SE,Sweden,Tajikistan,5
-2026,CH,Switzerland,Tajikistan,5
-2026,SY,Syria,Tajikistan,10
-2026,TW,Taiwan,Tajikistan,3
-2026,TJ,Tajikistan,Tajikistan,80
-2026,TZ,Tanzania,Tajikistan,6
-2026,TH,Thailand,Tajikistan,2
-2026,TL,Timor-Leste,Tajikistan,0
-2026,TG,Togo,Tajikistan,3
-2026,TT,Trinidad & Tobago,Tajikistan,4
-2026,TN,Tunisia,Tajikistan,5
-2026,TM,Turkmenistan,Tajikistan,4
-2026,TC,Turks & Caicos Islands,Tajikistan,0
-2026,TR,Türkiye,Tajikistan,3
-2026,VI,U.S. Virgin Islands,Tajikistan,0
-2026,UG,Uganda,Tajikistan,6
-2026,UA,Ukraine,Tajikistan,4
-2026,AE,United Arab Emirates,Tajikistan,4
-2026,GB,United Kingdom,Tajikistan,5
-2026,US,United States,Tajikistan,5
-2026,UY,Uruguay,Tajikistan,4
-2026,UZ,Uzbekistan,Tajikistan,1
-2026,VU,Vanuatu,Tajikistan,0
-2026,VE,Venezuela,Tajikistan,2
-2026,VN,Vietnam,Tajikistan,2
-2026,EH,Western Sahara,Tajikistan,10
-2026,YE,Yemen,Tajikistan,7
-2026,ZM,Zambia,Tajikistan,5
-2026,ZW,Zimbabwe,Tajikistan,4
-2026,AX,Åland Islands,Tajikistan,0
 90d-2026-10-27,AF,Afghanistan,Uzbekistan,29
 90d-2026-10-27,AL,Albania,Uzbekistan,20
 90d-2026-10-27,DZ,Algeria,Uzbekistan,28
@@ -11321,7 +10251,7 @@ period,geo,country,destination,share
 90d-2026-10-27,MA,Morocco,Uzbekistan,25
 90d-2026-10-27,MZ,Mozambique,Uzbekistan,31
 90d-2026-10-27,MM,Myanmar (Burma),Uzbekistan,20
-90d-2026-10-27,NA,Namibia,Uzbekistan,20
+90d-2026-10-27,,Namibia,Uzbekistan,20
 90d-2026-10-27,NP,Nepal,Uzbekistan,22
 90d-2026-10-27,NL,Netherlands,Uzbekistan,29
 90d-2026-10-27,NC,New Caledonia,Uzbekistan,0
@@ -11521,7 +10451,7 @@ period,geo,country,destination,share
 90d-2026-10-27,MA,Morocco,Kazakhstan,40
 90d-2026-10-27,MZ,Mozambique,Kazakhstan,40
 90d-2026-10-27,MM,Myanmar (Burma),Kazakhstan,42
-90d-2026-10-27,NA,Namibia,Kazakhstan,25
+90d-2026-10-27,,Namibia,Kazakhstan,25
 90d-2026-10-27,NP,Nepal,Kazakhstan,47
 90d-2026-10-27,NL,Netherlands,Kazakhstan,32
 90d-2026-10-27,NC,New Caledonia,Kazakhstan,55
@@ -11721,7 +10651,7 @@ period,geo,country,destination,share
 90d-2026-10-27,MA,Morocco,Kyrgyzstan,9
 90d-2026-10-27,MZ,Mozambique,Kyrgyzstan,0
 90d-2026-10-27,MM,Myanmar (Burma),Kyrgyzstan,11
-90d-2026-10-27,NA,Namibia,Kyrgyzstan,21
+90d-2026-10-27,,Namibia,Kyrgyzstan,21
 90d-2026-10-27,NP,Nepal,Kyrgyzstan,11
 90d-2026-10-27,NL,Netherlands,Kyrgyzstan,9
 90d-2026-10-27,NC,New Caledonia,Kyrgyzstan,0
@@ -11921,7 +10851,7 @@ period,geo,country,destination,share
 90d-2026-10-27,MA,Morocco,Georgia,22
 90d-2026-10-27,MZ,Mozambique,Georgia,29
 90d-2026-10-27,MM,Myanmar (Burma),Georgia,21
-90d-2026-10-27,NA,Namibia,Georgia,34
+90d-2026-10-27,,Namibia,Georgia,34
 90d-2026-10-27,NP,Nepal,Georgia,15
 90d-2026-10-27,NL,Netherlands,Georgia,25
 90d-2026-10-27,NC,New Caledonia,Georgia,45
@@ -12121,7 +11051,7 @@ period,geo,country,destination,share
 90d-2026-10-27,MA,Morocco,Tajikistan,4
 90d-2026-10-27,MZ,Mozambique,Tajikistan,0
 90d-2026-10-27,MM,Myanmar (Burma),Tajikistan,6
-90d-2026-10-27,NA,Namibia,Tajikistan,0
+90d-2026-10-27,,Namibia,Tajikistan,0
 90d-2026-10-27,NP,Nepal,Tajikistan,5
 90d-2026-10-27,NL,Netherlands,Tajikistan,5
 90d-2026-10-27,NC,New Caledonia,Tajikistan,0
@@ -12194,3 +11124,2063 @@ period,geo,country,destination,share
 90d-2026-10-27,YE,Yemen,Tajikistan,6
 90d-2026-10-27,ZM,Zambia,Tajikistan,0
 90d-2026-10-27,ZW,Zimbabwe,Tajikistan,6
+2026,AF,Afghanistan,Uzbekistan,31
+2026,AL,Albania,Uzbekistan,23
+2026,DZ,Algeria,Uzbekistan,39
+2026,AS,American Samoa,Uzbekistan,19
+2026,AD,Andorra,Uzbekistan,31
+2026,AO,Angola,Uzbekistan,44
+2026,AG,Antigua & Barbuda,Uzbekistan,24
+2026,AR,Argentina,Uzbekistan,51
+2026,AM,Armenia,Uzbekistan,10
+2026,AW,Aruba,Uzbekistan,76
+2026,AU,Australia,Uzbekistan,18
+2026,AT,Austria,Uzbekistan,24
+2026,AZ,Azerbaijan,Uzbekistan,26
+2026,BS,Bahamas,Uzbekistan,20
+2026,BH,Bahrain,Uzbekistan,22
+2026,BD,Bangladesh,Uzbekistan,26
+2026,BB,Barbados,Uzbekistan,31
+2026,BY,Belarus,Uzbekistan,15
+2026,BE,Belgium,Uzbekistan,27
+2026,BZ,Belize,Uzbekistan,40
+2026,BJ,Benin,Uzbekistan,34
+2026,BM,Bermuda,Uzbekistan,24
+2026,BT,Bhutan,Uzbekistan,33
+2026,BO,Bolivia,Uzbekistan,57
+2026,BA,Bosnia & Herzegovina,Uzbekistan,27
+2026,BW,Botswana,Uzbekistan,34
+2026,BR,Brazil,Uzbekistan,42
+2026,BN,Brunei,Uzbekistan,26
+2026,BG,Bulgaria,Uzbekistan,27
+2026,BF,Burkina Faso,Uzbekistan,44
+2026,BI,Burundi,Uzbekistan,69
+2026,KH,Cambodia,Uzbekistan,19
+2026,CM,Cameroon,Uzbekistan,46
+2026,CA,Canada,Uzbekistan,26
+2026,CV,Cape Verde,Uzbekistan,39
+2026,BQ,Caribbean Netherlands,Uzbekistan,100
+2026,KY,Cayman Islands,Uzbekistan,19
+2026,CF,Central African Republic,Uzbekistan,40
+2026,TD,Chad,Uzbekistan,37
+2026,CL,Chile,Uzbekistan,46
+2026,CN,China,Uzbekistan,22
+2026,CO,Colombia,Uzbekistan,77
+2026,KM,Comoros,Uzbekistan,64
+2026,CG,Congo - Brazzaville,Uzbekistan,60
+2026,CD,Congo - Kinshasa,Uzbekistan,87
+2026,CR,Costa Rica,Uzbekistan,49
+2026,HR,Croatia,Uzbekistan,25
+2026,CU,Cuba,Uzbekistan,14
+2026,CW,Curaçao,Uzbekistan,57
+2026,CY,Cyprus,Uzbekistan,18
+2026,CZ,Czechia,Uzbekistan,20
+2026,CI,Côte d’Ivoire,Uzbekistan,49
+2026,DK,Denmark,Uzbekistan,21
+2026,DJ,Djibouti,Uzbekistan,48
+2026,DM,Dominica,Uzbekistan,100
+2026,DO,Dominican Republic,Uzbekistan,25
+2026,EC,Ecuador,Uzbekistan,48
+2026,EG,Egypt,Uzbekistan,30
+2026,SV,El Salvador,Uzbekistan,58
+2026,GQ,Equatorial Guinea,Uzbekistan,33
+2026,EE,Estonia,Uzbekistan,20
+2026,SZ,Eswatini,Uzbekistan,29
+2026,ET,Ethiopia,Uzbekistan,27
+2026,FO,Faroe Islands,Uzbekistan,0
+2026,FJ,Fiji,Uzbekistan,24
+2026,FI,Finland,Uzbekistan,22
+2026,FR,France,Uzbekistan,31
+2026,GF,French Guiana,Uzbekistan,100
+2026,PF,French Polynesia,Uzbekistan,0
+2026,GA,Gabon,Uzbekistan,54
+2026,GM,Gambia,Uzbekistan,27
+2026,GE,Georgia,Uzbekistan,1
+2026,DE,Germany,Uzbekistan,26
+2026,GH,Ghana,Uzbekistan,21
+2026,GI,Gibraltar,Uzbekistan,32
+2026,GR,Greece,Uzbekistan,19
+2026,GL,Greenland,Uzbekistan,0
+2026,GD,Grenada,Uzbekistan,34
+2026,GP,Guadeloupe,Uzbekistan,42
+2026,GU,Guam,Uzbekistan,22
+2026,GT,Guatemala,Uzbekistan,65
+2026,GG,Guernsey,Uzbekistan,26
+2026,GN,Guinea,Uzbekistan,44
+2026,GW,Guinea-Bissau,Uzbekistan,41
+2026,GY,Guyana,Uzbekistan,27
+2026,HT,Haiti,Uzbekistan,43
+2026,HN,Honduras,Uzbekistan,56
+2026,HK,Hong Kong,Uzbekistan,26
+2026,HU,Hungary,Uzbekistan,19
+2026,IS,Iceland,Uzbekistan,24
+2026,IN,India,Uzbekistan,22
+2026,ID,Indonesia,Uzbekistan,26
+2026,IR,Iran,Uzbekistan,26
+2026,IQ,Iraq,Uzbekistan,25
+2026,IE,Ireland,Uzbekistan,20
+2026,IM,Isle of Man,Uzbekistan,28
+2026,IL,Israel,Uzbekistan,21
+2026,IT,Italy,Uzbekistan,29
+2026,JM,Jamaica,Uzbekistan,28
+2026,JP,Japan,Uzbekistan,27
+2026,JE,Jersey,Uzbekistan,28
+2026,JO,Jordan,Uzbekistan,25
+2026,KZ,Kazakhstan,Uzbekistan,3
+2026,KE,Kenya,Uzbekistan,27
+2026,KI,Kiribati,Uzbekistan,0
+2026,XK,Kosovo,Uzbekistan,26
+2026,KW,Kuwait,Uzbekistan,21
+2026,KG,Kyrgyzstan,Uzbekistan,9
+2026,LA,Laos,Uzbekistan,27
+2026,LV,Latvia,Uzbekistan,21
+2026,LB,Lebanon,Uzbekistan,19
+2026,LS,Lesotho,Uzbekistan,40
+2026,LR,Liberia,Uzbekistan,36
+2026,LY,Libya,Uzbekistan,32
+2026,LI,Liechtenstein,Uzbekistan,26
+2026,LT,Lithuania,Uzbekistan,20
+2026,LU,Luxembourg,Uzbekistan,30
+2026,MO,Macao,Uzbekistan,32
+2026,MG,Madagascar,Uzbekistan,40
+2026,MW,Malawi,Uzbekistan,30
+2026,MY,Malaysia,Uzbekistan,25
+2026,MV,Maldives,Uzbekistan,25
+2026,ML,Mali,Uzbekistan,58
+2026,MT,Malta,Uzbekistan,25
+2026,MQ,Martinique,Uzbekistan,45
+2026,MR,Mauritania,Uzbekistan,37
+2026,MU,Mauritius,Uzbekistan,35
+2026,MX,Mexico,Uzbekistan,50
+2026,MD,Moldova,Uzbekistan,21
+2026,MN,Mongolia,Uzbekistan,15
+2026,ME,Montenegro,Uzbekistan,19
+2026,MA,Morocco,Uzbekistan,33
+2026,MZ,Mozambique,Uzbekistan,46
+2026,MM,Myanmar (Burma),Uzbekistan,24
+2026,NA,Namibia,Uzbekistan,32
+2026,NP,Nepal,Uzbekistan,27
+2026,NL,Netherlands,Uzbekistan,36
+2026,NC,New Caledonia,Uzbekistan,54
+2026,NZ,New Zealand,Uzbekistan,20
+2026,NI,Nicaragua,Uzbekistan,57
+2026,NE,Niger,Uzbekistan,60
+2026,NG,Nigeria,Uzbekistan,26
+2026,MK,North Macedonia,Uzbekistan,24
+2026,MP,Northern Mariana Islands,Uzbekistan,0
+2026,NO,Norway,Uzbekistan,25
+2026,OM,Oman,Uzbekistan,25
+2026,PK,Pakistan,Uzbekistan,31
+2026,PS,Palestine,Uzbekistan,22
+2026,PA,Panama,Uzbekistan,51
+2026,PG,Papua New Guinea,Uzbekistan,21
+2026,PY,Paraguay,Uzbekistan,50
+2026,PE,Peru,Uzbekistan,53
+2026,PH,Philippines,Uzbekistan,17
+2026,PL,Poland,Uzbekistan,18
+2026,PT,Portugal,Uzbekistan,41
+2026,PR,Puerto Rico,Uzbekistan,29
+2026,QA,Qatar,Uzbekistan,22
+2026,RO,Romania,Uzbekistan,23
+2026,RU,Russia,Uzbekistan,22
+2026,RW,Rwanda,Uzbekistan,33
+2026,RE,Réunion,Uzbekistan,38
+2026,SM,San Marino,Uzbekistan,25
+2026,SA,Saudi Arabia,Uzbekistan,25
+2026,SN,Senegal,Uzbekistan,56
+2026,RS,Serbia,Uzbekistan,22
+2026,SC,Seychelles,Uzbekistan,28
+2026,SL,Sierra Leone,Uzbekistan,25
+2026,SG,Singapore,Uzbekistan,18
+2026,SX,Sint Maarten,Uzbekistan,0
+2026,SK,Slovakia,Uzbekistan,19
+2026,SI,Slovenia,Uzbekistan,24
+2026,SO,Somalia,Uzbekistan,31
+2026,ZA,South Africa,Uzbekistan,26
+2026,KR,South Korea,Uzbekistan,23
+2026,SS,South Sudan,Uzbekistan,28
+2026,ES,Spain,Uzbekistan,30
+2026,LK,Sri Lanka,Uzbekistan,19
+2026,BL,St. Barthélemy,Uzbekistan,96
+2026,SH,St. Helena,Uzbekistan,26
+2026,KN,St. Kitts & Nevis,Uzbekistan,0
+2026,LC,St. Lucia,Uzbekistan,27
+2026,VC,St. Vincent & Grenadines,Uzbekistan,0
+2026,SD,Sudan,Uzbekistan,24
+2026,SR,Suriname,Uzbekistan,46
+2026,SE,Sweden,Uzbekistan,25
+2026,CH,Switzerland,Uzbekistan,26
+2026,SY,Syria,Uzbekistan,32
+2026,TW,Taiwan,Uzbekistan,24
+2026,TJ,Tajikistan,Uzbekistan,16
+2026,TZ,Tanzania,Uzbekistan,31
+2026,TH,Thailand,Uzbekistan,14
+2026,TL,Timor-Leste,Uzbekistan,46
+2026,TG,Togo,Uzbekistan,40
+2026,TO,Tonga,Uzbekistan,100
+2026,TT,Trinidad & Tobago,Uzbekistan,30
+2026,TN,Tunisia,Uzbekistan,31
+2026,TM,Turkmenistan,Uzbekistan,67
+2026,TC,Turks & Caicos Islands,Uzbekistan,22
+2026,TR,Türkiye,Uzbekistan,31
+2026,VI,U.S. Virgin Islands,Uzbekistan,28
+2026,UG,Uganda,Uzbekistan,31
+2026,UA,Ukraine,Uzbekistan,16
+2026,AE,United Arab Emirates,Uzbekistan,23
+2026,GB,United Kingdom,Uzbekistan,30
+2026,US,United States,Uzbekistan,27
+2026,UY,Uruguay,Uzbekistan,43
+2026,UZ,Uzbekistan,Uzbekistan,90
+2026,VU,Vanuatu,Uzbekistan,46
+2026,VE,Venezuela,Uzbekistan,62
+2026,VN,Vietnam,Uzbekistan,35
+2026,EH,Western Sahara,Uzbekistan,22
+2026,YE,Yemen,Uzbekistan,36
+2026,ZM,Zambia,Uzbekistan,33
+2026,ZW,Zimbabwe,Uzbekistan,36
+2026,AX,Åland Islands,Uzbekistan,0
+2026,AF,Afghanistan,Kazakhstan,10
+2026,AL,Albania,Kazakhstan,36
+2026,DZ,Algeria,Kazakhstan,27
+2026,AS,American Samoa,Kazakhstan,59
+2026,AD,Andorra,Kazakhstan,32
+2026,AO,Angola,Kazakhstan,28
+2026,AG,Antigua & Barbuda,Kazakhstan,39
+2026,AR,Argentina,Kazakhstan,23
+2026,AM,Armenia,Kazakhstan,20
+2026,AW,Aruba,Kazakhstan,0
+2026,AU,Australia,Kazakhstan,46
+2026,AT,Austria,Kazakhstan,29
+2026,AZ,Azerbaijan,Kazakhstan,24
+2026,BS,Bahamas,Kazakhstan,44
+2026,BH,Bahrain,Kazakhstan,28
+2026,BD,Bangladesh,Kazakhstan,45
+2026,BB,Barbados,Kazakhstan,37
+2026,BY,Belarus,Kazakhstan,33
+2026,BE,Belgium,Kazakhstan,27
+2026,BZ,Belize,Kazakhstan,37
+2026,BJ,Benin,Kazakhstan,24
+2026,BM,Bermuda,Kazakhstan,44
+2026,BT,Bhutan,Kazakhstan,39
+2026,BO,Bolivia,Kazakhstan,21
+2026,BA,Bosnia & Herzegovina,Kazakhstan,32
+2026,BW,Botswana,Kazakhstan,32
+2026,BR,Brazil,Kazakhstan,26
+2026,BN,Brunei,Kazakhstan,49
+2026,BG,Bulgaria,Kazakhstan,32
+2026,BF,Burkina Faso,Kazakhstan,31
+2026,BI,Burundi,Kazakhstan,9
+2026,KH,Cambodia,Kazakhstan,40
+2026,CM,Cameroon,Kazakhstan,22
+2026,CA,Canada,Kazakhstan,35
+2026,CV,Cape Verde,Kazakhstan,32
+2026,BQ,Caribbean Netherlands,Kazakhstan,0
+2026,KY,Cayman Islands,Kazakhstan,47
+2026,CF,Central African Republic,Kazakhstan,31
+2026,TD,Chad,Kazakhstan,22
+2026,CL,Chile,Kazakhstan,29
+2026,CN,China,Kazakhstan,43
+2026,CO,Colombia,Kazakhstan,12
+2026,KM,Comoros,Kazakhstan,36
+2026,CG,Congo - Brazzaville,Kazakhstan,18
+2026,CD,Congo - Kinshasa,Kazakhstan,7
+2026,CR,Costa Rica,Kazakhstan,23
+2026,HR,Croatia,Kazakhstan,32
+2026,CU,Cuba,Kazakhstan,10
+2026,CW,Curaçao,Kazakhstan,25
+2026,CY,Cyprus,Kazakhstan,31
+2026,CZ,Czechia,Kazakhstan,33
+2026,CI,Côte d’Ivoire,Kazakhstan,18
+2026,DK,Denmark,Kazakhstan,30
+2026,DJ,Djibouti,Kazakhstan,21
+2026,DM,Dominica,Kazakhstan,0
+2026,DO,Dominican Republic,Kazakhstan,30
+2026,EC,Ecuador,Kazakhstan,26
+2026,EG,Egypt,Kazakhstan,28
+2026,SV,El Salvador,Kazakhstan,17
+2026,GQ,Equatorial Guinea,Kazakhstan,20
+2026,EE,Estonia,Kazakhstan,31
+2026,SZ,Eswatini,Kazakhstan,33
+2026,ET,Ethiopia,Kazakhstan,36
+2026,FO,Faroe Islands,Kazakhstan,64
+2026,FJ,Fiji,Kazakhstan,40
+2026,FI,Finland,Kazakhstan,34
+2026,FR,France,Kazakhstan,26
+2026,GF,French Guiana,Kazakhstan,0
+2026,PF,French Polynesia,Kazakhstan,52
+2026,GA,Gabon,Kazakhstan,15
+2026,GM,Gambia,Kazakhstan,38
+2026,GE,Georgia,Kazakhstan,2
+2026,DE,Germany,Kazakhstan,33
+2026,GH,Ghana,Kazakhstan,37
+2026,GI,Gibraltar,Kazakhstan,42
+2026,GR,Greece,Kazakhstan,24
+2026,GL,Greenland,Kazakhstan,0
+2026,GD,Grenada,Kazakhstan,29
+2026,GP,Guadeloupe,Kazakhstan,26
+2026,GU,Guam,Kazakhstan,46
+2026,GT,Guatemala,Kazakhstan,15
+2026,GG,Guernsey,Kazakhstan,32
+2026,GN,Guinea,Kazakhstan,24
+2026,GW,Guinea-Bissau,Kazakhstan,32
+2026,GY,Guyana,Kazakhstan,37
+2026,HT,Haiti,Kazakhstan,14
+2026,HN,Honduras,Kazakhstan,21
+2026,HK,Hong Kong,Kazakhstan,45
+2026,HU,Hungary,Kazakhstan,36
+2026,IS,Iceland,Kazakhstan,29
+2026,IN,India,Kazakhstan,41
+2026,ID,Indonesia,Kazakhstan,47
+2026,IR,Iran,Kazakhstan,12
+2026,IQ,Iraq,Kazakhstan,26
+2026,IE,Ireland,Kazakhstan,33
+2026,IM,Isle of Man,Kazakhstan,32
+2026,IL,Israel,Kazakhstan,17
+2026,IT,Italy,Kazakhstan,27
+2026,JM,Jamaica,Kazakhstan,30
+2026,JP,Japan,Kazakhstan,43
+2026,JE,Jersey,Kazakhstan,27
+2026,JO,Jordan,Kazakhstan,21
+2026,KZ,Kazakhstan,Kazakhstan,95
+2026,KE,Kenya,Kazakhstan,40
+2026,KI,Kiribati,Kazakhstan,100
+2026,XK,Kosovo,Kazakhstan,40
+2026,KW,Kuwait,Kazakhstan,25
+2026,KG,Kyrgyzstan,Kazakhstan,9
+2026,LA,Laos,Kazakhstan,40
+2026,LV,Latvia,Kazakhstan,32
+2026,LB,Lebanon,Kazakhstan,22
+2026,LS,Lesotho,Kazakhstan,43
+2026,LR,Liberia,Kazakhstan,31
+2026,LY,Libya,Kazakhstan,26
+2026,LI,Liechtenstein,Kazakhstan,28
+2026,LT,Lithuania,Kazakhstan,31
+2026,LU,Luxembourg,Kazakhstan,32
+2026,MO,Macao,Kazakhstan,35
+2026,MG,Madagascar,Kazakhstan,27
+2026,MW,Malawi,Kazakhstan,45
+2026,MY,Malaysia,Kazakhstan,48
+2026,MV,Maldives,Kazakhstan,47
+2026,ML,Mali,Kazakhstan,22
+2026,MT,Malta,Kazakhstan,25
+2026,MQ,Martinique,Kazakhstan,34
+2026,MR,Mauritania,Kazakhstan,28
+2026,MU,Mauritius,Kazakhstan,31
+2026,MX,Mexico,Kazakhstan,25
+2026,MD,Moldova,Kazakhstan,34
+2026,MN,Mongolia,Kazakhstan,62
+2026,ME,Montenegro,Kazakhstan,36
+2026,MA,Morocco,Kazakhstan,35
+2026,MZ,Mozambique,Kazakhstan,26
+2026,MM,Myanmar (Burma),Kazakhstan,41
+2026,NA,Namibia,Kazakhstan,37
+2026,NP,Nepal,Kazakhstan,39
+2026,NL,Netherlands,Kazakhstan,27
+2026,NC,New Caledonia,Kazakhstan,0
+2026,NZ,New Zealand,Kazakhstan,44
+2026,NI,Nicaragua,Kazakhstan,16
+2026,NE,Niger,Kazakhstan,26
+2026,NG,Nigeria,Kazakhstan,33
+2026,MK,North Macedonia,Kazakhstan,34
+2026,MP,Northern Mariana Islands,Kazakhstan,7
+2026,NO,Norway,Kazakhstan,29
+2026,OM,Oman,Kazakhstan,33
+2026,PK,Pakistan,Kazakhstan,29
+2026,PS,Palestine,Kazakhstan,25
+2026,PA,Panama,Kazakhstan,21
+2026,PG,Papua New Guinea,Kazakhstan,58
+2026,PY,Paraguay,Kazakhstan,24
+2026,PE,Peru,Kazakhstan,22
+2026,PH,Philippines,Kazakhstan,53
+2026,PL,Poland,Kazakhstan,27
+2026,PT,Portugal,Kazakhstan,25
+2026,PR,Puerto Rico,Kazakhstan,27
+2026,QA,Qatar,Kazakhstan,29
+2026,RO,Romania,Kazakhstan,28
+2026,RU,Russia,Kazakhstan,41
+2026,RW,Rwanda,Kazakhstan,32
+2026,RE,Réunion,Kazakhstan,19
+2026,SM,San Marino,Kazakhstan,39
+2026,SA,Saudi Arabia,Kazakhstan,23
+2026,SN,Senegal,Kazakhstan,21
+2026,RS,Serbia,Kazakhstan,33
+2026,SC,Seychelles,Kazakhstan,45
+2026,SL,Sierra Leone,Kazakhstan,45
+2026,SG,Singapore,Kazakhstan,57
+2026,SX,Sint Maarten,Kazakhstan,0
+2026,SK,Slovakia,Kazakhstan,32
+2026,SI,Slovenia,Kazakhstan,29
+2026,SO,Somalia,Kazakhstan,40
+2026,ZA,South Africa,Kazakhstan,39
+2026,KR,South Korea,Kazakhstan,53
+2026,SS,South Sudan,Kazakhstan,36
+2026,ES,Spain,Kazakhstan,29
+2026,LK,Sri Lanka,Kazakhstan,42
+2026,BL,St. Barthélemy,Kazakhstan,0
+2026,SH,St. Helena,Kazakhstan,42
+2026,KN,St. Kitts & Nevis,Kazakhstan,100
+2026,LC,St. Lucia,Kazakhstan,45
+2026,VC,St. Vincent & Grenadines,Kazakhstan,56
+2026,SD,Sudan,Kazakhstan,25
+2026,SR,Suriname,Kazakhstan,37
+2026,SE,Sweden,Kazakhstan,29
+2026,CH,Switzerland,Kazakhstan,30
+2026,SY,Syria,Kazakhstan,18
+2026,TW,Taiwan,Kazakhstan,50
+2026,TJ,Tajikistan,Kazakhstan,3
+2026,TZ,Tanzania,Kazakhstan,34
+2026,TH,Thailand,Kazakhstan,47
+2026,TL,Timor-Leste,Kazakhstan,27
+2026,TG,Togo,Kazakhstan,27
+2026,TO,Tonga,Kazakhstan,0
+2026,TT,Trinidad & Tobago,Kazakhstan,35
+2026,TN,Tunisia,Kazakhstan,31
+2026,TM,Turkmenistan,Kazakhstan,20
+2026,TC,Turks & Caicos Islands,Kazakhstan,37
+2026,TR,Türkiye,Kazakhstan,22
+2026,VI,U.S. Virgin Islands,Kazakhstan,37
+2026,UG,Uganda,Kazakhstan,36
+2026,UA,Ukraine,Kazakhstan,37
+2026,AE,United Arab Emirates,Kazakhstan,32
+2026,GB,United Kingdom,Kazakhstan,33
+2026,US,United States,Kazakhstan,38
+2026,UY,Uruguay,Kazakhstan,26
+2026,UZ,Uzbekistan,Kazakhstan,6
+2026,VU,Vanuatu,Kazakhstan,54
+2026,VE,Venezuela,Kazakhstan,17
+2026,VN,Vietnam,Kazakhstan,40
+2026,EH,Western Sahara,Kazakhstan,41
+2026,YE,Yemen,Kazakhstan,26
+2026,ZM,Zambia,Kazakhstan,39
+2026,ZW,Zimbabwe,Kazakhstan,30
+2026,AX,Åland Islands,Kazakhstan,0
+2026,AF,Afghanistan,Kyrgyzstan,2
+2026,AL,Albania,Kyrgyzstan,10
+2026,DZ,Algeria,Kyrgyzstan,6
+2026,AS,American Samoa,Kyrgyzstan,10
+2026,AD,Andorra,Kyrgyzstan,10
+2026,AO,Angola,Kyrgyzstan,6
+2026,AG,Antigua & Barbuda,Kyrgyzstan,0
+2026,AR,Argentina,Kyrgyzstan,5
+2026,AM,Armenia,Kyrgyzstan,4
+2026,AW,Aruba,Kyrgyzstan,0
+2026,AU,Australia,Kyrgyzstan,16
+2026,AT,Austria,Kyrgyzstan,11
+2026,AZ,Azerbaijan,Kyrgyzstan,5
+2026,BS,Bahamas,Kyrgyzstan,6
+2026,BH,Bahrain,Kyrgyzstan,10
+2026,BD,Bangladesh,Kyrgyzstan,10
+2026,BB,Barbados,Kyrgyzstan,0
+2026,BY,Belarus,Kyrgyzstan,9
+2026,BE,Belgium,Kyrgyzstan,15
+2026,BZ,Belize,Kyrgyzstan,0
+2026,BJ,Benin,Kyrgyzstan,7
+2026,BM,Bermuda,Kyrgyzstan,0
+2026,BT,Bhutan,Kyrgyzstan,12
+2026,BO,Bolivia,Kyrgyzstan,5
+2026,BA,Bosnia & Herzegovina,Kyrgyzstan,8
+2026,BW,Botswana,Kyrgyzstan,5
+2026,BR,Brazil,Kyrgyzstan,6
+2026,BN,Brunei,Kyrgyzstan,9
+2026,BG,Bulgaria,Kyrgyzstan,9
+2026,BF,Burkina Faso,Kyrgyzstan,6
+2026,BI,Burundi,Kyrgyzstan,0
+2026,KH,Cambodia,Kyrgyzstan,10
+2026,CM,Cameroon,Kyrgyzstan,4
+2026,CA,Canada,Kyrgyzstan,10
+2026,CV,Cape Verde,Kyrgyzstan,0
+2026,BQ,Caribbean Netherlands,Kyrgyzstan,0
+2026,KY,Cayman Islands,Kyrgyzstan,13
+2026,CF,Central African Republic,Kyrgyzstan,0
+2026,TD,Chad,Kyrgyzstan,9
+2026,CL,Chile,Kyrgyzstan,5
+2026,CN,China,Kyrgyzstan,17
+2026,CO,Colombia,Kyrgyzstan,2
+2026,KM,Comoros,Kyrgyzstan,0
+2026,CG,Congo - Brazzaville,Kyrgyzstan,3
+2026,CD,Congo - Kinshasa,Kyrgyzstan,1
+2026,CR,Costa Rica,Kyrgyzstan,6
+2026,HR,Croatia,Kyrgyzstan,9
+2026,CU,Cuba,Kyrgyzstan,4
+2026,CW,Curaçao,Kyrgyzstan,0
+2026,CY,Cyprus,Kyrgyzstan,8
+2026,CZ,Czechia,Kyrgyzstan,9
+2026,CI,Côte d’Ivoire,Kyrgyzstan,4
+2026,DK,Denmark,Kyrgyzstan,13
+2026,DJ,Djibouti,Kyrgyzstan,0
+2026,DM,Dominica,Kyrgyzstan,0
+2026,DO,Dominican Republic,Kyrgyzstan,5
+2026,EC,Ecuador,Kyrgyzstan,5
+2026,EG,Egypt,Kyrgyzstan,8
+2026,SV,El Salvador,Kyrgyzstan,3
+2026,GQ,Equatorial Guinea,Kyrgyzstan,10
+2026,EE,Estonia,Kyrgyzstan,7
+2026,SZ,Eswatini,Kyrgyzstan,10
+2026,ET,Ethiopia,Kyrgyzstan,9
+2026,FO,Faroe Islands,Kyrgyzstan,17
+2026,FJ,Fiji,Kyrgyzstan,9
+2026,FI,Finland,Kyrgyzstan,11
+2026,FR,France,Kyrgyzstan,9
+2026,GF,French Guiana,Kyrgyzstan,0
+2026,PF,French Polynesia,Kyrgyzstan,0
+2026,GA,Gabon,Kyrgyzstan,5
+2026,GM,Gambia,Kyrgyzstan,8
+2026,GE,Georgia,Kyrgyzstan,0
+2026,DE,Germany,Kyrgyzstan,10
+2026,GH,Ghana,Kyrgyzstan,7
+2026,GI,Gibraltar,Kyrgyzstan,0
+2026,GR,Greece,Kyrgyzstan,8
+2026,GL,Greenland,Kyrgyzstan,0
+2026,GD,Grenada,Kyrgyzstan,0
+2026,GP,Guadeloupe,Kyrgyzstan,0
+2026,GU,Guam,Kyrgyzstan,0
+2026,GT,Guatemala,Kyrgyzstan,4
+2026,GG,Guernsey,Kyrgyzstan,10
+2026,GN,Guinea,Kyrgyzstan,8
+2026,GW,Guinea-Bissau,Kyrgyzstan,27
+2026,GY,Guyana,Kyrgyzstan,9
+2026,HT,Haiti,Kyrgyzstan,3
+2026,HN,Honduras,Kyrgyzstan,4
+2026,HK,Hong Kong,Kyrgyzstan,12
+2026,HU,Hungary,Kyrgyzstan,8
+2026,IS,Iceland,Kyrgyzstan,11
+2026,IN,India,Kyrgyzstan,10
+2026,ID,Indonesia,Kyrgyzstan,10
+2026,IR,Iran,Kyrgyzstan,3
+2026,IQ,Iraq,Kyrgyzstan,8
+2026,IE,Ireland,Kyrgyzstan,10
+2026,IM,Isle of Man,Kyrgyzstan,7
+2026,IL,Israel,Kyrgyzstan,5
+2026,IT,Italy,Kyrgyzstan,9
+2026,JM,Jamaica,Kyrgyzstan,8
+2026,JP,Japan,Kyrgyzstan,12
+2026,JE,Jersey,Kyrgyzstan,13
+2026,JO,Jordan,Kyrgyzstan,12
+2026,KZ,Kazakhstan,Kyrgyzstan,1
+2026,KE,Kenya,Kyrgyzstan,7
+2026,KI,Kiribati,Kyrgyzstan,0
+2026,XK,Kosovo,Kyrgyzstan,9
+2026,KW,Kuwait,Kyrgyzstan,10
+2026,KG,Kyrgyzstan,Kyrgyzstan,81
+2026,LA,Laos,Kyrgyzstan,10
+2026,LV,Latvia,Kyrgyzstan,7
+2026,LB,Lebanon,Kyrgyzstan,8
+2026,LS,Lesotho,Kyrgyzstan,0
+2026,LR,Liberia,Kyrgyzstan,8
+2026,LY,Libya,Kyrgyzstan,9
+2026,LI,Liechtenstein,Kyrgyzstan,15
+2026,LT,Lithuania,Kyrgyzstan,8
+2026,LU,Luxembourg,Kyrgyzstan,10
+2026,MO,Macao,Kyrgyzstan,11
+2026,MG,Madagascar,Kyrgyzstan,11
+2026,MW,Malawi,Kyrgyzstan,6
+2026,MY,Malaysia,Kyrgyzstan,11
+2026,MV,Maldives,Kyrgyzstan,12
+2026,ML,Mali,Kyrgyzstan,8
+2026,MT,Malta,Kyrgyzstan,13
+2026,MQ,Martinique,Kyrgyzstan,0
+2026,MR,Mauritania,Kyrgyzstan,7
+2026,MU,Mauritius,Kyrgyzstan,8
+2026,MX,Mexico,Kyrgyzstan,5
+2026,MD,Moldova,Kyrgyzstan,8
+2026,MN,Mongolia,Kyrgyzstan,12
+2026,ME,Montenegro,Kyrgyzstan,9
+2026,MA,Morocco,Kyrgyzstan,8
+2026,MZ,Mozambique,Kyrgyzstan,5
+2026,MM,Myanmar (Burma),Kyrgyzstan,11
+2026,NA,Namibia,Kyrgyzstan,9
+2026,NP,Nepal,Kyrgyzstan,9
+2026,NL,Netherlands,Kyrgyzstan,9
+2026,NC,New Caledonia,Kyrgyzstan,0
+2026,NZ,New Zealand,Kyrgyzstan,14
+2026,NI,Nicaragua,Kyrgyzstan,5
+2026,NE,Niger,Kyrgyzstan,0
+2026,NG,Nigeria,Kyrgyzstan,6
+2026,MK,North Macedonia,Kyrgyzstan,9
+2026,MP,Northern Mariana Islands,Kyrgyzstan,9
+2026,NO,Norway,Kyrgyzstan,11
+2026,OM,Oman,Kyrgyzstan,11
+2026,PK,Pakistan,Kyrgyzstan,17
+2026,PS,Palestine,Kyrgyzstan,8
+2026,PA,Panama,Kyrgyzstan,6
+2026,PG,Papua New Guinea,Kyrgyzstan,13
+2026,PY,Paraguay,Kyrgyzstan,6
+2026,PE,Peru,Kyrgyzstan,5
+2026,PH,Philippines,Kyrgyzstan,10
+2026,PL,Poland,Kyrgyzstan,7
+2026,PT,Portugal,Kyrgyzstan,7
+2026,PR,Puerto Rico,Kyrgyzstan,8
+2026,QA,Qatar,Kyrgyzstan,10
+2026,RO,Romania,Kyrgyzstan,6
+2026,RU,Russia,Kyrgyzstan,11
+2026,RW,Rwanda,Kyrgyzstan,8
+2026,RE,Réunion,Kyrgyzstan,9
+2026,SM,San Marino,Kyrgyzstan,0
+2026,SA,Saudi Arabia,Kyrgyzstan,10
+2026,SN,Senegal,Kyrgyzstan,5
+2026,RS,Serbia,Kyrgyzstan,9
+2026,SC,Seychelles,Kyrgyzstan,26
+2026,SL,Sierra Leone,Kyrgyzstan,9
+2026,SG,Singapore,Kyrgyzstan,13
+2026,SX,Sint Maarten,Kyrgyzstan,0
+2026,SK,Slovakia,Kyrgyzstan,9
+2026,SI,Slovenia,Kyrgyzstan,13
+2026,SO,Somalia,Kyrgyzstan,6
+2026,ZA,South Africa,Kyrgyzstan,7
+2026,KR,South Korea,Kyrgyzstan,11
+2026,SS,South Sudan,Kyrgyzstan,10
+2026,ES,Spain,Kyrgyzstan,8
+2026,LK,Sri Lanka,Kyrgyzstan,11
+2026,BL,St. Barthélemy,Kyrgyzstan,0
+2026,SH,St. Helena,Kyrgyzstan,8
+2026,KN,St. Kitts & Nevis,Kyrgyzstan,0
+2026,LC,St. Lucia,Kyrgyzstan,0
+2026,VC,St. Vincent & Grenadines,Kyrgyzstan,0
+2026,SD,Sudan,Kyrgyzstan,7
+2026,SR,Suriname,Kyrgyzstan,0
+2026,SE,Sweden,Kyrgyzstan,10
+2026,CH,Switzerland,Kyrgyzstan,13
+2026,SY,Syria,Kyrgyzstan,7
+2026,TW,Taiwan,Kyrgyzstan,12
+2026,TJ,Tajikistan,Kyrgyzstan,3
+2026,TZ,Tanzania,Kyrgyzstan,9
+2026,TH,Thailand,Kyrgyzstan,8
+2026,TL,Timor-Leste,Kyrgyzstan,10
+2026,TG,Togo,Kyrgyzstan,12
+2026,TO,Tonga,Kyrgyzstan,0
+2026,TT,Trinidad & Tobago,Kyrgyzstan,8
+2026,TN,Tunisia,Kyrgyzstan,8
+2026,TM,Turkmenistan,Kyrgyzstan,5
+2026,TC,Turks & Caicos Islands,Kyrgyzstan,0
+2026,TR,Türkiye,Kyrgyzstan,11
+2026,VI,U.S. Virgin Islands,Kyrgyzstan,0
+2026,UG,Uganda,Kyrgyzstan,6
+2026,UA,Ukraine,Kyrgyzstan,6
+2026,AE,United Arab Emirates,Kyrgyzstan,11
+2026,GB,United Kingdom,Kyrgyzstan,9
+2026,US,United States,Kyrgyzstan,10
+2026,UY,Uruguay,Kyrgyzstan,6
+2026,UZ,Uzbekistan,Kyrgyzstan,3
+2026,VU,Vanuatu,Kyrgyzstan,0
+2026,VE,Venezuela,Kyrgyzstan,4
+2026,VN,Vietnam,Kyrgyzstan,12
+2026,EH,Western Sahara,Kyrgyzstan,10
+2026,YE,Yemen,Kyrgyzstan,7
+2026,ZM,Zambia,Kyrgyzstan,6
+2026,ZW,Zimbabwe,Kyrgyzstan,4
+2026,AX,Åland Islands,Kyrgyzstan,0
+2026,AF,Afghanistan,Georgia,1
+2026,AL,Albania,Georgia,26
+2026,DZ,Algeria,Georgia,23
+2026,AS,American Samoa,Georgia,12
+2026,AD,Andorra,Georgia,27
+2026,AO,Angola,Georgia,18
+2026,AG,Antigua & Barbuda,Georgia,37
+2026,AR,Argentina,Georgia,18
+2026,AM,Armenia,Georgia,62
+2026,AW,Aruba,Georgia,24
+2026,AU,Australia,Georgia,16
+2026,AT,Austria,Georgia,31
+2026,AZ,Azerbaijan,Georgia,41
+2026,BS,Bahamas,Georgia,26
+2026,BH,Bahrain,Georgia,36
+2026,BD,Bangladesh,Georgia,13
+2026,BB,Barbados,Georgia,32
+2026,BY,Belarus,Georgia,40
+2026,BE,Belgium,Georgia,27
+2026,BZ,Belize,Georgia,23
+2026,BJ,Benin,Georgia,21
+2026,BM,Bermuda,Georgia,32
+2026,BT,Bhutan,Georgia,9
+2026,BO,Bolivia,Georgia,14
+2026,BA,Bosnia & Herzegovina,Georgia,28
+2026,BW,Botswana,Georgia,19
+2026,BR,Brazil,Georgia,23
+2026,BN,Brunei,Georgia,12
+2026,BG,Bulgaria,Georgia,28
+2026,BF,Burkina Faso,Georgia,15
+2026,BI,Burundi,Georgia,22
+2026,KH,Cambodia,Georgia,26
+2026,CM,Cameroon,Georgia,22
+2026,CA,Canada,Georgia,23
+2026,CV,Cape Verde,Georgia,29
+2026,BQ,Caribbean Netherlands,Georgia,0
+2026,KY,Cayman Islands,Georgia,21
+2026,CF,Central African Republic,Georgia,29
+2026,TD,Chad,Georgia,32
+2026,CL,Chile,Georgia,17
+2026,CN,China,Georgia,12
+2026,CO,Colombia,Georgia,8
+2026,KM,Comoros,Georgia,0
+2026,CG,Congo - Brazzaville,Georgia,16
+2026,CD,Congo - Kinshasa,Georgia,4
+2026,CR,Costa Rica,Georgia,20
+2026,HR,Croatia,Georgia,30
+2026,CU,Cuba,Georgia,70
+2026,CW,Curaçao,Georgia,18
+2026,CY,Cyprus,Georgia,40
+2026,CZ,Czechia,Georgia,34
+2026,CI,Côte d’Ivoire,Georgia,26
+2026,DK,Denmark,Georgia,32
+2026,DJ,Djibouti,Georgia,31
+2026,DM,Dominica,Georgia,0
+2026,DO,Dominican Republic,Georgia,37
+2026,EC,Ecuador,Georgia,18
+2026,EG,Egypt,Georgia,30
+2026,SV,El Salvador,Georgia,20
+2026,GQ,Equatorial Guinea,Georgia,23
+2026,EE,Estonia,Georgia,38
+2026,SZ,Eswatini,Georgia,22
+2026,ET,Ethiopia,Georgia,22
+2026,FO,Faroe Islands,Georgia,19
+2026,FJ,Fiji,Georgia,20
+2026,FI,Finland,Georgia,28
+2026,FR,France,Georgia,30
+2026,GF,French Guiana,Georgia,0
+2026,PF,French Polynesia,Georgia,48
+2026,GA,Gabon,Georgia,17
+2026,GM,Gambia,Georgia,22
+2026,GE,Georgia,Georgia,97
+2026,DE,Germany,Georgia,26
+2026,GH,Ghana,Georgia,31
+2026,GI,Gibraltar,Georgia,26
+2026,GR,Greece,Georgia,46
+2026,GL,Greenland,Georgia,100
+2026,GD,Grenada,Georgia,37
+2026,GP,Guadeloupe,Georgia,32
+2026,GU,Guam,Georgia,32
+2026,GT,Guatemala,Georgia,14
+2026,GG,Guernsey,Georgia,32
+2026,GN,Guinea,Georgia,20
+2026,GW,Guinea-Bissau,Georgia,0
+2026,GY,Guyana,Georgia,27
+2026,HT,Haiti,Georgia,38
+2026,HN,Honduras,Georgia,17
+2026,HK,Hong Kong,Georgia,13
+2026,HU,Hungary,Georgia,34
+2026,IS,Iceland,Georgia,32
+2026,IN,India,Georgia,21
+2026,ID,Indonesia,Georgia,13
+2026,IR,Iran,Georgia,24
+2026,IQ,Iraq,Georgia,32
+2026,IE,Ireland,Georgia,33
+2026,IM,Isle of Man,Georgia,33
+2026,IL,Israel,Georgia,55
+2026,IT,Italy,Georgia,32
+2026,JM,Jamaica,Georgia,29
+2026,JP,Japan,Georgia,16
+2026,JE,Jersey,Georgia,32
+2026,JO,Jordan,Georgia,37
+2026,KZ,Kazakhstan,Georgia,1
+2026,KE,Kenya,Georgia,20
+2026,KI,Kiribati,Georgia,0
+2026,XK,Kosovo,Georgia,20
+2026,KW,Kuwait,Georgia,39
+2026,KG,Kyrgyzstan,Georgia,0
+2026,LA,Laos,Georgia,18
+2026,LV,Latvia,Georgia,36
+2026,LB,Lebanon,Georgia,47
+2026,LS,Lesotho,Georgia,17
+2026,LR,Liberia,Georgia,18
+2026,LY,Libya,Georgia,28
+2026,LI,Liechtenstein,Georgia,31
+2026,LT,Lithuania,Georgia,36
+2026,LU,Luxembourg,Georgia,24
+2026,MO,Macao,Georgia,18
+2026,MG,Madagascar,Georgia,18
+2026,MW,Malawi,Georgia,19
+2026,MY,Malaysia,Georgia,12
+2026,MV,Maldives,Georgia,11
+2026,ML,Mali,Georgia,12
+2026,MT,Malta,Georgia,32
+2026,MQ,Martinique,Georgia,21
+2026,MR,Mauritania,Georgia,20
+2026,MU,Mauritius,Georgia,22
+2026,MX,Mexico,Georgia,17
+2026,MD,Moldova,Georgia,31
+2026,MN,Mongolia,Georgia,7
+2026,ME,Montenegro,Georgia,32
+2026,MA,Morocco,Georgia,20
+2026,MZ,Mozambique,Georgia,19
+2026,MM,Myanmar (Burma),Georgia,18
+2026,NA,Namibia,Georgia,22
+2026,NP,Nepal,Georgia,20
+2026,NL,Netherlands,Georgia,24
+2026,NC,New Caledonia,Georgia,46
+2026,NZ,New Zealand,Georgia,17
+2026,NI,Nicaragua,Georgia,20
+2026,NE,Niger,Georgia,14
+2026,NG,Nigeria,Georgia,29
+2026,MK,North Macedonia,Georgia,27
+2026,MP,Northern Mariana Islands,Georgia,84
+2026,NO,Norway,Georgia,30
+2026,OM,Oman,Georgia,25
+2026,PK,Pakistan,Georgia,13
+2026,PS,Palestine,Georgia,40
+2026,PA,Panama,Georgia,19
+2026,PG,Papua New Guinea,Georgia,8
+2026,PY,Paraguay,Georgia,18
+2026,PE,Peru,Georgia,17
+2026,PH,Philippines,Georgia,16
+2026,PL,Poland,Georgia,44
+2026,PT,Portugal,Georgia,24
+2026,PR,Puerto Rico,Georgia,32
+2026,QA,Qatar,Georgia,34
+2026,RO,Romania,Georgia,40
+2026,RU,Russia,Georgia,17
+2026,RW,Rwanda,Georgia,22
+2026,RE,Réunion,Georgia,34
+2026,SM,San Marino,Georgia,36
+2026,SA,Saudi Arabia,Georgia,37
+2026,SN,Senegal,Georgia,15
+2026,RS,Serbia,Georgia,32
+2026,SC,Seychelles,Georgia,1
+2026,SL,Sierra Leone,Georgia,21
+2026,SG,Singapore,Georgia,9
+2026,SX,Sint Maarten,Georgia,100
+2026,SK,Slovakia,Georgia,37
+2026,SI,Slovenia,Georgia,31
+2026,SO,Somalia,Georgia,16
+2026,ZA,South Africa,Georgia,25
+2026,KR,South Korea,Georgia,11
+2026,SS,South Sudan,Georgia,15
+2026,ES,Spain,Georgia,30
+2026,LK,Sri Lanka,Georgia,23
+2026,BL,St. Barthélemy,Georgia,4
+2026,SH,St. Helena,Georgia,19
+2026,KN,St. Kitts & Nevis,Georgia,0
+2026,LC,St. Lucia,Georgia,28
+2026,VC,St. Vincent & Grenadines,Georgia,44
+2026,SD,Sudan,Georgia,36
+2026,SR,Suriname,Georgia,17
+2026,SE,Sweden,Georgia,31
+2026,CH,Switzerland,Georgia,26
+2026,SY,Syria,Georgia,33
+2026,TW,Taiwan,Georgia,11
+2026,TJ,Tajikistan,Georgia,0
+2026,TZ,Tanzania,Georgia,20
+2026,TH,Thailand,Georgia,29
+2026,TL,Timor-Leste,Georgia,10
+2026,TG,Togo,Georgia,17
+2026,TO,Tonga,Georgia,0
+2026,TT,Trinidad & Tobago,Georgia,22
+2026,TN,Tunisia,Georgia,25
+2026,TM,Turkmenistan,Georgia,4
+2026,TC,Turks & Caicos Islands,Georgia,41
+2026,TR,Türkiye,Georgia,33
+2026,VI,U.S. Virgin Islands,Georgia,35
+2026,UG,Uganda,Georgia,22
+2026,UA,Ukraine,Georgia,37
+2026,AE,United Arab Emirates,Georgia,30
+2026,GB,United Kingdom,Georgia,23
+2026,US,United States,Georgia,20
+2026,UY,Uruguay,Georgia,21
+2026,UZ,Uzbekistan,Georgia,0
+2026,VU,Vanuatu,Georgia,0
+2026,VE,Venezuela,Georgia,15
+2026,VN,Vietnam,Georgia,11
+2026,EH,Western Sahara,Georgia,27
+2026,YE,Yemen,Georgia,24
+2026,ZM,Zambia,Georgia,17
+2026,ZW,Zimbabwe,Georgia,25
+2026,AX,Åland Islands,Georgia,100
+2026,AF,Afghanistan,Tajikistan,56
+2026,AL,Albania,Tajikistan,5
+2026,DZ,Algeria,Tajikistan,5
+2026,AS,American Samoa,Tajikistan,0
+2026,AD,Andorra,Tajikistan,0
+2026,AO,Angola,Tajikistan,4
+2026,AG,Antigua & Barbuda,Tajikistan,0
+2026,AR,Argentina,Tajikistan,3
+2026,AM,Armenia,Tajikistan,4
+2026,AW,Aruba,Tajikistan,0
+2026,AU,Australia,Tajikistan,4
+2026,AT,Austria,Tajikistan,5
+2026,AZ,Azerbaijan,Tajikistan,4
+2026,BS,Bahamas,Tajikistan,4
+2026,BH,Bahrain,Tajikistan,4
+2026,BD,Bangladesh,Tajikistan,6
+2026,BB,Barbados,Tajikistan,0
+2026,BY,Belarus,Tajikistan,3
+2026,BE,Belgium,Tajikistan,4
+2026,BZ,Belize,Tajikistan,0
+2026,BJ,Benin,Tajikistan,14
+2026,BM,Bermuda,Tajikistan,0
+2026,BT,Bhutan,Tajikistan,7
+2026,BO,Bolivia,Tajikistan,3
+2026,BA,Bosnia & Herzegovina,Tajikistan,5
+2026,BW,Botswana,Tajikistan,10
+2026,BR,Brazil,Tajikistan,3
+2026,BN,Brunei,Tajikistan,4
+2026,BG,Bulgaria,Tajikistan,4
+2026,BF,Burkina Faso,Tajikistan,4
+2026,BI,Burundi,Tajikistan,0
+2026,KH,Cambodia,Tajikistan,5
+2026,CM,Cameroon,Tajikistan,6
+2026,CA,Canada,Tajikistan,6
+2026,CV,Cape Verde,Tajikistan,0
+2026,BQ,Caribbean Netherlands,Tajikistan,0
+2026,KY,Cayman Islands,Tajikistan,0
+2026,CF,Central African Republic,Tajikistan,0
+2026,TD,Chad,Tajikistan,0
+2026,CL,Chile,Tajikistan,3
+2026,CN,China,Tajikistan,6
+2026,CO,Colombia,Tajikistan,1
+2026,KM,Comoros,Tajikistan,0
+2026,CG,Congo - Brazzaville,Tajikistan,3
+2026,CD,Congo - Kinshasa,Tajikistan,1
+2026,CR,Costa Rica,Tajikistan,2
+2026,HR,Croatia,Tajikistan,4
+2026,CU,Cuba,Tajikistan,2
+2026,CW,Curaçao,Tajikistan,0
+2026,CY,Cyprus,Tajikistan,3
+2026,CZ,Czechia,Tajikistan,4
+2026,CI,Côte d’Ivoire,Tajikistan,3
+2026,DK,Denmark,Tajikistan,4
+2026,DJ,Djibouti,Tajikistan,0
+2026,DM,Dominica,Tajikistan,0
+2026,DO,Dominican Republic,Tajikistan,3
+2026,EC,Ecuador,Tajikistan,3
+2026,EG,Egypt,Tajikistan,4
+2026,SV,El Salvador,Tajikistan,2
+2026,GQ,Equatorial Guinea,Tajikistan,14
+2026,EE,Estonia,Tajikistan,4
+2026,SZ,Eswatini,Tajikistan,6
+2026,ET,Ethiopia,Tajikistan,6
+2026,FO,Faroe Islands,Tajikistan,0
+2026,FJ,Fiji,Tajikistan,7
+2026,FI,Finland,Tajikistan,5
+2026,FR,France,Tajikistan,4
+2026,GF,French Guiana,Tajikistan,0
+2026,PF,French Polynesia,Tajikistan,0
+2026,GA,Gabon,Tajikistan,9
+2026,GM,Gambia,Tajikistan,5
+2026,GE,Georgia,Tajikistan,0
+2026,DE,Germany,Tajikistan,5
+2026,GH,Ghana,Tajikistan,4
+2026,GI,Gibraltar,Tajikistan,0
+2026,GR,Greece,Tajikistan,3
+2026,GL,Greenland,Tajikistan,0
+2026,GD,Grenada,Tajikistan,0
+2026,GP,Guadeloupe,Tajikistan,0
+2026,GU,Guam,Tajikistan,0
+2026,GT,Guatemala,Tajikistan,2
+2026,GG,Guernsey,Tajikistan,0
+2026,GN,Guinea,Tajikistan,4
+2026,GW,Guinea-Bissau,Tajikistan,0
+2026,GY,Guyana,Tajikistan,0
+2026,HT,Haiti,Tajikistan,2
+2026,HN,Honduras,Tajikistan,2
+2026,HK,Hong Kong,Tajikistan,4
+2026,HU,Hungary,Tajikistan,3
+2026,IS,Iceland,Tajikistan,4
+2026,IN,India,Tajikistan,6
+2026,ID,Indonesia,Tajikistan,4
+2026,IR,Iran,Tajikistan,35
+2026,IQ,Iraq,Tajikistan,9
+2026,IE,Ireland,Tajikistan,4
+2026,IM,Isle of Man,Tajikistan,0
+2026,IL,Israel,Tajikistan,2
+2026,IT,Italy,Tajikistan,3
+2026,JM,Jamaica,Tajikistan,5
+2026,JP,Japan,Tajikistan,2
+2026,JE,Jersey,Tajikistan,0
+2026,JO,Jordan,Tajikistan,5
+2026,KZ,Kazakhstan,Tajikistan,0
+2026,KE,Kenya,Tajikistan,6
+2026,KI,Kiribati,Tajikistan,0
+2026,XK,Kosovo,Tajikistan,5
+2026,KW,Kuwait,Tajikistan,5
+2026,KG,Kyrgyzstan,Tajikistan,1
+2026,LA,Laos,Tajikistan,5
+2026,LV,Latvia,Tajikistan,4
+2026,LB,Lebanon,Tajikistan,4
+2026,LS,Lesotho,Tajikistan,0
+2026,LR,Liberia,Tajikistan,7
+2026,LY,Libya,Tajikistan,5
+2026,LI,Liechtenstein,Tajikistan,0
+2026,LT,Lithuania,Tajikistan,5
+2026,LU,Luxembourg,Tajikistan,4
+2026,MO,Macao,Tajikistan,4
+2026,MG,Madagascar,Tajikistan,4
+2026,MW,Malawi,Tajikistan,0
+2026,MY,Malaysia,Tajikistan,4
+2026,MV,Maldives,Tajikistan,5
+2026,ML,Mali,Tajikistan,0
+2026,MT,Malta,Tajikistan,5
+2026,MQ,Martinique,Tajikistan,0
+2026,MR,Mauritania,Tajikistan,8
+2026,MU,Mauritius,Tajikistan,4
+2026,MX,Mexico,Tajikistan,3
+2026,MD,Moldova,Tajikistan,6
+2026,MN,Mongolia,Tajikistan,4
+2026,ME,Montenegro,Tajikistan,4
+2026,MA,Morocco,Tajikistan,4
+2026,MZ,Mozambique,Tajikistan,4
+2026,MM,Myanmar (Burma),Tajikistan,6
+2026,NA,Namibia,Tajikistan,0
+2026,NP,Nepal,Tajikistan,5
+2026,NL,Netherlands,Tajikistan,4
+2026,NC,New Caledonia,Tajikistan,0
+2026,NZ,New Zealand,Tajikistan,5
+2026,NI,Nicaragua,Tajikistan,2
+2026,NE,Niger,Tajikistan,0
+2026,NG,Nigeria,Tajikistan,6
+2026,MK,North Macedonia,Tajikistan,6
+2026,MP,Northern Mariana Islands,Tajikistan,0
+2026,NO,Norway,Tajikistan,5
+2026,OM,Oman,Tajikistan,6
+2026,PK,Pakistan,Tajikistan,10
+2026,PS,Palestine,Tajikistan,5
+2026,PA,Panama,Tajikistan,3
+2026,PG,Papua New Guinea,Tajikistan,0
+2026,PY,Paraguay,Tajikistan,2
+2026,PE,Peru,Tajikistan,3
+2026,PH,Philippines,Tajikistan,4
+2026,PL,Poland,Tajikistan,4
+2026,PT,Portugal,Tajikistan,3
+2026,PR,Puerto Rico,Tajikistan,4
+2026,QA,Qatar,Tajikistan,5
+2026,RO,Romania,Tajikistan,3
+2026,RU,Russia,Tajikistan,9
+2026,RW,Rwanda,Tajikistan,5
+2026,RE,Réunion,Tajikistan,0
+2026,SM,San Marino,Tajikistan,0
+2026,SA,Saudi Arabia,Tajikistan,5
+2026,SN,Senegal,Tajikistan,3
+2026,RS,Serbia,Tajikistan,4
+2026,SC,Seychelles,Tajikistan,0
+2026,SL,Sierra Leone,Tajikistan,0
+2026,SG,Singapore,Tajikistan,3
+2026,SX,Sint Maarten,Tajikistan,0
+2026,SK,Slovakia,Tajikistan,3
+2026,SI,Slovenia,Tajikistan,3
+2026,SO,Somalia,Tajikistan,7
+2026,ZA,South Africa,Tajikistan,3
+2026,KR,South Korea,Tajikistan,2
+2026,SS,South Sudan,Tajikistan,11
+2026,ES,Spain,Tajikistan,3
+2026,LK,Sri Lanka,Tajikistan,5
+2026,BL,St. Barthélemy,Tajikistan,0
+2026,SH,St. Helena,Tajikistan,5
+2026,KN,St. Kitts & Nevis,Tajikistan,0
+2026,LC,St. Lucia,Tajikistan,0
+2026,VC,St. Vincent & Grenadines,Tajikistan,0
+2026,SD,Sudan,Tajikistan,8
+2026,SR,Suriname,Tajikistan,0
+2026,SE,Sweden,Tajikistan,5
+2026,CH,Switzerland,Tajikistan,5
+2026,SY,Syria,Tajikistan,10
+2026,TW,Taiwan,Tajikistan,3
+2026,TJ,Tajikistan,Tajikistan,78
+2026,TZ,Tanzania,Tajikistan,6
+2026,TH,Thailand,Tajikistan,2
+2026,TL,Timor-Leste,Tajikistan,7
+2026,TG,Togo,Tajikistan,4
+2026,TO,Tonga,Tajikistan,0
+2026,TT,Trinidad & Tobago,Tajikistan,5
+2026,TN,Tunisia,Tajikistan,5
+2026,TM,Turkmenistan,Tajikistan,4
+2026,TC,Turks & Caicos Islands,Tajikistan,0
+2026,TR,Türkiye,Tajikistan,3
+2026,VI,U.S. Virgin Islands,Tajikistan,0
+2026,UG,Uganda,Tajikistan,5
+2026,UA,Ukraine,Tajikistan,4
+2026,AE,United Arab Emirates,Tajikistan,4
+2026,GB,United Kingdom,Tajikistan,5
+2026,US,United States,Tajikistan,5
+2026,UY,Uruguay,Tajikistan,4
+2026,UZ,Uzbekistan,Tajikistan,1
+2026,VU,Vanuatu,Tajikistan,0
+2026,VE,Venezuela,Tajikistan,2
+2026,VN,Vietnam,Tajikistan,2
+2026,EH,Western Sahara,Tajikistan,0
+2026,YE,Yemen,Tajikistan,7
+2026,ZM,Zambia,Tajikistan,5
+2026,ZW,Zimbabwe,Tajikistan,5
+2026,AX,Åland Islands,Tajikistan,0
+90d-2026-11-02,AF,Afghanistan,Uzbekistan,30
+90d-2026-11-02,AL,Albania,Uzbekistan,20
+90d-2026-11-02,DZ,Algeria,Uzbekistan,27
+90d-2026-11-02,AD,Andorra,Uzbekistan,0
+90d-2026-11-02,AO,Angola,Uzbekistan,25
+90d-2026-11-02,AR,Argentina,Uzbekistan,22
+90d-2026-11-02,AM,Armenia,Uzbekistan,8
+90d-2026-11-02,AW,Aruba,Uzbekistan,0
+90d-2026-11-02,AU,Australia,Uzbekistan,17
+90d-2026-11-02,AT,Austria,Uzbekistan,17
+90d-2026-11-02,AZ,Azerbaijan,Uzbekistan,25
+90d-2026-11-02,BS,Bahamas,Uzbekistan,19
+90d-2026-11-02,BH,Bahrain,Uzbekistan,20
+90d-2026-11-02,BD,Bangladesh,Uzbekistan,20
+90d-2026-11-02,BB,Barbados,Uzbekistan,42
+90d-2026-11-02,BY,Belarus,Uzbekistan,14
+90d-2026-11-02,BE,Belgium,Uzbekistan,18
+90d-2026-11-02,BZ,Belize,Uzbekistan,27
+90d-2026-11-02,BJ,Benin,Uzbekistan,18
+90d-2026-11-02,BT,Bhutan,Uzbekistan,43
+90d-2026-11-02,BO,Bolivia,Uzbekistan,20
+90d-2026-11-02,BA,Bosnia & Herzegovina,Uzbekistan,25
+90d-2026-11-02,BW,Botswana,Uzbekistan,24
+90d-2026-11-02,BR,Brazil,Uzbekistan,20
+90d-2026-11-02,BN,Brunei,Uzbekistan,21
+90d-2026-11-02,BG,Bulgaria,Uzbekistan,23
+90d-2026-11-02,BF,Burkina Faso,Uzbekistan,29
+90d-2026-11-02,BI,Burundi,Uzbekistan,37
+90d-2026-11-02,KH,Cambodia,Uzbekistan,19
+90d-2026-11-02,CM,Cameroon,Uzbekistan,23
+90d-2026-11-02,CA,Canada,Uzbekistan,19
+90d-2026-11-02,CV,Cape Verde,Uzbekistan,0
+90d-2026-11-02,KY,Cayman Islands,Uzbekistan,0
+90d-2026-11-02,CF,Central African Republic,Uzbekistan,0
+90d-2026-11-02,TD,Chad,Uzbekistan,46
+90d-2026-11-02,CL,Chile,Uzbekistan,21
+90d-2026-11-02,CN,China,Uzbekistan,21
+90d-2026-11-02,CO,Colombia,Uzbekistan,24
+90d-2026-11-02,CG,Congo - Brazzaville,Uzbekistan,21
+90d-2026-11-02,CD,Congo - Kinshasa,Uzbekistan,39
+90d-2026-11-02,CR,Costa Rica,Uzbekistan,24
+90d-2026-11-02,HR,Croatia,Uzbekistan,21
+90d-2026-11-02,CU,Cuba,Uzbekistan,8
+90d-2026-11-02,CY,Cyprus,Uzbekistan,15
+90d-2026-11-02,CZ,Czechia,Uzbekistan,15
+90d-2026-11-02,CI,Côte d’Ivoire,Uzbekistan,27
+90d-2026-11-02,DK,Denmark,Uzbekistan,17
+90d-2026-11-02,DJ,Djibouti,Uzbekistan,47
+90d-2026-11-02,DO,Dominican Republic,Uzbekistan,14
+90d-2026-11-02,EC,Ecuador,Uzbekistan,25
+90d-2026-11-02,EG,Egypt,Uzbekistan,26
+90d-2026-11-02,SV,El Salvador,Uzbekistan,24
+90d-2026-11-02,GQ,Equatorial Guinea,Uzbekistan,0
+90d-2026-11-02,EE,Estonia,Uzbekistan,15
+90d-2026-11-02,SZ,Eswatini,Uzbekistan,19
+90d-2026-11-02,ET,Ethiopia,Uzbekistan,25
+90d-2026-11-02,FO,Faroe Islands,Uzbekistan,0
+90d-2026-11-02,FJ,Fiji,Uzbekistan,0
+90d-2026-11-02,FI,Finland,Uzbekistan,17
+90d-2026-11-02,FR,France,Uzbekistan,20
+90d-2026-11-02,PF,French Polynesia,Uzbekistan,0
+90d-2026-11-02,GA,Gabon,Uzbekistan,34
+90d-2026-11-02,GM,Gambia,Uzbekistan,30
+90d-2026-11-02,GE,Georgia,Uzbekistan,1
+90d-2026-11-02,DE,Germany,Uzbekistan,19
+90d-2026-11-02,GH,Ghana,Uzbekistan,19
+90d-2026-11-02,GI,Gibraltar,Uzbekistan,0
+90d-2026-11-02,GR,Greece,Uzbekistan,12
+90d-2026-11-02,GP,Guadeloupe,Uzbekistan,0
+90d-2026-11-02,GU,Guam,Uzbekistan,0
+90d-2026-11-02,GT,Guatemala,Uzbekistan,21
+90d-2026-11-02,GG,Guernsey,Uzbekistan,0
+90d-2026-11-02,GN,Guinea,Uzbekistan,28
+90d-2026-11-02,GY,Guyana,Uzbekistan,23
+90d-2026-11-02,HT,Haiti,Uzbekistan,20
+90d-2026-11-02,HN,Honduras,Uzbekistan,27
+90d-2026-11-02,HK,Hong Kong,Uzbekistan,24
+90d-2026-11-02,HU,Hungary,Uzbekistan,12
+90d-2026-11-02,IS,Iceland,Uzbekistan,19
+90d-2026-11-02,IN,India,Uzbekistan,25
+90d-2026-11-02,ID,Indonesia,Uzbekistan,21
+90d-2026-11-02,IR,Iran,Uzbekistan,21
+90d-2026-11-02,IQ,Iraq,Uzbekistan,21
+90d-2026-11-02,IE,Ireland,Uzbekistan,14
+90d-2026-11-02,IM,Isle of Man,Uzbekistan,0
+90d-2026-11-02,IL,Israel,Uzbekistan,17
+90d-2026-11-02,IT,Italy,Uzbekistan,25
+90d-2026-11-02,JM,Jamaica,Uzbekistan,18
+90d-2026-11-02,JP,Japan,Uzbekistan,36
+90d-2026-11-02,JE,Jersey,Uzbekistan,19
+90d-2026-11-02,JO,Jordan,Uzbekistan,23
+90d-2026-11-02,KZ,Kazakhstan,Uzbekistan,3
+90d-2026-11-02,KE,Kenya,Uzbekistan,24
+90d-2026-11-02,KI,Kiribati,Uzbekistan,0
+90d-2026-11-02,XK,Kosovo,Uzbekistan,24
+90d-2026-11-02,KW,Kuwait,Uzbekistan,16
+90d-2026-11-02,KG,Kyrgyzstan,Uzbekistan,9
+90d-2026-11-02,LA,Laos,Uzbekistan,22
+90d-2026-11-02,LV,Latvia,Uzbekistan,23
+90d-2026-11-02,LB,Lebanon,Uzbekistan,13
+90d-2026-11-02,LS,Lesotho,Uzbekistan,31
+90d-2026-11-02,LR,Liberia,Uzbekistan,64
+90d-2026-11-02,LY,Libya,Uzbekistan,28
+90d-2026-11-02,LI,Liechtenstein,Uzbekistan,0
+90d-2026-11-02,LT,Lithuania,Uzbekistan,19
+90d-2026-11-02,LU,Luxembourg,Uzbekistan,21
+90d-2026-11-02,MO,Macao,Uzbekistan,26
+90d-2026-11-02,MG,Madagascar,Uzbekistan,32
+90d-2026-11-02,MW,Malawi,Uzbekistan,28
+90d-2026-11-02,MY,Malaysia,Uzbekistan,21
+90d-2026-11-02,MV,Maldives,Uzbekistan,22
+90d-2026-11-02,ML,Mali,Uzbekistan,26
+90d-2026-11-02,MT,Malta,Uzbekistan,18
+90d-2026-11-02,MQ,Martinique,Uzbekistan,4
+90d-2026-11-02,MR,Mauritania,Uzbekistan,0
+90d-2026-11-02,MU,Mauritius,Uzbekistan,40
+90d-2026-11-02,MX,Mexico,Uzbekistan,23
+90d-2026-11-02,MD,Moldova,Uzbekistan,19
+90d-2026-11-02,MN,Mongolia,Uzbekistan,15
+90d-2026-11-02,ME,Montenegro,Uzbekistan,16
+90d-2026-11-02,MA,Morocco,Uzbekistan,25
+90d-2026-11-02,MZ,Mozambique,Uzbekistan,23
+90d-2026-11-02,MM,Myanmar (Burma),Uzbekistan,19
+90d-2026-11-02,NA,Namibia,Uzbekistan,30
+90d-2026-11-02,NP,Nepal,Uzbekistan,22
+90d-2026-11-02,NL,Netherlands,Uzbekistan,28
+90d-2026-11-02,NZ,New Zealand,Uzbekistan,17
+90d-2026-11-02,NI,Nicaragua,Uzbekistan,24
+90d-2026-11-02,NE,Niger,Uzbekistan,100
+90d-2026-11-02,NG,Nigeria,Uzbekistan,23
+90d-2026-11-02,MK,North Macedonia,Uzbekistan,22
+90d-2026-11-02,MP,Northern Mariana Islands,Uzbekistan,0
+90d-2026-11-02,NO,Norway,Uzbekistan,17
+90d-2026-11-02,OM,Oman,Uzbekistan,22
+90d-2026-11-02,PK,Pakistan,Uzbekistan,33
+90d-2026-11-02,PS,Palestine,Uzbekistan,18
+90d-2026-11-02,PA,Panama,Uzbekistan,19
+90d-2026-11-02,PG,Papua New Guinea,Uzbekistan,0
+90d-2026-11-02,PY,Paraguay,Uzbekistan,23
+90d-2026-11-02,PE,Peru,Uzbekistan,19
+90d-2026-11-02,PH,Philippines,Uzbekistan,17
+90d-2026-11-02,PL,Poland,Uzbekistan,12
+90d-2026-11-02,PT,Portugal,Uzbekistan,19
+90d-2026-11-02,PR,Puerto Rico,Uzbekistan,20
+90d-2026-11-02,QA,Qatar,Uzbekistan,21
+90d-2026-11-02,RO,Romania,Uzbekistan,27
+90d-2026-11-02,RU,Russia,Uzbekistan,20
+90d-2026-11-02,RW,Rwanda,Uzbekistan,26
+90d-2026-11-02,RE,Réunion,Uzbekistan,3
+90d-2026-11-02,SM,San Marino,Uzbekistan,0
+90d-2026-11-02,SA,Saudi Arabia,Uzbekistan,24
+90d-2026-11-02,SN,Senegal,Uzbekistan,32
+90d-2026-11-02,RS,Serbia,Uzbekistan,24
+90d-2026-11-02,SC,Seychelles,Uzbekistan,83
+90d-2026-11-02,SL,Sierra Leone,Uzbekistan,2
+90d-2026-11-02,SG,Singapore,Uzbekistan,21
+90d-2026-11-02,SK,Slovakia,Uzbekistan,14
+90d-2026-11-02,SI,Slovenia,Uzbekistan,18
+90d-2026-11-02,SO,Somalia,Uzbekistan,30
+90d-2026-11-02,ZA,South Africa,Uzbekistan,27
+90d-2026-11-02,KR,South Korea,Uzbekistan,23
+90d-2026-11-02,SS,South Sudan,Uzbekistan,47
+90d-2026-11-02,ES,Spain,Uzbekistan,22
+90d-2026-11-02,LK,Sri Lanka,Uzbekistan,19
+90d-2026-11-02,BL,St. Barthélemy,Uzbekistan,0
+90d-2026-11-02,SH,St. Helena,Uzbekistan,24
+90d-2026-11-02,LC,St. Lucia,Uzbekistan,0
+90d-2026-11-02,SD,Sudan,Uzbekistan,18
+90d-2026-11-02,SR,Suriname,Uzbekistan,0
+90d-2026-11-02,SE,Sweden,Uzbekistan,18
+90d-2026-11-02,CH,Switzerland,Uzbekistan,20
+90d-2026-11-02,SY,Syria,Uzbekistan,27
+90d-2026-11-02,TW,Taiwan,Uzbekistan,23
+90d-2026-11-02,TJ,Tajikistan,Uzbekistan,16
+90d-2026-11-02,TZ,Tanzania,Uzbekistan,25
+90d-2026-11-02,TH,Thailand,Uzbekistan,15
+90d-2026-11-02,TL,Timor-Leste,Uzbekistan,7
+90d-2026-11-02,TG,Togo,Uzbekistan,22
+90d-2026-11-02,TT,Trinidad & Tobago,Uzbekistan,21
+90d-2026-11-02,TN,Tunisia,Uzbekistan,27
+90d-2026-11-02,TM,Turkmenistan,Uzbekistan,65
+90d-2026-11-02,TC,Turks & Caicos Islands,Uzbekistan,0
+90d-2026-11-02,TR,Türkiye,Uzbekistan,29
+90d-2026-11-02,VI,U.S. Virgin Islands,Uzbekistan,0
+90d-2026-11-02,UG,Uganda,Uzbekistan,27
+90d-2026-11-02,UA,Ukraine,Uzbekistan,11
+90d-2026-11-02,AE,United Arab Emirates,Uzbekistan,21
+90d-2026-11-02,GB,United Kingdom,Uzbekistan,29
+90d-2026-11-02,US,United States,Uzbekistan,22
+90d-2026-11-02,UY,Uruguay,Uzbekistan,24
+90d-2026-11-02,UZ,Uzbekistan,Uzbekistan,89
+90d-2026-11-02,VE,Venezuela,Uzbekistan,21
+90d-2026-11-02,VN,Vietnam,Uzbekistan,23
+90d-2026-11-02,EH,Western Sahara,Uzbekistan,26
+90d-2026-11-02,YE,Yemen,Uzbekistan,27
+90d-2026-11-02,ZM,Zambia,Uzbekistan,33
+90d-2026-11-02,ZW,Zimbabwe,Uzbekistan,35
+90d-2026-11-02,AF,Afghanistan,Kazakhstan,8
+90d-2026-11-02,AL,Albania,Kazakhstan,37
+90d-2026-11-02,DZ,Algeria,Kazakhstan,33
+90d-2026-11-02,AD,Andorra,Kazakhstan,34
+90d-2026-11-02,AO,Angola,Kazakhstan,36
+90d-2026-11-02,AR,Argentina,Kazakhstan,35
+90d-2026-11-02,AM,Armenia,Kazakhstan,20
+90d-2026-11-02,AW,Aruba,Kazakhstan,100
+90d-2026-11-02,AU,Australia,Kazakhstan,39
+90d-2026-11-02,AT,Austria,Kazakhstan,29
+90d-2026-11-02,AZ,Azerbaijan,Kazakhstan,25
+90d-2026-11-02,BS,Bahamas,Kazakhstan,54
+90d-2026-11-02,BH,Bahrain,Kazakhstan,28
+90d-2026-11-02,BD,Bangladesh,Kazakhstan,52
+90d-2026-11-02,BB,Barbados,Kazakhstan,54
+90d-2026-11-02,BY,Belarus,Kazakhstan,37
+90d-2026-11-02,BE,Belgium,Kazakhstan,27
+90d-2026-11-02,BZ,Belize,Kazakhstan,42
+90d-2026-11-02,BJ,Benin,Kazakhstan,29
+90d-2026-11-02,BT,Bhutan,Kazakhstan,54
+90d-2026-11-02,BO,Bolivia,Kazakhstan,34
+90d-2026-11-02,BA,Bosnia & Herzegovina,Kazakhstan,36
+90d-2026-11-02,BW,Botswana,Kazakhstan,32
+90d-2026-11-02,BR,Brazil,Kazakhstan,35
+90d-2026-11-02,BN,Brunei,Kazakhstan,50
+90d-2026-11-02,BG,Bulgaria,Kazakhstan,35
+90d-2026-11-02,BF,Burkina Faso,Kazakhstan,44
+90d-2026-11-02,BI,Burundi,Kazakhstan,0
+90d-2026-11-02,KH,Cambodia,Kazakhstan,40
+90d-2026-11-02,CM,Cameroon,Kazakhstan,29
+90d-2026-11-02,CA,Canada,Kazakhstan,36
+90d-2026-11-02,CV,Cape Verde,Kazakhstan,89
+90d-2026-11-02,KY,Cayman Islands,Kazakhstan,97
+90d-2026-11-02,CF,Central African Republic,Kazakhstan,6
+90d-2026-11-02,TD,Chad,Kazakhstan,47
+90d-2026-11-02,CL,Chile,Kazakhstan,38
+90d-2026-11-02,CN,China,Kazakhstan,44
+90d-2026-11-02,CO,Colombia,Kazakhstan,33
+90d-2026-11-02,CG,Congo - Brazzaville,Kazakhstan,43
+90d-2026-11-02,CD,Congo - Kinshasa,Kazakhstan,28
+90d-2026-11-02,CR,Costa Rica,Kazakhstan,30
+90d-2026-11-02,HR,Croatia,Kazakhstan,35
+90d-2026-11-02,CU,Cuba,Kazakhstan,8
+90d-2026-11-02,CY,Cyprus,Kazakhstan,27
+90d-2026-11-02,CZ,Czechia,Kazakhstan,34
+90d-2026-11-02,CI,Côte d’Ivoire,Kazakhstan,28
+90d-2026-11-02,DK,Denmark,Kazakhstan,29
+90d-2026-11-02,DJ,Djibouti,Kazakhstan,0
+90d-2026-11-02,DO,Dominican Republic,Kazakhstan,31
+90d-2026-11-02,EC,Ecuador,Kazakhstan,34
+90d-2026-11-02,EG,Egypt,Kazakhstan,30
+90d-2026-11-02,SV,El Salvador,Kazakhstan,26
+90d-2026-11-02,GQ,Equatorial Guinea,Kazakhstan,51
+90d-2026-11-02,EE,Estonia,Kazakhstan,32
+90d-2026-11-02,SZ,Eswatini,Kazakhstan,35
+90d-2026-11-02,ET,Ethiopia,Kazakhstan,40
+90d-2026-11-02,FO,Faroe Islands,Kazakhstan,99
+90d-2026-11-02,FJ,Fiji,Kazakhstan,96
+90d-2026-11-02,FI,Finland,Kazakhstan,34
+90d-2026-11-02,FR,France,Kazakhstan,26
+90d-2026-11-02,PF,French Polynesia,Kazakhstan,44
+90d-2026-11-02,GA,Gabon,Kazakhstan,2
+90d-2026-11-02,GM,Gambia,Kazakhstan,45
+90d-2026-11-02,GE,Georgia,Kazakhstan,2
+90d-2026-11-02,DE,Germany,Kazakhstan,37
+90d-2026-11-02,GH,Ghana,Kazakhstan,33
+90d-2026-11-02,GI,Gibraltar,Kazakhstan,45
+90d-2026-11-02,GR,Greece,Kazakhstan,28
+90d-2026-11-02,GP,Guadeloupe,Kazakhstan,34
+90d-2026-11-02,GU,Guam,Kazakhstan,37
+90d-2026-11-02,GT,Guatemala,Kazakhstan,31
+90d-2026-11-02,GG,Guernsey,Kazakhstan,46
+90d-2026-11-02,GN,Guinea,Kazakhstan,30
+90d-2026-11-02,GY,Guyana,Kazakhstan,36
+90d-2026-11-02,HT,Haiti,Kazakhstan,16
+90d-2026-11-02,HN,Honduras,Kazakhstan,32
+90d-2026-11-02,HK,Hong Kong,Kazakhstan,44
+90d-2026-11-02,HU,Hungary,Kazakhstan,20
+90d-2026-11-02,IS,Iceland,Kazakhstan,28
+90d-2026-11-02,IN,India,Kazakhstan,39
+90d-2026-11-02,ID,Indonesia,Kazakhstan,51
+90d-2026-11-02,IR,Iran,Kazakhstan,18
+90d-2026-11-02,IQ,Iraq,Kazakhstan,28
+90d-2026-11-02,IE,Ireland,Kazakhstan,40
+90d-2026-11-02,IM,Isle of Man,Kazakhstan,44
+90d-2026-11-02,IL,Israel,Kazakhstan,14
+90d-2026-11-02,IT,Italy,Kazakhstan,27
+90d-2026-11-02,JM,Jamaica,Kazakhstan,30
+90d-2026-11-02,JP,Japan,Kazakhstan,31
+90d-2026-11-02,JE,Jersey,Kazakhstan,21
+90d-2026-11-02,JO,Jordan,Kazakhstan,20
+90d-2026-11-02,KZ,Kazakhstan,Kazakhstan,95
+90d-2026-11-02,KE,Kenya,Kazakhstan,38
+90d-2026-11-02,KI,Kiribati,Kazakhstan,100
+90d-2026-11-02,XK,Kosovo,Kazakhstan,40
+90d-2026-11-02,KW,Kuwait,Kazakhstan,25
+90d-2026-11-02,KG,Kyrgyzstan,Kazakhstan,10
+90d-2026-11-02,LA,Laos,Kazakhstan,49
+90d-2026-11-02,LV,Latvia,Kazakhstan,30
+90d-2026-11-02,LB,Lebanon,Kazakhstan,19
+90d-2026-11-02,LS,Lesotho,Kazakhstan,41
+90d-2026-11-02,LR,Liberia,Kazakhstan,2
+90d-2026-11-02,LY,Libya,Kazakhstan,25
+90d-2026-11-02,LI,Liechtenstein,Kazakhstan,35
+90d-2026-11-02,LT,Lithuania,Kazakhstan,27
+90d-2026-11-02,LU,Luxembourg,Kazakhstan,34
+90d-2026-11-02,MO,Macao,Kazakhstan,39
+90d-2026-11-02,MG,Madagascar,Kazakhstan,41
+90d-2026-11-02,MW,Malawi,Kazakhstan,71
+90d-2026-11-02,MY,Malaysia,Kazakhstan,50
+90d-2026-11-02,MV,Maldives,Kazakhstan,48
+90d-2026-11-02,ML,Mali,Kazakhstan,46
+90d-2026-11-02,MT,Malta,Kazakhstan,25
+90d-2026-11-02,MQ,Martinique,Kazakhstan,0
+90d-2026-11-02,MR,Mauritania,Kazakhstan,93
+90d-2026-11-02,MU,Mauritius,Kazakhstan,25
+90d-2026-11-02,MX,Mexico,Kazakhstan,33
+90d-2026-11-02,MD,Moldova,Kazakhstan,39
+90d-2026-11-02,MN,Mongolia,Kazakhstan,61
+90d-2026-11-02,ME,Montenegro,Kazakhstan,36
+90d-2026-11-02,MA,Morocco,Kazakhstan,40
+90d-2026-11-02,MZ,Mozambique,Kazakhstan,38
+90d-2026-11-02,MM,Myanmar (Burma),Kazakhstan,43
+90d-2026-11-02,NA,Namibia,Kazakhstan,39
+90d-2026-11-02,NP,Nepal,Kazakhstan,47
+90d-2026-11-02,NL,Netherlands,Kazakhstan,33
+90d-2026-11-02,NZ,New Zealand,Kazakhstan,41
+90d-2026-11-02,NI,Nicaragua,Kazakhstan,27
+90d-2026-11-02,NE,Niger,Kazakhstan,0
+90d-2026-11-02,NG,Nigeria,Kazakhstan,33
+90d-2026-11-02,MK,North Macedonia,Kazakhstan,34
+90d-2026-11-02,MP,Northern Mariana Islands,Kazakhstan,45
+90d-2026-11-02,NO,Norway,Kazakhstan,30
+90d-2026-11-02,OM,Oman,Kazakhstan,39
+90d-2026-11-02,PK,Pakistan,Kazakhstan,24
+90d-2026-11-02,PS,Palestine,Kazakhstan,30
+90d-2026-11-02,PA,Panama,Kazakhstan,31
+90d-2026-11-02,PG,Papua New Guinea,Kazakhstan,100
+90d-2026-11-02,PY,Paraguay,Kazakhstan,39
+90d-2026-11-02,PE,Peru,Kazakhstan,35
+90d-2026-11-02,PH,Philippines,Kazakhstan,56
+90d-2026-11-02,PL,Poland,Kazakhstan,27
+90d-2026-11-02,PT,Portugal,Kazakhstan,31
+90d-2026-11-02,PR,Puerto Rico,Kazakhstan,30
+90d-2026-11-02,QA,Qatar,Kazakhstan,30
+90d-2026-11-02,RO,Romania,Kazakhstan,31
+90d-2026-11-02,RU,Russia,Kazakhstan,44
+90d-2026-11-02,RW,Rwanda,Kazakhstan,40
+90d-2026-11-02,RE,Réunion,Kazakhstan,27
+90d-2026-11-02,SM,San Marino,Kazakhstan,0
+90d-2026-11-02,SA,Saudi Arabia,Kazakhstan,23
+90d-2026-11-02,SN,Senegal,Kazakhstan,29
+90d-2026-11-02,RS,Serbia,Kazakhstan,32
+90d-2026-11-02,SC,Seychelles,Kazakhstan,12
+90d-2026-11-02,SL,Sierra Leone,Kazakhstan,63
+90d-2026-11-02,SG,Singapore,Kazakhstan,50
+90d-2026-11-02,SK,Slovakia,Kazakhstan,38
+90d-2026-11-02,SI,Slovenia,Kazakhstan,29
+90d-2026-11-02,SO,Somalia,Kazakhstan,39
+90d-2026-11-02,ZA,South Africa,Kazakhstan,38
+90d-2026-11-02,KR,South Korea,Kazakhstan,52
+90d-2026-11-02,SS,South Sudan,Kazakhstan,50
+90d-2026-11-02,ES,Spain,Kazakhstan,30
+90d-2026-11-02,LK,Sri Lanka,Kazakhstan,41
+90d-2026-11-02,BL,St. Barthélemy,Kazakhstan,0
+90d-2026-11-02,SH,St. Helena,Kazakhstan,41
+90d-2026-11-02,LC,St. Lucia,Kazakhstan,100
+90d-2026-11-02,SD,Sudan,Kazakhstan,21
+90d-2026-11-02,SR,Suriname,Kazakhstan,93
+90d-2026-11-02,SE,Sweden,Kazakhstan,30
+90d-2026-11-02,CH,Switzerland,Kazakhstan,28
+90d-2026-11-02,SY,Syria,Kazakhstan,20
+90d-2026-11-02,TW,Taiwan,Kazakhstan,45
+90d-2026-11-02,TJ,Tajikistan,Kazakhstan,3
+90d-2026-11-02,TZ,Tanzania,Kazakhstan,39
+90d-2026-11-02,TH,Thailand,Kazakhstan,53
+90d-2026-11-02,TL,Timor-Leste,Kazakhstan,8
+90d-2026-11-02,TG,Togo,Kazakhstan,41
+90d-2026-11-02,TT,Trinidad & Tobago,Kazakhstan,43
+90d-2026-11-02,TN,Tunisia,Kazakhstan,33
+90d-2026-11-02,TM,Turkmenistan,Kazakhstan,21
+90d-2026-11-02,TC,Turks & Caicos Islands,Kazakhstan,0
+90d-2026-11-02,TR,Türkiye,Kazakhstan,22
+90d-2026-11-02,VI,U.S. Virgin Islands,Kazakhstan,100
+90d-2026-11-02,UG,Uganda,Kazakhstan,39
+90d-2026-11-02,UA,Ukraine,Kazakhstan,34
+90d-2026-11-02,AE,United Arab Emirates,Kazakhstan,33
+90d-2026-11-02,GB,United Kingdom,Kazakhstan,36
+90d-2026-11-02,US,United States,Kazakhstan,37
+90d-2026-11-02,UY,Uruguay,Kazakhstan,34
+90d-2026-11-02,UZ,Uzbekistan,Kazakhstan,6
+90d-2026-11-02,VE,Venezuela,Kazakhstan,37
+90d-2026-11-02,VN,Vietnam,Kazakhstan,49
+90d-2026-11-02,EH,Western Sahara,Kazakhstan,44
+90d-2026-11-02,YE,Yemen,Kazakhstan,26
+90d-2026-11-02,ZM,Zambia,Kazakhstan,49
+90d-2026-11-02,ZW,Zimbabwe,Kazakhstan,30
+90d-2026-11-02,AF,Afghanistan,Kyrgyzstan,2
+90d-2026-11-02,AL,Albania,Kyrgyzstan,10
+90d-2026-11-02,DZ,Algeria,Kyrgyzstan,7
+90d-2026-11-02,AD,Andorra,Kyrgyzstan,0
+90d-2026-11-02,AO,Angola,Kyrgyzstan,9
+90d-2026-11-02,AR,Argentina,Kyrgyzstan,9
+90d-2026-11-02,AM,Armenia,Kyrgyzstan,5
+90d-2026-11-02,AW,Aruba,Kyrgyzstan,0
+90d-2026-11-02,AU,Australia,Kyrgyzstan,20
+90d-2026-11-02,AT,Austria,Kyrgyzstan,15
+90d-2026-11-02,AZ,Azerbaijan,Kyrgyzstan,6
+90d-2026-11-02,BS,Bahamas,Kyrgyzstan,0
+90d-2026-11-02,BH,Bahrain,Kyrgyzstan,9
+90d-2026-11-02,BD,Bangladesh,Kyrgyzstan,10
+90d-2026-11-02,BB,Barbados,Kyrgyzstan,0
+90d-2026-11-02,BY,Belarus,Kyrgyzstan,10
+90d-2026-11-02,BE,Belgium,Kyrgyzstan,17
+90d-2026-11-02,BZ,Belize,Kyrgyzstan,0
+90d-2026-11-02,BJ,Benin,Kyrgyzstan,10
+90d-2026-11-02,BT,Bhutan,Kyrgyzstan,2
+90d-2026-11-02,BO,Bolivia,Kyrgyzstan,10
+90d-2026-11-02,BA,Bosnia & Herzegovina,Kyrgyzstan,8
+90d-2026-11-02,BW,Botswana,Kyrgyzstan,11
+90d-2026-11-02,BR,Brazil,Kyrgyzstan,8
+90d-2026-11-02,BN,Brunei,Kyrgyzstan,10
+90d-2026-11-02,BG,Bulgaria,Kyrgyzstan,10
+90d-2026-11-02,BF,Burkina Faso,Kyrgyzstan,7
+90d-2026-11-02,BI,Burundi,Kyrgyzstan,0
+90d-2026-11-02,KH,Cambodia,Kyrgyzstan,8
+90d-2026-11-02,CM,Cameroon,Kyrgyzstan,5
+90d-2026-11-02,CA,Canada,Kyrgyzstan,14
+90d-2026-11-02,CV,Cape Verde,Kyrgyzstan,4
+90d-2026-11-02,KY,Cayman Islands,Kyrgyzstan,0
+90d-2026-11-02,CF,Central African Republic,Kyrgyzstan,0
+90d-2026-11-02,TD,Chad,Kyrgyzstan,0
+90d-2026-11-02,CL,Chile,Kyrgyzstan,9
+90d-2026-11-02,CN,China,Kyrgyzstan,17
+90d-2026-11-02,CO,Colombia,Kyrgyzstan,10
+90d-2026-11-02,CG,Congo - Brazzaville,Kyrgyzstan,0
+90d-2026-11-02,CD,Congo - Kinshasa,Kyrgyzstan,8
+90d-2026-11-02,CR,Costa Rica,Kyrgyzstan,11
+90d-2026-11-02,HR,Croatia,Kyrgyzstan,11
+90d-2026-11-02,CU,Cuba,Kyrgyzstan,0
+90d-2026-11-02,CY,Cyprus,Kyrgyzstan,9
+90d-2026-11-02,CZ,Czechia,Kyrgyzstan,10
+90d-2026-11-02,CI,Côte d’Ivoire,Kyrgyzstan,4
+90d-2026-11-02,DK,Denmark,Kyrgyzstan,15
+90d-2026-11-02,DJ,Djibouti,Kyrgyzstan,0
+90d-2026-11-02,DO,Dominican Republic,Kyrgyzstan,7
+90d-2026-11-02,EC,Ecuador,Kyrgyzstan,10
+90d-2026-11-02,EG,Egypt,Kyrgyzstan,7
+90d-2026-11-02,SV,El Salvador,Kyrgyzstan,7
+90d-2026-11-02,GQ,Equatorial Guinea,Kyrgyzstan,23
+90d-2026-11-02,EE,Estonia,Kyrgyzstan,7
+90d-2026-11-02,SZ,Eswatini,Kyrgyzstan,15
+90d-2026-11-02,ET,Ethiopia,Kyrgyzstan,10
+90d-2026-11-02,FO,Faroe Islands,Kyrgyzstan,0
+90d-2026-11-02,FJ,Fiji,Kyrgyzstan,0
+90d-2026-11-02,FI,Finland,Kyrgyzstan,12
+90d-2026-11-02,FR,France,Kyrgyzstan,11
+90d-2026-11-02,PF,French Polynesia,Kyrgyzstan,0
+90d-2026-11-02,GA,Gabon,Kyrgyzstan,0
+90d-2026-11-02,GM,Gambia,Kyrgyzstan,0
+90d-2026-11-02,GE,Georgia,Kyrgyzstan,0
+90d-2026-11-02,DE,Germany,Kyrgyzstan,10
+90d-2026-11-02,GH,Ghana,Kyrgyzstan,7
+90d-2026-11-02,GI,Gibraltar,Kyrgyzstan,0
+90d-2026-11-02,GR,Greece,Kyrgyzstan,9
+90d-2026-11-02,GP,Guadeloupe,Kyrgyzstan,0
+90d-2026-11-02,GU,Guam,Kyrgyzstan,0
+90d-2026-11-02,GT,Guatemala,Kyrgyzstan,11
+90d-2026-11-02,GG,Guernsey,Kyrgyzstan,0
+90d-2026-11-02,GN,Guinea,Kyrgyzstan,0
+90d-2026-11-02,GY,Guyana,Kyrgyzstan,0
+90d-2026-11-02,HT,Haiti,Kyrgyzstan,0
+90d-2026-11-02,HN,Honduras,Kyrgyzstan,6
+90d-2026-11-02,HK,Hong Kong,Kyrgyzstan,15
+90d-2026-11-02,HU,Hungary,Kyrgyzstan,8
+90d-2026-11-02,IS,Iceland,Kyrgyzstan,15
+90d-2026-11-02,IN,India,Kyrgyzstan,12
+90d-2026-11-02,ID,Indonesia,Kyrgyzstan,11
+90d-2026-11-02,IR,Iran,Kyrgyzstan,5
+90d-2026-11-02,IQ,Iraq,Kyrgyzstan,6
+90d-2026-11-02,IE,Ireland,Kyrgyzstan,11
+90d-2026-11-02,IM,Isle of Man,Kyrgyzstan,1
+90d-2026-11-02,IL,Israel,Kyrgyzstan,5
+90d-2026-11-02,IT,Italy,Kyrgyzstan,9
+90d-2026-11-02,JM,Jamaica,Kyrgyzstan,7
+90d-2026-11-02,JP,Japan,Kyrgyzstan,14
+90d-2026-11-02,JE,Jersey,Kyrgyzstan,0
+90d-2026-11-02,JO,Jordan,Kyrgyzstan,7
+90d-2026-11-02,KZ,Kazakhstan,Kyrgyzstan,2
+90d-2026-11-02,KE,Kenya,Kyrgyzstan,9
+90d-2026-11-02,KI,Kiribati,Kyrgyzstan,0
+90d-2026-11-02,XK,Kosovo,Kyrgyzstan,9
+90d-2026-11-02,KW,Kuwait,Kyrgyzstan,9
+90d-2026-11-02,KG,Kyrgyzstan,Kyrgyzstan,80
+90d-2026-11-02,LA,Laos,Kyrgyzstan,10
+90d-2026-11-02,LV,Latvia,Kyrgyzstan,7
+90d-2026-11-02,LB,Lebanon,Kyrgyzstan,9
+90d-2026-11-02,LS,Lesotho,Kyrgyzstan,0
+90d-2026-11-02,LR,Liberia,Kyrgyzstan,0
+90d-2026-11-02,LY,Libya,Kyrgyzstan,10
+90d-2026-11-02,LI,Liechtenstein,Kyrgyzstan,0
+90d-2026-11-02,LT,Lithuania,Kyrgyzstan,11
+90d-2026-11-02,LU,Luxembourg,Kyrgyzstan,13
+90d-2026-11-02,MO,Macao,Kyrgyzstan,16
+90d-2026-11-02,MG,Madagascar,Kyrgyzstan,1
+90d-2026-11-02,MW,Malawi,Kyrgyzstan,0
+90d-2026-11-02,MY,Malaysia,Kyrgyzstan,12
+90d-2026-11-02,MV,Maldives,Kyrgyzstan,13
+90d-2026-11-02,ML,Mali,Kyrgyzstan,2
+90d-2026-11-02,MT,Malta,Kyrgyzstan,15
+90d-2026-11-02,MQ,Martinique,Kyrgyzstan,5
+90d-2026-11-02,MR,Mauritania,Kyrgyzstan,0
+90d-2026-11-02,MU,Mauritius,Kyrgyzstan,8
+90d-2026-11-02,MX,Mexico,Kyrgyzstan,9
+90d-2026-11-02,MD,Moldova,Kyrgyzstan,7
+90d-2026-11-02,MN,Mongolia,Kyrgyzstan,15
+90d-2026-11-02,ME,Montenegro,Kyrgyzstan,10
+90d-2026-11-02,MA,Morocco,Kyrgyzstan,9
+90d-2026-11-02,MZ,Mozambique,Kyrgyzstan,7
+90d-2026-11-02,MM,Myanmar (Burma),Kyrgyzstan,10
+90d-2026-11-02,NA,Namibia,Kyrgyzstan,1
+90d-2026-11-02,NP,Nepal,Kyrgyzstan,11
+90d-2026-11-02,NL,Netherlands,Kyrgyzstan,9
+90d-2026-11-02,NZ,New Zealand,Kyrgyzstan,17
+90d-2026-11-02,NI,Nicaragua,Kyrgyzstan,14
+90d-2026-11-02,NE,Niger,Kyrgyzstan,0
+90d-2026-11-02,NG,Nigeria,Kyrgyzstan,6
+90d-2026-11-02,MK,North Macedonia,Kyrgyzstan,9
+90d-2026-11-02,MP,Northern Mariana Islands,Kyrgyzstan,55
+90d-2026-11-02,NO,Norway,Kyrgyzstan,13
+90d-2026-11-02,OM,Oman,Kyrgyzstan,10
+90d-2026-11-02,PK,Pakistan,Kyrgyzstan,21
+90d-2026-11-02,PS,Palestine,Kyrgyzstan,5
+90d-2026-11-02,PA,Panama,Kyrgyzstan,10
+90d-2026-11-02,PG,Papua New Guinea,Kyrgyzstan,0
+90d-2026-11-02,PY,Paraguay,Kyrgyzstan,9
+90d-2026-11-02,PE,Peru,Kyrgyzstan,9
+90d-2026-11-02,PH,Philippines,Kyrgyzstan,10
+90d-2026-11-02,PL,Poland,Kyrgyzstan,9
+90d-2026-11-02,PT,Portugal,Kyrgyzstan,10
+90d-2026-11-02,PR,Puerto Rico,Kyrgyzstan,7
+90d-2026-11-02,QA,Qatar,Kyrgyzstan,9
+90d-2026-11-02,RO,Romania,Kyrgyzstan,8
+90d-2026-11-02,RU,Russia,Kyrgyzstan,11
+90d-2026-11-02,RW,Rwanda,Kyrgyzstan,0
+90d-2026-11-02,RE,Réunion,Kyrgyzstan,1
+90d-2026-11-02,SM,San Marino,Kyrgyzstan,0
+90d-2026-11-02,SA,Saudi Arabia,Kyrgyzstan,10
+90d-2026-11-02,SN,Senegal,Kyrgyzstan,6
+90d-2026-11-02,RS,Serbia,Kyrgyzstan,10
+90d-2026-11-02,SC,Seychelles,Kyrgyzstan,0
+90d-2026-11-02,SL,Sierra Leone,Kyrgyzstan,0
+90d-2026-11-02,SG,Singapore,Kyrgyzstan,15
+90d-2026-11-02,SK,Slovakia,Kyrgyzstan,8
+90d-2026-11-02,SI,Slovenia,Kyrgyzstan,17
+90d-2026-11-02,SO,Somalia,Kyrgyzstan,0
+90d-2026-11-02,ZA,South Africa,Kyrgyzstan,8
+90d-2026-11-02,KR,South Korea,Kyrgyzstan,11
+90d-2026-11-02,SS,South Sudan,Kyrgyzstan,0
+90d-2026-11-02,ES,Spain,Kyrgyzstan,11
+90d-2026-11-02,LK,Sri Lanka,Kyrgyzstan,10
+90d-2026-11-02,BL,St. Barthélemy,Kyrgyzstan,0
+90d-2026-11-02,SH,St. Helena,Kyrgyzstan,8
+90d-2026-11-02,LC,St. Lucia,Kyrgyzstan,0
+90d-2026-11-02,SD,Sudan,Kyrgyzstan,0
+90d-2026-11-02,SR,Suriname,Kyrgyzstan,0
+90d-2026-11-02,SE,Sweden,Kyrgyzstan,12
+90d-2026-11-02,CH,Switzerland,Kyrgyzstan,16
+90d-2026-11-02,SY,Syria,Kyrgyzstan,6
+90d-2026-11-02,TW,Taiwan,Kyrgyzstan,16
+90d-2026-11-02,TJ,Tajikistan,Kyrgyzstan,3
+90d-2026-11-02,TZ,Tanzania,Kyrgyzstan,13
+90d-2026-11-02,TH,Thailand,Kyrgyzstan,11
+90d-2026-11-02,TL,Timor-Leste,Kyrgyzstan,81
+90d-2026-11-02,TG,Togo,Kyrgyzstan,14
+90d-2026-11-02,TT,Trinidad & Tobago,Kyrgyzstan,7
+90d-2026-11-02,TN,Tunisia,Kyrgyzstan,9
+90d-2026-11-02,TM,Turkmenistan,Kyrgyzstan,5
+90d-2026-11-02,TC,Turks & Caicos Islands,Kyrgyzstan,0
+90d-2026-11-02,TR,Türkiye,Kyrgyzstan,10
+90d-2026-11-02,VI,U.S. Virgin Islands,Kyrgyzstan,0
+90d-2026-11-02,UG,Uganda,Kyrgyzstan,6
+90d-2026-11-02,UA,Ukraine,Kyrgyzstan,5
+90d-2026-11-02,AE,United Arab Emirates,Kyrgyzstan,10
+90d-2026-11-02,GB,United Kingdom,Kyrgyzstan,8
+90d-2026-11-02,US,United States,Kyrgyzstan,12
+90d-2026-11-02,UY,Uruguay,Kyrgyzstan,8
+90d-2026-11-02,UZ,Uzbekistan,Kyrgyzstan,3
+90d-2026-11-02,VE,Venezuela,Kyrgyzstan,9
+90d-2026-11-02,VN,Vietnam,Kyrgyzstan,10
+90d-2026-11-02,EH,Western Sahara,Kyrgyzstan,0
+90d-2026-11-02,YE,Yemen,Kyrgyzstan,8
+90d-2026-11-02,ZM,Zambia,Kyrgyzstan,0
+90d-2026-11-02,ZW,Zimbabwe,Kyrgyzstan,6
+90d-2026-11-02,AF,Afghanistan,Georgia,1
+90d-2026-11-02,AL,Albania,Georgia,30
+90d-2026-11-02,DZ,Algeria,Georgia,27
+90d-2026-11-02,AD,Andorra,Georgia,66
+90d-2026-11-02,AO,Angola,Georgia,24
+90d-2026-11-02,AR,Argentina,Georgia,29
+90d-2026-11-02,AM,Armenia,Georgia,64
+90d-2026-11-02,AW,Aruba,Georgia,0
+90d-2026-11-02,AU,Australia,Georgia,19
+90d-2026-11-02,AT,Austria,Georgia,34
+90d-2026-11-02,AZ,Azerbaijan,Georgia,39
+90d-2026-11-02,BS,Bahamas,Georgia,27
+90d-2026-11-02,BH,Bahrain,Georgia,39
+90d-2026-11-02,BD,Bangladesh,Georgia,13
+90d-2026-11-02,BB,Barbados,Georgia,4
+90d-2026-11-02,BY,Belarus,Georgia,36
+90d-2026-11-02,BE,Belgium,Georgia,33
+90d-2026-11-02,BZ,Belize,Georgia,31
+90d-2026-11-02,BJ,Benin,Georgia,25
+90d-2026-11-02,BT,Bhutan,Georgia,1
+90d-2026-11-02,BO,Bolivia,Georgia,30
+90d-2026-11-02,BA,Bosnia & Herzegovina,Georgia,26
+90d-2026-11-02,BW,Botswana,Georgia,21
+90d-2026-11-02,BR,Brazil,Georgia,33
+90d-2026-11-02,BN,Brunei,Georgia,15
+90d-2026-11-02,BG,Bulgaria,Georgia,28
+90d-2026-11-02,BF,Burkina Faso,Georgia,15
+90d-2026-11-02,BI,Burundi,Georgia,63
+90d-2026-11-02,KH,Cambodia,Georgia,30
+90d-2026-11-02,CM,Cameroon,Georgia,37
+90d-2026-11-02,CA,Canada,Georgia,24
+90d-2026-11-02,CV,Cape Verde,Georgia,7
+90d-2026-11-02,KY,Cayman Islands,Georgia,3
+90d-2026-11-02,CF,Central African Republic,Georgia,94
+90d-2026-11-02,TD,Chad,Georgia,7
+90d-2026-11-02,CL,Chile,Georgia,27
+90d-2026-11-02,CN,China,Georgia,11
+90d-2026-11-02,CO,Colombia,Georgia,29
+90d-2026-11-02,CG,Congo - Brazzaville,Georgia,36
+90d-2026-11-02,CD,Congo - Kinshasa,Georgia,21
+90d-2026-11-02,CR,Costa Rica,Georgia,31
+90d-2026-11-02,HR,Croatia,Georgia,29
+90d-2026-11-02,CU,Cuba,Georgia,84
+90d-2026-11-02,CY,Cyprus,Georgia,46
+90d-2026-11-02,CZ,Czechia,Georgia,37
+90d-2026-11-02,CI,Côte d’Ivoire,Georgia,36
+90d-2026-11-02,DK,Denmark,Georgia,35
+90d-2026-11-02,DJ,Djibouti,Georgia,53
+90d-2026-11-02,DO,Dominican Republic,Georgia,46
+90d-2026-11-02,EC,Ecuador,Georgia,27
+90d-2026-11-02,EG,Egypt,Georgia,32
+90d-2026-11-02,SV,El Salvador,Georgia,38
+90d-2026-11-02,GQ,Equatorial Guinea,Georgia,26
+90d-2026-11-02,EE,Estonia,Georgia,42
+90d-2026-11-02,SZ,Eswatini,Georgia,24
+90d-2026-11-02,ET,Ethiopia,Georgia,21
+90d-2026-11-02,FO,Faroe Islands,Georgia,1
+90d-2026-11-02,FJ,Fiji,Georgia,4
+90d-2026-11-02,FI,Finland,Georgia,31
+90d-2026-11-02,FR,France,Georgia,39
+90d-2026-11-02,PF,French Polynesia,Georgia,56
+90d-2026-11-02,GA,Gabon,Georgia,31
+90d-2026-11-02,GM,Gambia,Georgia,25
+90d-2026-11-02,GE,Georgia,Georgia,97
+90d-2026-11-02,DE,Germany,Georgia,28
+90d-2026-11-02,GH,Ghana,Georgia,37
+90d-2026-11-02,GI,Gibraltar,Georgia,55
+90d-2026-11-02,GR,Greece,Georgia,49
+90d-2026-11-02,GP,Guadeloupe,Georgia,66
+90d-2026-11-02,GU,Guam,Georgia,63
+90d-2026-11-02,GT,Guatemala,Georgia,37
+90d-2026-11-02,GG,Guernsey,Georgia,54
+90d-2026-11-02,GN,Guinea,Georgia,26
+90d-2026-11-02,GY,Guyana,Georgia,41
+90d-2026-11-02,HT,Haiti,Georgia,64
+90d-2026-11-02,HN,Honduras,Georgia,29
+90d-2026-11-02,HK,Hong Kong,Georgia,13
+90d-2026-11-02,HU,Hungary,Georgia,58
+90d-2026-11-02,IS,Iceland,Georgia,33
+90d-2026-11-02,IN,India,Georgia,20
+90d-2026-11-02,ID,Indonesia,Georgia,13
+90d-2026-11-02,IR,Iran,Georgia,22
+90d-2026-11-02,IQ,Iraq,Georgia,38
+90d-2026-11-02,IE,Ireland,Georgia,31
+90d-2026-11-02,IM,Isle of Man,Georgia,27
+90d-2026-11-02,IL,Israel,Georgia,62
+90d-2026-11-02,IT,Italy,Georgia,35
+90d-2026-11-02,JM,Jamaica,Georgia,45
+90d-2026-11-02,JP,Japan,Georgia,16
+90d-2026-11-02,JE,Jersey,Georgia,60
+90d-2026-11-02,JO,Jordan,Georgia,45
+90d-2026-11-02,KZ,Kazakhstan,Georgia,0
+90d-2026-11-02,KE,Kenya,Georgia,21
+90d-2026-11-02,KI,Kiribati,Georgia,0
+90d-2026-11-02,XK,Kosovo,Georgia,27
+90d-2026-11-02,KW,Kuwait,Georgia,45
+90d-2026-11-02,KG,Kyrgyzstan,Georgia,0
+90d-2026-11-02,LA,Laos,Georgia,15
+90d-2026-11-02,LV,Latvia,Georgia,36
+90d-2026-11-02,LB,Lebanon,Georgia,56
+90d-2026-11-02,LS,Lesotho,Georgia,28
+90d-2026-11-02,LR,Liberia,Georgia,34
+90d-2026-11-02,LY,Libya,Georgia,32
+90d-2026-11-02,LI,Liechtenstein,Georgia,65
+90d-2026-11-02,LT,Lithuania,Georgia,38
+90d-2026-11-02,LU,Luxembourg,Georgia,29
+90d-2026-11-02,MO,Macao,Georgia,19
+90d-2026-11-02,MG,Madagascar,Georgia,26
+90d-2026-11-02,MW,Malawi,Georgia,1
+90d-2026-11-02,MY,Malaysia,Georgia,13
+90d-2026-11-02,MV,Maldives,Georgia,12
+90d-2026-11-02,ML,Mali,Georgia,26
+90d-2026-11-02,MT,Malta,Georgia,38
+90d-2026-11-02,MQ,Martinique,Georgia,91
+90d-2026-11-02,MR,Mauritania,Georgia,7
+90d-2026-11-02,MU,Mauritius,Georgia,22
+90d-2026-11-02,MX,Mexico,Georgia,31
+90d-2026-11-02,MD,Moldova,Georgia,30
+90d-2026-11-02,MN,Mongolia,Georgia,7
+90d-2026-11-02,ME,Montenegro,Georgia,34
+90d-2026-11-02,MA,Morocco,Georgia,22
+90d-2026-11-02,MZ,Mozambique,Georgia,25
+90d-2026-11-02,MM,Myanmar (Burma),Georgia,21
+90d-2026-11-02,NA,Namibia,Georgia,30
+90d-2026-11-02,NP,Nepal,Georgia,15
+90d-2026-11-02,NL,Netherlands,Georgia,25
+90d-2026-11-02,NZ,New Zealand,Georgia,19
+90d-2026-11-02,NI,Nicaragua,Georgia,35
+90d-2026-11-02,NE,Niger,Georgia,0
+90d-2026-11-02,NG,Nigeria,Georgia,31
+90d-2026-11-02,MK,North Macedonia,Georgia,29
+90d-2026-11-02,MP,Northern Mariana Islands,Georgia,0
+90d-2026-11-02,NO,Norway,Georgia,35
+90d-2026-11-02,OM,Oman,Georgia,23
+90d-2026-11-02,PK,Pakistan,Georgia,12
+90d-2026-11-02,PS,Palestine,Georgia,39
+90d-2026-11-02,PA,Panama,Georgia,36
+90d-2026-11-02,PG,Papua New Guinea,Georgia,0
+90d-2026-11-02,PY,Paraguay,Georgia,26
+90d-2026-11-02,PE,Peru,Georgia,32
+90d-2026-11-02,PH,Philippines,Georgia,14
+90d-2026-11-02,PL,Poland,Georgia,48
+90d-2026-11-02,PT,Portugal,Georgia,35
+90d-2026-11-02,PR,Puerto Rico,Georgia,43
+90d-2026-11-02,QA,Qatar,Georgia,34
+90d-2026-11-02,RO,Romania,Georgia,31
+90d-2026-11-02,RU,Russia,Georgia,17
+90d-2026-11-02,RW,Rwanda,Georgia,33
+90d-2026-11-02,RE,Réunion,Georgia,48
+90d-2026-11-02,SM,San Marino,Georgia,100
+90d-2026-11-02,SA,Saudi Arabia,Georgia,37
+90d-2026-11-02,SN,Senegal,Georgia,33
+90d-2026-11-02,RS,Serbia,Georgia,30
+90d-2026-11-02,SC,Seychelles,Georgia,5
+90d-2026-11-02,SL,Sierra Leone,Georgia,34
+90d-2026-11-02,SG,Singapore,Georgia,11
+90d-2026-11-02,SK,Slovakia,Georgia,37
+90d-2026-11-02,SI,Slovenia,Georgia,33
+90d-2026-11-02,SO,Somalia,Georgia,22
+90d-2026-11-02,ZA,South Africa,Georgia,24
+90d-2026-11-02,KR,South Korea,Georgia,11
+90d-2026-11-02,SS,South Sudan,Georgia,0
+90d-2026-11-02,ES,Spain,Georgia,33
+90d-2026-11-02,LK,Sri Lanka,Georgia,25
+90d-2026-11-02,BL,St. Barthélemy,Georgia,100
+90d-2026-11-02,SH,St. Helena,Georgia,21
+90d-2026-11-02,LC,St. Lucia,Georgia,0
+90d-2026-11-02,SD,Sudan,Georgia,48
+90d-2026-11-02,SR,Suriname,Georgia,7
+90d-2026-11-02,SE,Sweden,Georgia,34
+90d-2026-11-02,CH,Switzerland,Georgia,31
+90d-2026-11-02,SY,Syria,Georgia,36
+90d-2026-11-02,TW,Taiwan,Georgia,13
+90d-2026-11-02,TJ,Tajikistan,Georgia,0
+90d-2026-11-02,TZ,Tanzania,Georgia,17
+90d-2026-11-02,TH,Thailand,Georgia,18
+90d-2026-11-02,TL,Timor-Leste,Georgia,4
+90d-2026-11-02,TG,Togo,Georgia,22
+90d-2026-11-02,TT,Trinidad & Tobago,Georgia,24
+90d-2026-11-02,TN,Tunisia,Georgia,27
+90d-2026-11-02,TM,Turkmenistan,Georgia,4
+90d-2026-11-02,TC,Turks & Caicos Islands,Georgia,100
+90d-2026-11-02,TR,Türkiye,Georgia,36
+90d-2026-11-02,VI,U.S. Virgin Islands,Georgia,0
+90d-2026-11-02,UG,Uganda,Georgia,20
+90d-2026-11-02,UA,Ukraine,Georgia,47
+90d-2026-11-02,AE,United Arab Emirates,Georgia,31
+90d-2026-11-02,GB,United Kingdom,Georgia,22
+90d-2026-11-02,US,United States,Georgia,23
+90d-2026-11-02,UY,Uruguay,Georgia,28
+90d-2026-11-02,UZ,Uzbekistan,Georgia,0
+90d-2026-11-02,VE,Venezuela,Georgia,29
+90d-2026-11-02,VN,Vietnam,Georgia,15
+90d-2026-11-02,EH,Western Sahara,Georgia,30
+90d-2026-11-02,YE,Yemen,Georgia,31
+90d-2026-11-02,ZM,Zambia,Georgia,18
+90d-2026-11-02,ZW,Zimbabwe,Georgia,23
+90d-2026-11-02,AF,Afghanistan,Tajikistan,59
+90d-2026-11-02,AL,Albania,Tajikistan,3
+90d-2026-11-02,DZ,Algeria,Tajikistan,6
+90d-2026-11-02,AD,Andorra,Tajikistan,0
+90d-2026-11-02,AO,Angola,Tajikistan,6
+90d-2026-11-02,AR,Argentina,Tajikistan,5
+90d-2026-11-02,AM,Armenia,Tajikistan,3
+90d-2026-11-02,AW,Aruba,Tajikistan,0
+90d-2026-11-02,AU,Australia,Tajikistan,5
+90d-2026-11-02,AT,Austria,Tajikistan,5
+90d-2026-11-02,AZ,Azerbaijan,Tajikistan,5
+90d-2026-11-02,BS,Bahamas,Tajikistan,0
+90d-2026-11-02,BH,Bahrain,Tajikistan,4
+90d-2026-11-02,BD,Bangladesh,Tajikistan,5
+90d-2026-11-02,BB,Barbados,Tajikistan,0
+90d-2026-11-02,BY,Belarus,Tajikistan,3
+90d-2026-11-02,BE,Belgium,Tajikistan,5
+90d-2026-11-02,BZ,Belize,Tajikistan,0
+90d-2026-11-02,BJ,Benin,Tajikistan,18
+90d-2026-11-02,BT,Bhutan,Tajikistan,0
+90d-2026-11-02,BO,Bolivia,Tajikistan,6
+90d-2026-11-02,BA,Bosnia & Herzegovina,Tajikistan,5
+90d-2026-11-02,BW,Botswana,Tajikistan,12
+90d-2026-11-02,BR,Brazil,Tajikistan,4
+90d-2026-11-02,BN,Brunei,Tajikistan,4
+90d-2026-11-02,BG,Bulgaria,Tajikistan,4
+90d-2026-11-02,BF,Burkina Faso,Tajikistan,5
+90d-2026-11-02,BI,Burundi,Tajikistan,0
+90d-2026-11-02,KH,Cambodia,Tajikistan,3
+90d-2026-11-02,CM,Cameroon,Tajikistan,6
+90d-2026-11-02,CA,Canada,Tajikistan,7
+90d-2026-11-02,CV,Cape Verde,Tajikistan,0
+90d-2026-11-02,KY,Cayman Islands,Tajikistan,0
+90d-2026-11-02,CF,Central African Republic,Tajikistan,0
+90d-2026-11-02,TD,Chad,Tajikistan,0
+90d-2026-11-02,CL,Chile,Tajikistan,5
+90d-2026-11-02,CN,China,Tajikistan,7
+90d-2026-11-02,CO,Colombia,Tajikistan,4
+90d-2026-11-02,CG,Congo - Brazzaville,Tajikistan,0
+90d-2026-11-02,CD,Congo - Kinshasa,Tajikistan,4
+90d-2026-11-02,CR,Costa Rica,Tajikistan,4
+90d-2026-11-02,HR,Croatia,Tajikistan,4
+90d-2026-11-02,CU,Cuba,Tajikistan,0
+90d-2026-11-02,CY,Cyprus,Tajikistan,3
+90d-2026-11-02,CZ,Czechia,Tajikistan,4
+90d-2026-11-02,CI,Côte d’Ivoire,Tajikistan,5
+90d-2026-11-02,DK,Denmark,Tajikistan,4
+90d-2026-11-02,DJ,Djibouti,Tajikistan,0
+90d-2026-11-02,DO,Dominican Republic,Tajikistan,2
+90d-2026-11-02,EC,Ecuador,Tajikistan,4
+90d-2026-11-02,EG,Egypt,Tajikistan,5
+90d-2026-11-02,SV,El Salvador,Tajikistan,5
+90d-2026-11-02,GQ,Equatorial Guinea,Tajikistan,0
+90d-2026-11-02,EE,Estonia,Tajikistan,4
+90d-2026-11-02,SZ,Eswatini,Tajikistan,7
+90d-2026-11-02,ET,Ethiopia,Tajikistan,4
+90d-2026-11-02,FO,Faroe Islands,Tajikistan,0
+90d-2026-11-02,FJ,Fiji,Tajikistan,0
+90d-2026-11-02,FI,Finland,Tajikistan,6
+90d-2026-11-02,FR,France,Tajikistan,4
+90d-2026-11-02,PF,French Polynesia,Tajikistan,0
+90d-2026-11-02,GA,Gabon,Tajikistan,33
+90d-2026-11-02,GM,Gambia,Tajikistan,0
+90d-2026-11-02,GE,Georgia,Tajikistan,0
+90d-2026-11-02,DE,Germany,Tajikistan,6
+90d-2026-11-02,GH,Ghana,Tajikistan,4
+90d-2026-11-02,GI,Gibraltar,Tajikistan,0
+90d-2026-11-02,GR,Greece,Tajikistan,2
+90d-2026-11-02,GP,Guadeloupe,Tajikistan,0
+90d-2026-11-02,GU,Guam,Tajikistan,0
+90d-2026-11-02,GT,Guatemala,Tajikistan,0
+90d-2026-11-02,GG,Guernsey,Tajikistan,0
+90d-2026-11-02,GN,Guinea,Tajikistan,16
+90d-2026-11-02,GY,Guyana,Tajikistan,0
+90d-2026-11-02,HT,Haiti,Tajikistan,0
+90d-2026-11-02,HN,Honduras,Tajikistan,6
+90d-2026-11-02,HK,Hong Kong,Tajikistan,4
+90d-2026-11-02,HU,Hungary,Tajikistan,2
+90d-2026-11-02,IS,Iceland,Tajikistan,5
+90d-2026-11-02,IN,India,Tajikistan,4
+90d-2026-11-02,ID,Indonesia,Tajikistan,4
+90d-2026-11-02,IR,Iran,Tajikistan,34
+90d-2026-11-02,IQ,Iraq,Tajikistan,7
+90d-2026-11-02,IE,Ireland,Tajikistan,4
+90d-2026-11-02,IM,Isle of Man,Tajikistan,28
+90d-2026-11-02,IL,Israel,Tajikistan,2
+90d-2026-11-02,IT,Italy,Tajikistan,4
+90d-2026-11-02,JM,Jamaica,Tajikistan,0
+90d-2026-11-02,JP,Japan,Tajikistan,3
+90d-2026-11-02,JE,Jersey,Tajikistan,0
+90d-2026-11-02,JO,Jordan,Tajikistan,5
+90d-2026-11-02,KZ,Kazakhstan,Tajikistan,0
+90d-2026-11-02,KE,Kenya,Tajikistan,8
+90d-2026-11-02,KI,Kiribati,Tajikistan,0
+90d-2026-11-02,XK,Kosovo,Tajikistan,0
+90d-2026-11-02,KW,Kuwait,Tajikistan,5
+90d-2026-11-02,KG,Kyrgyzstan,Tajikistan,1
+90d-2026-11-02,LA,Laos,Tajikistan,4
+90d-2026-11-02,LV,Latvia,Tajikistan,4
+90d-2026-11-02,LB,Lebanon,Tajikistan,3
+90d-2026-11-02,LS,Lesotho,Tajikistan,0
+90d-2026-11-02,LR,Liberia,Tajikistan,0
+90d-2026-11-02,LY,Libya,Tajikistan,5
+90d-2026-11-02,LI,Liechtenstein,Tajikistan,0
+90d-2026-11-02,LT,Lithuania,Tajikistan,5
+90d-2026-11-02,LU,Luxembourg,Tajikistan,3
+90d-2026-11-02,MO,Macao,Tajikistan,0
+90d-2026-11-02,MG,Madagascar,Tajikistan,0
+90d-2026-11-02,MW,Malawi,Tajikistan,0
+90d-2026-11-02,MY,Malaysia,Tajikistan,4
+90d-2026-11-02,MV,Maldives,Tajikistan,5
+90d-2026-11-02,ML,Mali,Tajikistan,0
+90d-2026-11-02,MT,Malta,Tajikistan,4
+90d-2026-11-02,MQ,Martinique,Tajikistan,0
+90d-2026-11-02,MR,Mauritania,Tajikistan,0
+90d-2026-11-02,MU,Mauritius,Tajikistan,5
+90d-2026-11-02,MX,Mexico,Tajikistan,4
+90d-2026-11-02,MD,Moldova,Tajikistan,5
+90d-2026-11-02,MN,Mongolia,Tajikistan,2
+90d-2026-11-02,ME,Montenegro,Tajikistan,4
+90d-2026-11-02,MA,Morocco,Tajikistan,4
+90d-2026-11-02,MZ,Mozambique,Tajikistan,7
+90d-2026-11-02,MM,Myanmar (Burma),Tajikistan,7
+90d-2026-11-02,NA,Namibia,Tajikistan,0
+90d-2026-11-02,NP,Nepal,Tajikistan,5
+90d-2026-11-02,NL,Netherlands,Tajikistan,5
+90d-2026-11-02,NZ,New Zealand,Tajikistan,6
+90d-2026-11-02,NI,Nicaragua,Tajikistan,0
+90d-2026-11-02,NE,Niger,Tajikistan,0
+90d-2026-11-02,NG,Nigeria,Tajikistan,7
+90d-2026-11-02,MK,North Macedonia,Tajikistan,6
+90d-2026-11-02,MP,Northern Mariana Islands,Tajikistan,0
+90d-2026-11-02,NO,Norway,Tajikistan,5
+90d-2026-11-02,OM,Oman,Tajikistan,6
+90d-2026-11-02,PK,Pakistan,Tajikistan,10
+90d-2026-11-02,PS,Palestine,Tajikistan,8
+90d-2026-11-02,PA,Panama,Tajikistan,4
+90d-2026-11-02,PG,Papua New Guinea,Tajikistan,0
+90d-2026-11-02,PY,Paraguay,Tajikistan,3
+90d-2026-11-02,PE,Peru,Tajikistan,5
+90d-2026-11-02,PH,Philippines,Tajikistan,3
+90d-2026-11-02,PL,Poland,Tajikistan,4
+90d-2026-11-02,PT,Portugal,Tajikistan,5
+90d-2026-11-02,PR,Puerto Rico,Tajikistan,0
+90d-2026-11-02,QA,Qatar,Tajikistan,6
+90d-2026-11-02,RO,Romania,Tajikistan,3
+90d-2026-11-02,RU,Russia,Tajikistan,8
+90d-2026-11-02,RW,Rwanda,Tajikistan,1
+90d-2026-11-02,RE,Réunion,Tajikistan,21
+90d-2026-11-02,SM,San Marino,Tajikistan,0
+90d-2026-11-02,SA,Saudi Arabia,Tajikistan,6
+90d-2026-11-02,SN,Senegal,Tajikistan,0
+90d-2026-11-02,RS,Serbia,Tajikistan,4
+90d-2026-11-02,SC,Seychelles,Tajikistan,0
+90d-2026-11-02,SL,Sierra Leone,Tajikistan,1
+90d-2026-11-02,SG,Singapore,Tajikistan,3
+90d-2026-11-02,SK,Slovakia,Tajikistan,3
+90d-2026-11-02,SI,Slovenia,Tajikistan,3
+90d-2026-11-02,SO,Somalia,Tajikistan,9
+90d-2026-11-02,ZA,South Africa,Tajikistan,3
+90d-2026-11-02,KR,South Korea,Tajikistan,3
+90d-2026-11-02,SS,South Sudan,Tajikistan,3
+90d-2026-11-02,ES,Spain,Tajikistan,4
+90d-2026-11-02,LK,Sri Lanka,Tajikistan,5
+90d-2026-11-02,BL,St. Barthélemy,Tajikistan,0
+90d-2026-11-02,SH,St. Helena,Tajikistan,6
+90d-2026-11-02,LC,St. Lucia,Tajikistan,0
+90d-2026-11-02,SD,Sudan,Tajikistan,13
+90d-2026-11-02,SR,Suriname,Tajikistan,0
+90d-2026-11-02,SE,Sweden,Tajikistan,6
+90d-2026-11-02,CH,Switzerland,Tajikistan,5
+90d-2026-11-02,SY,Syria,Tajikistan,11
+90d-2026-11-02,TW,Taiwan,Tajikistan,3
+90d-2026-11-02,TJ,Tajikistan,Tajikistan,78
+90d-2026-11-02,TZ,Tanzania,Tajikistan,6
+90d-2026-11-02,TH,Thailand,Tajikistan,3
+90d-2026-11-02,TL,Timor-Leste,Tajikistan,0
+90d-2026-11-02,TG,Togo,Tajikistan,1
+90d-2026-11-02,TT,Trinidad & Tobago,Tajikistan,5
+90d-2026-11-02,TN,Tunisia,Tajikistan,4
+90d-2026-11-02,TM,Turkmenistan,Tajikistan,5
+90d-2026-11-02,TC,Turks & Caicos Islands,Tajikistan,0
+90d-2026-11-02,TR,Türkiye,Tajikistan,3
+90d-2026-11-02,VI,U.S. Virgin Islands,Tajikistan,0
+90d-2026-11-02,UG,Uganda,Tajikistan,8
+90d-2026-11-02,UA,Ukraine,Tajikistan,3
+90d-2026-11-02,AE,United Arab Emirates,Tajikistan,5
+90d-2026-11-02,GB,United Kingdom,Tajikistan,5
+90d-2026-11-02,US,United States,Tajikistan,6
+90d-2026-11-02,UY,Uruguay,Tajikistan,6
+90d-2026-11-02,UZ,Uzbekistan,Tajikistan,2
+90d-2026-11-02,VE,Venezuela,Tajikistan,4
+90d-2026-11-02,VN,Vietnam,Tajikistan,3
+90d-2026-11-02,EH,Western Sahara,Tajikistan,0
+90d-2026-11-02,YE,Yemen,Tajikistan,8
+90d-2026-11-02,ZM,Zambia,Tajikistan,0
+90d-2026-11-02,ZW,Zimbabwe,Tajikistan,6
