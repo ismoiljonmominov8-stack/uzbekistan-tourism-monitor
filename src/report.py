@@ -241,6 +241,48 @@ def score_section(r: Report):
                           f"(orqaga sinov, {int(tb.n.iloc[0])} holat); davlatlar bo'yicha xato 10–36%.")
 
 
+def leisure_section(r: Report):
+    from . import purpose
+    try:
+        b = purpose.build()
+    except Exception:  # noqa: BLE001
+        log.exception("leisure section failed")
+        return
+    mon, fc, sh = b["monthly"], b["forecast"], b["shares"]
+    if mon.empty:
+        return
+    r.h("Dam olish va sayohat uchun kelganlar (jalb etish guruhi)", 2)
+    py = b["yearly"].iloc[-1]
+    r.p(f"Rasmiy: {int(py.year)} yilda {n(py.total_k * 1000)} safardan {n(py.leisure_k * 1000)} tasi "
+        f"({py.leisure_k / py.total_k:.0%}) dam olish va sayohat maqsadida, {py.relatives_k / py.total_k:.0%} — qarindoshlarni ko'rish. "
+        "Davlatlar bo'yicha oylik raqam yo'q, shuning uchun baholanadi: kelganlar × davlatning dam olish ulushi (stat.uz, 2025 yanvar–iyun).")
+    year = mon["month"].str[:4].max()
+    ytd = mon[mon["month"].str.startswith(year)]
+    months_n = ytd[ytd["country"] == "TOTAL"]["month"].nunique()
+    targets = sorted({x["target"] for x in fc})
+    rows = []
+    for c in purpose.MONTHLY + ["OTHER", "TOTAL"]:
+        sub = ytd[ytd["country"] == c]
+        s = sh[sh["country"] == c]["share"]
+        byt = {x["target"]: x for x in fc if x["country"] == c}
+        share = f"{float(s.iloc[0]):.0%}" if len(s) else (f"{sub['leisure'].sum() / sub['arrivals'].sum():.0%}" if len(sub) else "—")
+        rows.append([purpose.NAME_UZ.get(c, "Jami" if c == "TOTAL" else c), share, n(sub["leisure"].sum()) if len(sub) else "—"]
+                    + [n(byt[t]["leisure"]) if t in byt else "—" for t in targets])
+    rows[:-1] = sorted(rows[:-1], key=lambda x: -int(x[2].replace(" ", "")) if x[2] != "—" else 0)
+    r.table(["Davlat", "Dam olish ulushi", f"{year}, {months_n} oy"] + [f"{OY[int(t[5:]) - 1]} {t[:4]}" for t in targets],
+            rows, [2200, 1400, 1700, 1500, 1500, 1500], align="right")
+    v = [x for x in b["validation"] if not x["in_sample"] and x["year"] >= 2023]
+    if v:
+        r.p("Usul tekshiruvi (2025 ulushlari oldingi yillarga qo'llanib, rasmiy jami bilan solishtirildi): "
+            + ", ".join(f"{x['year']}: {x['error_pct']:+.1f}%".replace("-", "−").replace(".", ",") for x in v)
+            + ". Baho taxminan ±10% aniq; ulushlar o'zgarib boradi.", "note")
+    top = sorted([x for x in rows[:-1] if x[0] != purpose.NAME_UZ["OTHER"]], key=lambda x: -int(x[2].replace(" ", "")))[:3]
+    tot = ytd[ytd["country"] == "TOTAL"]
+    r.findings.append(f"Dam olish uchun kelganlar (baho): {year} yilning {months_n} oyida ≈ {n(tot['leisure'].sum())} "
+                      f"({tot['leisure'].sum() / tot['arrivals'].sum():.0%} barcha safarlardan); eng katta bozorlar — "
+                      + ", ".join(f"{x[0]} ({x[2]})" for x in top) + ".")
+
+
 def trends_section(r: Report):
     df = trends.load()
     if df.empty:
@@ -372,6 +414,7 @@ def build(send=True) -> Path | None:
     r.image(wiki_chart(wide), 600, 280, "So'nggi 12 hafta Vikipediya qiziqishi grafigi")
     official_section(r)
     score_section(r)
+    leisure_section(r)
     trends_section(r)
     events_section(r)
     news_section(r, days)

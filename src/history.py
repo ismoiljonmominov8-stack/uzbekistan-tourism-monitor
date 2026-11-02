@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from . import config, events, forecast, pageviews, scorecard, statuz
+from . import config, events, forecast, pageviews, purpose, scorecard, statuz
 from .util import log
 
 DOCS = config.ROOT / "docs"
@@ -135,6 +135,48 @@ def score_data() -> dict | None:
             "live_logged": int((df["kind"] == "live").sum()), "damp": forecast.DAMP}
 
 
+def leisure_data() -> dict | None:
+    """Purpose of visit by year (official) + estimated leisure tourists by country (monthly, next 3 months)."""
+    try:
+        b = purpose.build()
+    except Exception:  # noqa: BLE001
+        log.exception("leisure estimates failed")
+        return None
+    py = b["yearly"]
+    yearly = []
+    for r in py.itertuples():
+        other = r.total_k - r.relatives_k - r.leisure_k - r.business_k
+        yearly.append({"year": str(int(r.year)), "total": r.total_k, "relatives": r.relatives_k, "leisure": r.leisure_k,
+                       "business": r.business_k, "other": round(other, 1)})
+    sh, mon, fc = b["shares"], b["monthly"], b["forecast"]
+    name = lambda c: purpose.NAME_UZ.get(c, c)  # noqa: E731
+    last_year = mon["month"].str[:4].max() if not mon.empty else None
+    ytd = mon[mon["month"].str.startswith(last_year or "x")] if last_year else mon
+    countries = purpose.MONTHLY + ["OTHER"]
+    rows = []
+    for c in countries:
+        sub = ytd[ytd["country"] == c]
+        f = [x for x in fc if x["country"] == c]
+        s_row = sh[sh["country"] == c]
+        rows.append({"country": c, "name": name(c),
+                     "share": float(s_row["share"].iloc[0]) if len(s_row) else None,
+                     "share_2023": None if not len(s_row) or pd.isna(s_row["share_2023"].iloc[0]) else float(s_row["share_2023"].iloc[0]),
+                     "ytd_leisure": int(sub["leisure"].sum()) if len(sub) else None,
+                     "ytd_arrivals": int(sub["arrivals"].sum()) if len(sub) else None,
+                     "forecast": [{"target": x["target"], "v": x["leisure"], "lo": x["lo"], "hi": x["hi"]} for x in f]})
+    rows.sort(key=lambda r: -(r["ytd_leisure"] or 0))
+    tot = ytd[ytd["country"] == "TOTAL"]
+    total = {"name": "Jami", "ytd_leisure": int(tot["leisure"].sum()), "ytd_arrivals": int(tot["arrivals"].sum()),
+             "forecast": [{"target": x["target"], "v": x["leisure"], "lo": x["lo"], "hi": x["hi"]} for x in fc if x["country"] == "TOTAL"]}
+    chart = mon[(mon["country"] != "TOTAL") & (mon["month"] >= "2024-01")]
+    months = sorted(chart["month"].unique())
+    stack = [{"country": c, "name": name(c), "y": [int(chart[(chart["country"] == c) & (chart["month"] == m)]["leisure"].sum()) for m in months]}
+             for c in countries]
+    return {"yearly": yearly, "rows": rows, "total": total, "ytd_year": last_year,
+            "ytd_months": int(tot["month"].nunique()), "validation": b["validation"],
+            "months": months, "stack": stack}
+
+
 def trends_data() -> dict | None:
     """Uzbekistan's share of searches among 5 destinations, by market: yearly history + latest 90 days."""
     from . import trends
@@ -238,7 +280,7 @@ def build():
         log.exception("overall forecast failed")
         overall = None
     data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "trends": trends_data(),
-            "score": score_data(), "map": map_data(wide, proj, mon),
+            "score": score_data(), "leisure": leisure_data(), "map": map_data(wide, proj, mon),
             "events": ev_list, "effects": ev_rows, "ev_summary": ev_summary,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "first": dates[0], "last": dates[-1]}
@@ -414,6 +456,20 @@ h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
     <div><h3 class="sub" id="fc-title">Keyingi 3 oy prognozi</h3><div class="tablewrap"><table class="tbl" id="fc-table"></table></div></div>
   </div>
 </section>
+<section id="leisure-box">
+  <h2>Dam olish va sayohat uchun kelganlar — biz jalb qilmoqchi bo'lgan guruh</h2>
+  <p class="note">Rasmiy statistikadagi «turist» — chegaradan o'tgan har bir xorijlik: ko'pchiligi qarindoshlarini ko'rishga keladi.
+  Turistlarni jalb etish siyosati asosan <b>dam olish va sayohat</b> maqsadida kelganlarga ta'sir qiladi.
+  Yillik maqsadlar — rasmiy (SIAT). Davlatlar bo'yicha oylik raqam e'lon qilinmaydi, shuning uchun u <b>baholanadi</b>:
+  davlatdan kelganlar × shu davlatning dam olish ulushi (stat.uz, 2025 yil yanvar–iyun).</p>
+  <div class="grid2">
+    <div><h3 class="sub">Safar maqsadlari, yillar bo'yicha (rasmiy)</h3><div id="purpose-years" class="chart"></div></div>
+    <div><h3 class="sub">Dam olish uchun kelganlar, oyiga (baho)</h3><div id="leisure-months" class="chart"></div></div>
+  </div>
+  <h3 class="sub" id="leisure-title">Davlatlar bo'yicha</h3>
+  <div class="tablewrap"><table class="tbl" id="leisure-table"></table></div>
+  <p class="note" id="leisure-note"></p>
+</section>
 <section>
   <h2>Vikipediya ko'rishlari — kun, hafta, oy, yil</h2>
   <p class="note">O'zbekiston, Samarqand, Buxoro, Xiva, Toshkent sahifalari, har bir til = bir bozor. Hafta/oy/yil — shu davrdagi ko'rishlar yig'indisi (tugallanmagan oxirgi davr ko'rsatilmaydi). Qo'shni davlatlar yashirin — legendani bosib yoqing. ▼ — voqealar. Kamera belgisi grafikni PNG qilib yuklaydi.</p>
@@ -469,6 +525,8 @@ h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
     <a class="btn" href="official_arrivals_monthly.csv" download>Rasmiy statistika (oylik), CSV</a>
     <a class="btn" href="official_arrivals_ytd.csv" download>Rasmiy statistika (yil boshidan), CSV</a>
     <a class="btn" href="event_effects.csv" download>Voqealar ta'siri, CSV</a>
+    <a class="btn" href="https://raw.githubusercontent.com/ismoiljonmominov8-stack/uzbekistan-tourism-monitor/main/data/leisure_estimates.csv">Dam olish uchun kelganlar (baho, oylik), CSV</a>
+    <a class="btn" href="https://raw.githubusercontent.com/ismoiljonmominov8-stack/uzbekistan-tourism-monitor/main/data/purpose_yearly.csv">Safar maqsadlari (yillik, rasmiy), CSV</a>
     <a class="btn" id="offline" href="#">Grafiklar — oflayn HTML fayl (internetsiz ochiladi)</a>
   </div>
 </section>
@@ -579,6 +637,57 @@ function drawScore(){
     fb.appendChild(tr);
   });
   ft.appendChild(fb);
+}
+function drawLeisure(){
+  const P = D.leisure, box = document.getElementById("leisure-box");
+  if (!P) { box.style.display = "none"; return; }
+  const nfm = v => v == null ? "—" : Math.round(v).toLocaleString("ru-RU");
+  const pct = v => v == null ? "—" : Math.round(v * 100) + "%";
+  const yrs = P.yearly.map(r => r.year);
+  const parts = [["leisure", "Dam olish va sayohat", css("--accent")], ["relatives", "Qarindoshlarni ko'rish", "#a89c7d"],
+                 ["business", "Xizmat safari", "#7a8b99"], ["other", "Davolanish, tijorat, o'qish", "#8aa38b"]];
+  const bars = parts.map(([k, n, c]) => ({type: "bar", name: n, x: yrs, marker: {color: c},
+    y: P.yearly.map(r => r[k] / r.total * 100),
+    customdata: P.yearly.map(r => r[k]), hovertemplate: "%{x}: %{y:.1f}% (%{customdata:,.0f} ming)<extra>" + n + "</extra>"}));
+  const L1 = layout("%", false);
+  L1.barmode = "stack"; L1.xaxis = {type: "category", gridcolor: css("--rule") + "55"};
+  L1.yaxis = {range: [0, 100], ticksuffix: "%", gridcolor: css("--rule") + "55"}; L1.hovermode = "closest";
+  L1.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}}; L1.margin = {l: 44, r: 10, t: 10, b: 80};
+  Plotly.react("purpose-years", bars, L1, cfg);
+  const pal = ["#8c3b22", "#c98e52", "#2f5d7c", "#3d6b45", "#a3542c", "#7a8b99", "#b9a27c", "#6b5a45", "#cfc3a8"];
+  const st = P.stack.map((s, i) => ({type: "bar", name: s.name, x: P.months.map(m => m + "-01"), y: s.y,
+    marker: {color: pal[i % pal.length]}, hovertemplate: "%{y:,.0f}<extra>" + s.name + "</extra>"}));
+  const L2 = layout("kishi / oy", false);
+  L2.barmode = "stack"; L2.xaxis = {type: "date", tickformat: "%Y-%m", gridcolor: css("--rule") + "55"};
+  L2.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}}; L2.margin = {l: 56, r: 10, t: 10, b: 100};
+  Plotly.react("leisure-months", st, L2, cfg);
+  const months = ["yanv", "fev", "mar", "apr", "may", "iyun", "iyul", "avg", "sent", "okt", "noy", "dek"];
+  const lab = m => months[+m.slice(5) - 1] + " " + m.slice(0, 4);
+  const targets = (P.total.forecast || []).map(f => f.target);
+  document.getElementById("leisure-title").textContent = "Davlatlar bo'yicha: " + P.ytd_year + " yil " + P.ytd_months + " oy va keyingi 3 oy prognozi";
+  const t = document.getElementById("leisure-table");
+  t.innerHTML = "<thead><tr><th>Davlat</th><th>Dam olish ulushi</th><th>Kelganlar (jami)</th><th>Shundan dam olish</th>"
+    + targets.map(x => "<th>" + lab(x) + "</th>").join("") + "</tr></thead>";
+  const tb = document.createElement("tbody");
+  const cell = (tr, txt, sub, bold) => { const td = document.createElement("td");
+    const a = document.createElement("div"); a.textContent = txt; if (bold) a.style.fontWeight = "600"; td.appendChild(a);
+    if (sub) { const b = document.createElement("div"); b.className = "rng"; b.textContent = sub; td.appendChild(b); } tr.appendChild(td); };
+  [...P.rows, Object.assign({total: true}, P.total)].forEach(r => {
+    const tr = document.createElement("tr");
+    cell(tr, r.name, null, r.total);
+    cell(tr, r.total ? (r.ytd_arrivals ? pct(r.ytd_leisure / r.ytd_arrivals) : "—") : pct(r.share),
+         r.share_2023 != null ? "2023: " + pct(r.share_2023) : null, r.total);
+    cell(tr, nfm(r.ytd_arrivals), null, r.total);
+    cell(tr, nfm(r.ytd_leisure), null, r.total);
+    targets.forEach(x => { const f = (r.forecast || []).find(q => q.target === x);
+      cell(tr, f ? nfm(f.v) : "—", f && f.lo != null ? nfm(f.lo) + "–" + nfm(f.hi) : null, r.total); });
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  const v = P.validation.filter(x => !x.in_sample && x.year >= 2023)
+    .map(x => x.year + ": " + (x.error_pct > 0 ? "+" : "") + String(x.error_pct).replace(".", ",") + "%").join(", ");
+  document.getElementById("leisure-note").textContent = "Usul tekshiruvi: 2025 ulushlari oldingi yillarga qo'llanib, rasmiy dam olish jami bilan solishtirildi — xato " + v
+    + ". Demak baho taxminan ±10% aniq; ulushlar vaqt o'tishi bilan o'zgaradi (masalan, Xitoyda 84% → 48%). Prognoz oralig'i faqat kelganlar sonidagi noaniqlikni ko'rsatadi, ulush noaniqligi qo'shilmagan. «Boshqa davlatlar» — qolgan ~190 davlat (Afg'oniston, Italiya, AQSh, Koreya va boshq.) bir guruh sifatida.";
 }
 function drawTrends(){
   const T = D.trends, box = document.getElementById("trends-box");
@@ -704,7 +813,7 @@ function drawOverall(){
 }
 document.querySelectorAll("[data-og]").forEach(b => b.onclick = () => {
   og = b.dataset.og; document.querySelectorAll("[data-og]").forEach(x => x.classList.toggle("on", x===b)); drawOverall(); });
-if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
+if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawLeisure(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
 (function worldMap(){
   if (typeof d3 === "undefined" || typeof topojson === "undefined" || !D.map) { document.getElementById("map-box").style.display = "none"; return; }
   const M = D.map, svg = d3.select("#map"), W = 960, H = 500;
