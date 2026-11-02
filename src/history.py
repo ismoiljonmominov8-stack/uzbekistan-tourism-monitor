@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
-from . import config, events, forecast, pageviews, purpose, scorecard, statuz
+from . import attraction, config, events, forecast, pageviews, purpose, scorecard, statuz
 from .util import log
 
 DOCS = config.ROOT / "docs"
@@ -18,9 +18,10 @@ PLOTLY = "plotly.min.js"
 LIBS = ["plotly.min.js", "d3.min.js", "topojson-client.min.js"]
 MARKET_ISO = {"zh": "156", "ko": "410", "ja": "392", "de": "276", "tr": "792", "it": "380", "fr": "250", "hi": "356",
               "kk": "398", "ky": "417", "tg": "762", "tk": "795", "ps": "004", "ru": "643"}
-COLORS = {"zh": "#a23b2a", "ko": "#2f5d7c", "ja": "#c47f2c", "de": "#3d6b45", "tr": "#7a3b6b",
-          "it": "#5b7f99", "fr": "#8a6d3b", "hi": "#c06a2b",
-          "kk": "#4b8f8c", "ky": "#b5651d", "tg": "#6a8f3a", "tk": "#7d6aa8", "ps": "#9b4f3c", "en": "#6e6e6e", "ru": "#9a9a9a"}
+# bright tones that read on the dark-blue page; gold is kept for China (largest distant market) and accents
+COLORS = {"zh": "#d4af37", "ko": "#6fa8dc", "ja": "#f0c987", "de": "#7fc4a4", "tr": "#c792ea",
+          "it": "#9bbbe0", "fr": "#e39a5f", "hi": "#e8d17a",
+          "kk": "#5fb3b3", "ky": "#d98e73", "tg": "#a5c46b", "tk": "#a99be0", "ps": "#c9876f", "en": "#b8b8b8", "ru": "#8f9bb0"}
 
 
 def _clean(v):
@@ -177,6 +178,17 @@ def leisure_data() -> dict | None:
             "months": months, "stack": stack}
 
 
+def attraction_data() -> dict | None:
+    """Per-market priority group, message type and channels (src/attraction.py)."""
+    try:
+        df = attraction.build()
+    except Exception:  # noqa: BLE001
+        log.exception("attraction map failed")
+        return None
+    rows = [{k: _clean(v) for k, v in r.items()} for r in df.to_dict("records")]
+    return {"rows": rows, "typical": float(df["typical_rate"].iloc[0]), "min_headroom": attraction.MIN_HEADROOM}
+
+
 def trends_data() -> dict | None:
     """Uzbekistan's share of searches among 5 destinations, by market: yearly history + latest 90 days."""
     from . import trends
@@ -280,7 +292,7 @@ def build():
         log.exception("overall forecast failed")
         overall = None
     data = {"dates": dates, "series": series, "monthly": monthly, "overall": overall, "trends": trends_data(),
-            "score": score_data(), "leisure": leisure_data(), "map": map_data(wide, proj, mon),
+            "score": score_data(), "leisure": leisure_data(), "attraction": attraction_data(), "map": map_data(wide, proj, mon),
             "events": ev_list, "effects": ev_rows, "ev_summary": ev_summary,
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
             "first": dates[0], "last": dates[-1]}
@@ -320,12 +332,10 @@ TEMPLATE = r"""<!doctype html>
 <script src="d3.min.js"></script>
 <script src="topojson-client.min.js"></script>
 <style>
-:root{--paper:#f3ead7;--paper2:#ebdfc4;--ink:#2b2117;--muted:#6b5a45;--rule:#b9a27c;--accent:#8c3b22;--card:#f8f1e1}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#1f1a14;--paper2:#2a231b;--ink:#efe4cf;--muted:#b9a88c;--rule:#5a4a35;--accent:#d98a5f;--card:#262019}}
-:root[data-theme="dark"]{--paper:#1f1a14;--paper2:#2a231b;--ink:#efe4cf;--muted:#b9a88c;--rule:#5a4a35;--accent:#d98a5f;--card:#262019}
+:root{color-scheme:dark;--paper:#0a1424;--paper2:#132540;--ink:#ece3cc;--muted:#a8a084;--rule:#8a7236;--accent:#d4af37;--gold2:#f2d27a;--blue:#6f9fd8;--card:#0f1d33;--land:#1b2c47;--sea:#0c1a2e}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.55 "EB Garamond",Georgia,serif;
-  background-image:radial-gradient(circle at 20% 10%,rgba(140,59,34,.05),transparent 40%),radial-gradient(circle at 80% 90%,rgba(61,107,69,.05),transparent 40%)}
+  background-image:radial-gradient(circle at 15% 0%,rgba(212,175,55,.08),transparent 45%),radial-gradient(circle at 85% 100%,rgba(111,159,216,.07),transparent 45%)}
 .wrap{max-width:1100px;margin:0 auto;padding:28px 16px 60px}
 header{border-bottom:3px double var(--rule);padding-bottom:14px;margin-bottom:22px}
 h1{font:700 clamp(28px,5vw,44px)/1.1 "Cormorant Garamond",serif;margin:0;letter-spacing:.02em}
@@ -348,22 +358,22 @@ th{font-weight:600;color:var(--muted)}
 tr.mixed td{color:var(--muted);opacity:.7}
 #events-box a,#upcoming-box a{color:var(--accent)}
 .pill{display:inline-block;padding:1px 7px;border-radius:10px;font-size:13px;border:1px solid var(--rule)}
-.up{background:#3d6b4522}.down{background:#a23b2a22}
+.up{background:#d4af3726}.down{background:#6f9fd826}
 .sect{font:600 30px/1.2 "Cormorant Garamond",serif;margin:30px 0 12px;border-bottom:1px solid var(--rule);padding-bottom:6px}
 .yearrow{display:flex;align-items:center;gap:10px;margin:4px 0 8px}
 .yearrow input{flex:1;max-width:360px;accent-color:var(--accent)}
 .mapgrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:16px;align-items:start}
-.mapwrap{position:relative;border:1px solid var(--rule);border-radius:3px;background:#e7dcc3;overflow:hidden}
+.mapwrap{position:relative;border:1px solid var(--rule);border-radius:3px;background:var(--sea);overflow:hidden}
 #map{width:100%;height:auto;display:block;cursor:grab}
-#map .land{stroke:#8d7a5b;stroke-width:.4;vector-effect:non-scaling-stroke}
-#map .land.nodata{fill:#efe6d2}
+#map .land{stroke:#8a723688;stroke-width:.4;vector-effect:non-scaling-stroke}
+#map .land.nodata{fill:var(--land)}
 #map .land.sel{stroke:var(--ink);stroke-width:1.6}
 #map .land.uzb{fill:var(--accent) !important;stroke:var(--ink);stroke-width:1.2}
-#map .grat{fill:none;stroke:#b9a27c55;stroke-width:.5;vector-effect:non-scaling-stroke}
-#map .sphere{fill:#dfe3d6}
-.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--rule);padding:6px 9px;font-size:14px;border-radius:3px;box-shadow:0 2px 8px #0002;max-width:240px}
-.legend{position:absolute;left:10px;bottom:10px;background:#f8f1e1e6;border:1px solid var(--rule);padding:6px 8px;font-size:12px;border-radius:3px;color:#2b2117}
-.legend .bar{height:9px;width:180px;border:1px solid #8d7a5b}
+#map .grat{fill:none;stroke:#d4af3722;stroke-width:.5;vector-effect:non-scaling-stroke}
+#map .sphere{fill:var(--sea)}
+.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--rule);padding:6px 9px;font-size:14px;border-radius:3px;box-shadow:0 2px 10px #0008;max-width:260px}
+.legend{position:absolute;left:10px;bottom:10px;background:#0f1d33e6;border:1px solid var(--rule);padding:6px 8px;font-size:12px;border-radius:3px;color:var(--ink)}
+.legend .bar{height:9px;width:180px;border:1px solid var(--rule)}
 .legend .ticks{display:flex;justify-content:space-between;width:180px}
 .panel{border:1px solid var(--rule);border-radius:3px;padding:12px 14px;background:var(--card);min-height:300px}
 .panel h3{font:700 24px/1.15 "Cormorant Garamond",serif;margin:0 0 6px}
@@ -381,7 +391,7 @@ details[open] summary::before{content:"▾ "}
 .meter{height:9px;background:var(--paper2);border:1px solid var(--rule);border-radius:5px;overflow:hidden}
 .meter i{display:block;height:100%;background:var(--accent)}
 code{font-size:14px;background:var(--paper2);padding:1px 4px;border-radius:3px}
-@media (max-width:800px){.mapgrid{grid-template-columns:1fr}.legend{position:static;border:0;border-top:1px solid #8d7a5b;border-radius:0}}
+@media (max-width:800px){.mapgrid{grid-template-columns:1fr}.legend{position:static;border:0;border-top:1px solid var(--rule);border-radius:0}}
 footer{color:var(--muted);font-size:14px;border-top:1px solid var(--rule);padding-top:12px}
 @media (max-width:600px){.chart{height:620px}}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
@@ -389,6 +399,10 @@ h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
 #trends-latest,#trends-years{min-height:420px}
 .tbl{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}.tbl th,.tbl td{border-bottom:1px solid var(--rule);padding:5px 8px;text-align:right;white-space:nowrap}.tbl th:first-child,.tbl td:first-child{text-align:left}.tbl th{color:var(--muted);font-weight:600}
 .tablewrap{overflow-x:auto}
+#amap{width:100%;height:auto;display:block}#amap .land{stroke:#8a723666;stroke-width:.4;vector-effect:non-scaling-stroke;fill:var(--land)}
+#amap .land.uzb{fill:var(--gold2);stroke:var(--accent);stroke-width:1.2}#amap .sphere{fill:var(--sea)}#amap .grat{fill:none;stroke:#d4af371c;stroke-width:.5;vector-effect:non-scaling-stroke}
+.gdot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px;border:1px solid #0006}
+#attr-table td{white-space:normal;vertical-align:top}#attr-table td:last-child,#attr-table th:last-child{text-align:left;min-width:280px}#attr-table td.num{white-space:nowrap}#attr-table .why{font-size:13px;color:var(--muted)}
 .stack2{display:flex;flex-direction:column;gap:18px}.tbl .rng{font-size:12px;color:var(--muted)}
 </style>
 </head>
@@ -470,6 +484,16 @@ h3.sub{font-size:16px;margin:6px 0 2px;font-weight:600}
   <div class="tablewrap"><table class="tbl" id="leisure-table"></table></div>
   <p class="note" id="leisure-note"></p>
 </section>
+<section id="attr-box">
+  <h2>Jalb etish xaritasi: qayerga va qanday ma'lumot yuborish</h2>
+  <p class="note">Har bir bozor uchun to'rtta o'lchangan ko'rsatkich birlashtirildi: <b>dam olish uchun kelganlar</b> (baho),
+  <b>imkoniyat</b> — 5 kunlik safarga qodir har 1000 kishidan nechta dam olish safari, uzoq bozorlarning odatiy darajasiga nisbatan,
+  <b>tanilganlik</b> — Google qidiruvlaridagi ulush (20% = teng) va <b>o'sish</b>. Qoidalar qat'iy, sun'iy intellekt ishlatilmaydi — har bir tavsiyaning sababi ko'rsatilgan.</p>
+  <div class="controls" id="attr-legend"></div>
+  <div class="mapwrap"><svg id="amap"></svg><div class="tip" id="atip" hidden></div></div>
+  <div class="tablewrap"><table class="tbl" id="attr-table"></table></div>
+  <p class="note" id="attr-note"></p>
+</section>
 <section>
   <h2>Vikipediya ko'rishlari — kun, hafta, oy, yil</h2>
   <p class="note">O'zbekiston, Samarqand, Buxoro, Xiva, Toshkent sahifalari, har bir til = bir bozor. Hafta/oy/yil — shu davrdagi ko'rishlar yig'indisi (tugallanmagan oxirgi davr ko'rsatilmaydi). Qo'shni davlatlar yashirin — legendani bosib yoqing. ▼ — voqealar. Kamera belgisi grafikni PNG qilib yuklaydi.</p>
@@ -549,6 +573,8 @@ const NARROW = window.innerWidth < 600;
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 function layout(ytitle, ylog){
   return {paper_bgcolor:"rgba(0,0,0,0)", plot_bgcolor:"rgba(0,0,0,0)",
+    colorway:["#d4af37", "#6f9fd8", "#f2d27a", "#a9c4e8", "#b8862b", "#4f78b0", "#e8c66a", "#8a9bb3"],
+    hoverlabel:{bgcolor:css("--card"), bordercolor:css("--accent"), font:{color:css("--ink")}},
     font:{family:"EB Garamond, Georgia, serif", color:css("--ink"), size:14},
     margin: NARROW ? {l:46,r:8,t:10,b:230} : {l:58,r:12,t:10,b:40}, hovermode:"x unified",
     legend: NARROW ? {orientation:"h", x:0, y:-0.12, yanchor:"top", font:{size:12}} : {orientation:"h", y:-0.18},
@@ -644,8 +670,8 @@ function drawLeisure(){
   const nfm = v => v == null ? "—" : Math.round(v).toLocaleString("ru-RU");
   const pct = v => v == null ? "—" : Math.round(v * 100) + "%";
   const yrs = P.yearly.map(r => r.year);
-  const parts = [["leisure", "Dam olish va sayohat", css("--accent")], ["relatives", "Qarindoshlarni ko'rish", "#a89c7d"],
-                 ["business", "Xizmat safari", "#7a8b99"], ["other", "Davolanish, tijorat, o'qish", "#8aa38b"]];
+  const parts = [["leisure", "Dam olish va sayohat", css("--accent")], ["relatives", "Qarindoshlarni ko'rish", "#3b5272"],
+                 ["business", "Xizmat safari", css("--blue")], ["other", "Davolanish, tijorat, o'qish", "#8a9bb3"]];
   const bars = parts.map(([k, n, c]) => ({type: "bar", name: n, x: yrs, marker: {color: c},
     y: P.yearly.map(r => r[k] / r.total * 100),
     customdata: P.yearly.map(r => r[k]), hovertemplate: "%{x}: %{y:.1f}% (%{customdata:,.0f} ming)<extra>" + n + "</extra>"}));
@@ -654,7 +680,7 @@ function drawLeisure(){
   L1.yaxis = {range: [0, 100], ticksuffix: "%", gridcolor: css("--rule") + "55"}; L1.hovermode = "closest";
   L1.legend = {orientation: "h", y: -0.12, yanchor: "top", font: {size: 12}}; L1.margin = {l: 44, r: 10, t: 10, b: 80};
   Plotly.react("purpose-years", bars, L1, cfg);
-  const pal = ["#8c3b22", "#c98e52", "#2f5d7c", "#3d6b45", "#a3542c", "#7a8b99", "#b9a27c", "#6b5a45", "#cfc3a8"];
+  const pal = ["#d4af37", "#f2d27a", "#6f9fd8", "#a9c4e8", "#b8862b", "#4f78b0", "#e8c66a", "#8a9bb3", "#3b5272"];
   const st = P.stack.map((s, i) => ({type: "bar", name: s.name, x: P.months.map(m => m + "-01"), y: s.y,
     marker: {color: pal[i % pal.length]}, hovertemplate: "%{y:,.0f}<extra>" + s.name + "</extra>"}));
   const L2 = layout("kishi / oy", false);
@@ -689,11 +715,61 @@ function drawLeisure(){
   document.getElementById("leisure-note").textContent = "Usul tekshiruvi: 2025 ulushlari oldingi yillarga qo'llanib, rasmiy dam olish jami bilan solishtirildi — xato " + v
     + ". Demak baho taxminan ±10% aniq; ulushlar vaqt o'tishi bilan o'zgaradi (masalan, Xitoyda 84% → 48%). Prognoz oralig'i faqat kelganlar sonidagi noaniqlikni ko'rsatadi, ulush noaniqligi qo'shilmagan. «Boshqa davlatlar» — qolgan ~190 davlat (Afg'oniston, Italiya, AQSh, Koreya va boshq.) bir guruh sifatida.";
 }
+const GROUPS = {A: ["Katta imkoniyat", "#f2c94c"], C: ["Konversiya (qo'shnilar)", "#d9893a"],
+                B: ["Kuchli bozor", "#6f9fd8"], D: ["Kuzatish", "#4a5d7c"]};
+function drawAttraction(){
+  const A = D.attraction, box = document.getElementById("attr-box");
+  if (!A || !A.rows.length || !D.map || !D.map.topo) { box.style.display = "none"; return; }
+  const nfm = v => v == null ? "—" : Math.round(v).toLocaleString("ru-RU");
+  const by = Object.fromEntries(A.rows.map(r => [r.num, r]));
+  document.getElementById("attr-legend").innerHTML = Object.entries(GROUPS).map(([k, [n, c]]) =>
+    `<span style="margin-right:14px"><span class="gdot" style="background:${c}"></span>${k} — ${n}</span>`).join("");
+  const svg = d3.select("#amap"), W = 960, H = 470;
+  svg.attr("viewBox", `0 0 ${W} ${H}`).selectAll("*").remove();
+  const proj = d3.geoNaturalEarth1().fitExtent([[6, 6], [W - 6, H - 6]], {type: "Sphere"}), path = d3.geoPath(proj);
+  const g = svg.append("g");
+  g.append("path").attr("class", "sphere").attr("d", path({type: "Sphere"}));
+  g.append("path").attr("class", "grat").attr("d", path(d3.geoGraticule10()));
+  const feats = topojson.feature(D.map.topo, D.map.topo.objects.countries).features;
+  const tip = document.getElementById("atip");
+  g.append("g").selectAll("path").data(feats).join("path")
+    .attr("class", d => "land" + (d.id === "860" ? " uzb" : "")).attr("d", path)
+    .attr("style", d => by[d.id] ? `fill:${GROUPS[by[d.id].group][1]}` : null)
+    .on("mousemove", (ev, d) => {
+      const r = by[d.id]; if (!r) { tip.hidden = true; return; }
+      const bx = document.querySelector("#attr-box .mapwrap").getBoundingClientRect();
+      tip.innerHTML = `<b>${r.name}</b> · ${r.group} — ${GROUPS[r.group][0]}<br><b>${r.message_uz}:</b> ${r.message_detail}<br>`
+        + `<span style="color:var(--muted)">${r.why}</span><br>Dam olish safarlari 2025: ${nfm(r.leisure)}`
+        + (r.headroom ? `<br>Imkoniyat: +${nfm(r.headroom)} / yil` : "") + `<br>Kanal: ${r.channels}`;
+      tip.hidden = false; tip.style.left = Math.min(ev.clientX - bx.left + 12, bx.width - 270) + "px"; tip.style.top = (ev.clientY - bx.top + 12) + "px"; })
+    .on("mouseleave", () => { tip.hidden = true; });
+  svg.call(d3.zoom().scaleExtent([1, 8]).translateExtent([[0, 0], [W, H]]).on("zoom", e => g.attr("transform", e.transform)));
+  const t = document.getElementById("attr-table");
+  t.innerHTML = "<thead><tr><th>Bozor</th><th>Guruh</th><th>Dam olish safarlari, 2025</th><th>1000 qodir kishiga</th><th>Imkoniyat, +/yil</th><th>Google ulushi</th><th>Xabar turi va kanal</th></tr></thead>";
+  const tb = document.createElement("tbody");
+  A.rows.forEach(r => {
+    const tr = document.createElement("tr");
+    const td = (html, cls) => { const c = document.createElement("td"); c.innerHTML = html; if (cls) c.className = cls; tr.appendChild(c); };
+    td(`<b>${r.name}</b>`);
+    td(`<span class="gdot" style="background:${GROUPS[r.group][1]}"></span>${r.group}`, "num");
+    td(nfm(r.leisure) + (r.share_year ? `<div class="rng">ulush ${Math.round(r.leisure_share * 100)}% (${r.share_year})</div>` : ""), "num");
+    td(r.rate == null ? "—" : r.rate.toFixed(2).replace(".", ","), "num");
+    td(r.headroom ? "+" + nfm(r.headroom) : "—", "num");
+    td(r.search == null ? "—" : Math.round(r.search) + "%", "num");
+    td(`<b>${r.message_uz}</b> — ${r.message_detail}<div class="why">${r.why}. Kanal: ${r.channels}</div>`);
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  document.getElementById("attr-note").textContent = "Odatiy daraja — uzoq bozorlar medianasi: har 1000 qodir kishidan "
+    + A.typical.toFixed(2).replace(".", ",") + " dam olish safari. Imkoniyat — bozor shu darajaga yetsa yiliga qo'shimcha safarlar (qo'shnilarda — dam olish ulushi eng yaxshi qo'shnidek bo'lsa). "
+    + "Ehtiyot bo'ling: «qodir kishilar» va dam olish ulushi — baho (±10–20%); odatiy daraja bozorlar to'plamiga bog'liq; kanallar — umumiy ma'lumot, o'lchanmagan. "
+    + "Qozog'istonda Google ulushi ko'rsatilmaydi: Qozog'iston o'zi 5 yo'nalishdan biri.";
+}
 function drawTrends(){
   const T = D.trends, box = document.getElementById("trends-box");
   if (!T || !T.markets || !T.markets.length) { box.style.display = "none"; return; }
   const ms = T.markets.slice().sort((a, b) => a.latest[0] - b.latest[0]);
-  const pal = [css("--accent"), "#7a8b99", "#a89c7d", "#8aa38b", "#b9a2a2"];
+  const pal = [css("--accent"), "#6f9fd8", "#4f6b8f", "#8a9bb3", "#2f4466"];
   const bars = T.destinations.map((d, i) => ({type: "bar", orientation: "h", name: d, y: ms.map(m => m.name),
     x: ms.map(m => m.latest[i]), marker: {color: pal[i]}, hovertemplate: "%{y}: %{x}%<extra>" + d + "</extra>",
     text: i === 0 ? ms.map(m => m.latest[0] + "%") : null, textposition: "inside", insidetextanchor: "start"}));
@@ -813,7 +889,7 @@ function drawOverall(){
 }
 document.querySelectorAll("[data-og]").forEach(b => b.onclick = () => {
   og = b.dataset.og; document.querySelectorAll("[data-og]").forEach(x => x.classList.toggle("on", x===b)); drawOverall(); });
-if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawLeisure(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
+if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawLeisure(); drawAttraction(); drawViews(); drawShare(); drawTrends(); drawArrivals(); }
 (function worldMap(){
   if (typeof d3 === "undefined" || typeof topojson === "undefined" || !D.map) { document.getElementById("map-box").style.display = "none"; return; }
   const M = D.map, svg = d3.select("#map"), W = 960, H = 500;
@@ -832,8 +908,8 @@ if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawLeisure(); 
   const nm = id => (M.countries[id] && M.countries[id].n) || (feats.find(f => f.id === id) || {properties:{}}).properties.name || id;
   const MARKET_ISO_JS = {zh:"156", ko:"410", ja:"392", de:"276", tr:"792", it:"380", fr:"250", hi:"356", kk:"398", ky:"417", tg:"762", tk:"795", ps:"004", ru:"643"};
   const MK = {zh:"🇨🇳", ko:"🇰🇷", ja:"🇯🇵", de:"🇩🇪", tr:"🇹🇷", it:"🇮🇹", fr:"🇫🇷", hi:"🇮🇳", kk:"🇰🇿", ky:"🇰🇬", tg:"🇹🇯", tk:"🇹🇲", ps:"🇦🇫", ru:"🇷🇺"};
-  const warm = d3.interpolateRgbBasis(["#f3e6c8", "#e2c38d", "#c98e52", "#a3542c", "#6e2814"]);
-  const div = d3.interpolateRgbBasis(["#8c3b22", "#d9a77c", "#f3ead7", "#9bbf8f", "#2f6b3f"]);
+  const warm = d3.interpolateRgbBasis(["#22344f", "#46506a", "#8a7236", "#d4af37", "#fbe7a8"]);
+  const div = d3.interpolateRgbBasis(["#3d6fb0", "#7d9cc4", "#2a3a54", "#c9a13a", "#fbe0a0"]);
   function value(id){
     const c = M.countries[id];
     if (metric === "arrivals") return c && c.y[year] > 0 ? c.y[year] : null;
@@ -917,10 +993,10 @@ if (typeof Plotly !== "undefined") { drawOverall(); drawScore(); drawLeisure(); 
       title:{text:title, font:{size:13}}, xaxis:{type:xtype, gridcolor:css("--rule")+"44"},
       yaxis:{gridcolor:css("--rule")+"44", rangemode:"tozero"}});
     if (c) { const L1 = mini("Turistlar, yillar bo'yicha", "linear"); L1.xaxis.dtick = 2; L1.xaxis.tickformat = "d";
-      Plotly.react("mini1", [{type:"bar", x:Object.keys(c.y).map(Number), y:Object.values(c.y), marker:{color:"#a3542c"}}],
+      Plotly.react("mini1", [{type:"bar", x:Object.keys(c.y).map(Number), y:Object.values(c.y), marker:{color:css("--accent")}}],
       L1, {displayModeBar:false, responsive:true}); }
     if (m) { const s = D.series.find(x => x.lang === m.lang), n = 730;
-      Plotly.react("mini2", [{type:"scatter", mode:"lines", x:D.dates.slice(-n), y:s.avg7.slice(-n), line:{color:"#2f5d7c", width:1.4}}],
+      Plotly.react("mini2", [{type:"scatter", mode:"lines", x:D.dates.slice(-n), y:s.avg7.slice(-n), line:{color:css("--blue"), width:1.4}}],
       mini("Vikipediya, 7 kunlik o'rtacha (2 yil)", "date"), {displayModeBar:false, responsive:true}); }
   }
   function pp(x){ return x && x.p != null ? "~" + Math.round(x.p*100) + "%" : "ma'lumot yetarli emas"; }

@@ -283,6 +283,34 @@ def leisure_section(r: Report):
                       + ", ".join(f"{x[0]} ({x[2]})" for x in top) + ".")
 
 
+def attraction_section(r: Report):
+    from . import attraction
+    try:
+        df = attraction.build()
+    except Exception:  # noqa: BLE001
+        log.exception("attraction section failed")
+        return
+    r.h("Jalb etish xaritasi: qayerga va qanday ma'lumot yuborish", 2)
+    r.p("Har bozor uchun: dam olish uchun kelganlar, imkoniyat (5 kunlik safarga qodir har 1000 kishiga dam olish safarlari "
+        f"odatiy darajaga — {df['typical_rate'].iloc[0]:.2f} — nisbatan), Google qidiruv ulushi va o'sish. Qoidalar qat'iy.".replace(".", ",", 1))
+    names = {"A": "Katta imkoniyat", "B": "Kuchli bozor", "C": "Konversiya", "D": "Kuzatish"}
+    rows = []
+    for x in df.itertuples():
+        rows.append([x.name, f"{x.group} — {names[x.group]}", n(x.leisure) if pd.notna(x.leisure) else "—",
+                     f"+{n(x.headroom)}" if pd.notna(x.headroom) and x.headroom > 0 else "—",
+                     f"{x.search:.0f}%" if pd.notna(x.search) else "—", f"{x.message_uz}: {x.message_detail}"])
+    r.table(["Bozor", "Guruh", "Dam olish safarlari 2025", "Imkoniyat, +/yil", "Google", "Xabar turi"], rows,
+            [1500, 1700, 1400, 1300, 900, 3800])
+    r.p("Imkoniyat va dam olish ulushi — baho (±10–20%); kanallar — umumiy ma'lumot, o'lchanmagan.", "note")
+    a = df[df["group"] == "A"]
+    if len(a):
+        r.findings.append("Jalb etish: eng katta imkoniyat — " + ", ".join(f"{x.name} (+{n(x.headroom)} safar/yil, «{x.message_uz}»)"
+                                                                         for x in a.itertuples()) + ".")
+        top = a.iloc[0]
+        r.steps.append(f"Jalb etish sinovi: {top['name']} uchun «{top['message_uz']}» turidagi kichik kampaniya "
+                       f"({top['channels'].split(' (')[0]}) — bosishlar, qidiruv va so'rovlarni o'lchash.")
+
+
 def trends_section(r: Report):
     df = trends.load()
     if df.empty:
@@ -415,6 +443,7 @@ def build(send=True) -> Path | None:
     official_section(r)
     score_section(r)
     leisure_section(r)
+    attraction_section(r)
     trends_section(r)
     events_section(r)
     news_section(r, days)
