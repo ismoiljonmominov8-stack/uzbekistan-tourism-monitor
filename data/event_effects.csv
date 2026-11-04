@@ -78,5 +78,5 @@ E2024-04,2024-11-21,politics,tk,Turkmenistan reportedly tightens exit rules for 
 E2025-02,2025-12-02,border,ps,Termez–Hairaton border reopened for citizens (visa still required),date not exact,,,,,,,,,waiting,,,False,—,—,,,,,,
 E2026-05,2026-03-30,flight,ko,Asiana Airlines resumes Seoul–Tashkent flights (3–4 a week),ok,monthly,2699.0,4675.0,1.73,1.37,1.17,True,"before 2026-01..2026-02, after 2026-04..2026-07; season-adjusted with 2024",ok,E2026-01,,True,none,no clear change (mixed with other events),1.02,1.21,7.0,2024.0,1.08,1.26
 E2026-06,2026-12-31,crossing,kk,"Gishtkuprik / Zhibek Zholy border crossing with Kazakhstan reopens (planned Q4 2026, date not yet set)",date not exact,,,,,,,,,waiting,,,False,—,—,,,,,,
-E2026-12,2026-10-28,flight,tr,"Pegasus Airlines Istanbuldan Buxoro (14-dek), Andijon (18-dek) va Termizga (2027 1-mart) reyslarni boshlaydi",partial,,,,,,,,,waiting,,E2026-13,False,strong,—,1.57,1.87,6.0,,,
-E2026-13,2026-10-29,politics,tr,"Turkiy davlatlar tashkiloti sammiti, Anqara (29–30 oktabr 2026), Prezident Mirziyoyev ishtirokida",partial,,,,,,,,,waiting,,E2026-12,False,strong,—,1.55,1.84,5.0,,,
+E2026-12,2026-10-28,flight,tr,"Pegasus Airlines Istanbuldan Buxoro (14-dek), Andijon (18-dek) va Termizga (2027 1-mart) reyslarni boshlaydi",ok,,,,,,,,,waiting,,E2026-13,False,some,—,1.48,1.87,7.0,,,
+E2026-13,2026-10-29,politics,tr,"Turkiy davlatlar tashkiloti sammiti, Anqara (29–30 oktabr 2026), Prezident Mirziyoyev ishtirokida",partial,,,,,,,,,waiting,,E2026-12,False,some,—,1.45,1.84,6.0,,,
