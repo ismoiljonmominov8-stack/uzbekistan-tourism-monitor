@@ -35,6 +35,34 @@ def tashkent_now():
     return datetime.now(timezone.utc) + timedelta(hours=5)
 
 
+def catch_up_daily() -> bool:
+    """Wikimedia sometimes publishes yesterday's page views hours late. Then the 09:47 run finds nothing new and
+    skips the index post. Later runs (backup schedules, approvals) call this: if yesterday's index was not posted,
+    fetch again (at most every 50 minutes) and post when the data is there. Returns True if it posted."""
+    from datetime import datetime, timedelta, timezone
+    from .util import read_json, write_json
+    now = datetime.now(timezone.utc)
+    expected = (now.date() - timedelta(days=1)).isoformat()      # Wikipedia days are UTC days
+    state = read_json(posts.STATE, {})
+    if state.get("daily", "") >= expected:
+        return False
+    last = state.get("catchup_at")
+    if last and now - datetime.fromisoformat(last) < timedelta(minutes=50):
+        return False
+    state["catchup_at"] = now.isoformat(timespec="seconds")
+    write_json(posts.STATE, state)
+    step("pageviews", pageviews.collect)
+    step("wikipedia totals", pageviews.collect_projects)
+    newest = str(pageviews.load()["date"].max())[:10]
+    if newest < expected:
+        log.info("catch-up: Wikipedia data for %s still not published (newest %s)", expected, newest)
+        return False
+    log.info("catch-up: data for %s arrived late -> posting the daily index now", expected)
+    step("history chart", history.build)
+    step("daily post", posts.daily)
+    return True
+
+
 def daily():
     """Runs at most once per Tashkent day (several schedules + catch-up may call it)."""
     from .util import read_json, write_json
@@ -42,6 +70,7 @@ def daily():
     today = tashkent_now().date().isoformat()
     if state.get("run_date") == today:
         log.info("daily: already ran today (%s); only handling approvals", today)
+        step("daily post catch-up", catch_up_daily)
         step("approvals", news.process_approvals, 2)
         return
     state["run_date"] = today
@@ -74,6 +103,8 @@ def approvals():
         daily()
         return
     before = events.EVENTS.stat().st_mtime if events.EVENTS.exists() else 0
+    if now.hour * 60 + now.minute >= 10 * 60:           # after the morning run had its chance
+        step("daily post catch-up", catch_up_daily)
     step("approvals", news.process_approvals)
     if events.EVENTS.exists() and events.EVENTS.stat().st_mtime != before:
         step("event tracker", posts.event_results)

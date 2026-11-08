@@ -104,6 +104,7 @@ def daily(force=False):
     send_message(channel_id(), text)
     state["daily"] = str(day.date())
     write_json(STATE, state)
+    log.info("daily: index for %s posted", day.date())
 
 
 def weekly():
