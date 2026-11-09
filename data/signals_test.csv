@@ -2,3 +2,6 @@ signal,n,n_moved,mae_base,mae_new,keep
 eid,258,91,0.1234,0.127,False
 cny,21,1,0.2587,0.2584,False
 fx,217,217,0.1791,0.1878,False
+intent_raw,319,315,0.1641,0.1669,False
+intent,319,319,0.1641,0.1654,False
+intent@market,192,192,0.134,0.1431,False

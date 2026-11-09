@@ -24,6 +24,8 @@ import pandas as pd
 from . import config, scorecard, statuz
 
 FX = config.DATA / "fx_monthly.csv"
+INTENT = config.DATA / "intent_monthly.csv"
+INTENT_MIN = 15          # 3-month sum of the Google index needed on both sides, else too noisy
 OUT_CSV = config.DATA / "signals_test.csv"
 OUT_TXT = config.ROOT / "reports" / "signals_test.txt"
 MIN_PRIOR = 12          # forecasts needed before beta is estimated
@@ -54,7 +56,13 @@ def holiday_days(years=range(2020, 2029)) -> dict[str, set[date]]:
     return {"eid": eid, "ram": ram, "cny": cny}
 
 
-def signal_values(level: str, target: str, cutoff: str, H: dict, fx: pd.DataFrame | None) -> dict:
+def _sum3(s: dict, end: str):
+    v = [s.get(scorecard.ym_add(end, -k)) for k in range(3)]
+    return None if any(x is None for x in v) else float(sum(v))
+
+
+def signal_values(level: str, target: str, cutoff: str, H: dict, fx: pd.DataFrame | None,
+                  intent: dict | None = None, pts: dict | None = None) -> dict:
     prev = scorecard.ym_add(target, -12)
     out = {}
     if level in EID_LEVELS:
@@ -67,6 +75,18 @@ def signal_values(level: str, target: str, cutoff: str, H: dict, fx: pd.DataFram
         a, b = s.get(cutoff), s.get(scorecard.ym_add(cutoff, -3))
         if a and b:
             out["fx"] = float(np.log(a / b))
+    # travel-intent searches: growth of the last 3 months vs a year earlier (known on the forecast day)
+    if intent and level in intent:
+        s = intent[level]
+        now, ago = _sum3(s, cutoff), _sum3(s, scorecard.ym_add(cutoff, -12))
+        if now and ago and now >= INTENT_MIN and ago >= INTENT_MIN:
+            out["intent_raw"] = float(np.log(now / ago))
+            # beyond what arrivals already show: search growth minus arrivals growth over the same 3 months
+            if pts:
+                a_now = sum((pts.get(scorecard.ym_add(cutoff, -k)) or {}).get("v", 0) for k in range(3))
+                a_ago = sum((pts.get(scorecard.ym_add(cutoff, -12 - k)) or {}).get("v", 0) for k in range(3))
+                if a_now > 0 and a_ago > 0:
+                    out["intent"] = out["intent_raw"] - float(np.log(a_now / a_ago))
     return out
 
 
@@ -76,6 +96,10 @@ def backtest_rows() -> pd.DataFrame:
     last_all = max(actual["TOTAL"])
     H = holiday_days()
     fx = pd.read_csv(FX) if FX.exists() else None
+    intent = None
+    if INTENT.exists():
+        it = pd.read_csv(INTENT)
+        intent = {lvl: dict(zip(g["month"], g["value"])) for lvl, g in it.groupby("level")}
     rows = []
     for cutoff in pd.period_range("2023-01", scorecard.ym_add(last_all, -1), freq="M"):
         c = f"{cutoff.year}-{cutoff.month:02d}"
@@ -89,11 +113,11 @@ def backtest_rows() -> pd.DataFrame:
                 if not a or a["kind"] != "month":
                     continue
                 rows.append({"cutoff": c, "level": level, "target": r["target"], "h": r["h"], "forecast": r["forecast"],
-                             "actual": round(a["v"])} | signal_values(level, r["target"], c, H, fx))
+                             "actual": round(a["v"])} | signal_values(level, r["target"], c, H, fx, intent, pts))
     return pd.DataFrame(rows)
 
 
-def rolling_adjust(df: pd.DataFrame, sig: str) -> pd.Series:
+def rolling_adjust(df: pd.DataFrame, sig: str, per_market: bool = False) -> pd.Series:
     """Adjusted forecasts for one signal, beta estimated only from forecasts whose target month was known."""
     d = df.copy()
     d["y"] = np.log(d["actual"] / d["forecast"])
@@ -103,6 +127,8 @@ def rolling_adjust(df: pd.DataFrame, sig: str) -> pd.Series:
         if pd.isna(r.get(sig)):
             continue
         prior = d[(d["target"] <= r["cutoff"]) & d[sig].notna()]
+        if per_market:
+            prior = prior[prior["level"] == r["level"]]
         if len(prior) < MIN_PRIOR or prior[sig].abs().sum() == 0:
             continue
         x, y = prior[sig].values, prior["y"].values - prior["y"].mean()   # remove the method's average bias
@@ -116,18 +142,22 @@ def run() -> str:
     df = backtest_rows()
     lines = ["Signals test — do holidays and exchange rates improve the arrivals forecast?",
              f"Back-test forecasts: {len(df)} (2023–{df['target'].max()}, 1–3 months ahead, total + {df['level'].nunique() - 1} countries)",
-             f"Exchange rates available: {'yes' if FX.exists() else 'NO (run the fetch first)'}", ""]
+             f"Exchange rates available: {'yes' if FX.exists() else 'NO (run the fetch first)'}; "
+             f"travel-intent searches: {'yes' if INTENT.exists() else 'NO'}",
+             "intent_raw = travel searches growth (3 months, year on year); intent = the same minus arrivals growth", ""]
     res = []
-    for sig in ("eid", "cny", "fx"):
-        if sig not in df.columns:
+    for sig in ("eid", "cny", "fx", "intent_raw", "intent", "intent@market"):
+        per_market = sig.endswith("@market")
+        col = sig.split("@")[0]
+        if col not in df.columns:
             lines.append(f"{sig}: no data"); continue
-        adj, betas = rolling_adjust(df, sig)
+        adj, betas = rolling_adjust(df, col, per_market)
         m = adj.notna()
         if m.sum() == 0:
             lines.append(f"{sig}: not enough cases yet"); continue
         base = (df.loc[m, "forecast"] / df.loc[m, "actual"] - 1).abs()
         new = (adj[m] / df.loc[m, "actual"] - 1).abs()
-        moved = (df.loc[m, sig] != 0)
+        moved = (df.loc[m, col] != 0)
         lines.append(f"[{sig}] tested on {int(m.sum())} forecasts ({int(moved.sum())} where the signal was not zero); last beta {betas[m].iloc[-1]:+.4f}")
         lines.append(f"   mean abs error: baseline {base.mean():.2%} -> with signal {new.mean():.2%}  (change {new.mean() - base.mean():+.2%})")
         if moved.sum():
