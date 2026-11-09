@@ -10,7 +10,9 @@ content (B). If B wins, the barrier is practical (flights, cost, planning) and t
 - Random 50/50 (for organic sharing): `…/visit/index.html`
 
 Always add the source to the link, e.g. `a.html?utm_source=meta`, `b.html?utm_source=reddit`.
-Known sources: meta, instagram, facebook, reddit, youtube, google, telegram, email.
+Known sources: meta, instagram, facebook, reddit, youtube, google, telegram, email, pinterest, tiktok, linkedin, x, qr,
+partner, and partner labels `p-<name>` (e.g. `p-aua`). Ready-made links, partner messages, Pinterest pins and QR cards:
+see `landing/outreach.md`.
 
 ---
 
@@ -46,7 +48,8 @@ Only counts are stored: day, version, event, visitor country, traffic source. No
 
 ## 3. Posts — version A (inspiration) → link to `a.html`
 
-Use your own photos or photos you have the right to use, and name the place in the photo.
+The pages now carry free-licensed photos (credited at the bottom of each page). For posts, use your own photos or the
+ready-made Pinterest pin images in `docs/visit/pins/` (a1–a5 for A, b1–b5 for B).
 
 **A1 — Registan at dusk**
 > Most Americans have never heard of Samarkand. It traded with China and Persia for 2,000 years — and the Registan
