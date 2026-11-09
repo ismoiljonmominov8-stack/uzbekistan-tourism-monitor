@@ -54,6 +54,55 @@ CHANNELS = {
     "TKM": "Internet cheklangan — qarindoshlar, turoperatorlar, chegara punktlari",
     "AFG": "—",
 }
+# same recommendations in Russian and English (the page has a UZ / RU / EN switch)
+CHANNELS_I18N = {
+    "ru": {"USA": "Instagram, YouTube, поиск Google, тревел-блоги (англ.)", "GBR": "Instagram, YouTube, поиск Google, тревел-журналы (англ.)",
+           "DEU": "Instagram, YouTube, поиск Google, туроператоры (нем.)", "FRA": "Instagram, YouTube, поиск Google, туроператоры (франц.)",
+           "ITA": "Instagram, YouTube, поиск Google, туроператоры (итал.)", "JPN": "X (Twitter), Instagram, LINE, YouTube (япон.)",
+           "KOR": "Naver, KakaoTalk, YouTube, Instagram (корейск.)", "CHN": "WeChat, Douyin, Xiaohongshu — Google и Instagram заблокированы (кит.)",
+           "IND": "Instagram, YouTube, WhatsApp (англ. и хинди)", "TUR": "Instagram, YouTube (турецк.)", "RUS": "Telegram, VK, YouTube (рус.)",
+           "KAZ": "Telegram, Instagram (казах. и рус.)", "KGZ": "Telegram, Instagram (кирг. и рус.)", "TJK": "Telegram, Instagram (тадж. и рус.)",
+           "TKM": "Интернет ограничен — родственники, туроператоры, погранпереходы", "AFG": "—"},
+    "en": {"USA": "Instagram, YouTube, Google search, travel blogs (English)", "GBR": "Instagram, YouTube, Google search, travel magazines (English)",
+           "DEU": "Instagram, YouTube, Google search, tour operators (German)", "FRA": "Instagram, YouTube, Google search, tour operators (French)",
+           "ITA": "Instagram, YouTube, Google search, tour operators (Italian)", "JPN": "X (Twitter), Instagram, LINE, YouTube (Japanese)",
+           "KOR": "Naver, KakaoTalk, YouTube, Instagram (Korean)", "CHN": "WeChat, Douyin, Xiaohongshu — Google and Instagram are blocked (Chinese)",
+           "IND": "Instagram, YouTube, WhatsApp (English and Hindi)", "TUR": "Instagram, YouTube (Turkish)", "RUS": "Telegram, VK, YouTube (Russian)",
+           "KAZ": "Telegram, Instagram (Kazakh and Russian)", "KGZ": "Telegram, Instagram (Kyrgyz and Russian)", "TJK": "Telegram, Instagram (Tajik and Russian)",
+           "TKM": "Internet restricted — relatives, tour operators, border crossings", "AFG": "—"},
+}
+MESSAGES_I18N = {
+    "ru": {"inspiration": ("Вдохновение", "Познакомить с Узбекистаном: города Шёлкового пути, кухня, безопасность, гостеприимство"),
+           "practical": ("Практика", "Убрать барьер: рейсы, полная стоимость, визовый режим, готовый маршрут на 5–7 дней"),
+           "broaden": ("Расширение", "Новые места и повторные поездки: Хива, горы, фестивали, гастрономия"),
+           "convert": ("Короткий отдых", "Тем, кто уже приезжает: пакеты выходного дня, фестивали, шопинг, оздоровление"),
+           "watch": ("Наблюдение", "Отдельная кампания пока не нужна")},
+    "en": {"inspiration": ("Inspiration", "Introduce Uzbekistan: Silk Road cities, food, safety, hospitality"),
+           "practical": ("Practical", "Remove the barrier: flights, total cost, visa rules, a ready 5–7 day route"),
+           "broaden": ("Broaden", "New places and repeat visits: Khiva, mountains, festivals, food"),
+           "convert": ("Short breaks", "For people who already come: weekend packages, festivals, shopping, wellness"),
+           "watch": ("Watch", "No separate campaign needed for now")},
+}
+WHY = {  # key -> {lang: template}; {p} = percent, {b} = best neighbour %, {s} = search %, {r}/{t} = rates
+    "afg": {"uz": "Asosan tijorat safarlari; dam olish ulushi noma'lum", "ru": "В основном торговые поездки; доля отдыха неизвестна",
+            "en": "Mostly trade trips; leisure share unknown"},
+    "convert": {"uz": "Dam olish ulushi {p} — eng yaxshi qo'shnida {b}", "ru": "Доля отдыха {p} — у лучшего соседа {b}",
+                "en": "Leisure share {p} — best neighbour {b}"},
+    "best_near": {"uz": "Qo'shnilar ichida eng yuqori dam olish ulushi ({p})", "ru": "Самая высокая доля отдыха среди соседей ({p})",
+                  "en": "Highest leisure share among neighbours ({p})"},
+    "tkm": {"uz": "Kelganlarning {p} i dam olish uchun; internet cheklangan", "ru": "{p} приезжающих — ради отдыха; интернет ограничен",
+            "en": "{p} of arrivals come for leisure; internet restricted"},
+    "practical": {"uz": "Qidiruvda ulush yuqori ({s}), lekin kam keladi — to'siq amaliy", "ru": "Высокая доля в поиске ({s}), но приезжают мало — барьер практический",
+                  "en": "High search share ({s}) but few visit — the barrier is practical"},
+    "inspire_s": {"uz": "Qidiruvda ulush past ({s}) — O'zbekiston kam tanilgan", "ru": "Низкая доля в поиске ({s}) — Узбекистан мало известен",
+                  "en": "Low search share ({s}) — Uzbekistan is little known"},
+    "inspire": {"uz": "O'zbekiston kam tanilgan", "ru": "Узбекистан мало известен", "en": "Uzbekistan is little known"},
+    "strong": {"uz": "Har 1000 qodir kishidan {r} dam olish safari — odatiy ({t}) darajada yoki yuqori",
+               "ru": "{r} поездки на отдых на 1000 платёжеспособных — на типичном уровне ({t}) или выше",
+               "en": "{r} leisure trips per 1,000 who can afford it — at or above the typical level ({t})"},
+    "small": {"uz": "Imkoniyat kichik yoki allaqachon odatiy darajada", "ru": "Потенциал мал или уже на типичном уровне",
+              "en": "Small headroom or already at the typical level"},
+}
 MESSAGES = {
     "inspiration": ("Ilhom", "O'zbekistonni tanitish: Ipak yo'li shaharlari, oshxona, xavfsizlik, mehmondo'stlik"),
     "practical": ("Amaliy", "To'siqni olib tashlash: reyslar, umumiy narx, viza tartibi, tayyor 5–7 kunlik marshrut"),
@@ -117,28 +166,38 @@ def build() -> pd.DataFrame:
     df["typical_rate"] = typical
 
     def classify(r):
+        """-> group, message, why-key, params"""
+        pc = lambda v: f"{v:.0%}"  # noqa: E731
         if r.iso == "AFG":
-            return "D", "watch", "Asosan tijorat safarlari; dam olish ulushi noma'lum"
+            return "D", "watch", "afg", {}
         if r.iso in ("KGZ", "TJK", "KAZ"):
             if r.headroom and r.headroom >= MIN_HEADROOM:
-                return "C", "convert", f"Dam olish ulushi {r.leisure_share:.0%} — eng yaxshi qo'shnida {best_near:.0%}"
-            return "B", "broaden", f"Qo'shnilar ichida eng yuqori dam olish ulushi ({r.leisure_share:.0%})"
+                return "C", "convert", "convert", {"p": pc(r.leisure_share), "b": pc(best_near)}
+            return "B", "broaden", "best_near", {"p": pc(r.leisure_share)}
         if r.iso == "TKM":
-            return "B", "broaden", f"Kelganlarning {r.leisure_share:.0%} i dam olish uchun; internet cheklangan"
+            return "B", "broaden", "tkm", {"p": pc(r.leisure_share)}
         if r.headroom is not None and r.headroom >= MIN_HEADROOM:
             if pd.notna(r.search) and r.search >= 25:
-                return "A", "practical", f"Qidiruvda ulush yuqori ({r.search:.0f}%), lekin kam keladi — to'siq amaliy"
-            return "A", "inspiration", (f"Qidiruvda ulush past ({r.search:.0f}%) — O'zbekiston kam tanilgan" if pd.notna(r.search)
-                                        else "O'zbekiston kam tanilgan")
+                return "A", "practical", "practical", {"s": f"{r.search:.0f}%"}
+            return ("A", "inspiration", "inspire_s", {"s": f"{r.search:.0f}%"}) if pd.notna(r.search) else ("A", "inspiration", "inspire", {})
         if r.leisure and r.leisure >= STRONG and (pd.isna(r.rate) or r.rate >= typical):
-            return "B", "broaden", (f"Har 1000 qodir kishidan {r.rate:.2f} dam olish safari — odatiy ({typical:.2f}) darajada yoki yuqori"
-                                    .replace(".", ","))
-        return "D", "watch", "Imkoniyat kichik yoki allaqachon odatiy darajada"
-    out = df.apply(lambda r: pd.Series(classify(r), index=["group", "message", "why"]), axis=1)
-    df = pd.concat([df, out], axis=1)
+            return "B", "broaden", "strong", {"r": f"{r.rate:.2f}", "t": f"{typical:.2f}"}
+        return "D", "watch", "small", {}
+    cls = df.apply(lambda r: pd.Series(classify(r), index=["group", "message", "why_key", "why_params"]), axis=1)
+    df = pd.concat([df, cls[["group", "message"]]], axis=1)
+    for lang in ("uz", "ru", "en"):
+        texts = []
+        for k, prm in zip(cls["why_key"], cls["why_params"]):
+            t = WHY[k][lang].format(**prm)
+            texts.append(t.replace(".", ",") if lang != "en" and k == "strong" else t)
+        df["why" if lang == "uz" else f"why_{lang}"] = texts
     df["message_uz"] = df["message"].map(lambda m: MESSAGES[m][0])
     df["message_detail"] = df["message"].map(lambda m: MESSAGES[m][1])
     df["channels"] = df["iso"].map(CHANNELS)
+    for lang in ("ru", "en"):
+        df[f"message_{lang}"] = df["message"].map(lambda m: MESSAGES_I18N[lang][m][0])
+        df[f"message_detail_{lang}"] = df["message"].map(lambda m: MESSAGES_I18N[lang][m][1])
+        df[f"channels_{lang}"] = df["iso"].map(CHANNELS_I18N[lang])
     order = {"A": 0, "C": 1, "B": 2, "D": 3}
     df = df.sort_values(["group", "headroom", "leisure"], key=lambda s: s.map(order) if s.name == "group" else -s.fillna(0))
     df.round(4).to_csv(OUT, index=False)
