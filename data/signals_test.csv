@@ -1,0 +1,4 @@
+signal,n,n_moved,mae_base,mae_new,keep
+eid,258,91,0.1234,0.127,False
+cny,21,1,0.2587,0.2584,False
+fx,217,217,0.1791,0.1878,False
