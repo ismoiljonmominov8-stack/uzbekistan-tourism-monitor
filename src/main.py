@@ -54,10 +54,10 @@ def catch_up_daily() -> bool:
     step("pageviews", pageviews.collect)
     step("wikipedia totals", pageviews.collect_projects)
     newest = str(pageviews.load()["date"].max())[:10]
-    if newest < expected:
-        log.info("catch-up: Wikipedia data for %s still not published (newest %s)", expected, newest)
+    if newest <= state.get("daily", ""):
+        log.info("catch-up: Wikipedia has nothing newer than %s yet (expected %s)", newest, expected)
         return False
-    log.info("catch-up: data for %s arrived late -> posting the daily index now", expected)
+    log.info("catch-up: data for %s arrived late -> posting the daily index now", newest)
     step("history chart", history.build)
     step("daily post", posts.daily)
     return True

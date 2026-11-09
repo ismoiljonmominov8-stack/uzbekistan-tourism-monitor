@@ -83,6 +83,9 @@ def daily_text(df: pd.DataFrame, wide: pd.DataFrame, day) -> str | None:
     return "\n".join(lines)
 
 
+STALE_DAYS = 5
+
+
 def daily(force=False):
     state = read_json(STATE, {})
     df = pageviews.load()
@@ -91,7 +94,8 @@ def daily(force=False):
         log.info("daily: no data yet")
         return
     day = wide.index.max()
-    if day.date() < date.today() - timedelta(days=2):
+    # Wikimedia sometimes publishes 2-4 days late (Oct-Nov 2026); a 4-day-old index is still news, older is not
+    if day.date() < date.today() - timedelta(days=STALE_DAYS):
         log.info("daily: newest data is %s, not posting stale numbers", day.date())
         return
     if state.get("daily") == str(day.date()) and not force:
