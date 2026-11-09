@@ -1,8 +1,3 @@
-2026-11-06 17:00:10 getUpdates offset=182454983 pending=2 got=0 kinds=[]
-2026-11-06 21:57:55 getUpdates offset=182454983 pending=2 got=0 kinds=[]
-2026-11-07 01:34:35 getUpdates offset=182454983 pending=2 got=0 kinds=[]
-2026-11-07 04:48:44 getUpdates offset=182454983 pending=5 got=1 kinds=['callback_query']
-2026-11-07 04:48:44 not an event (type marketing): 62b993e317df
 2026-11-07 04:48:44 press handled: ok 62b993e317df
 2026-11-07 04:48:53 getUpdates offset=182454984 pending=4 got=1 kinds=['callback_query']
 2026-11-07 04:48:53 event registered: E2026-17 from news 7dd7235ac747
@@ -198,3 +193,8 @@
 2026-11-09 13:27:45 getUpdates offset=182454997 pending=2 got=0 kinds=[]
 2026-11-09 13:27:45 getUpdates offset=182454997 pending=2 got=0 kinds=[]
 2026-11-09 13:27:48 getUpdates offset=182454997 pending=2 got=0 kinds=[]
+2026-11-09 14:01:41 getUpdates offset=182454997 pending=2 got=0 kinds=[]
+2026-11-09 14:02:31 getUpdates offset=182454997 pending=2 got=0 kinds=[]
+2026-11-09 14:02:50 getUpdates offset=182454997 pending=2 got=0 kinds=[]
+2026-11-09 14:02:50 getUpdates offset=182454997 pending=2 got=0 kinds=[]
+2026-11-09 14:02:54 getUpdates offset=182454997 pending=2 got=0 kinds=[]
