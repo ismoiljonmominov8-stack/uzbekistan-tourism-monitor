@@ -1,0 +1,92 @@
+{
+ "hero": {
+  "alt": "The Registan in Samarkand lit up at night",
+  "w": 1600,
+  "h": 720,
+  "title": "Самарканд. Площадь-Регистан.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%A1%D0%B0%D0%BC%D0%B0%D1%80%D0%BA%D0%B0%D0%BD%D0%B4._%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D1%8C-%D0%A0%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D0%B0%D0%BD.jpg",
+  "author": "Kraftabbas",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "samarkand": {
+  "alt": "Blue-tiled mausoleums of Shah-i-Zinda, Samarkand",
+  "w": 800,
+  "h": 600,
+  "title": "Shah-i-Zinda 04.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Shah-i-Zinda_04.jpg",
+  "author": "Bgag",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+ },
+ "bukhara": {
+  "alt": "The Kalyan minaret above a street in Bukhara",
+  "w": 800,
+  "h": 600,
+  "title": "Kalyan Minaret, Bukhara (Минарет Калян в Бухаре, Minorai Kalon).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Kalyan_Minaret,_Bukhara_(%D0%9C%D0%B8%D0%BD%D0%B0%D1%80%D0%B5%D1%82_%D0%9A%D0%B0%D0%BB%D1%8F%D0%BD_%D0%B2_%D0%91%D1%83%D1%85%D0%B0%D1%80%D0%B5,_Minorai_Kalon).jpg",
+  "author": "Petar Milošević",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "khiva": {
+  "alt": "Mud-brick walls and turquoise towers of Itchan Kala, Khiva",
+  "w": 800,
+  "h": 600,
+  "title": "Konya Ark towers (Цитадель Куня-Арк, Koʻhna ark), Itchan Kala, Khiva.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Konya_Ark_towers_(%D0%A6%D0%B8%D1%82%D0%B0%D0%B4%D0%B5%D0%BB%D1%8C_%D0%9A%D1%83%D0%BD%D1%8F-%D0%90%D1%80%D0%BA,_Ko%CA%BBhna_ark),_Itchan_Kala,_Khiva.jpg",
+  "author": "Petar Milošević",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "tashkent": {
+  "alt": "Hand-painted ceramic plates at Chorsu bazaar, Tashkent",
+  "w": 800,
+  "h": 600,
+  "title": "Узбекистан, рынок Чорсу, керамика (3).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%A3%D0%B7%D0%B1%D0%B5%D0%BA%D0%B8%D1%81%D1%82%D0%B0%D0%BD,_%D1%80%D1%8B%D0%BD%D0%BE%D0%BA_%D0%A7%D0%BE%D1%80%D1%81%D1%83,_%D0%BA%D0%B5%D1%80%D0%B0%D0%BC%D0%B8%D0%BA%D0%B0_(3).jpg",
+  "author": "ElenaLitera",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "food": {
+  "alt": "Plov being served at a restaurant",
+  "w": 800,
+  "h": 600,
+  "title": "Palov ko‘tarayotgan xizmatchi.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:Palov_ko%E2%80%98tarayotgan_xizmatchi.jpg",
+  "author": "AIDEPCUL",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0"
+ },
+ "safety": {
+  "alt": "A woman walking past a tiled wall of the Registan",
+  "w": 800,
+  "h": 600,
+  "title": "East wall of Sher-Dor Madrasa, Samarkand, Uzbekistan (2025).jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:East_wall_of_Sher-Dor_Madrasa,_Samarkand,_Uzbekistan_(2025).jpg",
+  "author": "Petar Milošević",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "hospitality": {
+  "alt": "Guests gathered around a plov cauldron at a celebration",
+  "w": 800,
+  "h": 600,
+  "title": "10 kg plov at wedding ceremony.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:10_kg_plov_at_wedding_ceremony.jpg",
+  "author": "Sinchalak Musulmon",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "train": {
+  "alt": "Afrosiyob fast train at Tashkent station",
+  "w": 1200,
+  "h": 600,
+  "title": "Ташкент, Афросиаб на вокзале.jpg",
+  "page": "https://commons.wikimedia.org/wiki/File:%D0%A2%D0%B0%D1%88%D0%BA%D0%B5%D0%BD%D1%82,_%D0%90%D1%84%D1%80%D0%BE%D1%81%D0%B8%D0%B0%D0%B1_%D0%BD%D0%B0_%D0%B2%D0%BE%D0%BA%D0%B7%D0%B0%D0%BB%D0%B5.jpg",
+  "author": "Nikolai Bulykin",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0"
+ }
+}

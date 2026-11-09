@@ -89,7 +89,11 @@ COUNTRY_UZ = {"US": "AQSh", "UZ": "O'zbekiston", "GB": "Buyuk Britaniya", "RU": 
               "KG": "Qirg'iziston", "TJ": "Tojikiston", "DE": "Germaniya", "FR": "Fransiya", "IT": "Italiya",
               "JP": "Yaponiya", "KR": "Janubiy Koreya", "CN": "Xitoy", "IN": "Hindiston", "TR": "Turkiya",
               "CA": "Kanada", "AU": "Avstraliya", "XX": "noma'lum"}
-SOURCE_UZ = {"direct": "to'g'ridan-to'g'ri", "other": "boshqa"}
+SOURCE_UZ = {"direct": "to'g'ridan-to'g'ri", "other": "boshqa", "qr": "QR kod", "partner": "hamkor"}
+
+
+def source_name(s: str) -> str:
+    return f"hamkor {s[2:]}" if s.startswith("p-") else SOURCE_UZ.get(s, s)
 
 
 def _flag(code: str) -> str:
@@ -149,7 +153,7 @@ def bot_text(refresh: bool = True, today: str | None = None) -> str:
                      + (f", yana {len(by_c) - 6} ta" if len(by_c) > 6 else ""))
     by_s = views.groupby("src")["n"].sum().sort_values(ascending=False)
     if len(by_s):
-        lines.append("<b>Qayerdan kelgan</b>: " + ", ".join(f"{SOURCE_UZ.get(s, s)} {fmt(int(k))}" for s, k in by_s.items()))
+        lines.append("<b>Qayerdan kelgan</b>: " + ", ".join(f"{source_name(s)} {fmt(int(k))}" for s, k in by_s.items()))
 
     us = summary(df, "US")
     a, b = us["rows"]
