@@ -1,0 +1,26 @@
+name: Wikimedia diagnostic (manual)
+on: workflow_dispatch
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ask Wikimedia directly
+        run: |
+          UA="uzbekistan-tourism-monitor/1.0 (https://github.com/ismoiljonmominov8-stack/uzbekistan-tourism-monitor; research project)"
+          for u in \
+            "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/user/Uzbekistan/daily/2026110100/2026110900" \
+            "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia/all-access/all-agents/Uzbekistan/daily/2026110100/2026110900" \
+            "https://wikimedia.org/api/rest_v1/metrics/pageviews/aggregate/en.wikipedia/all-access/user/daily/2026110100/2026110900" \
+            "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/en.wikipedia/all-access/2026/11/07" \
+            "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/en.wikipedia/all-access/2026/11/08" ; do
+            echo "=== $u"
+            curl -s -A "$UA" -w "\nHTTP %{http_code}\n" "$u" | python3 -c "import sys,json
+          t=sys.stdin.read(); body,code=t.rsplit('HTTP',1); print('HTTP',code.strip())
+          try:
+            d=json.loads(body); it=d.get('items',[])
+            if it and 'timestamp' in it[0]: print('days:',[i['timestamp'][:8] for i in it])
+            elif it: print('items for', it[0].get('year'), it[0].get('month'), it[0].get('day'))
+            else: print(body[:400])
+          except Exception as e: print(body[:400])"
+          done
