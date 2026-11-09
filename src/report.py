@@ -311,6 +311,35 @@ def attraction_section(r: Report):
                        f"({top['channels'].split(' (')[0]}) — bosishlar, qidiruv va so'rovlarni o'lchash.")
 
 
+def campaign_section(r: Report):
+    from . import campaign
+    df = campaign.load()
+    if df.empty:
+        return
+    r.h("Jalb etish sinovi: A (ilhom) va B (amaliy) sahifalar", 2)
+    us, allc = campaign.summary(df, "US"), campaign.summary(df, None)
+    r.p(f"Ma'lumot: {us['first']} — {us['last']} ({us['days']} kun). Asosiy o'lchov: AQShdan kirganlarning necha foizi "
+        "«Plan your trip» (sayohatni rejalash) tugmasini bosgan.")
+    pct = lambda x: "—" if x is None else f"{x:.1%}".replace(".", ",")  # noqa: E731
+    rows = []
+    for label, sm in (("AQSh", us), ("Barcha davlatlar", allc)):
+        for x in sm["rows"]:
+            rows.append([label, x["v"].upper(), n(x["view"]), f"{n(x['engaged'])} ({pct(x['engaged_rate'])})",
+                         f"{n(x['cta_plan'])} ({pct(x['plan_rate'])})", n(x["cta_rules"]), n(x["cta_route"])])
+    r.table(["Kimlar", "Versiya", "Ko'rishlar", "Qiziqib o'qigan", "«Plan your trip»", "Kirish qoidalari", "Poyezd"],
+            rows, [1700, 900, 1200, 1700, 1800, 1300, 1000], align="right")
+    v = us["verdict"]
+    text = {"too_early": f"Hali erta: har bir versiyada kamida {campaign.MIN_VIEWS} ta AQSh ko'rishi kerak.",
+            "no_difference": "A va B o'rtasida ishonchli farq yo'q (p ≥ 0,05).",
+            "a_wins": "A (ilhom) ishonchli darajada ko'proq bosish olgan — jalb etish xaritasidagi gipoteza tasdiqlandi.",
+            "b_wins": "B (amaliy) ishonchli darajada ko'proq bosish olgan — gipoteza tasdiqlanmadi: AQShda to'siq amaliy.",
+            "no_data": "Ma'lumot yo'q."}[v]
+    if us["p"] is not None:
+        text += f" (p = {us['p']:.3f})".replace(".", ",")
+    r.p(text)
+    r.findings.append("Jalb etish sinovi: " + text)
+
+
 def trends_section(r: Report):
     df = trends.load()
     if df.empty:
@@ -444,6 +473,7 @@ def build(send=True) -> Path | None:
     score_section(r)
     leisure_section(r)
     attraction_section(r)
+    campaign_section(r)
     trends_section(r)
     events_section(r)
     news_section(r, days)

@@ -10,7 +10,7 @@ import json
 import os
 import sys
 
-from . import ai, history, news, pageviews, posts, scorecard, statuz
+from . import campaign, ai, history, news, pageviews, posts, scorecard, statuz
 from .util import log
 
 
@@ -78,6 +78,7 @@ def daily():
     releases = collect()
     step("event tracker", posts.event_results)
     step("forecast scorecard", scorecard.run)   # logs this month's forecasts, scores past ones
+    step("campaign counts", campaign.collect)   # landing page test A/B (skips quietly if not set up)
     step("history chart", history.build)
     step("daily post", posts.daily)
     step("monthly post", posts.monthly, releases)

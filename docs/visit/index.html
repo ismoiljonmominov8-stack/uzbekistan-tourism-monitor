@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uzbekistan</title>
+<script>
+(function () {
+  var v; try { v = localStorage.getItem("uzc_v"); } catch (e) {}
+  if (v !== "a" && v !== "b") { v = Math.random() < 0.5 ? "a" : "b"; try { localStorage.setItem("uzc_v", v); } catch (e) {} }
+  location.replace(v + ".html" + location.search);
+})();
+</script></head>
+<body><p><a href="a.html">Continue</a></p></body></html>

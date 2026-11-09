@@ -11,6 +11,13 @@
  * Secrets to add (Settings → Variables and Secrets, type "Secret"):
  *   TELEGRAM_BOT_TOKEN   the bot token from @BotFather
  *   GITHUB_TOKEN         fine-grained token with Actions: Read and write on the repository
+ *
+ * Campaign test (landing page versions A and B), optional:
+ *   Storage & Databases → D1 → Create database "tourism_stats"; then in this worker
+ *   Settings → Bindings → Add → D1 database → variable name DB → tourism_stats.
+ *   POST /hit   — the landing page reports a view / engaged reader / button click. Only COUNTS are stored:
+ *                 day, version, event, visitor country (from Cloudflare), traffic source. No IP, no cookies.
+ *   GET  /stats — all counts as JSON (read by the daily GitHub run).
  */
 const REPO = "ismoiljonmominov8-stack/uzbekistan-tourism-monitor";
 
@@ -64,12 +71,54 @@ export async function tick(cron, env) {
   return "bot started";
 }
 
+// ---------------------------------------------------------------- campaign counting
+const EVENTS = new Set(["view", "engaged", "cta_plan", "cta_rules", "cta_route"]);
+const VERSIONS = new Set(["a", "b"]);
+const SOURCES = new Set(["meta", "instagram", "facebook", "reddit", "youtube", "google", "telegram", "email", "direct", "other"]);
+const BOT = /bot|crawl|spider|slurp|preview|facebookexternalhit|headless|lighthouse|monitor/i;
+const CORS = { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+               "Access-Control-Allow-Headers": "Content-Type" };
+let tableReady = false;
+
+async function ensureTable(db) {
+  if (tableReady) return;
+  await db.prepare("CREATE TABLE IF NOT EXISTS hits (day TEXT, v TEXT, e TEXT, country TEXT, src TEXT, n INTEGER, " +
+                   "PRIMARY KEY (day, v, e, country, src))").run();
+  tableReady = true;
+}
+
+export async function hit(request, env) {
+  if (!env.DB) return new Response("tracking not configured", { status: 503, headers: CORS });
+  if (BOT.test(request.headers.get("user-agent") || "")) return new Response("ignored", { status: 202, headers: CORS });
+  let b;
+  try { b = JSON.parse(await request.text()); } catch (e) { return new Response("bad json", { status: 400, headers: CORS }); }
+  const v = String(b.v || "").toLowerCase(), e = String(b.e || ""), src = SOURCES.has(b.s) ? b.s : "other";
+  if (!VERSIONS.has(v) || !EVENTS.has(e)) return new Response("bad event", { status: 400, headers: CORS });
+  const country = /^[A-Z]{2}$/.test(request.cf?.country || "") ? request.cf.country : "XX";
+  const day = new Date().toISOString().slice(0, 10);
+  await ensureTable(env.DB);
+  await env.DB.prepare("INSERT INTO hits (day, v, e, country, src, n) VALUES (?1, ?2, ?3, ?4, ?5, 1) " +
+                       "ON CONFLICT (day, v, e, country, src) DO UPDATE SET n = n + 1").bind(day, v, e, country, src).run();
+  return new Response("ok", { status: 200, headers: CORS });
+}
+
+export async function stats(env) {
+  if (!env.DB) return Response.json({ error: "tracking not configured" }, { status: 503, headers: CORS });
+  await ensureTable(env.DB);
+  const { results } = await env.DB.prepare("SELECT day, v, e, country, src, n FROM hits ORDER BY day, v, e").all();
+  return Response.json({ rows: results }, { headers: { ...CORS, "Cache-Control": "no-store" } });
+}
+
 export default {
   async scheduled(event, env, ctx) {
     ctx.waitUntil(tick(event.cron, env).then(r => console.log(event.cron, "→", r)));
   },
   // Opening the worker's address in a browser shows whether the secrets work.
   async fetch(request, env) {
+    const path = new URL(request.url).pathname;
+    if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
+    if (path === "/hit" && request.method === "POST") return hit(request, env);
+    if (path === "/stats") return stats(env);
     const checks = [];
     try { await botHasMail(env); checks.push("✅ Telegram token works"); }
     catch (e) {
@@ -79,6 +128,10 @@ export default {
     }
     try { await isBusy(env, "approvals.yml"); checks.push("✅ GitHub token works"); }
     catch (e) { checks.push("❌ GitHub: " + e.message); }
+    if (env.DB) {
+      try { await ensureTable(env.DB); checks.push("✅ Campaign counting works (database DB connected)"); }
+      catch (e) { checks.push("❌ Campaign counting: " + e.message); }
+    } else checks.push("ℹ️ Campaign counting off: add a D1 database binding named DB");
     return new Response("Uzbekistan Tourism Monitor worker\n\n" + checks.join("\n") + "\n",
       { headers: { "content-type": "text/plain; charset=utf-8" } });
   },
