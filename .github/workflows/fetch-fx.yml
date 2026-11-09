@@ -1,0 +1,23 @@
+name: Fetch exchange rates (manual)
+on: workflow_dispatch
+concurrency: data
+jobs:
+  fx:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m src.fetch_fx
+      - run: |
+          git config user.name "tourism-monitor-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/fx_monthly.csv
+          git diff --cached --quiet && exit 0
+          git commit -m "data: exchange rates (CBU)"
+          git push || (git pull --rebase && git push)
