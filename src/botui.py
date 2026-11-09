@@ -1,6 +1,6 @@
 """Conversation with the admin in the bot chat, in plain Uzbek.
 
-- Menu buttons (always visible): 📊 Bugungi holat · 🗓 Kutilayotgan voqealar · ➕ Voqea qo'shish · ❓ Yordam
+- Menu buttons (always visible): 📊 Bugungi holat · 🗓 Kutilayotgan voqealar · 📈 Sahifaga tashriflar · ➕ Voqea qo'shish · ❓ Yordam
 - Any normal message is read by the AI: if it describes an event (festival, flight, visa, border...),
   the bot shows what it understood and asks "✅ Ha, saqlash / ❌ Yo'q". Nothing is saved without ✅.
 - Old /event and /events commands still work, but nobody has to remember a format.
@@ -22,7 +22,8 @@ B_STATUS = "📊 Bugungi holat"
 B_UPCOMING = "🗓 Kutilayotgan voqealar"
 B_ADD = "➕ Voqea qo'shish"
 B_HELP = "❓ Yordam"
-MENU = [[B_STATUS, B_UPCOMING], [B_ADD, B_HELP]]
+B_VISITS = "📈 Sahifaga tashriflar"
+MENU = [[B_STATUS, B_UPCOMING], [B_VISITS, B_ADD], [B_HELP]]
 
 TYPE_UZ = {"visa": "viza o'zgarishi", "border": "chegara ochilishi", "crossing": "yangi chegara o'tish punkti",
            "flight": "yangi reys / aviakompaniya", "event": "tadbir (festival, konferensiya, ko'rgazma)",
@@ -36,6 +37,8 @@ HELP = (
     "Men O'zbekiston turizmini kuzatuvchi botman. Nima qila olaman:\n\n"
     f"<b>{B_STATUS}</b> — Vikipediyadagi bugungi qiziqish, yangiliklar va oxirgi rasmiy statistika.\n\n"
     f"<b>{B_UPCOMING}</b> — kelgusi voqealar va ular turistlar soniga qanday ta'sir qilishi mumkinligi.\n\n"
+    f"<b>{B_VISITS}</b> — A va B kampaniya sahifalariga tashriflar: bugun, oxirgi 7 kun, jami, davlatlar, "
+    "manbalar va AQSh sinovi natijasi.\n\n"
     f"<b>{B_ADD}</b> — voqeani <b>oddiy so'zlar bilan</b> yozing, hech qanday format kerak emas. Masalan:\n"
     "<i>«5-dekabr kuni Samarqandda Ipak yo'li festivali bo'ladi, Xitoy va Koreyadan mehmonlar kutilmoqda»</i>\n"
     "<i>«Yanvardan Seul–Samarqand to'g'ridan-to'g'ri reysi ochiladi»</i>\n"
@@ -316,6 +319,15 @@ def handle_message(msg, alog) -> None:
         return
     if text == B_STATUS or first in ("/status", "/holat"):
         send_message(chat, status_text(), keyboard=MENU)
+        return
+    if text == B_VISITS or first in ("/visits", "/tashriflar"):
+        from . import campaign
+        try:
+            reply = campaign.bot_text()
+        except Exception as e:  # noqa: BLE001 — never leave the admin without an answer
+            log.warning("visits button failed: %s", e)
+            reply = "Tashriflar ma'lumotini hozir o'qib bo'lmadi. Birozdan keyin qayta urinib ko'ring."
+        send_message(chat, reply, keyboard=MENU)
         return
     if text == B_UPCOMING or first in ("/events", "/voqealar"):
         arg = text.split(maxsplit=1)[1].strip().lower() if first.startswith("/") and len(text.split()) > 1 else ""
