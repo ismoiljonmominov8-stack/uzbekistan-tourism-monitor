@@ -81,6 +81,6 @@ E2026-06,2026-12-31,crossing,kk,"Gishtkuprik / Zhibek Zholy border crossing with
 E2026-12,2026-10-28,flight,tr,"Pegasus Airlines Istanbuldan Buxoro (14-dek), Andijon (18-dek) va Termizga (2027 1-mart) reyslarni boshlaydi",ok,,,,,,,,,waiting,,E2026-13,False,some,—,1.48,1.87,7.0,,,
 E2026-13,2026-10-29,politics,tr,"Turkiy davlatlar tashkiloti sammiti, Anqara (29–30 oktabr 2026), Prezident Mirziyoyev ishtirokida",ok,,,,,,,,,waiting,,E2026-12,False,some,—,1.36,1.84,7.0,,,
 E2026-14,2026-11-10,marketing,ja,"NHK BS «Sekai Fureai Machiaruki»: «Silk Road: Blue Capital Samarkand» (10-noyabr 21:00 JST, takror 12-noyabr NHK BS4K)",waiting,,,,,,,,,waiting,,,False,—,—,,,,,,
-E2026-15,2026-11-06,flight,kk,O'zbekiston va Qozog'iston o'rtasidagi aviaqatnovlar soni oshirilmoqda,partial,,,,,,,,,waiting,,E2026-17,False,some,—,1.38,1.38,1.0,,,
+E2026-15,2026-11-06,flight,kk,O'zbekiston va Qozog'iston o'rtasidagi aviaqatnovlar soni oshirilmoqda,partial,,,,,,,,,waiting,,E2026-17,False,none,—,1.0,1.38,4.0,,,
 E2026-16,2026-11-29,flight,kk, Nukus va Atyrau shaharlari o'rtasida yangi aviaqatnov ochiladi,waiting,,,,,,,,,waiting,,,False,—,—,,,,,,
-E2026-17,2026-11-07,flight,kk,Qozog'iston va O'zbekiston o'rtasidagi aviaqatnovlar soni oshiriladi,waiting,,,,,,,,,waiting,,E2026-15,False,—,—,,,,,,
+E2026-17,2026-11-07,flight,kk,Qozog'iston va O'zbekiston o'rtasidagi aviaqatnovlar soni oshiriladi,partial,,,,,,,,,waiting,,E2026-15,False,none,—,0.87,1.05,3.0,,,
