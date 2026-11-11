@@ -1,7 +1,3 @@
-2026-11-09 04:48:56 not an event (type marketing): 756ebbe43ad3
-2026-11-09 04:48:57 press handled: ok 756ebbe43ad3
-2026-11-09 04:48:58 getUpdates offset=182454990 pending=4 got=1 kinds=['callback_query']
-2026-11-09 04:48:59 not an event (type marketing): c896b12de89e
 2026-11-09 04:48:59 press handled: ok c896b12de89e
 2026-11-09 04:49:04 getUpdates offset=182454991 pending=3 got=1 kinds=['callback_query']
 2026-11-09 04:49:05 not an event (no country named): 67e3f0cbcb3c
@@ -198,3 +194,7 @@
 2026-11-11 12:50:16 getUpdates offset=182455004 pending=2 got=0 kinds=[]
 2026-11-11 12:50:16 getUpdates offset=182455004 pending=2 got=0 kinds=[]
 2026-11-11 12:50:19 getUpdates offset=182455004 pending=2 got=0 kinds=[]
+2026-11-11 14:19:34 getUpdates offset=182455004 pending=2 got=0 kinds=[]
+2026-11-11 14:20:25 getUpdates offset=182455004 pending=2 got=0 kinds=[]
+2026-11-11 14:20:44 getUpdates offset=182455004 pending=2 got=0 kinds=[]
+2026-11-11 14:20:44 getUpdates offset=182455004 pending=2 got=0 kinds=[]
