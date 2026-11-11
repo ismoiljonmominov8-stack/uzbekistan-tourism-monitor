@@ -234,7 +234,12 @@ def score_section(r: Report):
                         [f"{n(byt[m]['forecast'])} ({n(byt[m]['lo'])}–{n(byt[m]['hi'])})" if m in byt else "ma'lumot yetarli emas"
                          for m in months])
         r.table(["Bozor"] + [f"{OY[int(m[5:]) - 1]} {m[:4]}" for m in months], frow, [2000, 2400, 2400, 2400], align="right")
-        r.p("Qavsda — taxminan 10 tadan 8 holatda haqiqiy raqam tushadigan oraliq (usulning o'tgan xatolaridan).", "note")
+        r.p("Qavsda — taxminan 10 tadan 8 holatda haqiqiy raqam tushadigan oraliq (usulning o'tgan xatolaridan; "
+            "o'tgan yilgi oy yaxlitlangan raqamlardan hisoblangan bo'lsa, oraliq shunga qarab kengaytiriladi).", "note")
+        for w in scorecard.coherence(cur):
+            r.p(f"⚠ {OY[int(w['target'][5:]) - 1]} {w['target'][:4]}: davlatlar prognozlari yig'indisi ({n(w['countries_sum'])}) "
+                f"jami prognozdan ({n(w['total'])}) {n(w['excess'])} ga ko'p — bu mumkin emas, demak ba'zi davlatlar "
+                f"(eng kattalari: {', '.join(scorecard.NAME_UZ.get(x, x) for x in w['largest'])}) ortiqcha baholangan.", "note")
     tb = summ[(summ["kind"] == "backtest") & (summ["level"] == "TOTAL") & (summ["h"] == 1)]
     if not tb.empty:
         r.findings.append(f"Prognoz aniqligi: jami turistlar bo'yicha 1 oy oldingi prognoz o'rtacha {tb.mae.iloc[0]:.1%} xato qiladi "

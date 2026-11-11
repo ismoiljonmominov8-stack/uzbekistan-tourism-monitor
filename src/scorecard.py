@@ -34,7 +34,22 @@ HORIZON = 3
 CALIB = config.DATA / "forecast_calibration.csv"
 CALIB_MIN = 8          # scored back-test forecasts needed before the range comes from past errors
 COVER = (0.10, 0.90)   # the calibrated range should hold the actual value about 80% of the time
-ROUNDED_PAD = 0.05
+ROUNDED_PAD = 0.05     # floor for a rounded base whose rounding unit cannot be read from the number
+# A month is the difference of two year-to-date figures. When stat.uz publishes them rounded (e.g. "2.8 mln"),
+# each end can be off by half its rounding unit, so the month can be off by up to (u1 + u2) / 2. The difference of
+# two such errors is roughly triangular; 80% of it lies within 0.55 x that maximum.
+ROUNDING_80 = 0.55
+
+
+def rounding_unit(v: int, exact: bool) -> int:
+    """Rounding unit of a published year-to-date figure: 0 if exact, else the largest power of ten (up to 100 000,
+    i.e. 0.1 million) that divides it."""
+    if exact or v <= 0:
+        return 0
+    u = 1
+    while u < 100_000 and v % (u * 10) == 0:
+        u *= 10
+    return u if u >= 100 else 0
 COUNTRIES = ["Kazakhstan", "Kyrgyzstan", "Tajikistan", "Russia", "China", "Türkiye", "India",
              "Turkmenistan", "Republic of Korea"]
 NAME_UZ = {"TOTAL": "Jami", "Kazakhstan": "Qozog'iston", "Kyrgyzstan": "Qirg'iziston", "Tajikistan": "Tojikiston",
@@ -62,18 +77,20 @@ def monthly_points(ytd: pd.DataFrame, yearly: pd.DataFrame, level: str) -> dict[
         pts = {int(r.month): (int(r.ytd), bool(r.exact)) for r in g.itertuples()}
         if 12 not in pts and year in ytot and max(pts) >= 9:
             pts[12] = (ytot[year], False)
-        pm, pv, px = 0, 0, True
+        pm, pv, px, pu = 0, 0, True, 0
         for m in sorted(pts):
             v, x = pts[m]
+            u = rounding_unit(v, x)
             span = m - pm
             if v < pv:
-                pm, pv, px = m, v, x
+                pm, pv, px, pu = m, v, x, u
                 continue
             each = (v - pv) / span
+            unc = ROUNDING_80 * (u + pu) / 2 / span        # absolute, 80% band, from rounding only
             for k in range(pm + 1, m + 1):
-                out[f"{year}-{k:02d}"] = {"v": each, "exact": x and px and span == 1,
+                out[f"{year}-{k:02d}"] = {"v": each, "exact": x and px and span == 1, "unc": unc,
                                           "kind": "month" if span == 1 else "span" if span <= 3 else "long"}
-            pm, pv, px = m, v, x
+            pm, pv, px, pu = m, v, x, u
     return out
 
 
@@ -100,10 +117,13 @@ def project(pts: dict[str, dict], last: str, horizon: int = HORIZON) -> list[dic
         base = pts.get(ym_add(target, -12))
         if not base or base["kind"] not in usable:
             continue
-        pad = 0 if base["exact"] else ROUNDED_PAD
+        rel = base.get("unc", 0) / base["v"] if base["v"] > 0 else 0
+        if not base["exact"] and rel == 0:
+            rel = ROUNDED_PAD if base["kind"] != "month" else 0
+        rel = min(rel, 0.5)
         out.append({"target": target, "h": h, "forecast": round(base["v"] * central),
-                    "lo": round(base["v"] * (1 - pad) * lo_r), "hi": round(base["v"] * (1 + pad) * hi_r),
-                    "growth": round(central, 3)})
+                    "lo": round(base["v"] * (1 - rel) * lo_r), "hi": round(base["v"] * (1 + rel) * hi_r),
+                    "growth": round(central, 3), "rounding": round(rel, 3)})
     return out
 
 
@@ -126,7 +146,11 @@ def apply_calibration(rows: list[dict], level: str, cal: dict) -> list[dict]:
     for r in rows:
         q = cal.get((level, r["h"]))
         if q:
-            r["lo"], r["hi"], r["range"] = round(r["forecast"] / (1 + q[1])), round(r["forecast"] / (1 + q[0])), "calibrated"
+            # calibrated on past errors, then widened by how uncertain last year's (rounded) base month is
+            rel = r.get("rounding", 0) or 0
+            r["lo"] = round(r["forecast"] / (1 + q[1]) * (1 - rel))
+            r["hi"] = round(r["forecast"] / (1 + q[0]) * (1 + rel))
+            r["range"] = "calibrated"
         else:
             r["range"] = "method"
     return rows
@@ -148,6 +172,21 @@ def current(ytd=None, yearly=None) -> dict[str, dict]:
     return out
 
 
+def coherence(cur: dict | None = None) -> list[dict]:
+    """The countries are part of the total, so their forecasts must not add up to more than the total's.
+    Returns one warning per target month where they do (a sign that some country bases are too high)."""
+    cur = current() if cur is None else cur
+    tot = {r["target"]: r for r in cur.get("TOTAL", {}).get("rows", [])}
+    out = []
+    for target, t in tot.items():
+        parts = {lvl: r["forecast"] for lvl in COUNTRIES for r in cur.get(lvl, {}).get("rows", []) if r["target"] == target}
+        s = sum(parts.values())
+        if s > t["forecast"]:
+            out.append({"target": target, "total": t["forecast"], "countries_sum": s, "excess": s - t["forecast"],
+                        "countries": len(parts), "largest": sorted(parts, key=parts.get, reverse=True)[:3]})
+    return out
+
+
 def log_live(ytd=None, yearly=None) -> int:
     """Save today's forecasts once per (data month, level, target). Returns rows added."""
     cur = current(ytd, yearly)
@@ -161,6 +200,10 @@ def log_live(ytd=None, yearly=None) -> int:
                 new.append({"made_on": date.today().isoformat(), "data_through": c["last"], "level": level} | r)
     if new:
         pd.concat([old, pd.DataFrame(new)], ignore_index=True).to_csv(LOG, index=False)
+        from .util import log
+        for w in coherence(cur):
+            log.warning("scorecard: %s — country forecasts add up to %d, above the total %d (largest: %s)",
+                        w["target"], w["countries_sum"], w["total"], ", ".join(w["largest"]))
     return len(new)
 
 
