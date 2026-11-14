@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from urllib.parse import urlparse
 
 import pandas as pd
@@ -183,13 +184,26 @@ def search_causes(m: dict, day, pages: str) -> list[dict]:
     prompt = SEARCH_PROMPT.format(audience=audience, change=m["change"], date=day.date(), language=language,
                                   pages=pages, start=(day - pd.Timedelta(days=3)).date(),
                                   out_lang="Uzbek (Latin script)" if config.POST_LANG == "uz" else "English")
-    model = os.getenv("GEMINI_SEARCH_MODEL", config.GEMINI_SEARCH_MODEL)
+    body = {"contents": [{"parts": [{"text": prompt}]}], "tools": [{"google_search": {}}],
+            "generationConfig": {"temperature": 0.2}}
+    data, last = None, None
+    for model in dict.fromkeys([os.getenv("GEMINI_SEARCH_MODEL", config.GEMINI_SEARCH_MODEL), config.GEMINI_MODEL]):
+        for attempt in range(2):   # the free tier allows only a few requests a minute
+            try:
+                data = http_post_json(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+                                      body, headers={"x-goog-api-key": key})
+                break
+            except Exception as e:  # noqa: BLE001
+                last = e
+                if "429" not in str(e):
+                    break
+                time.sleep(20)
+        if data:
+            break
+    if not data:
+        log.warning("causes: web search failed: %s", last)
+        return []
     try:
-        data = http_post_json(
-            f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-            {"contents": [{"parts": [{"text": prompt}]}], "tools": [{"google_search": {}}],
-             "generationConfig": {"temperature": 0.2}},
-            headers={"x-goog-api-key": key})
         cand = data["candidates"][0]
         text = "".join(p.get("text", "") for p in cand["content"]["parts"])
         chunks = (cand.get("groundingMetadata") or {}).get("groundingChunks") or []

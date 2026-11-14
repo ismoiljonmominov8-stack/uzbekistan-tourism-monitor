@@ -2,6 +2,7 @@
 import json
 import os
 import re
+from datetime import date
 
 from . import config
 from .util import http_post_json, log
@@ -32,9 +33,11 @@ Pick at most {limit} relevant articles, most important first. For each return:
   "infrastructure", "marketing", "other" (what kind of news it is). "border" = a closed border or
   visa regime with a neighbouring country is opened; "crossing" = an extra or reopened checkpoint
   on a border that is already open
-- "event_date": if the article announces something that STARTS on a future date (a festival,
+- "event_date": today is {today}. If the article announces something that STARTS on a future date (a festival,
   conference, sports event, first flight of a new route, a visa rule coming into force), that
-  start date as "YYYY-MM-DD"; otherwise null. Only use a date written in the article.
+  start date as "YYYY-MM-DD"; otherwise null. Only use a date written in the article; if it gives a
+  day and month without a year, use the next such date after today.
+- Return exactly these fields. Never return "title" or "snippet" and never copy the article's text.
 
 Rules:
 - If several articles describe the same event, return only one of them.
@@ -119,6 +122,7 @@ def analyze_news(articles: list[dict], order=("gemini", "groq")):
     prompt = PROMPT.format(
         limit=config.NEWS_PER_DAY,
         lang=LANG_NAME.get(config.POST_LANG, "English"),
+        today=date.today().isoformat(),
         articles=json.dumps(articles, ensure_ascii=False, indent=1),
     )
     data, provider = ask(prompt, order)
@@ -127,6 +131,10 @@ def analyze_news(articles: list[dict], order=("gemini", "groq")):
     valid_ids = {a["id"] for a in articles}
     items = [i for i in data.get("items", []) if isinstance(i, dict) and i.get("id") in valid_ids]
     for i in items:
+        for k in ("snippet", "title"):   # the model sometimes echoes the source text: never post it
+            i.pop(k, None)
+        if not str(i.get("summary", "")).strip():
+            i["summary"] = ""
         if i.get("impact") not in ("positive", "negative", "mixed", "unclear"):
             i["impact"] = "unclear"
         if i.get("confidence") not in ("low", "medium", "high"):

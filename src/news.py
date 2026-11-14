@@ -4,7 +4,7 @@ import hashlib
 import os
 import re
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import feedparser
 import pandas as pd
@@ -59,12 +59,24 @@ def fetch_candidates() -> list[dict]:
     return list(uniq.values())[: config.NEWS_MAX_CANDIDATES]
 
 
-def _valid_date(v) -> str:
+def _valid_date(v, today=None) -> str:
+    """Start date of an announced event. A model that sees "15 December" without a year sometimes writes a
+    past year; an announced start date more than ~2 months in the past is moved to its next occurrence."""
     try:
         d = pd.Timestamp(str(v)).date()
-        return d.isoformat() if 2000 <= d.year <= 2100 else ""
     except Exception:  # noqa: BLE001
         return ""
+    if not 2000 <= d.year <= 2100:
+        return ""
+    today = today or date.today()
+    if (today - d).days > 60:
+        try:
+            d = d.replace(year=today.year)
+            if (today - d).days > 60:
+                d = d.replace(year=today.year + 1)
+        except ValueError:  # 29 February
+            return ""
+    return d.isoformat()
 
 
 def format_item(item: dict, art: dict, provider: str | None) -> str:
