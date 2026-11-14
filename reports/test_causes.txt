@@ -1,0 +1,40 @@
+WARNING monitor: causes: web search failed: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent
+WARNING monitor: causes: web search failed: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent
+=== web search ru 2026-11-12
+[]
+=== web search ja 2026-11-10
+[]
+=== news rules
+provider: gemini
+[
+ {
+  "id": "k2",
+  "headline": "Almatidan Buxoroga yangi aviayo'nalish ochilmoqda",
+  "summary": "Air Astana aviakompaniyasi 15-dekabrdan boshlab Olmaota va Buxoro o'rtasida haftasiga uchta reys amalga oshiriladigan yangi to'g'ridan-to'g'ri aviayo'nalishni yo'lga qo'yadi.",
+  "impact": "positive",
+  "markets": [
+   "Kazakhstan"
+  ],
+  "horizon": "0-3 months",
+  "confidence": "medium",
+  "change": "new",
+  "reason": "Yangi aviayo'nalish va haftasiga uchta reysning ochilishi Qozog'istondan keladigan sayohatchilar uchun qulaylik yaratib, turislar oqimini oshiradi.",
+  "type": "flight",
+  "event_date": "2024-12-15"
+ },
+ {
+  "id": "k1",
+  "headline": "O'zbekiston Rossiya qishki aviajadvalida peshqadam bo'ldi",
+  "snippet": "Uzbekistan has become the top international destination in Russian airlines' winter schedule with 70 routes, ahead of China (63) and Turkey (46), according to Russia's Ministry of Transport.",
+  "impact": "unclear",
+  "markets": [
+   "Russia"
+  ],
+  "horizon": "0-3 months",
+  "confidence": "low",
+  "change": "status",
+  "reason": "Ushbu maqola faqat mavjud qishki aviajadval holatini va 70 ta yo'nalish bo'yicha joriy vaziyatni tasvirlaydi.",
+  "type": "flight",
+  "event_date": null
+ }
+]
