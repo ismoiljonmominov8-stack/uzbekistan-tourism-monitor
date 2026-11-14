@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from urllib.parse import urlparse
 
@@ -172,9 +173,10 @@ Return only JSON: {{"items": [{{"headline": "...", "why": "...", "url": "...", "
 
 
 def search_causes(m: dict, day, pages: str) -> list[dict]:
-    """Gemini with Google Search. Keeps only items whose link's site is among the sources Google returned."""
-    key = os.getenv("GEMINI_API_KEY")
-    if not key:
+    """Web search for possible causes: Groq browser search first (free), then one Gemini Google Search try.
+    Keeps only items whose link's site is among the pages the search itself returned."""
+    key = os.getenv("GEMINI_API_KEY", "")
+    if not key and not os.getenv("GROQ_API_KEY"):
         return []
     day = pd.Timestamp(day)
     lang = m["lang"]
@@ -184,25 +186,20 @@ def search_causes(m: dict, day, pages: str) -> list[dict]:
     prompt = SEARCH_PROMPT.format(audience=audience, change=m["change"], date=day.date(), language=language,
                                   pages=pages, start=(day - pd.Timedelta(days=3)).date(),
                                   out_lang="Uzbek (Latin script)" if config.POST_LANG == "uz" else "English")
+    found = _groq_search(prompt)
+    if found:
+        return found
+    if not key:
+        return []
     body = {"contents": [{"parts": [{"text": prompt}]}], "tools": [{"google_search": {}}],
             "generationConfig": {"temperature": 0.2}}
-    data, last = None, None
-    for model in dict.fromkeys([os.getenv("GEMINI_SEARCH_MODEL", config.GEMINI_SEARCH_MODEL), config.GEMINI_MODEL]):
-        for attempt in range(2):   # the free tier allows only a few requests a minute
-            try:
-                data = http_post_json(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-                                      body, headers={"x-goog-api-key": key})
-                break
-            except Exception as e:  # noqa: BLE001
-                last = e
-                if "429" not in str(e):
-                    break
-                time.sleep(20)
-        if data:
-            break
-    if not data:
-        log.warning("causes: Gemini web search failed (%s); trying Groq", last)
-        return _groq_search(prompt)
+    try:   # Google Search grounding is not in Gemini's free tier for this key: one quick try only
+        data = http_post_json(f"https://generativelanguage.googleapis.com/v1beta/models/"
+                              f"{os.getenv('GEMINI_SEARCH_MODEL', config.GEMINI_SEARCH_MODEL)}:generateContent",
+                              body, headers={"x-goog-api-key": key})
+    except Exception as e:  # noqa: BLE001
+        log.info("causes: Gemini web search unavailable: %s", e)
+        return []
     try:
         cand = data["candidates"][0]
         text = "".join(p.get("text", "") for p in cand["content"]["parts"])
@@ -233,22 +230,28 @@ def _keep(items, sites) -> list[dict]:
 
 
 def _groq_search(prompt: str) -> list[dict]:
-    """Fallback: Groq's compound model searches the web itself; its own search results are the allowed sources."""
+    """Groq's gpt-oss models can search the web themselves (built-in browser_search tool). The pages that
+    search returned are the only allowed sources."""
     key = os.getenv("GROQ_API_KEY")
     if not key:
         return []
     try:
         data = http_post_json("https://api.groq.com/openai/v1/chat/completions",
                               {"model": config.GROQ_SEARCH_MODEL, "temperature": 0.2,
+                               "tools": [{"type": "browser_search"}],
                                "messages": [{"role": "user", "content": prompt}]},
                               headers={"Authorization": f"Bearer {key}"})
         msg = data["choices"][0]["message"]
-        sites = set()
+        urls = []
         for tool in msg.get("executed_tools") or []:
-            results = (tool.get("search_results") or {}).get("results") or []
-            sites |= {urlparse(r.get("url", "")).netloc.lower().removeprefix("www.") for r in results}
+            urls += [r.get("url", "") for r in ((tool.get("search_results") or {}).get("results") or [])]
+            urls += re.findall(r"https?://[^\s\)\]\"'<>]+", str(tool.get("output") or ""))
+        sites = {urlparse(u).netloc.lower().removeprefix("www.") for u in urls if u}
         from .ai import _extract_json
-        return _keep(_extract_json(msg.get("content") or "{}").get("items", []), sites)
+        items = _extract_json(msg.get("content") or "{}").get("items", [])
+        if not sites:
+            log.info("causes: Groq search returned no sources; %d items dropped", len(items))
+        return _keep(items, sites)
     except Exception as e:  # noqa: BLE001
         log.warning("causes: Groq web search failed: %s", e)
         return []
