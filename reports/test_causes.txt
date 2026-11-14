@@ -1,47 +1,35 @@
-WARNING monitor: causes: Groq web search failed: 429 Client Error: Too Many Requests for url: https://api.groq.com/openai/v1/chat/completions
-INFO monitor: causes: Gemini web search unavailable: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent
-WARNING monitor: causes: Groq web search failed: 429 Client Error: Too Many Requests for url: https://api.groq.com/openai/v1/chat/completions
-INFO monitor: causes: Gemini web search unavailable: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent
-=== diagnostics
-groq models: ['allam-2-7b', 'canopylabs/orpheus-arabic-saudi', 'canopylabs/orpheus-v1-english', 'meta-llama/llama-prompt-guard-2-22m', 'meta-llama/llama-prompt-guard-2-86m', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'openai/gpt-oss-safeguard-20b', 'qwen/qwen3.8-27b', 'whisper-large-v3', 'whisper-large-v3-turbo']
-groq search OK; message keys: ['role', 'content', 'reasoning', 'executed_tools'] | tools: [['name', 'index', 'type', 'arguments', 'output', 'search_results'], ['name', 'index', 'type', 'arguments', 'output', 'search_results'], ['name', 'index', 'type', 'arguments', 'output', 'search_results'], ['name', 'index', 'type', 'arguments', 'output', 'search_results']]
-groq answer: Uzbekistan will host three major tourism events in late‑November, including the International Tourism Investment Forum and the 31st Tashkent International Tourism Fair “Tourism on the Silk Road” 【3†L7-L14】 – https://www.uzdaily.uz/en/tashkent-to-host-three-major-tourism-events-in-november/
-gemini search gemini-flash-latest 429 {   "error": {     "code": 429,     "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ",     "status": "RESOURCE_EXHAUSTED",     "details": [       {         "@type": "type.googleapis.com/google.rpc.Help
+WARNING monitor: AI gemini failed: 503 Server Error: Service Unavailable for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent
+WARNING monitor: AI groq failed: 429 Client Error: Too Many Requests for url: https://api.groq.com/openai/v1/chat/completions
 === web search ru 2026-11-12
-[]
-=== web search ja 2026-11-10
-[]
-=== news rules
-provider: gemini
 [
  {
-  "id": "k2",
-  "headline": "Almatidan Buxoroga yangi aviayo'nalish ochilmoqda",
-  "summary": "Air Astana aviakompaniyasi 15-dekabrdan boshlab Olmaota va Buxoro o'rtasida haftasiga uchta reys amalga oshiriladigan yangi to'g'ridan-to'g'ri aviayo'nalishni yo'lga qo'yadi.",
-  "impact": "positive",
-  "markets": [
-   "Kazakhstan"
-  ],
-  "horizon": "0-3 months",
-  "confidence": "medium",
-  "change": "new",
-  "reason": "Yangi aviayo'nalish va haftalik reyslar qatnovining yo'lga qo'yilishi Qozog'istondan keladigan sayohatchilar uchun transport qulayligini oshiradi.",
-  "type": "flight",
-  "event_date": "2026-12-15"
+  "headline": "Rossiya‑Uzbeksitan do‘stlik seriali “Sila druzhby. Uzbekistan” efirga chiqadi",
+  "why": "Ushbu hujjatli serial e’lon qilinishi O‘zbekiston haqida qiziqishni oshirdi",
+  "url": "https://uz.sputniknews.ru/20261109/61877158.html",
+  "date": "2026-11-09"
  },
  {
-  "id": "k1",
-  "headline": "O'zbekiston Rossiyaning qishki aviarmarmasining yetakchisiga aylandi",
-  "summary": "Rossiya Transport vazirligining ma'lumotlariga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri yo'nalish bilan Rossiya aviakompaniyalarining qishki jadvalidagi eng yirik xalqaro yo'nalish bo'ldi.",
-  "impact": "unclear",
-  "markets": [
-   "Russia"
-  ],
-  "horizon": "0-3 months",
-  "confidence": "low",
-  "change": "status",
-  "reason": "Ushbu maqola mavjud vaziyat va statistik ma'lumotlarni tasvirlaydi.",
-  "type": "flight",
-  "event_date": null
+  "headline": "Adele Vejgel Toshkent “Paxtakor” stadionida konsert berdi",
+  "why": "Mashhur bloger va qo‘shiqchi ishtiroki Toshkentga sayohatni rag‘batlantirdi",
+  "url": "https://uz.sputniknews.ru/20261110/61912164.html",
+  "date": "2026-11-10"
+ },
+ {
+  "headline": "Rossiya futbol jamoasi Toshkentda O‘zbekistonni mag‘lub etdi",
+  "why": "Jamoaviy musobaqa o‘tkazilishi O‘zbekiston sahifalariga ko‘proq tashrif buyurishga sabab bo‘ldi",
+  "url": "https://ria.ru/20261112/rossiya-2131205918.html",
+  "date": "2026-11-12"
  }
 ]
+=== web search ja 2026-11-10
+[
+ {
+  "headline": "NHK “Dunyo bilan tanishish shahar yurishi” Samarkand bo‘limi 10‑novabrda efirga uzatildi",
+  "why": "Ushbu hujjatli dastur Samarkandning tarixiy go‘zalligini ko‘rsatib, yapon tomoshabinlarining qiziqishini oshirdi",
+  "url": "https://terukosan.com/world-street-walk-samarkand-narrators-rerun-20261110/",
+  "date": "2026-11-10"
+ }
+]
+=== news rules
+provider: None
+[]
