@@ -201,8 +201,8 @@ def search_causes(m: dict, day, pages: str) -> list[dict]:
         if data:
             break
     if not data:
-        log.warning("causes: web search failed: %s", last)
-        return []
+        log.warning("causes: Gemini web search failed (%s); trying Groq", last)
+        return _groq_search(prompt)
     try:
         cand = data["candidates"][0]
         text = "".join(p.get("text", "") for p in cand["content"]["parts"])
@@ -213,18 +213,45 @@ def search_causes(m: dict, day, pages: str) -> list[dict]:
     except Exception as e:  # noqa: BLE001 — optional: the post goes out without it
         log.warning("causes: web search failed: %s", e)
         return []
+    return _keep(items, sites)
+
+
+def _keep(items, sites) -> list[dict]:
+    """Keep at most 3 items whose link points to a site the search itself returned; drop unsafe links."""
     out = []
     for it in items[:3]:
         url = str(it.get("url", ""))
-        host = urlparse(url).netloc.lower().removeprefix("www.")
         if any(ch in url for ch in "\"<> '"):
             continue
-        if not url.startswith("http") or not host or not any(s and (host == s or host.endswith("." + s) or s in host)
-                                                               for s in sites):
-            continue  # not among the pages Google actually returned: drop it
+        host = urlparse(url).netloc.lower().removeprefix("www.")
+        if not url.startswith("http") or not host or not any(
+                s and (host == s or host.endswith("." + s) or s in host) for s in sites):
+            continue  # not among the pages the search actually returned: drop it
         out.append({"headline": str(it.get("headline", ""))[:200], "why": str(it.get("why", ""))[:240],
                     "url": url, "date": str(it.get("date", ""))[:10]})
     return out
+
+
+def _groq_search(prompt: str) -> list[dict]:
+    """Fallback: Groq's compound model searches the web itself; its own search results are the allowed sources."""
+    key = os.getenv("GROQ_API_KEY")
+    if not key:
+        return []
+    try:
+        data = http_post_json("https://api.groq.com/openai/v1/chat/completions",
+                              {"model": config.GROQ_SEARCH_MODEL, "temperature": 0.2,
+                               "messages": [{"role": "user", "content": prompt}]},
+                              headers={"Authorization": f"Bearer {key}"})
+        msg = data["choices"][0]["message"]
+        sites = set()
+        for tool in msg.get("executed_tools") or []:
+            results = (tool.get("search_results") or {}).get("results") or []
+            sites |= {urlparse(r.get("url", "")).netloc.lower().removeprefix("www.") for r in results}
+        from .ai import _extract_json
+        return _keep(_extract_json(msg.get("content") or "{}").get("items", []), sites)
+    except Exception as e:  # noqa: BLE001
+        log.warning("causes: Groq web search failed: %s", e)
+        return []
 
 
 def pages_text(df: pd.DataFrame, lang: str, day) -> str:
