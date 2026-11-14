@@ -1,12 +1,12 @@
-WARNING monitor: causes: Gemini web search failed (429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent); trying Groq
-WARNING monitor: causes: Groq web search failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
-WARNING monitor: causes: Gemini web search failed (429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent); trying Groq
-WARNING monitor: causes: Groq web search failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
+WARNING monitor: causes: Groq web search failed: 429 Client Error: Too Many Requests for url: https://api.groq.com/openai/v1/chat/completions
+INFO monitor: causes: Gemini web search unavailable: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent
+WARNING monitor: causes: Groq web search failed: 429 Client Error: Too Many Requests for url: https://api.groq.com/openai/v1/chat/completions
+INFO monitor: causes: Gemini web search unavailable: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent
 === diagnostics
 groq models: ['allam-2-7b', 'canopylabs/orpheus-arabic-saudi', 'canopylabs/orpheus-v1-english', 'meta-llama/llama-prompt-guard-2-22m', 'meta-llama/llama-prompt-guard-2-86m', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'openai/gpt-oss-safeguard-20b', 'qwen/qwen3.8-27b', 'whisper-large-v3', 'whisper-large-v3-turbo']
+groq search OK; message keys: ['role', 'content', 'reasoning', 'executed_tools'] | tools: [['name', 'index', 'type', 'arguments', 'output', 'search_results'], ['name', 'index', 'type', 'arguments', 'output', 'search_results'], ['name', 'index', 'type', 'arguments', 'output', 'search_results'], ['name', 'index', 'type', 'arguments', 'output', 'search_results']]
+groq answer: Uzbekistan will host three major tourism events in late‑November, including the International Tourism Investment Forum and the 31st Tashkent International Tourism Fair “Tourism on the Silk Road” 【3†L7-L14】 – https://www.uzdaily.uz/en/tashkent-to-host-three-major-tourism-events-in-november/
 gemini search gemini-flash-latest 429 {   "error": {     "code": 429,     "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ",     "status": "RESOURCE_EXHAUSTED",     "details": [       {         "@type": "type.googleapis.com/google.rpc.Help
-gemini search gemini-flash-lite-latest 429 {   "error": {     "code": 429,     "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ",     "status": "RESOURCE_EXHAUSTED",     "details": [       {         "@type": "type.googleapis.com/google.rpc.Help
-gemini search gemini-2.5-flash 404 {   "error": {     "code": 404,     "message": "This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).",     "status": "NOT_FOUND"   } } 
 === web search ru 2026-11-12
 []
 === web search ja 2026-11-10
@@ -17,7 +17,7 @@ provider: gemini
  {
   "id": "k2",
   "headline": "Almatidan Buxoroga yangi aviayo'nalish ochilmoqda",
-  "summary": "Air Astana aviakompaniyasi 15-dekabrdan boshlab Olmaota va Buxoro o'rtasida haftasiga uchta reydan iborat to'g'ridan-to'g'ri qatnovni yo'lga qo'yadi.",
+  "summary": "Air Astana aviakompaniyasi 15-dekabrdan boshlab Olmaota va Buxoro o'rtasida haftasiga uchta reys amalga oshiriladigan yangi to'g'ridan-to'g'ri aviayo'nalishni yo'lga qo'yadi.",
   "impact": "positive",
   "markets": [
    "Kazakhstan"
@@ -25,14 +25,14 @@ provider: gemini
   "horizon": "0-3 months",
   "confidence": "medium",
   "change": "new",
-  "reason": "Yangi aviayo'nalish va muntazam reyslar Qozog'istondan keluvchi sayohatchilar uchun transport qulayligini oshiradi.",
+  "reason": "Yangi aviayo'nalish va haftalik reyslar qatnovining yo'lga qo'yilishi Qozog'istondan keladigan sayohatchilar uchun transport qulayligini oshiradi.",
   "type": "flight",
   "event_date": "2026-12-15"
  },
  {
   "id": "k1",
-  "headline": "O'zbekiston Rossiyaning qishki parvozlar tarmog'ida yetakchilik qilmoqda",
-  "summary": "Rossiya Transport vazirligi ma'lumotiga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri aviayo'nalish bilan Rossiya aviakompaniyalari qishki jadvalida birinchi o'rinni egalladi.",
+  "headline": "O'zbekiston Rossiyaning qishki aviarmarmasining yetakchisiga aylandi",
+  "summary": "Rossiya Transport vazirligining ma'lumotlariga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri yo'nalish bilan Rossiya aviakompaniyalarining qishki jadvalidagi eng yirik xalqaro yo'nalish bo'ldi.",
   "impact": "unclear",
   "markets": [
    "Russia"
@@ -40,7 +40,7 @@ provider: gemini
   "horizon": "0-3 months",
   "confidence": "low",
   "change": "status",
-  "reason": "Ushbu maqola faqat mavjud vaziyat va mavjud aviayo'nalishlar statistikasini tasvirlaydi.",
+  "reason": "Ushbu maqola mavjud vaziyat va statistik ma'lumotlarni tasvirlaydi.",
   "type": "flight",
   "event_date": null
  }
