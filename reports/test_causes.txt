@@ -1,5 +1,7 @@
-WARNING monitor: causes: web search failed: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent
-WARNING monitor: causes: web search failed: 429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent
+WARNING monitor: causes: Gemini web search failed (429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent); trying Groq
+WARNING monitor: causes: Groq web search failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
+WARNING monitor: causes: Gemini web search failed (429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent); trying Groq
+WARNING monitor: causes: Groq web search failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
 === web search ru 2026-11-12
 []
 === web search ja 2026-11-10
@@ -10,7 +12,7 @@ provider: gemini
  {
   "id": "k2",
   "headline": "Almatidan Buxoroga yangi aviayo'nalish ochilmoqda",
-  "summary": "Air Astana aviakompaniyasi 15-dekabrdan boshlab Almaty va Buxoro o'rtasida haftasiga uchta reysdan iborat to'g'ridan-to'g'ri aviayo'nalishni yo'lga qo'yadi.",
+  "summary": "Air Astana aviakompaniyasi 15-dekabrdan boshlab Olmaota va Buxoro o'rtasida haftasiga uchta reydan iborat to'g'ridan-to'g'ri qatnovni yo'lga qo'yadi.",
   "impact": "positive",
   "markets": [
    "Kazakhstan"
@@ -18,22 +20,22 @@ provider: gemini
   "horizon": "0-3 months",
   "confidence": "medium",
   "change": "new",
-  "reason": "Yangi aviayo'nalishning ochilishi va qatnovlarning yo'lga qo'yilishi Qozog'istondan keladigan sayohatchilar uchun transport qulayligini oshiradi.",
+  "reason": "Yangi aviayo'nalish va qo'shni davlat bilan transport aloqasining yaxshilanishi sayyohlar oqimini oshiradi.",
   "type": "flight",
   "event_date": "2026-12-15"
  },
  {
   "id": "k1",
-  "headline": "O'zbekiston Rossiya aviakompaniyalari qishki tarmog'ida yetakchilik qilmoqda",
-  "summary": "Rossiya Transport vazirligining ma'lumotiga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri yo'nalish bilan Rossiya aviakompaniyalarining qishki jadvalidagi eng asosiy xalqaro yo'nalishga aylandi.",
+  "headline": "O'zbekiston Rossiya aviakompaniyalarining qishki tarmog'ida yetakchilik qilmoqda",
+  "summary": "Rossiya Transport vazirligi ma'lumotlariga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri yo'nalish bilan Rossiya aviakompaniyalarining qishki jadvalidagi eng yirik xalqaro yo'nalishga aylandi.",
   "impact": "unclear",
   "markets": [
    "Russia"
   ],
-  "horizon": "3-6 months",
+  "horizon": "0-3 months",
   "confidence": "low",
   "change": "status",
-  "reason": "Mazkur maqola mavjud vaziyatni ta'riflaydi va hozirgi holat haqidagi statistik ma'lumotlarni beradi.",
+  "reason": "Mazkur maqola faqat mavjud holat va statistik ma'lumotlarni tasvirlaydi.",
   "type": "flight",
   "event_date": null
  }
