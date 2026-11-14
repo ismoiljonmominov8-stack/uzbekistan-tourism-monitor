@@ -2,6 +2,11 @@ WARNING monitor: causes: Gemini web search failed (429 Client Error: Too Many Re
 WARNING monitor: causes: Groq web search failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
 WARNING monitor: causes: Gemini web search failed (429 Client Error: Too Many Requests for url: https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent); trying Groq
 WARNING monitor: causes: Groq web search failed: 404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions
+=== diagnostics
+groq models: ['allam-2-7b', 'canopylabs/orpheus-arabic-saudi', 'canopylabs/orpheus-v1-english', 'meta-llama/llama-prompt-guard-2-22m', 'meta-llama/llama-prompt-guard-2-86m', 'openai/gpt-oss-120b', 'openai/gpt-oss-20b', 'openai/gpt-oss-safeguard-20b', 'qwen/qwen3.8-27b', 'whisper-large-v3', 'whisper-large-v3-turbo']
+gemini search gemini-flash-latest 429 {   "error": {     "code": 429,     "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ",     "status": "RESOURCE_EXHAUSTED",     "details": [       {         "@type": "type.googleapis.com/google.rpc.Help
+gemini search gemini-flash-lite-latest 429 {   "error": {     "code": 429,     "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://aistudio.google.com/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. ",     "status": "RESOURCE_EXHAUSTED",     "details": [       {         "@type": "type.googleapis.com/google.rpc.Help
+gemini search gemini-2.5-flash 404 {   "error": {     "code": 404,     "message": "This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).",     "status": "NOT_FOUND"   } } 
 === web search ru 2026-11-12
 []
 === web search ja 2026-11-10
@@ -20,14 +25,14 @@ provider: gemini
   "horizon": "0-3 months",
   "confidence": "medium",
   "change": "new",
-  "reason": "Yangi aviayo'nalish va qo'shni davlat bilan transport aloqasining yaxshilanishi sayyohlar oqimini oshiradi.",
+  "reason": "Yangi aviayo'nalish va muntazam reyslar Qozog'istondan keluvchi sayohatchilar uchun transport qulayligini oshiradi.",
   "type": "flight",
   "event_date": "2026-12-15"
  },
  {
   "id": "k1",
-  "headline": "O'zbekiston Rossiya aviakompaniyalarining qishki tarmog'ida yetakchilik qilmoqda",
-  "summary": "Rossiya Transport vazirligi ma'lumotlariga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri yo'nalish bilan Rossiya aviakompaniyalarining qishki jadvalidagi eng yirik xalqaro yo'nalishga aylandi.",
+  "headline": "O'zbekiston Rossiyaning qishki parvozlar tarmog'ida yetakchilik qilmoqda",
+  "summary": "Rossiya Transport vazirligi ma'lumotiga ko'ra, O'zbekiston 70 ta to'g'ridan-to'g'ri aviayo'nalish bilan Rossiya aviakompaniyalari qishki jadvalida birinchi o'rinni egalladi.",
   "impact": "unclear",
   "markets": [
    "Russia"
@@ -35,7 +40,7 @@ provider: gemini
   "horizon": "0-3 months",
   "confidence": "low",
   "change": "status",
-  "reason": "Mazkur maqola faqat mavjud holat va statistik ma'lumotlarni tasvirlaydi.",
+  "reason": "Ushbu maqola faqat mavjud vaziyat va mavjud aviayo'nalishlar statistikasini tasvirlaydi.",
   "type": "flight",
   "event_date": null
  }
