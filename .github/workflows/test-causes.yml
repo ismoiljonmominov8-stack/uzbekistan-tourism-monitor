@@ -21,22 +21,6 @@ jobs:
           python - <<'PY' > reports/test_causes.txt 2>&1 || true
           import json, os, requests
           from src import causes, ai
-          print("=== diagnostics")
-          r = requests.get("https://api.groq.com/openai/v1/models", headers={"Authorization": "Bearer " + os.getenv("GROQ_API_KEY", "")}, timeout=30)
-          print("groq models:", sorted(m["id"] for m in r.json().get("data", [])) if r.ok else r.status_code)
-          r = requests.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": "Bearer " + os.getenv("GROQ_API_KEY", "")}, timeout=90,
-                            json={"model": "openai/gpt-oss-120b", "tools": [{"type": "browser_search"}], "messages": [{"role": "user", "content": "Latest news about Uzbekistan tourism this week, one line with a link"}]})
-          if r.ok:
-              msg = r.json()["choices"][0]["message"]
-              print("groq search OK; message keys:", list(msg), "| tools:", [list(t) for t in msg.get("executed_tools") or []])
-              print("groq answer:", (msg.get("content") or "")[:300].replace("\n", " "))
-          else:
-              print("groq search", r.status_code, r.text[:300])
-          for model in ["gemini-flash-latest"]:
-              r = requests.post(f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-                                headers={"x-goog-api-key": os.getenv("GEMINI_API_KEY", "")}, timeout=60,
-                                json={"contents": [{"parts": [{"text": "Uzbekistan news today, one line"}]}], "tools": [{"google_search": {}}]})
-              print("gemini search", model, r.status_code, r.text[:400].replace("\n", " ") if not r.ok else "OK")
           for lang, day, ch, pages in [("ru", "2026-11-12", 0.30, "Uzbekistan +46%, Tashkent +41%, Khiva +22%"),
                                        ("ja", "2026-11-10", 1.88, "Samarkand +523%, Uzbekistan +130%")]:
               print("=== web search", lang, day)

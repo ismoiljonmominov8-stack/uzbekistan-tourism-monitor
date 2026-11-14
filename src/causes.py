@@ -235,12 +235,20 @@ def _groq_search(prompt: str) -> list[dict]:
     key = os.getenv("GROQ_API_KEY")
     if not key:
         return []
+    body = {"model": config.GROQ_SEARCH_MODEL, "temperature": 0.2, "tools": [{"type": "browser_search"}],
+            "messages": [{"role": "user", "content": prompt}]}
+    data = None
+    for attempt in range(2):   # search results use many tokens; the free tier allows only a few per minute
+        try:
+            data = http_post_json("https://api.groq.com/openai/v1/chat/completions", body,
+                                  headers={"Authorization": f"Bearer {key}"})
+            break
+        except Exception as e:  # noqa: BLE001
+            if "429" not in str(e) or attempt:
+                log.warning("causes: Groq web search failed: %s", e)
+                return []
+            time.sleep(65)
     try:
-        data = http_post_json("https://api.groq.com/openai/v1/chat/completions",
-                              {"model": config.GROQ_SEARCH_MODEL, "temperature": 0.2,
-                               "tools": [{"type": "browser_search"}],
-                               "messages": [{"role": "user", "content": prompt}]},
-                              headers={"Authorization": f"Bearer {key}"})
         msg = data["choices"][0]["message"]
         urls = []
         for tool in msg.get("executed_tools") or []:
