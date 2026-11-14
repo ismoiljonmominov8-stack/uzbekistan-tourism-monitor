@@ -77,6 +77,8 @@ NEWS_MAX_CANDIDATES = 12         # max articles sent to the AI per run
 
 # ---------------------------------------------------------------- AI
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-flash-lite-latest")
+GEMINI_SEARCH_MODEL = os.getenv("GEMINI_SEARCH_MODEL", "gemini-flash-latest")  # web search for causes of jumps
+CAUSE_MARKETS = 2   # unusual markets per daily post that get a list of possible causes
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")  # llama-3.3-70b was retired Aug 2026
 
 # ---------------------------------------------------------------- Telegram

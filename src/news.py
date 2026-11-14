@@ -78,7 +78,8 @@ def format_item(item: dict, art: dict, provider: str | None) -> str:
         f"{t('news_market')}: {esc(markets)}\n"
         f"{t('news_when')}: {esc(item.get('horizon', '—'))}\n"
         f"{t('news_conf')}: {t('conf')[item['confidence']]}\n"
-        f"{t('news_why')}: {esc(item.get('reason', ''))}\n\n"
+        f"{t('news_why')}: {esc(item.get('reason', ''))}\n"
+        f"{(chr(10) + t('news_status') + chr(10)) if item.get('change') == 'status' else ''}\n"
         f"🔗 <a href=\"{esc(art['url'])}\">{esc(art['source'])}</a>"
     )
 

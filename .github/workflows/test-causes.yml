@@ -1,0 +1,46 @@
+name: Test causes and news rules (manual)
+on: workflow_dispatch
+concurrency: data
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Real-model check (writes reports/test_causes.txt, no secrets in it)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python - <<'PY' > reports/test_causes.txt 2>&1 || true
+          import json
+          from src import causes, ai
+          for lang, day, ch, pages in [("ru", "2026-11-12", 0.30, "Uzbekistan +46%, Tashkent +41%, Khiva +22%"),
+                                       ("ja", "2026-11-10", 1.88, "Samarkand +523%, Uzbekistan +130%")]:
+              print("=== web search", lang, day)
+              print(json.dumps(causes.search_causes({"lang": lang, "change": ch}, day, pages), ensure_ascii=False, indent=1))
+          print("=== news rules")
+          arts = [{"id": "k1", "source": "Kun.uz",
+                   "title": "Uzbekistan leads Russia's winter flight network with 70 direct routes",
+                   "snippet": "Uzbekistan has become the top international destination in Russian airlines' winter schedule with 70 routes, ahead of China (63) and Turkey (46), according to Russia's Ministry of Transport."},
+                  {"id": "k2", "source": "Gazeta.uz",
+                   "title": "Air Astana to launch new Almaty-Bukhara route from 15 December",
+                   "snippet": "Air Astana will open a new direct route between Almaty and Bukhara with three weekly flights starting 15 December."}]
+          items, prov = ai.analyze_news(arts)
+          print("provider:", prov)
+          print(json.dumps(items, ensure_ascii=False, indent=1))
+          PY
+          cat reports/test_causes.txt
+      - run: |
+          git config user.name "tourism-monitor-bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/test_causes.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "test: causes and news rules with the real model"
+          git push || (git pull --rebase && git push)

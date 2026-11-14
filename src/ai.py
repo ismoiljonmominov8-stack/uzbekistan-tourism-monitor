@@ -24,6 +24,9 @@ Pick at most {limit} relevant articles, most important first. For each return:
 - "horizon": one of "0-3 months", "3-6 months", "6-12 months", "12+ months"
 - "confidence": "low" if only announced/planned or rumoured, "medium" if confirmed but not yet
   in effect, "high" if already in effect
+- "change": "new" if the article reports a CHANGE against the past (a new route, more weekly
+  flights than before, a new visa rule, a new festival); "status" if it only describes the current
+  situation (a ranking, a total, "X leads", statistics of routes or flights that already exist)
 - "reason": one sentence in {lang} explaining the expected mechanism
 - "type": one of "visa", "border", "crossing", "flight", "event", "sport", "politics", "price",
   "infrastructure", "marketing", "other" (what kind of news it is). "border" = a closed border or
@@ -35,6 +38,15 @@ Pick at most {limit} relevant articles, most important first. For each return:
 
 Rules:
 - If several articles describe the same event, return only one of them.
+- A "status" article adds no new travellers by itself: set "impact" to "unclear" unless the article
+  states a concrete increase or decrease compared with before, and set "confidence" to "low". Say in
+  "reason" that it describes the existing situation.
+- Keep every number exactly as in the article, with its own unit. Do not turn routes into flights or
+  weekly figures into totals.
+- Uzbek terms: route = "yo'nalish" (air route = "aviayo'nalish"), flight = "reys" or "parvoz",
+  frequency = "haftalik reyslar soni", city pair = "shaharlar juftligi". Never write "reys" for a route.
+- Say who leads what exactly as the article does (e.g. "Uzbekistan is the top destination of Russian
+  airlines" must not become "Russian airlines lead in Uzbekistan").
 - If "impact" is "unclear", "confidence" must be "low".
 - Diplomatic statements, local crime and domestic-only measures are usually NOT relevant unless
   they clearly change travel conditions (visas, flights, safety warnings, prices for foreigners).
@@ -119,6 +131,11 @@ def analyze_news(articles: list[dict], order=("gemini", "groq")):
             i["impact"] = "unclear"
         if i.get("confidence") not in ("low", "medium", "high"):
             i["confidence"] = "low"
+        if i.get("change") not in ("new", "status"):
+            i["change"] = "new"
+        if i["change"] == "status":   # enforce the rule even if the model forgets it
+            i["confidence"] = "low"
+            i["impact"] = "unclear"
         if i.get("type") not in ("visa", "border", "crossing", "flight", "event", "sport", "politics", "price",
                                  "infrastructure", "marketing", "other"):
             i["type"] = "other"

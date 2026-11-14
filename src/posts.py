@@ -7,7 +7,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from . import config, events, pageviews, statuz  # noqa: E402
+from . import causes, config, events, pageviews, statuz  # noqa: E402
 from .texts import market_name, month_name, t  # noqa: E402
 from .util import admin_id, channel_id, esc, log, read_json, send_message, send_photo, write_json  # noqa: E402
 
@@ -61,6 +61,19 @@ def daily_text(df: pd.DataFrame, wide: pd.DataFrame, day) -> str | None:
             art = single_article_spike(df, m["lang"], day)
             if art:
                 lines.append(t("bot_warning").format(market=esc(market_name(m["lang"])), article=esc(art)))
+        icon = {"strong": "●", "possible": "◐", "weak": "○", "info": "·"}
+        for m in spikes[: config.CAUSE_MARKETS]:
+            try:
+                found = causes.data_causes(df, wide, day, m, mv)
+                web = causes.search_causes(m, day, causes.pages_text(df, m["lang"], day))
+            except Exception as e:  # noqa: BLE001 — the post must go out even if this part fails
+                log.warning("causes for %s failed: %s", m["lang"], e)
+                continue
+            lines += ["", t("causes_title").format(market=esc(market_name(m["lang"])), change=f"{m['change']:+.0%}")]
+            lines += [f"{icon[c['strength']]} {esc(c['text'])}" for c in found]
+            if web:
+                lines.append(t("web_title"))
+                lines += [f"• {esc(w['headline'])} — {esc(w['why'])} <a href=\"{w['url']}\">{'manba' if config.POST_LANG == 'uz' else 'source'}</a>" for w in web]
     why = pageviews.explain(wide, day, mv[: config.TOP_MOVERS])
     reasons = [t("why_weekday").format(market=esc(market_name(w["lang"])), weekday=t("weekdays")[day.dayofweek],
                                        pct=w["pct"], dir=t("dir_up") if w["up"] else t("dir_down"))
