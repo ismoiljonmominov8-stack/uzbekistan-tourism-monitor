@@ -46,7 +46,25 @@ def daily_text(df: pd.DataFrame, wide: pd.DataFrame, day) -> str | None:
     lines = [f"<b>{t('daily_title').format(date=ds)}</b>", "", t("movers")]
     for m in mv[: config.TOP_MOVERS]:
         flag = config.MARKETS[m["lang"]]["flag"]
-        lines.append(f"{flag} {esc(market_name(m['lang']))}  <b>{_fmt_change(m['change'])}</b>  ({m['views']:,})")
+        tag = ""
+        if m["unusual"]:
+            tag = t("tag_unusual")
+        elif abs(m["change"]) >= 0.10:
+            tag = t("tag_small").format(n=int(round(m["avg"]))) if m["avg"] < config.SMALL_MARKET else t("tag_normal")
+        lines.append(f"{flag} {esc(market_name(m['lang']))}  <b>{_fmt_change(m['change'])}</b>  "
+                     f"({t('views_n').format(n=m['views'])}){tag}")
+        if not m["unusual"]:   # unusual markets get the full cause list further down
+            try:
+                for x in [x for x in causes.topics(m["lang"], day) if not x["general"]]:
+                    lines.append("    " + t("topic_line").format(title=esc(x["title"]),
+                                                                 when=f" ({x['when']})" if x.get("when") else ""))
+            except Exception as e:  # noqa: BLE001
+                log.warning("topics for %s failed: %s", m["lang"], e)
+    try:
+        for x in causes.topics(None, day, general=True):
+            lines.append(t("topic_general").format(title=esc(x["title"]), when=x["when"]))
+    except Exception as e:  # noqa: BLE001
+        log.warning("general topics failed: %s", e)
     top = pageviews.most_viewed_article(df, day)
     if top:
         lines += ["", t("most_viewed").format(article=top)]
@@ -78,7 +96,7 @@ def daily_text(df: pd.DataFrame, wide: pd.DataFrame, day) -> str | None:
     reasons = [t("why_weekday").format(market=esc(market_name(w["lang"])), weekday=t("weekdays")[day.dayofweek],
                                        pct=w["pct"], dir=t("dir_up") if w["up"] else t("dir_down"))
                for w in why["weekday"]]
-    reasons += [t("why_small").format(market=esc(market_name(x["lang"])), n=x["n"]) for x in why["small"]]
+    # small markets are now marked on their own line (tag_small)
     if why.get("yoy") is not None:
         reasons.append(t("why_yoy").format(raw=why["yoy_raw"], wiki=why["wiki_trend"], pct=why["yoy"]))
     y = why.get("yoy")
@@ -92,7 +110,7 @@ def daily_text(df: pd.DataFrame, wide: pd.DataFrame, day) -> str | None:
         lines += ["", "<b>" + t("concl_normal").format(yoy_text=yoy_text).strip() + "</b>"]
     if config.CHART_URL:
         lines.append(t("chart_link").format(url=config.CHART_URL))
-    lines += ["", f"<i>{t('footnote')}</i>"]
+    lines += ["", f"<i>{t('footnote')}</i>", f"<i>{t('us_note')}</i>"]
     return "\n".join(lines)
 
 
@@ -122,6 +140,30 @@ def daily(force=False):
     state["daily"] = str(day.date())
     write_json(STATE, state)
     log.info("daily: index for %s posted", day.date())
+
+
+def _trends_lines() -> list[str]:
+    """Google Trends block for the weekly post: Uzbekistan's share among 5 similar destinations, by country
+    (the only per-country source — Wikipedia languages cannot separate e.g. the USA from other English readers)."""
+    try:
+        from . import trends
+        from .history import TRENDS_GEO
+        df = trends.load()
+        df = df[df["geo"].isin(TRENDS_GEO) & (df["destination"] == "Uzbekistan")].copy()
+        df["period"] = df["period"].astype(str)
+        snaps = sorted(p for p in df["period"].unique() if p.startswith("90d-"))
+        if not snaps:
+            return []
+        cur = df[df["period"] == snaps[-1]].set_index("geo")["share"]
+        prev = df[df["period"] == snaps[-2]].set_index("geo")["share"] if len(snaps) > 1 else pd.Series(dtype=float)
+        out = ["", t("trends_title")]
+        for geo in cur.sort_values(ascending=False).index:
+            was = f" ({t('trends_prev')} {int(prev[geo])}%)" if geo in prev.index else ""
+            out.append(f"{TRENDS_GEO[geo]}: {int(cur[geo])}%{was}")
+        return out + [f"<i>{t('trends_note')}</i>"]
+    except Exception as e:  # noqa: BLE001 — the weekly post must go out anyway
+        log.warning("trends block failed: %s", e)
+        return []
 
 
 def weekly():
@@ -162,6 +204,9 @@ def weekly():
         lines.append(t("weekly_line").format(flag=config.MARKETS[lang]["flag"], name=esc(market_name(lang)),
                                              change=change[lang]))
     send_photo(channel_id(), path, "\n".join(lines))
+    tr = _trends_lines()
+    if tr:   # separate message: photo captions are limited to 1,024 characters
+        send_message(channel_id(), "\n".join(tr).strip())
     state["weekly"] = str(last_full.date())
     write_json(STATE, state)
 

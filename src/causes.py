@@ -88,22 +88,58 @@ def _article_split(df: pd.DataFrame, lang: str, day: pd.Timestamp):
     return today, med
 
 
+
+def _similar(a, b) -> bool:
+    from difflib import SequenceMatcher
+    a, b = str(a).lower(), str(b).lower()
+    return a == b or SequenceMatcher(None, a, b).ratio() >= 0.6
+
+
+def topics(lang: str | None, day, general: bool = False) -> list[dict]:
+    """Known events (day-7 .. day+1) and recorded news (day-3 .. day+1) for one market.
+    general=True returns only events marked for all markets instead (lang is ignored).
+    [{"kind": "event"|"news", "text", "strength", "title"}] — used for unusual and ordinary moves alike."""
+    day = pd.Timestamp(day)
+    out = []
+    if EVENTS.exists():
+        ev = pd.read_csv(EVENTS)
+        ev["d"] = pd.to_datetime(ev["date"], errors="coerce")
+        mk = ev["markets"].fillna("").str.split("|")
+        ev = ev[mk.apply(lambda xs: "all" in xs)] if general else ev[mk.apply(lambda xs: lang in xs or "all" in xs)]
+        near = ev[(ev["d"] >= day - pd.Timedelta(days=7)) & (ev["d"] <= day + pd.Timedelta(days=1))]
+        for _, e in near.sort_values("d", ascending=False).iterrows():
+            if len(out) >= 2 or any(_similar(e["title"], x["title"]) for x in out):
+                continue
+            n = (day - e["d"]).days
+            when = _w("today") if n == 0 else _w("days_before").format(n=n) if n > 0 else _w("days_after").format(n=-n)
+            title = str(e["title"]).strip()
+            out.append({"kind": "event", "title": title, "when": when, "general": "all" in str(e["markets"]).split("|"),
+                        "text": _w("event").format(title=title, when=when),
+                        "strength": "strong" if 0 <= n <= 2 else "possible"})
+    if PREDICTIONS.exists() and not general and lang in config.MARKETS:
+        p = pd.read_csv(PREDICTIONS)
+        p["d"] = pd.to_datetime(p["date"], errors="coerce")
+        # only news tagged for THIS market; "All markets" news is too general to point at one market's move
+        names = {config.MARKETS[lang]["en"], *config.MARKETS[lang].get("stat_names", [])}
+        hit = p[(p["d"] >= day - pd.Timedelta(days=3)) & (p["d"] <= day + pd.Timedelta(days=1))
+                & p["markets"].fillna("").apply(lambda s: bool(names & {x.strip() for x in s.split(",")}))]
+        for _, r in hit.drop_duplicates("headline").iterrows():
+            if sum(x["kind"] == "news" for x in out) >= 2:
+                break
+            if any(_similar(r["headline"], x["title"]) for x in out):
+                continue   # the same story already listed (as an event or as another outlet's version)
+            out.append({"kind": "news", "title": str(r["headline"]), "general": False,
+                        "text": _w("news").format(headline=r["headline"], source=r.get("source", "")),
+                        "strength": "weak"})
+    return out
+
 def data_causes(df: pd.DataFrame, wide: pd.DataFrame, day, m: dict, movers: list[dict]) -> list[dict]:
     """m: one entry of pageviews.movers(). Returns [{"text", "strength"}], strongest first."""
     day = pd.Timestamp(day)
     lang, up = m["lang"], m["change"] > 0
     out = []
     # 1. known events for this market close to the date
-    if EVENTS.exists():
-        ev = pd.read_csv(EVENTS)
-        ev["d"] = pd.to_datetime(ev["date"], errors="coerce")
-        ev = ev[ev["markets"].fillna("").str.split("|").apply(lambda xs: lang in xs or "all" in xs)]
-        near = ev[(ev["d"] >= day - pd.Timedelta(days=7)) & (ev["d"] <= day + pd.Timedelta(days=1))]
-        for _, e in near.sort_values("d", ascending=False).head(2).iterrows():
-            n = (day - e["d"]).days
-            when = _w("today") if n == 0 else _w("days_before").format(n=n) if n > 0 else _w("days_after").format(n=-n)
-            out.append({"text": _w("event").format(title=str(e["title"]).strip(), when=when),
-                        "strength": "strong" if 0 <= n <= 2 else "possible"})
+    out += [x for x in topics(lang, day) if x["kind"] == "event"]
     # 2. which pages carry the change
     today, med = _article_split(df, lang, day)
     diff = (today - med).dropna()
@@ -146,16 +182,7 @@ def data_causes(df: pd.DataFrame, wide: pd.DataFrame, day, m: dict, movers: list
     if note:
         out.append({"text": note, "strength": "info"})
     # 6. news recorded for this market in the last 3 days
-    if PREDICTIONS.exists():
-        p = pd.read_csv(PREDICTIONS)
-        p["d"] = pd.to_datetime(p["date"], errors="coerce")
-        # only news tagged for THIS market; "All markets" news is too general to point at one market's jump
-        names = {config.MARKETS[lang]["en"], *config.MARKETS[lang].get("stat_names", [])}
-        hit = p[(p["d"] >= day - pd.Timedelta(days=3)) & (p["d"] <= day + pd.Timedelta(days=1))
-                & p["markets"].fillna("").apply(lambda s: bool(names & {x.strip() for x in s.split(",")}))]
-        for _, r in hit.drop_duplicates("headline").head(2).iterrows():
-            out.append({"text": _w("news").format(headline=r["headline"], source=r.get("source", "")),
-                        "strength": "weak"})
+    out += [x for x in topics(lang, day) if x["kind"] == "news"]
     order = {"strong": 0, "possible": 1, "weak": 2, "info": 3}
     return sorted(out, key=lambda c: order[c["strength"]])
 

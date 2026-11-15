@@ -43,7 +43,8 @@ NEIGHBOURS = [l for l, i in MARKETS.items() if i.get("group") == "neighbour"]
 PAGEVIEWS_START = "2016-01-01"  # backfill start on first run
 BASELINE_DAYS = 30               # compare yesterday with the previous 30-day average
 SPIKE_THRESHOLD = 0.30           # (unused) spikes are now flagged statistically, see pageviews.movers
-TOP_MOVERS = 5                   # markets shown in the daily post
+TOP_MOVERS = 10                  # markets shown in the daily post (all of them)
+SMALL_MARKET = 300               # median views a day below which a market counts as small (noisy)
 CHART_URL = os.getenv("CHART_URL", "https://ismoiljonmominov8-stack.github.io/uzbekistan-tourism-monitor/")
 
 # ---------------------------------------------------------------- stat.uz

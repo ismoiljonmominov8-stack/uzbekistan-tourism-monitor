@@ -76,6 +76,9 @@ def _tg(method, payload=None, files=None):
     return data["result"]
 
 
+TG_LIMIT = 4000
+
+
 def send_message(chat_id, text, *, buttons=None, keyboard=None):
     """Send an HTML message. buttons = [[(label, callback_data), ...], ...] (inline, under the message);
     keyboard = [[label, ...], ...] (menu buttons that stay above the typing field)."""
@@ -86,6 +89,20 @@ def send_message(chat_id, text, *, buttons=None, keyboard=None):
         if keyboard:
             print("keyboard:", keyboard)
         return None
+    if len(text) > TG_LIMIT:   # Telegram refuses longer messages; split on line breaks (tags never span lines)
+        parts, cur = [], ""
+        for line in text.split("\n"):
+            if cur and len(cur) + len(line) + 1 > TG_LIMIT:
+                parts.append(cur)
+                cur = ""
+            cur = f"{cur}\n{line}" if cur else line
+        parts.append(cur)
+        res = None
+        for i, part in enumerate(parts):
+            last = i == len(parts) - 1
+            res = send_message(chat_id, part[:TG_LIMIT], buttons=buttons if last else None,
+                               keyboard=keyboard if last else None)
+        return res
     payload = {"chat_id": chat_id, "text": text, "parse_mode": "HTML", "disable_web_page_preview": True}
     if buttons:
         payload["reply_markup"] = {
