@@ -49,6 +49,12 @@ tr.mixed td{color:var(--muted);opacity:.7}
 .sect{font:600 30px/1.2 "Cormorant Garamond",serif;margin:30px 0 12px;border-bottom:1px solid var(--rule);padding-bottom:6px}
 .yearrow{display:flex;align-items:center;gap:10px;margin:4px 0 8px}
 .yearrow input{flex:1;max-width:360px;accent-color:var(--accent)}
+.monthrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.monthrow .controls{margin:4px 0}
+#month-btns button{padding:3px 9px;font-size:14px}#month-btns button.fc{border-style:dashed;color:var(--gold2)}
+#month-btns button.fc.on{background:var(--gold2);color:var(--paper);border-style:solid}
+.rank{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}.rank td{padding:3px 4px;border-bottom:1px solid #8a723633;vertical-align:top}
+.rank td.n{text-align:right;white-space:nowrap}.rank tr.c{cursor:pointer}.rank tr.c:hover{background:#d4af3714}.rank tr.tot td{font-weight:600;border-bottom:1px solid var(--rule)}
+.rank .bar{height:4px;background:var(--accent);margin-top:2px;border-radius:2px}.rank .fcb{background:var(--gold2);opacity:.7}
 .mapgrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:16px;align-items:start}
 .mapwrap{position:relative;border:1px solid var(--rule);border-radius:3px;background:var(--sea);overflow:hidden}
 #map{width:100%;height:auto;display:block;cursor:grab}
@@ -229,6 +235,8 @@ details.howto>div{color:var(--muted);font-size:15px;margin-top:4px}
     <button data-metric="share" data-i18n="m_share"></button>
     <button data-metric="change" data-i18n="m_change"></button>
   </div>
+  <div class="monthrow"><span data-i18n="mon_by"></span><div class="controls" id="month-btns"></div></div>
+  <p class="note" id="month-note" data-i18n="mon_note"></p>
   <div class="yearrow" id="yearrow"><span data-i18n="year_lbl"></span><input type="range" id="year" step="1"><b id="yearlbl"></b></div>
   <div class="mapgrid">
     <div class="mapwrap"><svg id="map" role="img" aria-label="map"></svg>
@@ -667,7 +675,29 @@ const MAPS = {};
   g.append("path").attr("class", "grat").attr("d", path(d3.geoGraticule10()));
   const feats = topojson.feature(M.topo, M.topo.objects.countries).features;
   const years = M.years.length ? M.years : [2025];
-  let metric = "arrivals", year = years[years.length - 1], selected = "156";
+  let metric = "arrivals", year = years[years.length - 1], selected = "156", mon = null;
+  const MM = M.months;
+  const MS = () => t("mon_short").split(",");
+  const mlab = ym => { const [y, m] = ym.split("-"); return MS()[+m - 1] + " " + y; };
+  const mrec = (id, ym) => MM && MM.by[id] ? MM.by[id][ym] : null;
+  const wide = r => r.f && (r.hi - r.lo) / r.v > 0.6;   // range wider than 60 % of the forecast
+  function minfo(r){
+    if (!r) return t("no_data");
+    let h = nf(r.v) + " " + t("tourists_w");
+    if (r.f) h += ` <i>(${t("mon_fc")}; ${t("mon_range")} ${nf(r.lo)}–${nf(r.hi)})</i>` + (wide(r) ? `<br>⚠ ${t("mon_wide")}` : "");
+    else if (!r.x) h += ` <i>(${t("mon_rounded")})</i>`;
+    if (r.ly) h += `<br>${t("mon_ly")}: ${nf(r.ly)} (${pct(r.v / r.ly - 1)})`;
+    return h;
+  }
+  function monthButtons(){
+    const el = document.getElementById("month-btns");
+    if (!MM || !MM.list.length) { document.querySelector("#map-box .monthrow").style.display = "none";
+      document.getElementById("month-note").style.display = "none"; return; }
+    el.innerHTML = `<button data-mon="" class="${mon ? "" : "on"}">${t("mon_years")}</button>` + MM.list.map((x, i) => {
+      const [y, m] = x.m.split("-"), lab = MS()[+m - 1] + (i === 0 || m === "01" ? " " + y : "");
+      return `<button data-mon="${x.m}" class="${x.f ? "fc" : ""}${mon === x.m ? " on" : ""}" title="${x.f ? t("mon_fc") : ""}">${lab}${x.f ? "*" : ""}</button>`; }).join("");
+    el.querySelectorAll("button").forEach(b => b.onclick = () => { mon = b.dataset.mon || null; monthButtons(); paint(); panel(); });
+  }
   const slider = document.getElementById("year");
   slider.min = years[0]; slider.max = years[years.length - 1]; slider.value = year;
   const pct = v => (v >= 0 ? "+" : "−") + Math.round(Math.abs(v) * 100) + "%";
@@ -678,6 +708,7 @@ const MAPS = {};
   const warm = d3.interpolateRgbBasis(["#22344f", "#46506a", "#8a7236", "#d4af37", "#fbe7a8"]);
   const div = d3.interpolateRgbBasis(["#3d6fb0", "#7d9cc4", "#2a3a54", "#c9a13a", "#fbe0a0"]);
   function value(id){
+    if (mon) { const r = mrec(id, mon); return r ? r.v : null; }
     const c = M.countries[id];
     if (metric === "arrivals") return c && c.y[year] > 0 ? c.y[year] : null;
     if (metric === "growth") { if (!c || !(c.y[year] > 0) || !(c.y[year-1] > 0)) return null; return c.y[year] / c.y[year-1]; }
@@ -686,6 +717,7 @@ const MAPS = {};
   }
   function scale(){
     const vals = feats.map(f => value(f.id)).filter(v => v != null && v > 0);
+    if (mon) return d3.scaleSequentialLog([Math.max(1, d3.min(vals) || 1), d3.max(vals) || 10], warm);
     if (metric === "arrivals") return d3.scaleSequentialLog([10, d3.max(vals) || 10], warm);
     if (metric === "share") return d3.scaleSequentialLog([Math.max(1, d3.min(vals) || 1), d3.max(vals) || 10], warm);
     return d3.scaleDivergingLog([0.25, 1, 4], div).clamp(true);
@@ -704,7 +736,8 @@ const MAPS = {};
   }
   function tip(ev, d){
     const el = document.getElementById("tip"), box = document.querySelector("#map-box .mapwrap").getBoundingClientRect();
-    el.innerHTML = `<b>${nm(d.id)}</b><br>${d.id === "860" ? "" : label(value(d.id))}`;
+    el.innerHTML = mon ? `<b>${nm(d.id)} — ${mlab(mon)}</b><br>${d.id === "860" ? minfo(MM.total[mon]) : minfo(mrec(d.id, mon))}`
+                       : `<b>${nm(d.id)}</b><br>${d.id === "860" ? "" : label(value(d.id))}`;
     el.hidden = false; el.style.left = Math.min(ev.clientX - box.left + 12, box.width - 200) + "px"; el.style.top = (ev.clientY - box.top + 12) + "px";
   }
   function paint(){
@@ -712,24 +745,60 @@ const MAPS = {};
     lands.attr("fill", d => { const v = value(d.id); return v == null ? null : sc(v); })
          .classed("nodata", d => value(d.id) == null).classed("sel", d => d.id === selected);
     lands.filter(d => d.id === selected).raise();
-    document.getElementById("yearrow").style.display = (metric === "arrivals" || metric === "growth") ? "flex" : "none";
+    document.getElementById("yearrow").style.display = !mon && (metric === "arrivals" || metric === "growth") ? "flex" : "none";
+    document.getElementById("metric-btns").style.display = mon ? "none" : "flex";
     document.getElementById("yearlbl").textContent = year + (metric === "growth" ? " " + t("vs_year", {y: year - 1}) : "");
     legend(sc);
   }
   function legend(sc){
     const el = document.getElementById("legend"), dom = sc.domain(), n = 6;
-    const stops = d3.range(n).map(i => metric === "arrivals" || metric === "share"
+    const stops = d3.range(n).map(i => mon || metric === "arrivals" || metric === "share"
       ? Math.exp(Math.log(dom[0]) + i/(n-1) * (Math.log(dom[dom.length-1]) - Math.log(dom[0])))
       : Math.exp(Math.log(0.25) + i/(n-1) * Math.log(16)));
     const grad = stops.map((v,i) => `${sc(v)} ${i/(n-1)*100}%`).join(",");
-    const ticks = metric === "arrivals" ? [stops[0], stops[n-1]].map(v => d3.format(".2s")(v))
+    const ticks = mon || metric === "arrivals" ? [stops[0], stops[n-1]].map(v => d3.format(".2s")(v))
       : metric === "share" ? [stops[0], stops[n-1]].map(v => v.toFixed(0)) : ["−75%", "0", "+300%"];
-    const title = {arrivals: t("lg_arrivals", {y: year}), growth: t("lg_growth", {y: year}), share: t("lg_share"), change: t("lg_change")}[metric];
+    const title = mon ? t("lg_month", {m: mlab(mon)}) + (MM.list.find(x => x.m === mon).f ? " (" + t("mon_fc") + ")" : "") : {arrivals: t("lg_arrivals", {y: year}), growth: t("lg_growth", {y: year}), share: t("lg_share"), change: t("lg_change")}[metric];
     el.innerHTML = `<div>${title}</div><div class="bar" style="background:linear-gradient(90deg,${grad})"></div><div class="ticks">${ticks.map(x=>`<span>${x}</span>`).join("")}</div>` +
-      (metric === "share" || metric === "change" ? `<div style='margin-top:3px'>${t("lg_only_tracked")}</div>` : "");
+      (!mon && (metric === "share" || metric === "change") ? `<div style='margin-top:3px'>${t("lg_only_tracked")}</div>` : "");
   }
   function pp(x){ return x && x.p != null ? "~" + Math.round(x.p*100) + "%" : t("not_enough"); }
+  function monthPanel(){
+    const el = document.getElementById("panel"), tot = MM.total[mon], isF = MM.list.find(x => x.m === mon).f;
+    const rows = Object.keys(MM.by).filter(id => MM.by[id][mon]).map(id => [id, MM.by[id][mon]]).sort((a, b) => b[1].v - a[1].v);
+    let h = "";
+    const r = mrec(selected, mon);
+    if (selected !== "860") {
+      h += `<h3>${flag(A2[selected])} ${nm(selected)} — ${mlab(mon)}</h3>`;
+      h += r ? `<p>${minfo(r)}</p><div id="mini1" class="mini"></div>` : `<p class="note">${t("mon_nodata_c")}</p>`;
+    }
+    h += `<b>${t("mon_rank", {m: mlab(mon)})}${isF ? " — " + t("mon_fc") : ""}</b><table class="rank">`;
+    if (tot) h += `<tr class="tot c" data-id="860"><td>${flag("UZ")} ${t("mon_total")}</td><td class="n">${nf(tot.v)}${tot.f ? `<br><span class="note">${nf(tot.lo)}–${nf(tot.hi)}</span>` : ""}</td></tr>`;
+    const mx = rows.length ? rows[0][1].v : 1;
+    h += rows.map(([id, x]) => `<tr class="c" data-id="${id}"><td>${flag(A2[id])} ${nm(id)}${tot ? ` <span class="note">${dec(x.v / tot.v * 100)}%</span>` : ""}` +
+      `<div class="bar${x.f ? " fcb" : ""}" style="width:${Math.max(2, x.v / mx * 100)}%"></div></td>` +
+      `<td class="n">${nf(x.v)}${x.f ? `<br><span class="note">${wide(x) ? "⚠ " : ""}${nf(x.lo)}–${nf(x.hi)}</span>` : x.x ? "" : "*"}</td></tr>`).join("");
+    if (tot) { const other = tot.v - d3.sum(rows, x => x[1].v);
+      h += other > 0 ? `<tr><td>🌍 ${t("mon_other")} <span class="note">${dec(other / tot.v * 100)}%</span></td><td class="n">${nf(other)}</td></tr>`
+                     : `<tr><td colspan="2" class="note">${t("mon_other_neg")}</td></tr>`; }
+    h += `</table><p class="note">${isF ? t("mon_fc_note") + (rows.some(x => wide(x[1])) ? " ⚠ — " + t("mon_wide") : "") : t("mon_act_note")}</p>`;
+    el.innerHTML = h;
+    el.querySelectorAll("tr.c").forEach(tr => tr.onclick = () => { selected = tr.dataset.id; paint(); panel(); });
+    if (!r || typeof Plotly === "undefined") return;
+    const ser = MM.by[selected], ks = Object.keys(ser).sort(), act = ks.filter(k => !ser[k].f), fc = ks.filter(k => ser[k].f);
+    const tr = [{type: "bar", x: act.map(k => k + "-01"), y: act.map(k => ser[k].v), name: t("mon_actual"),
+      marker: {color: act.map(k => k === mon ? css("--gold2") : css("--accent"))}, hovertemplate: "%{y:,.0f}<extra></extra>"}];
+    if (fc.length) tr.push({type: "scatter", mode: "markers", x: fc.map(k => k + "-01"), y: fc.map(k => ser[k].v), name: t("mon_fc"),
+      marker: {size: 9, color: fc.map(k => k === mon ? css("--gold2") : css("--blue"))},
+      error_y: {type: "data", symmetric: false, array: fc.map(k => ser[k].hi - ser[k].v), arrayminus: fc.map(k => ser[k].v - ser[k].lo), color: css("--blue")},
+      hovertemplate: "%{y:,.0f}<extra></extra>"});
+    Plotly.react("mini1", tr, {paper_bgcolor:"rgba(0,0,0,0)", plot_bgcolor:"rgba(0,0,0,0)", margin:{l:48,r:6,t:22,b:28},
+      font:{family:"EB Garamond, Georgia, serif", size:12, color:css("--ink")}, showlegend:false, separators: LANG === "en" ? ".," : ", ",
+      title:{text:t("mon_series"), font:{size:13}}, xaxis:{type:"date", tickformat:"%b", gridcolor:css("--rule")+"44"},
+      yaxis:{gridcolor:css("--rule")+"44", rangemode:"tozero"}}, {displayModeBar:false, responsive:true});
+  }
   function panel(){
+    if (mon) return monthPanel();
     const id = selected, c = M.countries[id], m = M.markets[id], el = document.getElementById("panel");
     if (id === "860") { el.innerHTML = `<h3>${cname("UZ")}</h3><p class="note">${t("total_foreign")}:</p><dl class="kv">${Object.entries(M.totals).map(([y,v])=>`<dt>${y}</dt><dd>${nf(v)}</dd>`).join("")}</dl>`; return; }
     let h = `<h3>${flag(A2[id])} ${nm(id)}</h3><dl class="kv">`;
@@ -810,7 +879,7 @@ const MAPS = {};
     document.querySelectorAll("[data-dir]").forEach(x => x.classList.toggle("on", x === b)); renderList(); });
   document.querySelectorAll("[data-win]").forEach(b => b.onclick = () => { win = +b.dataset.win;
     document.querySelectorAll("[data-win]").forEach(x => x.classList.toggle("on", x === b)); renderList(); });
-  MAPS.refresh = () => { paint(); panel(); renderList(); };
+  MAPS.refresh = () => { monthButtons(); paint(); panel(); renderList(); };
 })();
 function renderEvents(){
   const box = document.getElementById("events-box");

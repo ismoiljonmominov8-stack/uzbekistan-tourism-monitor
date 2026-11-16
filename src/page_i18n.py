@@ -191,6 +191,45 @@ STRINGS = {
     "m_arrivals": ("Turistlar soni", "Число туристов", "Visitors"), "m_growth": ("O'sish (oldingi yilga)", "Рост (к прошлому году)", "Growth (vs previous year)"),
     "m_share": ("Vikipediya qiziqishi", "Интерес в Википедии", "Wikipedia interest"), "m_change": ("Qiziqish o'zgarishi (yillik)", "Изменение интереса (за год)", "Change in interest (yearly)"),
     "year_lbl": ("Yil:", "Год:", "Year:"),
+    "mon_by": ("Oy bo'yicha:", "По месяцам:", "By month:"),
+    "mon_years": ("Yillar bo'yicha", "По годам", "By year"),
+    "mon_short": ("Yan,Fev,Mar,Apr,May,Iyun,Iyul,Avg,Sen,Okt,Noy,Dek", "Янв,Фев,Мар,Апр,Май,Июн,Июл,Авг,Сен,Окт,Ноя,Дек",
+                  "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec"),
+    "mon_note": ("Oy tugmasini bosing: o'sha oyda qaysi davlatdan qancha turist kelgani. Yulduzchali (*) chiziqli tugmalar — "
+                 "kelgusi oylar bashorati, 80% ishonch oralig'i bilan. Oylik raqamlar faqat eng ko'p turist yuboradigan ~10 davlat "
+                 "uchun e'lon qilinadi, shuning uchun qolgan davlatlar kulrang.",
+                 "Нажмите на месяц: сколько туристов приехало из каждой страны. Пунктирные кнопки со звёздочкой (*) — прогноз на "
+                 "следующие месяцы с 80% интервалом. Помесячные данные публикуются только по ~10 главным странам, остальные — серые.",
+                 "Click a month to see how many visitors came from each country. Dashed buttons with a star (*) are forecasts for the "
+                 "coming months, with an 80% range. Monthly figures are published only for the ~10 largest source countries, so the "
+                 "rest of the map stays grey."),
+    "mon_fc": ("bashorat", "прогноз", "forecast"),
+    "mon_actual": ("haqiqiy", "факт", "actual"),
+    "mon_range": ("oraliq", "интервал", "range"),
+    "mon_rounded": ("yaxlitlangan raqam", "округлённое число", "rounded figure"),
+    "mon_ly": ("O'tgan yil shu oy", "Тот же месяц прошлого года", "Same month last year"),
+    "mon_total": ("Jami xorijiy turistlar", "Всего иностранных туристов", "All foreign visitors"),
+    "mon_other": ("Boshqa davlatlar", "Другие страны", "Other countries"),
+    "mon_other_neg": ("Davlatlar bashoratlari yig'indisi jami bashoratdan katta — «boshqa davlatlar» hisoblanmaydi.",
+                      "Сумма прогнозов по странам больше общего прогноза — «другие страны» не считаются.",
+                      "Country forecasts add up to more than the total forecast, so «other countries» is not computed."),
+    "mon_rank": ("{m} — davlatlar bo'yicha", "{m} — по странам", "{m} — by country"),
+    "mon_series": ("Oylar bo'yicha (nuqtalar — bashorat)", "По месяцам (точки — прогноз)", "By month (dots = forecast)"),
+    "mon_nodata_c": ("Bu davlat bo'yicha oylik raqam e'lon qilinmaydi — faqat yillik («Yillar bo'yicha» tugmasi).",
+                     "По этой стране помесячные данные не публикуются — только годовые (кнопка «По годам»).",
+                     "No monthly figures are published for this country, only yearly ones (the «By year» button)."),
+    "mon_act_note": ("Manba: stat.uz. * — yaxlitlangan raqam.", "Источник: stat.uz. * — округлённое число.", "Source: stat.uz. * = rounded figure."),
+    "mon_fc_note": ("Bashorat: o'tgan yilning shu oyi × joriy yil o'sishi; ostida — 80% ishonch oralig'i (haqiqiy raqam taxminan 10 holatdan "
+                    "8 tasida shu oraliqqa tushadi). Haqiqiy raqam chiqqach, xatosi «Bashorat aniqligi» bo'limida tekshiriladi.",
+                    "Прогноз: тот же месяц прошлого года × рост текущего года; ниже — 80% интервал (факт попадает в него примерно в 8 "
+                    "случаях из 10). Когда выйдут данные, ошибка проверяется в разделе точности прогноза.",
+                    "Forecast: the same month last year × this year's growth; below it, the 80% range (the actual figure lands inside "
+                    "it about 8 times in 10). When the official figure comes out, the error is checked in the forecast accuracy section."),
+    "mon_wide": ("keng oraliq: bashorat ishonchsiz (o'tgan yilning oylik raqamlari yaxlitlangan yoki yo'q, ayniqsa qo'shni davlatlarda)",
+                 "широкий интервал: прогноз ненадёжен (помесячные данные прошлого года округлены или отсутствуют, особенно по соседям)",
+                 "wide range: unreliable forecast (last year's monthly figures are rounded or missing, especially for neighbours)"),
+    "lg_month": ("{m}: turistlar soni", "{m}: число туристов", "{m}: visitors"),
+
     "no_data": ("ma'lumot yo'q", "нет данных", "no data"), "tourists_w": ("turistlar", "туристы", "visitors"),
     "vs_prev_year": ("oldingi yilga", "к прошлому году", "vs previous year"), "vs_last_year": ("o'tgan yilga", "к прошлому году", "vs last year"),
     "vs_year": ("{y} ga nisbatan", "к {y}", "vs {y}"), "per_million_short": ("1 mln ko'rish", "1 млн просмотров", "1M views"),

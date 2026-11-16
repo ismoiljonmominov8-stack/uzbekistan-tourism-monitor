@@ -30,6 +30,47 @@ def _clean(v):
     return None if (isinstance(v, float) and pd.isna(v)) else v
 
 
+
+def month_map(mon, name_to_iso) -> dict | None:
+    """Month buttons on the world map: official arrivals by country for each month of the latest year,
+    then the next forecast months (central value + calibrated 80 % range). Same month a year earlier
+    is attached where it was published."""
+    if mon is None or mon.empty:
+        return None
+    m = mon.copy()
+    m["ym"] = m["year"].astype(int).astype(str) + "-" + m["month"].astype(int).map("{:02d}".format)
+    year = int(m["year"].max())
+    val = {(r.country, r.ym): (int(r.arrivals), bool(r.exact)) for r in m.itertuples()}
+
+    def ly(country, ym):
+        y, mm = ym.split("-")
+        x = val.get((country, f"{int(y) - 1}-{mm}"))
+        return x[0] if x else None
+
+    by, total, lst = {}, {}, []
+    for ym in sorted(m.loc[m["year"] == year, "ym"].unique()):
+        lst.append({"m": ym, "f": False})
+        for (country, k), (v, exact) in val.items():
+            if k != ym:
+                continue
+            rec = {"v": v, "x": exact, "f": False, "ly": ly(country, ym)}
+            if country == "TOTAL":
+                total[ym] = rec
+            elif country in name_to_iso:
+                by.setdefault(name_to_iso[country], {})[ym] = rec
+    cur = scorecard.current()
+    targets = [r["target"] for r in cur.get("TOTAL", {}).get("rows", [])]
+    lst += [{"m": ym, "f": True} for ym in targets]
+    for level, c in cur.items():
+        for r in c["rows"]:
+            rec = {"v": int(r["forecast"]), "lo": int(r["lo"]), "hi": int(r["hi"]), "f": True,
+                   "ly": ly(level, r["target"])}
+            if level == "TOTAL":
+                total[r["target"]] = rec
+            elif level in name_to_iso:
+                by.setdefault(name_to_iso[level], {})[r["target"]] = rec
+    return {"list": lst, "total": total, "by": by, "made": max((c["last"] for c in cur.values()), default=None)}
+
 def map_data(wide, proj, mon) -> dict:
     """Everything the world map needs: boundaries, arrivals by country and year, Wikipedia interest
     for the tracked markets, 2026 monthly arrivals, events and upcoming events per country."""
@@ -103,7 +144,12 @@ def map_data(wide, proj, mon) -> dict:
         langs = events.expand(u["markets"])
         ups.append(u | {"isos": [MARKET_ISO[l] for l in langs if l in MARKET_ISO],
                         "estimate": json.loads(json.dumps(u["estimate"], default=str))})
-    return {"topo": topo, "countries": countries, "totals": totals, "markets": markets,
+    try:
+        months = month_map(mon, name_to_iso)
+    except Exception as e:  # noqa: BLE001 — the page must build even if this part fails
+        log.warning("month map failed: %s", e)
+        months = None
+    return {"topo": topo, "countries": countries, "totals": totals, "markets": markets, "months": months,
             "monthly": monthly, "effects": by_iso_effects, "upcoming": ups, "recent": sorted(recent, key=lambda r: r["date"], reverse=True),
             "years": sorted(totals) if totals else []}
 
