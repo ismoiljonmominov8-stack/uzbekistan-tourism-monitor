@@ -1,0 +1,53 @@
+country,year,month,ytd,exact,prev_ytd,leisure,url,source_id
+Australia,2026,2,489,True,368.0,390.0,https://stat.uz/en/press-center/news-of-committee/67634-2-ojda-489-nafar-avstraliya-fu-arolari-turistik-ma-sadlarda-zbekistonga-kelgan-4,67634
+Azerbaijan,2024,7,9600,True,8000.0,,https://stat.uz/en/press-center/news-of-committee/56240-o-zbekistonga-turistik-maqsadlarda-kelgan-ozarbayjon-fuqarolari-necha-nafarni-tashkil-etgan-3,56240
+Azerbaijan,2025,2,2000,True,,1129.0,https://stat.uz/en/press-center/news-of-committee/60933-ozarbayjondan-2-oyda-o-zbekistonga-2-ming-nafar-turist-kelgan-3,60933
+Azerbaijan,2025,7,11000,False,,6985.0,https://stat.uz/en/press-center/news-of-committee/64139-11-mingdan-zijod-ozarbajzhon-fu-arolari-turistik-ma-sadlarda-zbekistonga-kelgan-4,64139
+Belarus,2025,2,4200,False,2200.0,1179.0,https://stat.uz/en/press-center/news-of-committee/61101-4-2-ming-nafar-belarus-fuqarolari-turistik-maqsadlarda-o-zbekistonga-kelgan-2,61101
+Belarus,2026,5,14251,True,,,https://stat.uz/en/press-center/news-of-committee/69146-zbekiston-belarus-rtasida-turistik-tashriflar-soni-ortib-bormo-da-4,69146
+Canada,2026,4,2175,True,,1809.0,https://stat.uz/en/press-center/news-of-committee/68373-the-number-of-canadian-tourists-visiting-uzbekistan-increased-by-15-8,68373
+Finland,2025,9,1117,True,,910.0,https://stat.uz/en/press-center/news-of-committee/64900-kun-statistikasi-finlyandiyadan-9-ojda-1-1-ming-nafar-turist-kelgan-4,64900
+France,2025,7,15200,True,12100.0,13855.0,https://stat.uz/en/press-center/news-of-committee/63617-frantsiyadan-turistlar-o-imi-25-2-ga-oshgan-4,63617
+France,2025,10,27500,False,21700.0,25200.0,https://stat.uz/en/press-center/news-of-committee/65732-frantsiyadan-zbekistonga-10-ojda-27-5-ming-nafar-turist-kelgan-4,65732
+Germany,2023,8,17807,True,,,https://stat.uz/en/press-center/news-of-committee/44570-o-zbekistonga-8-oyda-germaniyadan-17-807-nafar-fuqaro-tashrif-buyurgan-3,44570
+Germany,2024,6,15600,True,11700.0,,https://stat.uz/en/press-center/news-of-committee/55843-o-zbekistonga-turistik-maqsadlarda-kelgan-germaniya-fuqarolari-necha-nafarni-tashkil-etgan-3,55843
+Germany,2024,7,18400,False,14100.0,,https://stat.uz/en/press-center/news-of-committee/56630-o-zbekistonga-turistik-maqsadlarda-kelgan-germaniya-fuqarolari-necha-nafarni-tashkil-etgan-5,56630
+Germany,2024,8,23000,False,17800.0,,https://stat.uz/en/press-center/news-of-committee/56984-o-zbekistonga-turistik-maqsadlarda-kelgan-germaniya-fuqarolari-soni-5-2-ming-nafarga-ko-paygan-3,56984
+Germany,2025,4,8700,True,7600.0,7178.0,https://stat.uz/en/press-center/news-of-committee/62431-o-zbekistonga-kelgan-germaniyalik-turistlar-soni-1-1-ming-nafarga-oshgan-2616,62431
+Germany,2026,3,5200,False,3500.0,4336.0,https://stat.uz/en/press-center/news-of-committee/68216-zbekistonga-kelgan-germaniyalik-turistlar-soni-1-7-ming-nafarga-oshgan-4,68216
+Germany,2026,7,26100,False,20600.0,23138.0,https://stat.uz/en/press-center/news-of-committee/70056-germaniyadan-turistlar-o-imi-27-foizga-oshdi-4,70056
+India,2025,2,10300,False,7000.0,5310.0,https://stat.uz/en/press-center/news-of-committee/60606-hindistondan-o-zbekistonga-10-3-ming-nafar-turist-kelgan-3,60606
+India,2025,3,16000,False,11600.0,9194.0,https://stat.uz/en/press-center/news-of-committee/61700-o-zbekistonga-turistik-maqsadlarda-kelgan-hindistonliklar-soni-oshgan-3,61700
+India,2025,4,22600,False,16600.0,13937.0,https://stat.uz/en/press-center/news-of-committee/62071-hindistondan-o-zbekistonga-22-6-ming-nafar-turist-kelgan-3,62071
+India,2025,5,28500,False,23200.0,17956.0,https://stat.uz/en/press-center/news-of-committee/62837-o-zbekistonga-hindistonlik-turistlar-tashrifi-22-7-ga-oshdi-3,62837
+Iran,2025,2,2900,True,900.0,630.0,https://stat.uz/en/press-center/news-of-committee/61144-eron-islom-respublikasidan-2-oyda-o-zbekistonga-2-9-ming-nafar-turist-kelgan-3,61144
+Italy,2023,4,5004,True,,,https://stat.uz/en/press-center/news-of-committee/40451-2023-yilning-yanvar-aprel-oylarida-necha-nafar-italiya-fuqarolari-turistik-maqsadlarda-o-zbekistonga-tashrif-buyurgan-3,40451
+Italy,2024,6,17700,False,8400.0,16088.0,https://stat.uz/en/press-center/news-of-committee/55719-o-zbekistonga-6-oyda-italiyadan-17-7-ming-nafar-turist-kelgan-3,55719
+Italy,2024,7,19500,False,11000.0,17767.0,https://stat.uz/en/press-center/news-of-committee/56667-o-zbekistonga-turistik-maqsadlarda-kelgan-italiya-fuqarolari-necha-nafarni-tashkil-etgan-3,56667
+Italy,2024,8,25200,False,15300.0,,https://stat.uz/en/press-center/news-of-committee/57145-o-zbekistonga-8-oyda-italiyadan-25-2-ming-nafar-turist-kelgan-3,57145
+Italy,2025,5,17400,True,15300.0,16410.0,https://stat.uz/en/press-center/news-of-committee/62685-o-zbekistonga-italiyalik-turistlar-oqimi-13-5-ga-oshgan-3,62685
+Italy,2025,10,40800,False,36100.0,38600.0,https://stat.uz/en/press-center/news-of-committee/65573-italiyadan-zbekistonga-10-ojda-40-8-ming-nafar-turist-kelgan-4,65573
+Italy,2025,11,42400,False,38000.0,40089.0,https://stat.uz/en/press-center/news-of-committee/66266-italiyadan-zbekistonga-11-ojda-42-mingdan-orti-turist-kelgan-4,66266
+Italy,2026,7,21000,False,,20100.0,https://stat.uz/en/press-center/news-of-committee/69903-italiyadan-zbekistonga-7-ojda-21-ming-nafar-turist-kelgan-4,69903
+Italy,2026,8,28200,False,,26900.0,https://stat.uz/en/press-center/news-of-committee/70497-italiyadan-zbekistonga-8-ojda-28-2-ming-nafar-turist-kelgan-4,70497
+Japan,2023,8,6633,True,,,https://stat.uz/en/press-center/news-of-committee/45049-o-zbekistonga-8-oyda-yaponiyadan-6-633-nafar-chet-el-fuqarolari-turistik-maqsadda-kelgan-3,45049
+Japan,2025,4,6800,False,4400.0,5944.0,https://stat.uz/en/press-center/news-of-committee/62356-yaponiyadan-o-zbekistonga-6-8-ming-nafar-turist-kelgan-3,62356
+Japan,2025,5,10000,False,6500.0,8950.0,https://stat.uz/en/press-center/news-of-committee/62652-yaponiyadan-o-zbekistonga-10-ming-nafar-turist-kelgan-3,62652
+Japan,2026,3,6925,True,3925.0,6356.0,https://stat.uz/en/press-center/news-of-committee/68245-yaponiyadan-turistlar-o-imi-1-7-barobarga-ortdi-4,68245
+Republic of Korea,2024,5,15100,False,12400.0,10314.0,https://stat.uz/en/press-center/news-of-committee/54482-o-zbekiston-respublikasiga-turistik-maqsadlarda-kelgan-janubiy-koreya-fuqarolari-necha-nafarni-tashkil-etdi-3,54482
+Republic of Korea,2024,6,19600,False,15800.0,13681.0,https://stat.uz/en/press-center/news-of-committee/55692-o-zbekistonga-turistik-maqsadlarda-kelgan-janubiy-koreya-fuqarolari-necha-nafarni-tashkil-etgan-3,55692
+Republic of Korea,2025,12,46300,False,41100.0,36100.0,https://stat.uz/en/press-center/news-of-committee/66626-koreya-respublikasidan-zbekistonga-46-3-ming-nafar-turist-kelgan-4,66626
+Republic of Korea,2026,1,3237,True,2896.0,2583.0,https://stat.uz/en/press-center/news-of-committee/67368-koreya-respublikasidan-1-ojda-zbekistonga-3-237-ming-nafar-turist-kelgan-4,67368
+Spain,2025,12,27500,False,23600.0,26300.0,https://stat.uz/en/press-center/news-of-committee/66757-ispaniyadan-zbekistonga-27-mingdan-orti-turist-kelgan-4,66757
+Spain,2026,4,6550,True,5150.0,6256.0,https://stat.uz/en/press-center/news-of-committee/68395-ispaniyadan-zbekistonga-6-5-mingdan-orti-turist-kelgan-4,68395
+Türkiye,2024,2,14300,False,13403.0,5363.0,https://stat.uz/en/press-center/news-of-committee/52844-o-zbekiston-respublikasiga-turistik-maqsadlarda-kelgan-turkiya-respublikasi-fuqarolari-qanchani-tashkil-etdi-3,52844
+Türkiye,2024,4,31400,False,29700.0,12661.0,https://stat.uz/en/press-center/news-of-committee/54467-o-zbekiston-respublikasiga-turistik-maqsadlarda-kelgan-turkiya-fuqarolari-necha-nafarni-tashkil-etdi-3,54467
+Türkiye,2025,2,22500,False,14200.0,6884.0,https://stat.uz/en/press-center/news-of-committee/60657-turkiyadan-2-oyda-o-zbekistonga-22-5-ming-nafar-turist-kelgan-3,60657
+Türkiye,2025,3,34200,False,21500.0,10189.0,https://stat.uz/en/press-center/news-of-committee/61628-turkiyadan-3-oyda-o-zbekistonga-34-2-ming-nafar-turist-kelgan-3,61628
+Türkiye,2025,5,65800,False,42000.0,23238.0,https://stat.uz/en/press-center/news-of-committee/62760-o-zbekistonga-turistik-maqsadlarda-kelgan-turkiya-fuqarolari-necha-nafarni-tashkil-etdi-3,62760
+United Kingdom,2024,6,9000,False,6700.0,,https://stat.uz/en/press-center/news-of-committee/55779-o-zbekistonga-6-oyda-buyuk-britaniyadan-9-ming-nafar-turist-kelgan-3,55779
+United Kingdom,2024,8,12700,False,9700.0,,https://stat.uz/en/press-center/news-of-committee/57175-o-zbekistonga-8-oyda-buyuk-britaniyadan-12-7-ming-nafar-turist-kelgan-3,57175
+United States,2023,8,13965,True,,,https://stat.uz/en/press-center/news-of-committee/44370-o-zbekistonga-8-oyda-aqshdan-13-965-nafar-fuqaro-tashrif-buyurgan-3,44370
+United States,2025,2,2100,False,2037.0,1221.0,https://stat.uz/en/press-center/news-of-committee/60862-o-zbekiston-respublikasiga-turistik-maqsadlarda-kelgan-aqsh-fuqarolari-necha-nafarni-tashkil-etdi-3,60862
+United States,2025,7,19200,False,15900.0,15468.0,https://stat.uz/en/press-center/news-of-committee/63769-a-shdan-zbekistonga-19-2-ming-nafar-turist-kelgan-4,63769
+United States,2025,9,28600,False,23400.0,23600.0,https://stat.uz/en/press-center/news-of-committee/65042-a-shdan-zbekistonga-28-6-ming-nafar-turist-kelgan-4,65042

@@ -11,7 +11,7 @@ from urllib.parse import urljoin
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from . import config
+from . import config, country_releases
 from .util import http_get, log, read_json, write_json
 
 CSV = config.DATA / "arrivals_ytd.csv"
@@ -217,11 +217,14 @@ def collect() -> list[dict]:
             continue  # retry next run
         seen.add(url)
         text = BeautifulSoup(html, "html.parser").get_text("\n")
-        if not is_inbound(title, text):
-            continue
-        rel = parse_release(text)
-        if not rel:
-            log.warning("stat.uz: could not parse %s", url)
+        if not is_inbound(title, text) or not (rel := parse_release(text)):
+            # single-country release ("28.2 thousand tourists from Italy...") — the only official source
+            # for the distant markets that never make the monthly top-10
+            crel = country_releases.parse(text)
+            if crel and country_releases.add(crel, url):
+                log.info("stat.uz: country release %s %s-%02d ytd=%s", crel["country"], crel["year"], crel["month"], crel["ytd"])
+            elif is_inbound(title, text) and not crel:
+                log.warning("stat.uz: could not parse %s", url)
             continue
         same = (df["year"] == rel["year"]) & (df["month"] == rel["month"])
         if same.any():
