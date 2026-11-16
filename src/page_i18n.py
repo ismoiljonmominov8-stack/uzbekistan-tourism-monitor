@@ -228,6 +228,19 @@ STRINGS = {
     "mon_wide": ("keng oraliq: bashorat ishonchsiz (o'tgan yilning oylik raqamlari yaxlitlangan yoki yo'q, ayniqsa qo'shni davlatlarda)",
                  "широкий интервал: прогноз ненадёжен (помесячные данные прошлого года округлены или отсутствуют, особенно по соседям)",
                  "wide range: unreliable forecast (last year's monthly figures are rounded or missing, especially for neighbours)"),
+    "mon_more": ("yana {n} ta davlat", "ещё {n} стран", "{n} more countries"),
+    "mon_est": ("taxminiy — hisoblangan", "оценка — расчётная", "estimate — calculated"),
+    "mon_off": ("rasmiy — alohida e'lon asosida", "официально — по отдельному релизу", "official — from a separate release"),
+    "mon_rel_t": ("Rasmiy e'lonlar (stat.uz):", "Официальные релизы (stat.uz):", "Official releases (stat.uz):"),
+    "mon_rel_prev": ("o'tgan yil", "прошлый год", "last year"),
+    "mon_leisure": ("dam olish maqsadida", "с целью отдыха", "for leisure"),
+    "mon_full_year": ("{y} yil", "{y} год", "year {y}"),
+    "mon_est_note": ("≈ — taxminiy: stat.uz alohida e'lonlari (yanvardan beri jami) va yillik raqamlar asosida hisoblangan; chiziqli "
+                     "chiziq. Orqaga sinovda oylik xato o'rtacha 11–19%. ✓ — rasmiy.",
+                     "≈ — оценка: рассчитана по отдельным релизам stat.uz (итог с начала года) и годовым данным; пунктир. "
+                     "На исторической проверке средняя месячная ошибка 11–19%. ✓ — официально.",
+                     "≈ = estimate, calculated from stat.uz single-country releases (year-to-date totals) and yearly figures; "
+                     "dashed bar. Back-tested monthly error: 11–19% (median). ✓ = official."),
     "lg_month": ("{m}: turistlar soni", "{m}: число туристов", "{m}: visitors"),
 
     "no_data": ("ma'lumot yo'q", "нет данных", "no data"), "tourists_w": ("turistlar", "туристы", "visitors"),

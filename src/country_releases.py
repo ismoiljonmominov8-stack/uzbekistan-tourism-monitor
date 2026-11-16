@@ -74,6 +74,11 @@ def parse(text: str) -> dict | None:
     if ch:
         d, _ = _num(ch.group(2), ch.group(3))
         out["prev_ytd"] = ytd - d if ch.group(1).lower() in ("increased", "grew", "rose") else ytd + d
+    if out["prev_ytd"] is None:   # only a percentage: "This figure increased by 15.8 % compared to..."
+        pc = re.search(r"(?:figure|indicator|number)[^.]{0,40}?(increased|decreased) by (\d+(?:[.,]\d+)?)\s*%[^.]{0,30}compared", flat, re.I)
+        if pc:
+            r = float(pc.group(2).replace(",", ".")) / 100
+            out["prev_ytd"] = round(ytd / (1 + r if pc.group(1).lower() == "increased" else 1 - r))
     le = re.search(rf"\b(?:travel|tourism)\s*[-:]\s*{NUM}", flat, re.I)
     if le:
         out["leisure"] = _num(le.group(1), le.group(2))[0]

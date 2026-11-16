@@ -55,6 +55,7 @@ tr.mixed td{color:var(--muted);opacity:.7}
 .rank{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}.rank td{padding:3px 4px;border-bottom:1px solid #8a723633;vertical-align:top}
 .rank td.n{text-align:right;white-space:nowrap}.rank tr.c{cursor:pointer}.rank tr.c:hover{background:#d4af3714}.rank tr.tot td{font-weight:600;border-bottom:1px solid var(--rule)}
 .rank .bar{height:4px;background:var(--accent);margin-top:2px;border-radius:2px}.rank .fcb{background:var(--gold2);opacity:.7}
+.rank .estb{background:repeating-linear-gradient(90deg,var(--blue) 0 4px,transparent 4px 7px);opacity:.9}
 .mapgrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:16px;align-items:start}
 .mapwrap{position:relative;border:1px solid var(--rule);border-radius:3px;background:var(--sea);overflow:hidden}
 #map{width:100%;height:auto;display:block;cursor:grab}
@@ -683,10 +684,12 @@ const MAPS = {};
   const wide = r => r.f && (r.hi - r.lo) / r.v > 0.6;   // range wider than 60 % of the forecast
   function minfo(r){
     if (!r) return t("no_data");
-    let h = nf(r.v) + " " + t("tourists_w");
+    let h = (r.e || r.f && r.lo != null && r.e === false && r.o === false && "lye" in r ? "≈ " : "") + nf(r.v) + " " + t("tourists_w");
     if (r.f) h += ` <i>(${t("mon_fc")}; ${t("mon_range")} ${nf(r.lo)}–${nf(r.hi)})</i>` + (wide(r) ? `<br>⚠ ${t("mon_wide")}` : "");
+    else if (r.e) h += ` <i>(${t("mon_est")}; ${t("mon_range")} ${nf(r.lo)}–${nf(r.hi)})</i>`;
+    else if (r.o) h += ` <i>(${t("mon_off")})</i>`;
     else if (!r.x) h += ` <i>(${t("mon_rounded")})</i>`;
-    if (r.ly) h += `<br>${t("mon_ly")}: ${nf(r.ly)} (${pct(r.v / r.ly - 1)})`;
+    if (r.ly) h += `<br>${t("mon_ly")}: ${r.lye ? "≈ " : ""}${nf(r.ly)} (${pct(r.v / r.ly - 1)})`;
     return h;
   }
   function monthButtons(){
@@ -771,23 +774,35 @@ const MAPS = {};
     if (selected !== "860") {
       h += `<h3>${flag(A2[selected])} ${nm(selected)} — ${mlab(mon)}</h3>`;
       h += r ? `<p>${minfo(r)}</p><div id="mini1" class="mini"></div>` : `<p class="note">${t("mon_nodata_c")}</p>`;
+      const rl = (MM.rel || {})[selected];
+      if (rl && rl.length) h += `<b>${t("mon_rel_t")}</b><ul class="evlist">` + rl.slice(-4).reverse().map(x => {
+        const per = x.m === 12 ? t("mon_full_year", {y: x.y}) : (x.m === 1 ? MS()[0] : MS()[0] + "–" + MS()[x.m - 1]) + " " + x.y;
+        return `<li>${per}: <b>${nf(x.ytd)}</b>` + (x.prev ? ` (${t("mon_rel_prev")} ${nf(x.prev)}, ${pct(x.ytd / x.prev - 1)})` : "") +
+          (x.leisure ? ` · ${t("mon_leisure")} ${Math.round(x.leisure / x.ytd * 100)}%` : "") +
+          ` · <a href="${x.url}" target="_blank" rel="noopener">${t("source")}</a></li>`; }).join("") + `</ul>`;
     }
     h += `<b>${t("mon_rank", {m: mlab(mon)})}${isF ? " — " + t("mon_fc") : ""}</b><table class="rank">`;
     if (tot) h += `<tr class="tot c" data-id="860"><td>${flag("UZ")} ${t("mon_total")}</td><td class="n">${nf(tot.v)}${tot.f ? `<br><span class="note">${nf(tot.lo)}–${nf(tot.hi)}</span>` : ""}</td></tr>`;
     const mx = rows.length ? rows[0][1].v : 1;
-    h += rows.map(([id, x]) => `<tr class="c" data-id="${id}"><td>${flag(A2[id])} ${nm(id)}${tot ? ` <span class="note">${dec(x.v / tot.v * 100)}%</span>` : ""}` +
-      `<div class="bar${x.f ? " fcb" : ""}" style="width:${Math.max(2, x.v / mx * 100)}%"></div></td>` +
-      `<td class="n">${nf(x.v)}${x.f ? `<br><span class="note">${wide(x) ? "⚠ " : ""}${nf(x.lo)}–${nf(x.hi)}</span>` : x.x ? "" : "*"}</td></tr>`).join("");
+    const est = x => x.e || (x.f && "lye" in x);
+    const TOPN = 12, selPos = rows.findIndex(x => x[0] === selected);
+    const rowHtml = ([id, x]) => `<tr class="c" data-id="${id}"><td>${flag(A2[id])} ${nm(id)}${tot ? ` <span class="note">${x.v / tot.v < 0.001 ? "<0,1" : dec(x.v / tot.v * 100)}%</span>` : ""}` +
+      `<div class="bar${x.f ? " fcb" : ""}${est(x) ? " estb" : ""}" style="width:${Math.max(2, x.v / mx * 100)}%"></div></td>` +
+      `<td class="n">${est(x) ? "≈ " : ""}${nf(x.v)}${x.f || x.e ? `<br><span class="note">${wide(x) ? "⚠ " : ""}${nf(x.lo)}–${nf(x.hi)}</span>` : x.o ? " ✓" : x.x ? "" : "*"}</td></tr>`;
+    h += rows.slice(0, TOPN).map(rowHtml).join("");
+    if (rows.length > TOPN) h += `</table><details${selPos >= TOPN ? " open" : ""}><summary class="note">${t("mon_more", {n: rows.length - TOPN})}</summary><table class="rank">` +
+      rows.slice(TOPN).map(rowHtml).join("");
     if (tot) { const other = tot.v - d3.sum(rows, x => x[1].v);
       h += other > 0 ? `<tr><td>🌍 ${t("mon_other")} <span class="note">${dec(other / tot.v * 100)}%</span></td><td class="n">${nf(other)}</td></tr>`
                      : `<tr><td colspan="2" class="note">${t("mon_other_neg")}</td></tr>`; }
-    h += `</table><p class="note">${isF ? t("mon_fc_note") + (rows.some(x => wide(x[1])) ? " ⚠ — " + t("mon_wide") : "") : t("mon_act_note")}</p>`;
+    h += `</table>${rows.length > TOPN ? "</details>" : ""}<p class="note">${isF ? t("mon_fc_note") + (rows.some(x => wide(x[1])) ? " ⚠ — " + t("mon_wide") : "") : t("mon_act_note")} ${rows.some(x => est(x[1])) ? t("mon_est_note") : ""}</p>`;
     el.innerHTML = h;
     el.querySelectorAll("tr.c").forEach(tr => tr.onclick = () => { selected = tr.dataset.id; paint(); panel(); });
     if (!r || typeof Plotly === "undefined") return;
     const ser = MM.by[selected], ks = Object.keys(ser).sort(), act = ks.filter(k => !ser[k].f), fc = ks.filter(k => ser[k].f);
     const tr = [{type: "bar", x: act.map(k => k + "-01"), y: act.map(k => ser[k].v), name: t("mon_actual"),
-      marker: {color: act.map(k => k === mon ? css("--gold2") : css("--accent"))}, hovertemplate: "%{y:,.0f}<extra></extra>"}];
+      marker: {color: act.map(k => k === mon ? css("--gold2") : ser[k].e ? css("--blue") : css("--accent"))},
+      hovertemplate: "%{y:,.0f}%{text}<extra></extra>", text: act.map(k => ser[k].e ? " (≈ " + t("mon_est") + ")" : "")}];
     if (fc.length) tr.push({type: "scatter", mode: "markers", x: fc.map(k => k + "-01"), y: fc.map(k => ser[k].v), name: t("mon_fc"),
       marker: {size: 9, color: fc.map(k => k === mon ? css("--gold2") : css("--blue"))},
       error_y: {type: "data", symmetric: false, array: fc.map(k => ser[k].hi - ser[k].v), arrayminus: fc.map(k => ser[k].v - ser[k].lo), color: css("--blue")},

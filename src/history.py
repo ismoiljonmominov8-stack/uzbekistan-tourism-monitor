@@ -69,7 +69,31 @@ def month_map(mon, name_to_iso) -> dict | None:
                 total[r["target"]] = rec
             elif level in name_to_iso:
                 by.setdefault(name_to_iso[level], {})[r["target"]] = rec
-    return {"list": lst, "total": total, "by": by, "made": max((c["last"] for c in cur.values()), default=None)}
+    # distant markets (Japan, USA, Italy, France, UK...): official single-country releases + estimates
+    rel = {}
+    try:
+        from . import distant
+        dd = distant.build(year)
+        months = {x["m"] for x in lst}
+        for country, series in dd["series"].items():
+            iso = name_to_iso.get(country)
+            if not iso:
+                continue
+            for ym, r in series.items():
+                if ym not in months or ym in by.get(iso, {}):
+                    continue          # the monthly top-10 figure, when there is one, wins
+                y_, m_ = ym.split("-")
+                prev = series.get(f"{int(y_) - 1}-{m_}")
+                by.setdefault(iso, {})[ym] = {"v": r["v"], "lo": r["lo"], "hi": r["hi"], "f": r["kind"] == "forecast",
+                                              "e": r["kind"] == "estimate", "o": r["kind"] == "official",
+                                              "x": r["kind"] == "official", "ly": prev["v"] if prev else None,
+                                              "lye": bool(prev) and prev["kind"] != "official"}
+            if dd["releases"].get(country):
+                rel[iso] = dd["releases"][country]
+    except Exception as e:  # noqa: BLE001
+        log.warning("distant markets failed: %s", e)
+    return {"list": lst, "total": total, "by": by, "rel": rel,
+            "made": max((c["last"] for c in cur.values()), default=None)}
 
 def map_data(wide, proj, mon) -> dict:
     """Everything the world map needs: boundaries, arrivals by country and year, Wikipedia interest
