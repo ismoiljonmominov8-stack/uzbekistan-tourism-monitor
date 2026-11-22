@@ -1,8 +1,3 @@
-2026-11-19 05:17:35 getUpdates offset=182455021 pending=3 got=0 kinds=[]
-2026-11-19 05:18:20 getUpdates offset=182455021 pending=3 got=0 kinds=[]
-2026-11-19 07:54:57 getUpdates offset=182455021 pending=3 got=0 kinds=[]
-2026-11-19 08:22:15 getUpdates offset=182455021 pending=3 got=1 kinds=['callback_query']
-2026-11-19 08:22:15 not an event (not confirmed yet): a5539b678fee
 2026-11-19 08:22:15 press handled: ok a5539b678fee
 2026-11-19 08:22:15 getUpdates offset=182455022 pending=2 got=0 kinds=[]
 2026-11-19 13:58:45 getUpdates offset=182455022 pending=2 got=0 kinds=[]
@@ -198,3 +193,8 @@
 2026-11-22 13:28:42 getUpdates offset=182455027 pending=2 got=0 kinds=[]
 2026-11-22 13:28:42 getUpdates offset=182455027 pending=2 got=0 kinds=[]
 2026-11-22 13:28:45 getUpdates offset=182455027 pending=2 got=0 kinds=[]
+2026-11-22 14:32:15 getUpdates FAILED: HTTPSConnectionPool(host='api.telegram.org', port=443): Read timed out. (read timeout=60)
+2026-11-22 14:33:05 getUpdates offset=182455027 pending=2 got=0 kinds=[]
+2026-11-22 14:33:08 getUpdates offset=182455027 pending=2 got=0 kinds=[]
+2026-11-22 14:33:08 getUpdates offset=182455027 pending=2 got=0 kinds=[]
+2026-11-22 14:33:11 getUpdates offset=182455027 pending=2 got=0 kinds=[]
