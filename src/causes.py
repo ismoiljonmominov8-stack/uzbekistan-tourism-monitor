@@ -51,6 +51,10 @@ W = {
         "global": "Shu kuni yana {n} ta bozorda xuddi shunday o'zgarish ({names}) — umumiy sabab: xalqaro yangilik yoki "
                   "Vikipediya bosh sahifasi",
         "local": "Boshqa bozorlarda bunday o'zgarish yo'q — sabab shu til yoki mamlakatga tegishli",
+        "not_travel": "Sayyohlik shaharlari (Samarqand, Buxoro, Xiva) oshmadi ({chg:+.0%}) — o'sish faqat "
+                      "«O'zbekiston» va «Toshkent» sahifalarida. Bu sayohatga qiziqish emas: yangilik, viktorina yoki "
+                      "o'qish/ish bilan bog'liq qidiruv bo'lishi mumkin; turistlar soniga ta'sir kutilmaydi",
+        "travel": "Sayyohlik shaharlari ham oshdi ({chg:+.0%}) — bu sayohatga qiziqish belgisi",
         "second": "{n}-kun ketma-ket — tasodif emas, davomli o'zgarish",
         "first": "Birinchi kun — davom etadimi, keyingi kunlar ko'rsatadi",
         "news": "Shu vaqtdagi yangilik: {headline} ({source}) — bir vaqtda bo'lgani sabab ekanini isbotlamaydi",
@@ -68,6 +72,10 @@ W = {
         "global": "{n} more markets moved the same way that day ({names}) — a shared cause: international news or the "
                   "Wikipedia main page",
         "local": "No other market moved like this — the cause belongs to this language or country",
+        "not_travel": "The tourist cities (Samarkand, Bukhara, Khiva) did not rise ({chg:+.0%}) — the rise is only on the "
+                      "«Uzbekistan» and «Tashkent» pages. This is not travel interest: news, a quiz, or study/work "
+                      "lookups; no effect on visitor numbers is expected",
+        "travel": "The tourist cities rose too ({chg:+.0%}) — a sign of travel interest",
         "second": "Day {n} in a row — not chance, a continuing change",
         "first": "First day — the next days will show whether it lasts",
         "news": "News at the same time: {headline} ({source}) — happening together does not prove it is the cause",
@@ -133,6 +141,9 @@ def topics(lang: str | None, day, general: bool = False) -> list[dict]:
                         "strength": "weak"})
     return out
 
+TOURIST_PAGES = ("Samarkand", "Bukhara", "Khiva")
+
+
 def data_causes(df: pd.DataFrame, wide: pd.DataFrame, day, m: dict, movers: list[dict]) -> list[dict]:
     """m: one entry of pageviews.movers(). Returns [{"text", "strength"}], strongest first."""
     day = pd.Timestamp(day)
@@ -159,6 +170,15 @@ def data_causes(df: pd.DataFrame, wide: pd.DataFrame, day, m: dict, movers: list
             pct = (today / med - 1).dropna().sort_values(ascending=not up)
             pages = ", ".join(f"{a} {v:+.0%}" for a, v in pct.head(3).items())
             out.append({"text": _w("broad").format(pages=pages), "strength": "possible"})
+        # 2b. travel signal: do the tourist cities move too, or only the country/capital pages?
+        tour = [a for a in TOURIST_PAGES if a in today.index and a in med.index]
+        if up and tour and med[tour].sum() > 0:
+            tchg = today[tour].sum() / med[tour].sum() - 1
+            gen_share = sum(share.get(a, 0) for a in ("Uzbekistan", "Tashkent"))
+            if tchg < 0.15 and gen_share >= 0.8:
+                out.append({"text": _w("not_travel").format(chg=tchg), "strength": "info"})
+            elif tchg >= 0.30:
+                out.append({"text": _w("travel").format(chg=tchg), "strength": "info"})
     # 3. other markets the same day
     same = [x for x in movers if x["lang"] != lang and x["unusual"] and (x["change"] > 0) == up]
     if len(same) >= 2:
